@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.BUILD-SNAPSHOT'
+		springBootVersion = '1.5.6.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -43,23 +43,24 @@ ext {
 }
 
 dependencies {
+
 	compile("org.springframework.boot:spring-boot-starter-web:${SPRING_VERSION}")   
 	compile("org.springframework.boot:spring-boot-starter-security:${SPRING_VERSION}")
 	compile("org.springframework.mobile:spring-mobile-device:1.1.5.RELEASE")
 	
 	     
-   	//compile("org.springframework:spring-jdbc:${SPRING_JDBC_VERSION}")
-	//compile("commons-dbcp:commons-dbcp:1.4") 
+   	compile("org.springframework:spring-jdbc:${SPRING_JDBC_VERSION}")
+	compile("commons-dbcp:commons-dbcp:1.4") 
 	
 	// JDBC
-	//compile("mysql:mysql-connector-java:${MYSQL_CONNECTOR_VERSION}")
+	compile("mysql:mysql-connector-java:${MYSQL_CONNECTOR_VERSION}")
 	
 	// Redis
-	//compile("org.springframework.data:spring-data-redis:${SPRING_REDIS_VERSION}")
-	//compile("redis.clients:jedis:2.9.0")
+	compile("org.springframework.data:spring-data-redis:${SPRING_REDIS_VERSION}")
+	compile("redis.clients:jedis:2.9.0")
 	
 	// Sqlite3
-	//compile("org.xerial:sqlite-jdbc:3.20.0")
+	compile("org.xerial:sqlite-jdbc:3.20.0")
 	
 	compile("com.google.guava:guava:17.0")
 	
@@ -69,7 +70,7 @@ dependencies {
 	compile("io.jsonwebtoken:jjwt:0.7.0")
 	
 	// MySQL connection pool - Need check
-	//compile("com.zaxxer:HikariCP:2.6.3")
+	compile("com.zaxxer:HikariCP:2.6.3")
 	
     // websocket
     compile("org.springframework.boot:spring-boot-starter-websocket:1.5.6.RELEASE")
@@ -83,10 +84,10 @@ dependencies {
     compile("com.integralblue:log4jdbc-spring-boot-starter:1.0.2")
     
     // Hashids
-    //compile("org.hashids:hashids:1.0.3")
+    compile("org.hashids:hashids:1.0.3")
     
     // Firebase Auth
-    //compile ("com.google.firebase:firebase-admin:${FIRBASE_ADMIN_VERSION}")
-    //compile 'com.google.guava:guava:23.1-jre'
+    compile ("com.google.firebase:firebase-admin:${FIRBASE_ADMIN_VERSION}")
+    compile 'com.google.guava:guava:23.1-jre'
 
 }
