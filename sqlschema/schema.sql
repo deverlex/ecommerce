@@ -118,7 +118,7 @@ CREATE TABLE `Users` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- phone number k dc unique vi viec dang ky su dung lai sdt se bi can tro
   `username` varchar(16) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(255) NOT NULL,
   -- Trang thai tai khoan: khoa, con hoat dong...
   `state` tinyint(2) NOT NULL,
 
