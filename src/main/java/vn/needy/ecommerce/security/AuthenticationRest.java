@@ -40,7 +40,7 @@ public class AuthenticationRest {
 	private UserDetailsService userDetailsService;
 
 	@RequestMapping(value = "${needy.route.security.authentication}", method = RequestMethod.POST)
-	public ResponseEntity<Void> createAuthenticationToken(@RequestBody Credentials credentials,
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody Credentials credentials,
 			Device device, HttpServletResponse response) throws AuthenticationException {
 		
 		// Perform the security
@@ -65,7 +65,7 @@ public class AuthenticationRest {
 		
 		String username = this.tokenUtils.getUsernameFromToken(token);
 		UserLicense userLicense = (UserLicense) this.userDetailsService.loadUserByUsername(username);
-		if (this.tokenUtils.canTokenBeRefreshed(token, userLicense.getLastUpdatedPassword())) {
+		if (this.tokenUtils.canTokenBeRefreshed(token, userLicense.getLastResetPassword())) {
 			String refreshedToken = this.tokenUtils.refreshToken(token);
 			
 			// Add refresh token to response

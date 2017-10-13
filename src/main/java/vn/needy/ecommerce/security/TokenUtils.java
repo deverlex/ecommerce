@@ -137,7 +137,7 @@ public class TokenUtils implements Serializable {
         return (
               username.equals(userLicense.getUsername())
                     && !isTokenExpired(token)
-                    && !isCreatedBeforeLastPasswordReset(created, userLicense.getLastUpdatedPassword())
+                    && !isCreatedBeforeLastPasswordReset(created, userLicense.getLastResetPassword())
         );
     }
     
