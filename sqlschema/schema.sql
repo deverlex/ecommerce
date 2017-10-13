@@ -143,7 +143,7 @@ CREATE TABLE `Users` (
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedPassword` timestamp DEFAULT CURRENT_TIMESTAMP
+  `lastResetPassword` timestamp DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `state_idx` ON `Users` (`state`);

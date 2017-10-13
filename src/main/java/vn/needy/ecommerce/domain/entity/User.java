@@ -26,7 +26,7 @@ public class User extends DomainBase {
 	private float lng;
 	private Date createdTime;
 	private Date lastUpdatedTime;
-	private Date lastUpdatedPassword;
+	private Date lastResetPassword;
 	
 	public User() {
 		super();
@@ -176,11 +176,12 @@ public class User extends DomainBase {
 		this.lastUpdatedTime = lastUpdatedTime;
 	}
 
-	public Date getLastUpdatedPassword() {
-		return lastUpdatedPassword;
+	public Date getLastResetPassword() {
+		return lastResetPassword;
 	}
 
-	public void setLastUpdatedPassword(Date lastUpdatedPassword) {
-		this.lastUpdatedPassword = lastUpdatedPassword;
+	public void setLastResetPassword(Date lastResetPassword) {
+		this.lastResetPassword = lastResetPassword;
 	}
+
 }

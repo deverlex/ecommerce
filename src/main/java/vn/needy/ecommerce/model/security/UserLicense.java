@@ -17,7 +17,7 @@ public class UserLicense implements UserDetails {
 	private String password;
 	private int state;
 	private Collection<? extends GrantedAuthority> authorities;
-	private Date lastUpdatedPassword;
+	private Date lastResetPassword;
 	
 	public UserLicense() {
 		super();
@@ -30,6 +30,7 @@ public class UserLicense implements UserDetails {
 		this.password = password;
 		this.state = state;
 		this.authorities = authorities;
+		this.lastResetPassword = lastUpdatedPassword;
 	}
 	
 	public long getId() {
@@ -56,12 +57,12 @@ public class UserLicense implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public void setLastUpdatedPassword(Date lastUpdatedPassword) {
-		this.lastUpdatedPassword = lastUpdatedPassword;
+	public Date getLastResetPassword() {
+		return lastResetPassword;
 	}
-	
-	public Date getLastUpdatedPassword() {
-		return lastUpdatedPassword;
+
+	public void setLastResetPassword(Date lastResetPassword) {
+		this.lastResetPassword = lastResetPassword;
 	}
 
 	@Override
