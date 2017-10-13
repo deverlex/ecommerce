@@ -1,0 +1,46 @@
+# DataSource settings: set here your own configurations for the database connection.
+jdbc:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/needy?autoReconnect=true&useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&useLegacyDatetimeCode=false&serverTimezone=UTC
+  username: root
+  password: root
+  connectionProperties: useUnicode=true;characterEncoding=utf-8;CharSet=utf8mb4 
+
+# Configuration of Redis Database
+redis:
+  host: localhost
+  port: 6379
+  timeout: 60000
+  pool: 
+    maxidle: 100
+    minidle: 0
+    maxactive: 1000
+
+# config context path to "/" by setting an empty string
+server:
+  contextPath: /api
+
+# JACKSON
+spring:
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+
+#Application configurations
+needy:
+  # Token
+  token:
+    header: Authorization
+    prefix: Bearer
+    secret: thisIsSecret
+    expiration: 604800
+  # Firebase
+  firebase:
+    path: firebase/needyfirebase.json
+    database:
+      url: https://needy-180007.firebaseio.com
+  # Router
+  route:
+    authentication:
+      path: authentication
+      refresh: refresh
