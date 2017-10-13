@@ -28,12 +28,16 @@ spring:
 
 #Application configurations
 needy:
+  array:
+    hashId: abcdefghiklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
   # Token
   token:
     header: Authorization
     prefix: Bearer
     secret: thisIsSecret
     expiration: 604800
+  identification:
+    header: User
   # Firebase
   firebase:
     path: firebase/needyfirebase.json

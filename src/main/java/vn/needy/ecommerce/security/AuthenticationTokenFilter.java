@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import vn.needy.ecommerce.model.security.UserLicense;
 
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
@@ -29,12 +29,15 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     
     @Autowired
     private TokenUtils tokenUtils;
-	
+    	
     @Value("${needy.token.header}")
     private String tokenHeader;
     
     @Value("${needy.token.prefix}")
 	private String tokenPrefix;
+    
+    @Value("${needy.identification.header}")
+	private String identificationHeader;
     
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -62,15 +65,19 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         	// It is not compelling necessary to load the use details from the database. You could also store the information
             // in the token and read it from it. It's up to you ;)
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            
+            UserLicense userLicense = (UserLicense) this.userDetailsService.loadUserByUsername(username);
+
             // For simple validation it is completely sufficient to just check the token integrity. You don't have to call
             // the database compellingly. Again it's up to you ;)
-            if (tokenUtils.validateToken(authToken, userDetails)) {
+            if (tokenUtils.validateToken(authToken, userLicense)) {
             	UsernamePasswordAuthenticationToken authentication 
-            		= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            		= new UsernamePasswordAuthenticationToken(userLicense, null, userLicense.getAuthorities());
             	authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             	logger.info("authenticated user " + username + ", setting security context");
+            	
+            	// Custom header on server, each request, we can get user id, this solution allow we access user success
+                // because we will have many username duplicated
+                request.getSession().setAttribute(identificationHeader, userLicense.getId());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

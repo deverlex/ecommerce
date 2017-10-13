@@ -15,7 +15,6 @@ import vn.needy.ecommerce.model.security.UserLicense;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -91,9 +90,9 @@ public class TokenUtils implements Serializable {
         return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
     }
 
-    public String generateToken(UserDetails userDetails, Device device) {
+    public String generateToken(UserLicense userLicense, Device device) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername(), generateAudience(device));
+        return doGenerateToken(claims, userLicense.getUsername(), generateAudience(device));
     }
     
     private String doGenerateToken(Map<String, Object> claims, String subject, String audience) {
@@ -132,8 +131,7 @@ public class TokenUtils implements Serializable {
                 .compact();
     }
     
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        UserLicense userLicense = (UserLicense) userDetails;
+    public Boolean validateToken(String token, UserLicense userLicense) {
         final String username = getUsernameFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
         return (

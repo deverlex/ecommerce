@@ -12,6 +12,7 @@ public class UserLicense implements UserDetails {
 	
 	private static final long serialVersionUID = 183873736528L;
 
+	private long id;
 	private String username;
 	private String password;
 	private int state;
@@ -22,14 +23,23 @@ public class UserLicense implements UserDetails {
 		super();
 	}
 	
-	public UserLicense(String username, String password, int state, 
+	public UserLicense(long id, String username, String password, int state, 
 			Collection<? extends GrantedAuthority> authorities, Date lastUpdatedPassword) {
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.state = state;
 		this.authorities = authorities;
 	}
 	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}

@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,8 +51,8 @@ public class AuthenticationRest {
 				);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		// Reload password post-security so we can generate token
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(credentials.getUsername());
-        final String token = tokenUtils.generateToken(userDetails, device);
+        final UserLicense userLicense = (UserLicense) userDetailsService.loadUserByUsername(credentials.getUsername());
+        final String token = tokenUtils.generateToken(userLicense, device);
         
         // Add new token to response
         response.addHeader(tokenHeader,tokenPrefix  + " " + token);
@@ -65,8 +64,8 @@ public class AuthenticationRest {
 		String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
 		
 		String username = this.tokenUtils.getUsernameFromToken(token);
-		UserLicense user = (UserLicense) this.userDetailsService.loadUserByUsername(username);
-		if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastUpdatedPassword())) {
+		UserLicense userLicense = (UserLicense) this.userDetailsService.loadUserByUsername(username);
+		if (this.tokenUtils.canTokenBeRefreshed(token, userLicense.getLastUpdatedPassword())) {
 			String refreshedToken = this.tokenUtils.refreshToken(token);
 			
 			// Add refresh token to response

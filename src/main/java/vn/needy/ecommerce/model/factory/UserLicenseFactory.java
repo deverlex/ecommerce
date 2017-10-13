@@ -13,6 +13,7 @@ public final class UserLicenseFactory {
 	
 	public static UserLicense create(User user, List<String> roles) {
         return new UserLicense(
+        		user.getId(),
                 user.getUsername(),
                 user.getPassword(),
                 user.getState(),
