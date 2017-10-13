@@ -25,7 +25,7 @@ import vn.needy.ecommerce.security.EntryPointUnauthorizedHandler;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Value("${needy.route.authentication.path}")
+	@Value("${needy.route.security.authentication}")
 	private String authenticationPath;
 	
 	@Autowired
@@ -70,7 +70,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 // allow authenticate request
-                .antMatchers(HttpMethod.POST, "/authentication/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/login/**").permitAll()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // allow anonymous resource requests
                 .antMatchers(

@@ -41,6 +41,6 @@ needy:
       url: https://needy-180007.firebaseio.com
   # Router
   route:
-    authentication:
-      path: authentication
-      refresh: refresh
+    security:
+      authentication: login
+      refresh: relogin

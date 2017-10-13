@@ -40,7 +40,7 @@ public class AuthenticationRest {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	@RequestMapping(value = "${needy.route.authentication.path}", method = RequestMethod.POST)
+	@RequestMapping(value = "${needy.route.security.authentication}", method = RequestMethod.POST)
 	public ResponseEntity<Void> createAuthenticationToken(@RequestBody Credentials credentials,
 			Device device, HttpServletResponse response) throws AuthenticationException {
 		
@@ -60,7 +60,7 @@ public class AuthenticationRest {
         return ResponseEntity.ok().build();
 	}
 	
-	@RequestMapping(value = "${needy.route.authentication.refresh}", method = RequestMethod.GET)
+	@RequestMapping(value = "${needy.route.security.refresh}", method = RequestMethod.GET)
 	public ResponseEntity<?> authenticationRequest(HttpServletRequest request, HttpServletResponse response) {
 		String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
 		
