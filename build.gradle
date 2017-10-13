@@ -1,0 +1,92 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.0.BUILD-SNAPSHOT'
+	}
+	repositories {
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+
+war {
+    baseName = 'api'
+    version =  '0.5.0'
+}
+
+
+group = 'vn.needy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+ext {
+	SPRING_VERSION               = "1.5.6.RELEASE"
+	SPRING_JDBC_VERSION          = "4.3.10.RELEASE"
+	SPRING_REDIS_VERSION         = "1.8.7.RELEASE"
+	MYSQL_CONNECTOR_VERSION      = "5.1.43"
+	FIRBASE_ADMIN_VERSION        = "5.3.1"
+}
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web:${SPRING_VERSION}")   
+	compile("org.springframework.boot:spring-boot-starter-security:${SPRING_VERSION}")
+	compile("org.springframework.mobile:spring-mobile-device:1.1.5.RELEASE")
+	
+	     
+   	//compile("org.springframework:spring-jdbc:${SPRING_JDBC_VERSION}")
+	//compile("commons-dbcp:commons-dbcp:1.4") 
+	
+	// JDBC
+	//compile("mysql:mysql-connector-java:${MYSQL_CONNECTOR_VERSION}")
+	
+	// Redis
+	//compile("org.springframework.data:spring-data-redis:${SPRING_REDIS_VERSION}")
+	//compile("redis.clients:jedis:2.9.0")
+	
+	// Sqlite3
+	//compile("org.xerial:sqlite-jdbc:3.20.0")
+	
+	compile("com.google.guava:guava:17.0")
+	
+	// OkHttp for FCM
+	compile("com.squareup.okhttp3:okhttp:3.9.0")
+	
+	compile("io.jsonwebtoken:jjwt:0.7.0")
+	
+	// MySQL connection pool - Need check
+	//compile("com.zaxxer:HikariCP:2.6.3")
+	
+    // websocket
+    compile("org.springframework.boot:spring-boot-starter-websocket:1.5.6.RELEASE")
+    compile("org.webjars:webjars-locator:0.32")
+    compile("org.webjars:sockjs-client:1.0.2")
+    compile("org.webjars:stomp-websocket:2.3.3")
+    
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    
+    //logging
+    compile("com.integralblue:log4jdbc-spring-boot-starter:1.0.2")
+    
+    // Hashids
+    //compile("org.hashids:hashids:1.0.3")
+    
+    // Firebase Auth
+    //compile ("com.google.firebase:firebase-admin:${FIRBASE_ADMIN_VERSION}")
+    //compile 'com.google.guava:guava:23.1-jre'
+
+}
