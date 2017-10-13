@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.repository.RoleRepository;
+import vn.needy.ecommerce.repository.UserRoleRepository;
 
 @Repository("roleRepository")
-public class RoleRepositoryImpl implements RoleRepository {
+public class UserRoleRepositoryImpl implements UserRoleRepository {
 	
 	@Override
 	public List<String> findRoleStringByUserId(long userId) {
