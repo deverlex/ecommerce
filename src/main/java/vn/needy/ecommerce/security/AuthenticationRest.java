@@ -62,7 +62,8 @@ public class AuthenticationRest {
 	
 	@RequestMapping(value = "${needy.route.authentication.refresh}", method = RequestMethod.GET)
 	public ResponseEntity<?> authenticationRequest(HttpServletRequest request, HttpServletResponse response) {
-		String token = request.getHeader(this.tokenHeader);
+		String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
+		
 		String username = this.tokenUtils.getUsernameFromToken(token);
 		UserLicense user = (UserLicense) this.userDetailsService.loadUserByUsername(username);
 		if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastUpdatedPassword())) {

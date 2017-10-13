@@ -33,6 +33,9 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Value("${needy.token.header}")
     private String tokenHeader;
     
+    @Value("${needy.token.prefix}")
+	private String tokenPrefix;
+    
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -41,8 +44,8 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         String username = null;
         String authToken = null;
                 
-        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
-            authToken = requestHeader.substring(7);
+        if (requestHeader != null && requestHeader.startsWith(tokenPrefix)) {
+            authToken = requestHeader.replace(tokenPrefix + " ", "");
             try {
                 username = tokenUtils.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
