@@ -12,6 +12,10 @@ public class BaseResponse extends BaseModel {
 		this.message = "Success";
 	}
 	
+	public BaseResponse(String message) {
+		this.message = message;
+	}
+	
 	public BaseResponse(int status, String message) {
 		this.status = status;
 		this.message = message;

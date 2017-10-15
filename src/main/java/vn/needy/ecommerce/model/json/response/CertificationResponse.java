@@ -15,6 +15,11 @@ public class CertificationResponse extends BaseResponse {
 	public CertificationResponse(String token) {
 		this.token = token;
 	}
+	
+	public CertificationResponse(String token, String message) {
+		super(message);
+		this.token = token;
+	}
 
 	public String getToken() {
 		return token;
