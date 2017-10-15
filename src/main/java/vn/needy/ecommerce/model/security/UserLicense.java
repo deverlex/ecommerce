@@ -16,6 +16,7 @@ public class UserLicense implements UserDetails {
 	private String username;
 	private String password;
 	private int state;
+	private Date unlockTime;
 	private Collection<? extends GrantedAuthority> authorities;
 	private Date lastResetPassword;
 	
@@ -23,12 +24,13 @@ public class UserLicense implements UserDetails {
 		super();
 	}
 	
-	public UserLicense(long id, String username, String password, int state, 
+	public UserLicense(long id, String username, String password, int state, Date unlockTime, 
 			Collection<? extends GrantedAuthority> authorities, Date lastUpdatedPassword) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.state = state;
+		this.unlockTime = unlockTime;
 		this.authorities = authorities;
 		this.lastResetPassword = lastUpdatedPassword;
 	}
@@ -51,6 +53,14 @@ public class UserLicense implements UserDetails {
 
 	public void setState(int state) {
 		this.state = state;
+	}
+
+	public Date getUnlockTime() {
+		return unlockTime;
+	}
+
+	public void setUnlockTime(Date unlockTime) {
+		this.unlockTime = unlockTime;
 	}
 
 	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
@@ -91,7 +101,7 @@ public class UserLicense implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return state != UserState.LOCKED.getState();
+		return true;
 	}
 
 	@Override

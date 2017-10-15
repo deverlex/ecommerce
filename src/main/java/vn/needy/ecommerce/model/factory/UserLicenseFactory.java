@@ -17,6 +17,7 @@ public final class UserLicenseFactory {
                 user.getUsername(),
                 user.getPassword(),
                 user.getState(),
+                user.getUnlockTime(),
                 mapToGrantedAuthorities(roles),
                 user.getLastResetPassword()
         );

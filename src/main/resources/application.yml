@@ -48,3 +48,9 @@ needy:
     security:
       authentication: login
       refresh: relogin
+      logout: logout
+    user:
+      register: user/register
+    company:
+      inherent: company
+      register: company/register

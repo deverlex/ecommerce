@@ -4,5 +4,5 @@ import vn.needy.ecommerce.domain.entity.User;
 
 public interface UserRepository {
 	
-	User findUserByUsername(String username);
+	User findUserByUsernameForAuthenticate(String username);
 }
