@@ -15,7 +15,7 @@ public class IdentificationUtils implements Serializable {
 	@Value("${needy.identification.header}")
 	private String identificationHeader;
 	
-	public Long getUserIdFromRequest(HttpServletRequest request) {
+	public Long getIdentification(HttpServletRequest request) {
 		return (Long) request.getSession().getAttribute(identificationHeader);
 	}
 }
