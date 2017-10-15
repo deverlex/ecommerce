@@ -122,11 +122,13 @@ CREATE TABLE `Users` (
   -- Trang thai tai khoan: khoa, con hoat dong...
   `state` tinyint(2) NOT NULL,
 
-  -- Khoa 90 ngay, moi ngay server quet toan bo Users co state = Blocked 1 lan, tru di 1 ngay
-  `timeUnlock` tinyint(2) NOT NULL,
+  -- Khoa 90 ngay
+  `unlockTime` datetime,
 
+  -- firebase UID
+  `firebaseUid` varchar(32), 
   -- Khong yeu cau null de register tu app Vendor
-  `fcmToken` varchar(225), 
+  `fcmToken` varchar(225),
 
   `firstName` varchar(32) NOT NULL,
   `lastName` varchar(16) NOT NULL,

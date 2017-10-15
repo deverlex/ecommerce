@@ -12,7 +12,8 @@ public class User extends DomainBase {
 	private String username;
 	private String password;
 	private int state;
-	private int timeUnlock;
+	private Date unlockTime;
+	private String firebaseUid;
 	private String fcmToken;
 	private String firstName;
 	private String lastName;
@@ -63,13 +64,21 @@ public class User extends DomainBase {
 	public void setState(int state) {
 		this.state = state;
 	}
-
-	public int getTimeUnlock() {
-		return timeUnlock;
+	
+	public Date getUnlockTime() {
+		return unlockTime;
 	}
 
-	public void setTimeUnlock(int timeUnlock) {
-		this.timeUnlock = timeUnlock;
+	public void setUnlockTime(Date unlockTime) {
+		this.unlockTime = unlockTime;
+	}
+
+	public String getFirebaseUid() {
+		return firebaseUid;
+	}
+
+	public void setFirebaseUid(String firebaseUid) {
+		this.firebaseUid = firebaseUid;
 	}
 
 	public String getFcmToken() {
