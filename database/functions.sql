@@ -25,3 +25,20 @@ END
 
 $$
 delimiter ;
+
+DROP TRIGGER IF EXISTS `update_role_for_new_user`;
+
+-- 
+DELIMITER $$
+
+CREATE TRIGGER `after_user_insert` AFTER INSERT ON `Users`
+FOR EACH ROW
+BEGIN
+	DECLARE userId bigint(20);
+	SET userId = NEW.id;
+	INSERT INTO UserRole(`role`, `userId`, `createdBy`, `lastUpdatedBy`) 
+	VALUES ('USER', userId, 1, 1);
+END
+
+$$
+delimiter ;

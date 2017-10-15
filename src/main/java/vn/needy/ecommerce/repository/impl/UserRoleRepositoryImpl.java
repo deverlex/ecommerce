@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.repository.UserRoleRepository;
 
-@Repository("roleRepository")
+@Repository("userRoleRepository")
 public class UserRoleRepositoryImpl implements UserRoleRepository {
 	
 	@Override
