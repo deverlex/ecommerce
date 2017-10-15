@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.security;
+package vn.needy.ecommerce.controller.rest;
 
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.model.enums.UserState;
-import vn.needy.ecommerce.model.security.Certification;
-import vn.needy.ecommerce.model.security.Credentials;
+import vn.needy.ecommerce.model.json.request.CredentialsRequest;
+import vn.needy.ecommerce.model.json.response.CertificationResponse;
 import vn.needy.ecommerce.model.security.UserLicense;
+import vn.needy.ecommerce.security.TokenUtils;
 
 @RestController
-public class AuthenticationService {
+public class AuthenticationRestService {
 
 	@Value("${needy.token.header}")
 	private String tokenHeader;
@@ -46,8 +47,8 @@ public class AuthenticationService {
 	private TimeProvider timeProvider;
 
 	@RequestMapping(value = "${needy.route.security.authentication}", method = RequestMethod.POST)
-	public ResponseEntity<Certification> createAuthenticationToken(@RequestBody Credentials credentials,
-			Device device, HttpServletResponse response) throws AuthenticationException {
+	public ResponseEntity<CertificationResponse> createAuthenticationToken(
+			@RequestBody CredentialsRequest credentials, Device device) throws AuthenticationException {
 		
 		// Perform the security
 		final Authentication authentication = authenticationManager
@@ -59,22 +60,25 @@ public class AuthenticationService {
 		// Reload password post-security so we can generate token
         final UserLicense userLicense = (UserLicense) userDetailsService.loadUserByUsername(credentials.getUsername());
         
+        CertificationResponse cert = new CertificationResponse();
         // If user is locked, do not return an token
         if (userLicense.getState() == UserState.LOCKED.getState()) {
         	String message = "Your account is locked, we will unlock on " 
         			+ timeProvider.formatDate(userLicense.getUnlockTime());
-        	return ResponseEntity.ok(new Certification("", message));
+        	cert.setMessage(message);
+        	return ResponseEntity.ok(cert);
         }
         final String token = tokenPrefix  + " " + tokenUtils.generateToken(userLicense, device);
         // Add new token to header
         //response.addHeader(tokenHeader, token);
-        return ResponseEntity.ok(new Certification(token, "Login success"));
+        cert.setToken(token);
+        return ResponseEntity.ok(cert);
 	}
 	
 	@RequestMapping(value = "${needy.route.security.refresh}", method = RequestMethod.GET)
-	public ResponseEntity<Certification> authenticationRequest(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<CertificationResponse> authenticationRequest(HttpServletRequest request, HttpServletResponse response) {
 		String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
-		
+				
 		String username = this.tokenUtils.getUsernameFromToken(token);
 		UserLicense userLicense = (UserLicense) this.userDetailsService.loadUserByUsername(username);
 		if (this.tokenUtils.canTokenBeRefreshed(token, userLicense.getLastResetPassword())) {
@@ -82,7 +86,9 @@ public class AuthenticationService {
 			
 			// Add refresh token to response
 			//response.addHeader(tokenHeader,refreshedToken);
-			return ResponseEntity.ok(new Certification(refreshedToken, "Refresh success"));
+			CertificationResponse cert = new CertificationResponse();
+			cert.setToken(refreshedToken);
+			return ResponseEntity.ok(cert);
 		} else {
 			return ResponseEntity.badRequest().body(null);
 		}

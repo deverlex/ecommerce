@@ -47,7 +47,7 @@ needy:
   route:
     security:
       authentication: login
-      refresh: relogin
+      refresh: refresh
       logout: logout
     user:
       register: user/register

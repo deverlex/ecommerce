@@ -1,11 +1,11 @@
-package vn.needy.ecommerce.model; 
+package vn.needy.ecommerce.model.base; 
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class ModelBase implements Serializable {
+public class BaseModel implements Serializable {
 
   @Override
   public String toString() {

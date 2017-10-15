@@ -2,11 +2,13 @@ package vn.needy.ecommerce.domain.entity;
 
 import java.util.Date;
 
-import vn.needy.ecommerce.domain.DomainBase;
+import vn.needy.ecommerce.domain.BaseDomain;
 
-public class User extends DomainBase {
+public class User extends BaseDomain {
 
 	private static final long serialVersionUID = 153434L;
+	
+	public static final String TABLE = "Users";
 	
 	private long id;
 	private String username;
