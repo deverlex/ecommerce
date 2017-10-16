@@ -140,8 +140,8 @@ CREATE TABLE `Users` (
 
   `email` varchar(64),
   `birthday` date,
-  `lat` float(10,6),
-  `lng` float(10,6),
+  `lat` float(10,6) NOT NULL,
+  `lng` float(10,6) NOT NULL,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -359,8 +359,8 @@ CREATE TABLE `Stores` (
   -- Mang cac url image ["url1", "url2"] max = 5 Image
   `pictures` text(1281),
 
-  `lat` float(10,6),
-  `lng` float(10,6),
+  `lat` float(10,6) NOT NULL,
+  `lng` float(10,6) NOT NULL,
 
   -- Thoi gian mo cua
   `openingTime` time NOT NULL,
@@ -380,84 +380,6 @@ CREATE INDEX `status_idx` ON `Stores` (`status`);
 CREATE INDEX `numberStaff_idx` ON `Stores` (`numberStaff`);
 CREATE INDEX `loc_idx` ON `Stores` (`lat`, `lng`);
 CREATE INDEX `activeTime_idx` ON `Stores` (`openingTime`, `closingTime`);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `Products`
---
-
-DROP TABLE IF EXISTS `Products`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Products` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `productCode` varchar(14) NOT NULL,
-  `storeId` bigint(20) NOT NULL,
-  -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
-  `state` tinyint(1) DEFAULT 0,
-  -- So luong con
-  `quantity` smallint(5) NOT NULL,
-
-  `name` varchar(64),
-  -- nha san xuat
-  `producer` varchar(64),
-  -- Gia ban
-  `price` float(12, 2) NOT NULL,
-  -- phi van chuyen
-  `feeTranfer` float(10, 2) NOT NULL,
-  -- phi quan ly
-  `feeManager` float(10, 2) NOT NULL,
-  -- Giam gia
-  `saleCost` float(10, 2) NOT NULL,
-  `promotionCost` float(10, 2) NOT NULL, 
-  -- Don vi tien te
-  `currencyUnit` varchar(8) NOT NULL,
-
-  `image` varchar(255),
-  -- Save JSON format - 5 image
-  `pictures` text(1281),
-
-  -- Khuyen mai JSON - 5 k/m
-  `promotion` text(600),
-  -- Mo ta san pham
-  `description` text(1000),
-  -- 
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `createdBy` bigint(20) NOT NULL,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-
-  CONSTRAINT `Fk_products_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
-  CONSTRAINT `Fk_products_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_products_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE INDEX `productCode_idx` ON `Products` (`productCode`);
-CREATE INDEX `quantity_idx` ON `Products` (`quantity`);
-CREATE INDEX `price_idx` ON `Products` (`price`);
-CREATE INDEX `saleCost_idx` ON `Products` (`saleCost`);
-CREATE INDEX `promotionCost_idx` ON `Products` (`promotionCost`); 
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ProductPriceLogs`
---
-
-DROP TABLE IF EXISTS `ProductPriceLogs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ProductPriceLogs` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `productId` bigint(20) NOT NULL,
-  `oldPrice` float(12, 2) NOT NULL,
-
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `createdBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_product_price_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
-  CONSTRAINT `Fk_product_price_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE INDEX `oldPrice_idx` ON `ProductPriceLogs` (`oldPrice`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -549,6 +471,100 @@ CREATE TABLE `Attributes` (
   CONSTRAINT `Fk_attrs_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Products`
+--
+
+DROP TABLE IF EXISTS `Products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Products` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productCode` varchar(14) NOT NULL,
+  `storeId` bigint(20) NOT NULL,
+  `subcategory` varchar(16) NOT NULL,
+  -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
+  `state` tinyint(1) DEFAULT 0,
+  -- So luong con
+  `quantity` smallint(5) NOT NULL,
+
+  `name` varchar(64),
+  -- nha san xuat
+  `producer` varchar(64),
+  -- Gia ban
+  `price` float(12, 2) NOT NULL,
+  -- Giam gia
+  `saleCost` float(10, 2) NOT NULL,
+  `promotionCost` float(10, 2) NOT NULL, 
+  -- Don vi tien te
+  `currencyUnit` varchar(8) NOT NULL,
+
+  `image` varchar(255),
+  -- Save JSON format - 5 image
+  `pictures` text(1281),
+
+  -- Khuyen mai JSON - 5 k/m
+  `promotion` text(600),
+  -- Mo ta san pham
+  `description` text(1000),
+  -- 
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `createdBy` bigint(20) NOT NULL,
+  `lastUpdatedBy` bigint(20) NOT NULL,
+
+  CONSTRAINT `Fk_products_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_products_sc` FOREIGN KEY (`subcategory`) REFERENCES `SubCategories` (`subcategory`),
+  CONSTRAINT `Fk_products_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_products_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE INDEX `productCode_idx` ON `Products` (`productCode`);
+CREATE INDEX `quantity_idx` ON `Products` (`quantity`);
+CREATE INDEX `price_idx` ON `Products` (`price`);
+CREATE INDEX `saleCost_idx` ON `Products` (`saleCost`);
+CREATE INDEX `promotionCost_idx` ON `Products` (`promotionCost`); 
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ServiceProduct`
+--
+
+DROP TABLE IF EXISTS `ServiceProduct`;
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ServiceProduct` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `serviceId` bigint(20) NOT NULL,
+  `productId` bigint(20) NOT NULL,
+  CONSTRAINT `Uniq_service_product_sp` UNIQUE (`serviceId`, `productId`),
+  CONSTRAINT `Fk_service_product_s` FOREIGN KEY (`serviceId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_service_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ProductPriceLogs`
+--
+
+DROP TABLE IF EXISTS `ProductPriceLogs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductPriceLogs` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint(20) NOT NULL,
+  `oldPrice` float(12, 2) NOT NULL,
+
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `createdBy` bigint(20) NOT NULL,
+  CONSTRAINT `Fk_product_price_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_product_price_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE INDEX `oldPrice_idx` ON `ProductPriceLogs` (`oldPrice`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -676,9 +692,9 @@ CREATE TABLE `Provides` (
   -- Vi cua hang co nhieu nguoi ban nen can biet ai la nguoi ban
   `createdBy` bigint(20) NOT NULL,
   `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_deviveries_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
-  CONSTRAINT `Fk_deviveries_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_deviveries_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_provides_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
+  CONSTRAINT `Fk_provides_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_provides_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
