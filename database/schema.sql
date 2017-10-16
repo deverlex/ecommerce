@@ -507,7 +507,7 @@ CREATE TABLE `SubCategories` (
 
 --
 -- Table structure for table `GroupAttribute`
---
+-- Example: Platform contain: OS, Chipset, CPU, GPU attrs
 
 DROP TABLE IF EXISTS `GroupAttribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -655,13 +655,13 @@ CREATE INDEX `oldStatus_idx` ON `OrderProductLogs` (`oldStatus`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `Deliveries`
+-- Table structure for table `Provides`
 --
 
-DROP TABLE IF EXISTS `Deliveries`;
+DROP TABLE IF EXISTS `Provides`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Deliveries` (
+CREATE TABLE `Provides` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY ,
   `orderId` bigint(20) NOT NULL,
 
