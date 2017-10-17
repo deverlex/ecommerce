@@ -14,4 +14,9 @@ public interface UserRepository {
 	long registerUser(RegisterUserRequest registerUserRequest);
 	
 	User findUserForResponseById(long id);
+	
+	User findUserByUsernameForResetPassword(String username);
+	
+	boolean updatePasswordByUserId(long id, String password);
+	
 }

@@ -50,8 +50,11 @@ needy:
       refresh: refresh
       logout: logout
     user:
-      find: find
-      register: register
+      find: user/find
+      register: user/register
+      password:
+        reset: user/password/reset
+
     company:
       inherent: company
       register: company/register

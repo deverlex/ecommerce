@@ -20,6 +20,7 @@ import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
+import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
 import vn.needy.ecommerce.repository.UserRepository;
 import vn.needy.ecommerce.security.TokenUtils;
@@ -94,5 +95,23 @@ public class UserServiceImpl implements UserService {
 			return response;
 		}
 		return null;
+	}
+
+	@Override
+	@Transactional
+	public CertificationResponse resetPassword(String username, ResetPasswordRequest resetPasswordRequest, Device device) {
+		User user = userRepository.findUserByUsernameForResetPassword(username);
+		if (user == null) {
+			return new CertificationResponse(null, "Phone number is not valid");
+		}
+		
+		if (!isVerifiedByFirebase(user.getFirebaseUid(), resetPasswordRequest.getFirebaseToken())) {
+			return new CertificationResponse(null, "Phone number is not valid");
+		}
+		String encodePassword = passwordEncoder.encode(resetPasswordRequest.getPassword());
+		userRepository.updatePasswordByUserId(user.getId(), encodePassword);
+		user.setUsername(username);
+		String token = tokenPrefix + " " + tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);
+		return new CertificationResponse(token);
 	}
 }

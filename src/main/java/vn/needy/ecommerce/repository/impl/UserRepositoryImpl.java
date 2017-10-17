@@ -112,4 +112,23 @@ public class UserRepositoryImpl implements UserRepository {
 		return null;
 	}
 
+	@Override
+	public User findUserByUsernameForResetPassword(String username) {
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT id, firebaseUid "
+				+ "FROM Users "
+				+ "WHERE username = ? AND state <> ?", new Object[] {username, UserState.DELETED});
+		if (rs.first()) {
+			User user = new User();
+			user.setId(rs.getLong("id"));
+			user.setFirebaseUid(rs.getString("firebaseUid"));
+			return user;
+		}
+		return null;
+	}
+
+	@Override
+	public boolean updatePasswordByUserId(long id, String password) {
+		return jdbc.update("UPDATE Users SET password = ? WHERE id = ?", new Object[] {password, id}) == 1;
+	}
+
 }

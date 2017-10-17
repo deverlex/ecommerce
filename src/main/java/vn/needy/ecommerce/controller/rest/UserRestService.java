@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
+import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
 import vn.needy.ecommerce.security.IdentificationUtils;
 import vn.needy.ecommerce.service.UserService;
@@ -46,6 +47,14 @@ public class UserRestService {
 		return ResponseEntity.ok(response);
 	}
 	
+	@RequestMapping(value = "${needy.route.user.password.reset}", method = RequestMethod.POST)
+	public ResponseEntity<CertificationResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
+			@RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
+		System.out.println(username);
+		CertificationResponse cert = userService.resetPassword(username, resetPasswordRequest, device);
+		return ResponseEntity.ok(cert);
+	}
+
 	
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")
