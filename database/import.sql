@@ -1,5 +1,5 @@
-INSERT INTO Users(`username`, `password`, `state`, `firstName`, `lastName`) VALUES
-('+84968208244', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', 'Needy', 'Ldt');
+INSERT INTO Users(`username`, `password`, `state`, `firstName`, `lastName`, `lat`, `lng`) VALUES
+('+84968208244', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', 'Needy', 'Ldt', '21.028799', '105.850914');
 
 INSERT INTO Roles(`role`, `title`, `createdBy`, `lastUpdatedBy`) VALUES 
 ('ADMIN', 'System admin', 1, 1),
