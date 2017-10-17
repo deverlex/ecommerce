@@ -17,6 +17,7 @@ import com.google.firebase.tasks.Task;
 
 import vn.needy.ecommerce.common.model.Lock;
 import vn.needy.ecommerce.domain.entity.User;
+import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
@@ -81,5 +82,17 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return uid.equals(fbUid.toString());
+	}
+
+	@Override
+	public BaseResponse findUserExist(String username) {
+		User user = userRepository.findUserExistByUsername(username);
+		
+		if (user != null) {
+			BaseResponse response = new BaseResponse();
+			response.setMessage("Account registered by " + user.getFirstName() + " " + user.getLastName());
+			return response;
+		}
+		return null;
 	}
 }

@@ -10,8 +10,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
 import vn.needy.ecommerce.security.IdentificationUtils;
@@ -37,6 +39,13 @@ public class UserRestService {
 		CertificationResponse cert = userService.registerUser(registerUserRequest, device);
 		return ResponseEntity.ok(cert);
 	}
+	
+	@RequestMapping(value = "${needy.route.user.find}", method = RequestMethod.GET)
+	public ResponseEntity<BaseResponse> findUserExist(@RequestParam(value = "username", required = true) String username) {
+		BaseResponse response = userService.findUserExist(username);
+		return ResponseEntity.ok(response);
+	}
+	
 	
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")

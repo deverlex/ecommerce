@@ -285,7 +285,8 @@ CREATE TABLE `PayLogs` (
   `action` tinyint(2) NOT NULL,
   `budgetChange` float(12, 2) NOT NULL,
   `description` text(500) NOT NULL,
-  `bankAccount` varchar(20),
+  `debitAccount` varchar(32),
+  `creditAccount` varchar(32),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createdBy` bigint(20) NOT NULL,
@@ -297,7 +298,7 @@ CREATE TABLE `PayLogs` (
 
 CREATE INDEX `transactionCode_idx` ON `PayLogs` (`transactionCode`);
 CREATE INDEX `action_idx` ON `PayLogs` (`action`);
-CREATE INDEX `bankAccount_idx` ON `PayLogs` (`bankAccount`);
+CREATE INDEX `debitAccount_idx` ON `PayLogs` (`debitAccount`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -380,6 +381,33 @@ CREATE INDEX `status_idx` ON `Stores` (`status`);
 CREATE INDEX `numberStaff_idx` ON `Stores` (`numberStaff`);
 CREATE INDEX `loc_idx` ON `Stores` (`lat`, `lng`);
 CREATE INDEX `activeTime_idx` ON `Stores` (`openingTime`, `closingTime`);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `StoreBankAccount`
+--
+
+DROP TABLE IF EXISTS `StoreBankAccount`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `StoreBankAccount` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `storeId` bigint(20) NOT NULL,
+  `creditAccount` varchar(32) NOT NULL,
+  -- Ten chu tai khoan
+  `beneficiaryName` varchar(64) NOT NULL,
+  -- Ten chi nhanh
+  `beneficiaryBankName` varchar(128) NOT NULL,
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `createdBy` bigint(20) NOT NULL,
+  `lastUpdatedBy` bigint(20) NOT NULL,
+  CONSTRAINT `Fk_store_bank_account_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_store_bank_account_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_store_bank_account_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE INDEX `creditAccount_idx` ON `StoreBankAccount` (`storeId`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -681,6 +709,7 @@ CREATE TABLE `Provides` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY ,
   `orderId` bigint(20) NOT NULL,
 
+  -- Phi van chuyen
   `fee` float(10, 2) NOT NULL,
 
   `scheduleFrom` datetime,
