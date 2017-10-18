@@ -1,5 +1,8 @@
 package vn.needy.ecommerce.service;
 
-public interface CompanyService {
+import vn.needy.ecommerce.model.json.response.CompanyResponse;
 
+public interface CompanyService {
+	
+	CompanyResponse findCompanyInherent(long userId);
 }

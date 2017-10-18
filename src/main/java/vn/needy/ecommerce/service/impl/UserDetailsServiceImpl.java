@@ -38,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			userRepository.updateUserState(user.getId(), UserState.ACTIVE.getState());
 		}
 		
-		List<String> roles = userRoleRepository.findRoleStringByUserId(user.getId());
+		List<String> roles = userRoleRepository.findRoleAuthenticationByUserId(user.getId());
 		
 		if (user == null || roles == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));

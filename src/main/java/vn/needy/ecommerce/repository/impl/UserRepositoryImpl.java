@@ -128,7 +128,8 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public boolean updatePasswordByUserId(long id, String password) {
-		return jdbc.update("UPDATE Users SET password = ? WHERE id = ?", new Object[] {password, id}) == 1;
+		return jdbc.update("UPDATE Users SET password = ? WHERE id = ?", 
+				new Object[] {password, id}) == 1;
 	}
 
 }
