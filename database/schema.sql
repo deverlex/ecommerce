@@ -163,13 +163,16 @@ DROP TABLE IF EXISTS `Companies`;
 CREATE TABLE `Companies` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- Ma code company tu dong gen
+  -- Dinh dang: AX0612051217 2 chu cai dau random, 
+  -- 4 so tiep theo la gio + phut, 6 so tiep theo la ngay, thang, nam 
+  -- XX-XXXX-051217
   `companyCode` varchar(12) NOT NULL,
   -- It will update for app manager
   `fcmToken` varchar(255),
   -- Trang thai: chua kich hoat, da kich hoat, tam ngung, da dong cua
   `state` tinyint(2) NOT NULL,
   -- Xep cap bac
-  `level` tinyint(2) NOT NULL,
+  `level` tinyint(3) NOT NULL,
 
   `name` varchar(128) NOT NULL,
   `numberEmployee` mediumint(7) NOT NULL,
@@ -241,12 +244,14 @@ CREATE TABLE `UserReport` (
 
   `isAccepted` tinyint(1) DEFAULT 0,
   `description` text(1000) NOT NULL,
-  `collectionImage` text(1281) NOT NULL,
+  `pictures` text(1281) NOT NULL,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createdBy` bigint(20) NOT NULL,
+  `acceptedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_company_reputation_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
-  CONSTRAINT `Fk_company_reputation_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_company_reputation_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_company_reputation_ac` FOREIGN KEY (`acceptedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -290,10 +295,8 @@ CREATE TABLE `PayLogs` (
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createdBy` bigint(20) NOT NULL,
-  `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_pay_logs_b` FOREIGN KEY (`budgetId`) REFERENCES `Budgets` (`id`),
-  CONSTRAINT `Fk_pay_logs_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_pay_logs_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_pay_logs_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `transactionCode_idx` ON `PayLogs` (`transactionCode`);
@@ -316,15 +319,22 @@ CREATE TABLE `CompanyStaff` (
   -- Firebase token will be update
   `storeId` bigint(20) NOT NULL,
   `fcmToken` varchar(255),
-  -- Trang thai user - active, wating, denied
+  -- Trang thai user - active, waiting, denied
   -- Cho phep chu cua hang tu them sdt nhan vien cua minh vao he thong 
   -- Chi cho phep join thanh vien moi tu cach them tu he thong
   `state` tinyint(2) NOT NULL,
 
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+
+  `createdBy` bigint(20) NOT NULL,
+  `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Uniq_company_staff_uc` UNIQUE (`userId`,`companyId`),
   CONSTRAINT `Uniq_company_staff_us` UNIQUE (`userId`,`storeId`),
-  CONSTRAINT `Fk_store_user_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
-  CONSTRAINT `Fk_store_user_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_company_staff_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_company_staff_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_company_staff_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_company_staff_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `state_idx` ON `CompanyStaff` (`state`);
@@ -340,14 +350,17 @@ DROP TABLE IF EXISTS `Stores`;
 CREATE TABLE `Stores` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `companyId` bigint(20) NOT NULL,
+  -- XX- 2 chu cai dau cua cong ty, cac so sau gen tu ngay thang nam gio phut
   `storeCode` varchar(12) NOT NULL,
   -- Trang thai cua hang da kich hoat hay chua
   -- Dieu kien kich hoat: khi co hang ban
-  `isActived` tinyint(1) DEFAULT 0,
+  -- inactive (0), active(1), locked (-1)
+  `state` tinyint(2) DEFAULT 0,
   -- Trang thai san sang working, busy, close time
   `status` tinyint(2) NOT NULL,
-  -- member phu vu tinh trang thai cua cua hang
-  -- Toi da giao dich dang thuc hien = toi da nguoi lam
+  -- Khoa den khi don hang chuyen trang thai
+  -- Qua 3 lan 1 ngay, khoa 7 ngay, de mo khoa, nop tien 1.000.000
+  `unlockTime` datetime,
   `numberStaff` smallint(5) NOT NULL,
   
   `name` varchar(64) NOT NULL,
