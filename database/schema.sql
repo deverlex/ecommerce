@@ -163,10 +163,8 @@ DROP TABLE IF EXISTS `Companies`;
 CREATE TABLE `Companies` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- Ma code company tu dong gen
-  -- Dinh dang: AX0612051217 2 chu cai dau random, 
-  -- 4 so tiep theo la gio + phut, 6 so tiep theo la ngay, thang, nam 
-  -- XX-XXXX-051217
-  `companyCode` varchar(12) NOT NULL,
+  -- CompanyCode:     VKG1FI9OHJ
+  `companyCode` varchar(10) UNIQUE NOT NULL,
   -- It will update for app manager
   `fcmToken` varchar(255),
   -- Trang thai: chua kich hoat, da kich hoat, tam ngung, da dong cua
@@ -218,7 +216,7 @@ CREATE TABLE `CompanyReputation` (
   `state` tinyint(2) NOT NULL,
   `companyId` bigint(20) NOT NULL,
   -- Ma hop dong tu sinh
-  `agreementCode` varchar(12) NOT NULL,
+  `agreementCode` int(10) NOT NULL,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -285,8 +283,7 @@ CREATE TABLE `PayLogs` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `budgetId` bigint(20) NOT NULL,
   -- So giao dich, tu sinh trong may
-  -- Action tich hop vao Transaction Code
-  `transactionCode` varchar(15) NOT NULL,
+  `transactionCode` int(10) NOT NULL,
   `budgetCharge` float(12, 2) NOT NULL,
   `description` text(500) NOT NULL,
   `debitAccount` varchar(32),
@@ -299,7 +296,6 @@ CREATE TABLE `PayLogs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `transactionCode_idx` ON `PayLogs` (`transactionCode`);
-CREATE INDEX `action_idx` ON `PayLogs` (`action`);
 CREATE INDEX `debitAccount_idx` ON `PayLogs` (`debitAccount`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -349,12 +345,11 @@ DROP TABLE IF EXISTS `Stores`;
 CREATE TABLE `Stores` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `companyId` bigint(20) NOT NULL,
-  -- XX- 2 chu cai dau cua cong ty, cac so sau gen tu ngay thang nam gio phut
-  `storeCode` varchar(12) NOT NULL,
+  `storeCode` int(10) NOT NULL,
   -- Trang thai cua hang da kich hoat hay chua
   -- Dieu kien kich hoat: khi co hang ban
   -- inactive (0), active(1), locked (-1)
-  `state` tinyint(2) DEFAULT 0,
+  `state` tinyint(2) NOT NULL,
   -- Trang thai san sang working, busy, close time
   `status` tinyint(2) NOT NULL,
   -- Khoa den khi don hang chuyen trang thai
@@ -522,7 +517,7 @@ DROP TABLE IF EXISTS `Products`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Products` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `productCode` varchar(14) NOT NULL,
+  `productCode` int(10) NOT NULL,
   `storeId` bigint(20) NOT NULL,
   `subcategory` varchar(16) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
@@ -641,7 +636,7 @@ CREATE TABLE `Orders` (
   `userId` bigint(20) NOT NULL,
   `storeId` bigint(20) NOT NULL,
   -- Ma don hang
-  `orderCode` varchar(5) NOT NULL,
+  `orderCode` int(10) NOT NULL,
   -- Don hang co khan cap hay khong? = 1 neu su dung can ngay
   `isUrgency` tinyint(1) DEFAULT 0,
   -- Co lay hoa don (VAT) hay khong

@@ -3,7 +3,10 @@ INSERT INTO Users(`username`, `password`, `state`, `firstName`, `lastName`, `lat
 
 INSERT INTO Roles(`role`, `title`, `createdBy`, `lastUpdatedBy`) VALUES 
 ('ADMIN', 'System admin', 1, 1),
-('USER', 'Normal users', 1 , 1);
+('USER', 'Normal users', 1 , 1),
+('COMPANY_OWENER', 'Normal users', 1 , 1),
+('SELLER', 'Normal users', 1 , 1),
+('STORE_MANAGER', 'Normal users', 1 , 1);
 
 INSERT INTO UserRole(`role`, `userId`, `createdBy`, `lastUpdatedBy`) VALUES
 ('ADMIN', 1, 1, 1),
