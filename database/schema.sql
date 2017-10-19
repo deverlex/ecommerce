@@ -282,6 +282,7 @@ DROP TABLE IF EXISTS `PayLogs`;
 CREATE TABLE `PayLogs` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `budgetId` bigint(20) NOT NULL,
+  `behavior` tinyint(2) NOT NULL,
   -- So giao dich, tu sinh trong may
   `transactionCode` int(10) NOT NULL,
   `budgetCharge` float(12, 2) NOT NULL,
