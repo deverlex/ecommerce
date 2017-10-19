@@ -93,19 +93,20 @@ cd mysql-server
 tar -xvf mysql-server_5.7*.tar
 sudo dpkg -i *.deb
 
-sudo echo '[client]
+sudo echo "[client]
 default-character-set = utf8mb4
 
 [mysqld]
 innodb_file_format = Barracuda
 innodb_file_per_table = 1
 innodb_large_prefix
+default-time-zone='+07:00'
 
 character-set-server = utf8mb4
 collation-server = utf8mb4_unicode_ci
 skip-character-set-client-handshake
 
 [mysql]
-default-character-set = utf8mb4' >> /etc/mysql/my.cnf
+default-character-set = utf8mb4" >> /etc/mysql/my.cnf
 
 sudo service mysql restart
