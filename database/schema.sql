@@ -286,7 +286,7 @@ CREATE TABLE `PayLogs` (
   `budgetId` bigint(20) NOT NULL,
   -- So giao dich, tu sinh trong may
   -- Action tich hop vao Transaction Code
-  `transactionCode` varchar(12) NOT NULL,
+  `transactionCode` varchar(15) NOT NULL,
   `budgetCharge` float(12, 2) NOT NULL,
   `description` text(500) NOT NULL,
   `debitAccount` varchar(32),
