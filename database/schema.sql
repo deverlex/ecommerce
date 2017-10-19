@@ -285,10 +285,9 @@ CREATE TABLE `PayLogs` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `budgetId` bigint(20) NOT NULL,
   -- So giao dich, tu sinh trong may
+  -- Action tich hop vao Transaction Code
   `transactionCode` varchar(12) NOT NULL,
-  -- action add budget - subtraction
-  `action` tinyint(2) NOT NULL,
-  `budgetChange` float(12, 2) NOT NULL,
+  `budgetCharge` float(12, 2) NOT NULL,
   `description` text(500) NOT NULL,
   `debitAccount` varchar(32),
   `creditAccount` varchar(32),
