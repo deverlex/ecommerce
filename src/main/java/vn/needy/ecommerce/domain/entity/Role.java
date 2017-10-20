@@ -75,4 +75,18 @@ public class Role extends BaseDomain {
 	public void setLastUpdatedBy(long lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
+	
+	public static class List {
+		public static final String SYSTEM = "SYSTEM";
+		public static final String ADMIN = "ADMIN";
+		public static final String USER = "USER";
+		
+		public static final String COMPANY_OWNER = "COMPANY_OWENER";
+		public static final String SELLER = "SELLER";
+		public static final String STORE_MANAGER = "STORE_MANAGER";
+		
+		public static String[] CompanyOwner = {
+			COMPANY_OWNER, SELLER, STORE_MANAGER
+		};
+	}
 }

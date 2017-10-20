@@ -8,8 +8,10 @@ public class Company extends BaseDomain {
 
 	private static final long serialVersionUID = 179847724L;
 
+	public static final String TABLE = "Companies";
+	
 	private long id;
-	private String companyCode;
+	private String companyNumber;
 	private String fcmToken;
 	private int state;
 	private int level;
@@ -41,12 +43,12 @@ public class Company extends BaseDomain {
 		this.id = id;
 	}
 
-	public String getCompanyCode() {
-		return companyCode;
+	public String getCompanyNumber() {
+		return companyNumber;
 	}
 
-	public void setCompanyCode(String companyCode) {
-		this.companyCode = companyCode;
+	public void setCompanyNumber(String companyNumber) {
+		this.companyNumber = companyNumber;
 	}
 
 	public String getFcmToken() {

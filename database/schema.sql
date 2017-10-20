@@ -163,8 +163,8 @@ DROP TABLE IF EXISTS `Companies`;
 CREATE TABLE `Companies` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- Ma code company tu dong gen
-  -- CompanyCode:     VKG1FI9OHJ
-  `companyCode` varchar(10) UNIQUE NOT NULL,
+  -- CompanyCode:     1710VKG1FI9O
+  `companyNumber` varchar(10) UNIQUE NOT NULL,
   -- It will update for app manager
   `fcmToken` varchar(255),
   -- Trang thai: chua kich hoat, da kich hoat, tam ngung, da dong cua
@@ -195,7 +195,7 @@ CREATE TABLE `Companies` (
   CONSTRAINT `Fk_companies_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `companyCode_idx` ON `Companies` (`companyCode`);
+CREATE INDEX `companyNumber_idx` ON `Companies` (`companyNumber`);
 CREATE INDEX `state_idx` ON `Companies` (`state`);
 CREATE INDEX `level_idx` ON `Companies` (`level`);
 CREATE INDEX `activeTime_idx` ON `Companies` (`openingTime`, `closingTime`);
@@ -216,7 +216,7 @@ CREATE TABLE `CompanyReputation` (
   `state` tinyint(2) NOT NULL,
   `companyId` bigint(20) NOT NULL,
   -- Ma hop dong tu sinh
-  `agreementCode` int(10) NOT NULL,
+  `agreementNumber` varchar(4) NOT NULL,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -226,7 +226,7 @@ CREATE TABLE `CompanyReputation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `state_idx` ON `CompanyReputation` (`state`);
-CREATE INDEX `agreementCode_idx` ON `CompanyReputation` (`agreementCode`);
+CREATE INDEX `agreementNumber_idx` ON `CompanyReputation` (`agreementNumber`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +284,7 @@ CREATE TABLE `PayLogs` (
   `budgetId` bigint(20) NOT NULL,
   `behavior` tinyint(2) NOT NULL,
   -- So giao dich, tu sinh trong may
-  `transactionCode` int(10) NOT NULL,
+  `payNumber` varchar(8) NOT NULL,
   `budgetCharge` float(12, 2) NOT NULL,
   `description` text(500) NOT NULL,
   `debitAccount` varchar(32),
@@ -296,7 +296,7 @@ CREATE TABLE `PayLogs` (
   CONSTRAINT `Fk_pay_logs_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `transactionCode_idx` ON `PayLogs` (`transactionCode`);
+CREATE INDEX `payNumber_idx` ON `PayLogs` (`payNumber`);
 CREATE INDEX `debitAccount_idx` ON `PayLogs` (`debitAccount`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -315,7 +315,7 @@ CREATE TABLE `CompanyStaff` (
   -- Firebase token will be update
   `storeId` bigint(20) NOT NULL,
   `fcmToken` varchar(255),
-  -- Trang thai user - active, waiting, denied
+  -- Trang thai user - inactive, active, waiting
   -- Cho phep chu cua hang tu them sdt nhan vien cua minh vao he thong 
   -- Chi cho phep join thanh vien moi tu cach them tu he thong
   `state` tinyint(2) NOT NULL,
@@ -346,7 +346,7 @@ DROP TABLE IF EXISTS `Stores`;
 CREATE TABLE `Stores` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `companyId` bigint(20) NOT NULL,
-  `storeCode` int(10) NOT NULL,
+  `storeNumber` varchar(5) NOT NULL,
   -- Trang thai cua hang da kich hoat hay chua
   -- Dieu kien kich hoat: khi co hang ban
   -- inactive (0), active(1), locked (-1)
@@ -384,7 +384,7 @@ CREATE TABLE `Stores` (
   CONSTRAINT `Fk_stores_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `storeCode` ON `Stores` (`storeCode`);
+CREATE INDEX `storeNumber_idx` ON `Stores` (`storeNumber`);
 CREATE INDEX `status_idx` ON `Stores` (`status`);
 CREATE INDEX `numberStaff_idx` ON `Stores` (`numberStaff`);
 CREATE INDEX `loc_idx` ON `Stores` (`lat`, `lng`);
@@ -518,7 +518,7 @@ DROP TABLE IF EXISTS `Products`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Products` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `productCode` int(10) NOT NULL,
+  `productNumber` varchar(5) NOT NULL,
   `storeId` bigint(20) NOT NULL,
   `subcategory` varchar(16) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
@@ -557,7 +557,7 @@ CREATE TABLE `Products` (
   CONSTRAINT `Fk_products_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `productCode_idx` ON `Products` (`productCode`);
+CREATE INDEX `productNumber_idx` ON `Products` (`productNumber`);
 CREATE INDEX `quantity_idx` ON `Products` (`quantity`);
 CREATE INDEX `price_idx` ON `Products` (`price`);
 CREATE INDEX `saleCost_idx` ON `Products` (`saleCost`);
@@ -637,11 +637,11 @@ CREATE TABLE `Orders` (
   `userId` bigint(20) NOT NULL,
   `storeId` bigint(20) NOT NULL,
   -- Ma don hang
-  `orderCode` int(10) NOT NULL,
+  `orderNumber` varchar(6) NOT NULL,
   -- Don hang co khan cap hay khong? = 1 neu su dung can ngay
   `isUrgency` tinyint(1) DEFAULT 0,
   -- Co lay hoa don (VAT) hay khong
-  `isGetBill` tinyint(1) DEFAULT 0,
+  `isGetVAT` tinyint(1) DEFAULT 0,
 
   `scheduleFrom` datetime,
   `scheduleTo` datetime,
@@ -652,7 +652,7 @@ CREATE TABLE `Orders` (
   CONSTRAINT `Fk_orders_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `orderCode_idx` ON `Orders` (`orderCode`);
+CREATE INDEX `orderNumber_idx` ON `Orders` (`orderNumber`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
