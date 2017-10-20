@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
@@ -14,13 +15,15 @@ public class CompanyJson implements Serializable {
 	private static final long serialVersionUID = 153543535L;
 	
 	private long id;
-	private String companyCode;
+	private String companyNumber;
 	private int state;
 	private String name;
 	private int numberEmployee;
 	private String officeAddress;
 	private Date foundedDate;
+	@JsonFormat(pattern = "HH:mm:ss")
 	private Date openingTime;
+	@JsonFormat(pattern = "HH:mm:ss")
 	private Date closingTime;
 	private String avatar;
 	private List<String> pictures;
@@ -38,7 +41,7 @@ public class CompanyJson implements Serializable {
 	
 	public CompanyJson(Company company) {
 		this.id = company.getId();
-		this.companyCode = company.getCompanyCode();
+		this.companyNumber = company.getCompanyNumber();
 		this.state = company.getState();
 		this.name = company.getName();
 		this.numberEmployee = company.getNumberEmployee();
@@ -47,11 +50,14 @@ public class CompanyJson implements Serializable {
 		this.openingTime = company.getOpeningTime();
 		this.closingTime = company.getClosingTime();
 		this.avatar = company.getAvatar();
-		mapper = new ObjectMapper();
-		try {
-			this.pictures = mapper.readValue(company.getPictures(), TypeFactory.defaultInstance().constructCollectionType(List.class, String.class));
-		} catch (Exception e) {
-			e.printStackTrace();
+		String strPictures = company.getPictures();
+		if (strPictures != null && strPictures.length() >= 2) {
+			mapper = new ObjectMapper();
+			try {
+				this.pictures = mapper.readValue(strPictures, TypeFactory.defaultInstance().constructCollectionType(List.class, String.class));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		this.description = company.getDescription();
 		this.website = company.getWebsite();
@@ -68,12 +74,12 @@ public class CompanyJson implements Serializable {
 		this.id = id;
 	}
 
-	public String getCompanyCode() {
-		return companyCode;
+	public String getCompanyNumber() {
+		return companyNumber;
 	}
 
-	public void setCompanyCode(String companyCode) {
-		this.companyCode = companyCode;
+	public void setCompanyNumber(String companyNumber) {
+		this.companyNumber = companyNumber;
 	}
 
 	public int getState() {
