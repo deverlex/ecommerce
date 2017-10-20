@@ -66,10 +66,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 // allow authenticate request
-                .antMatchers(HttpMethod.POST, "/login/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/user/find/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/register/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/password/reset/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/authentications").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/existences").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/registers").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/**/passwords").permitAll()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // allow anonymous resource requests
                 .antMatchers(

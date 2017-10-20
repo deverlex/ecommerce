@@ -63,8 +63,8 @@ public class CompanyServiceImpl implements CompanyService {
 	UserRoleRepository userRoleRepository;
 	
 	@Override
-	public CompanyResponse findCompanyInherent(long userId) {
-		Company company = companyRepository.findCompanyInherentByUserId(userId);
+	public CompanyResponse findCompanyDependency(long userId) {
+		Company company = companyRepository.findCompanyDependencyByUserId(userId);
 		if (company != null) {
 			boolean isCompanyReputation = companyReputationRepository.isCompanyReputationById(company.getId());
 			CompanyJson companyJson = new CompanyJson(company);
@@ -78,7 +78,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public CompanyResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
 		CompanyResponse companyResponse = new CompanyResponse();
-		Company findCompany = companyRepository.findCompanyInherentByUserId(userId);
+		Company findCompany = companyRepository.findCompanyDependencyByUserId(userId);
 		
 		if (findCompany != null) {
 			companyResponse = new CompanyResponse();
@@ -118,7 +118,7 @@ public class CompanyServiceImpl implements CompanyService {
 		payLog.setBudgetCharge(500000f);
 		payLog.setPayNumber(payNumber);
 		payLog.setDescription("Initialize budget account.");
-		payLog.setCreatedBy(1);
+		payLog.setCreatedBy(1); // system id
 		payLogRepository.createPayLog(payLog);
 		
 		// insert into Stores
@@ -152,7 +152,7 @@ public class CompanyServiceImpl implements CompanyService {
 		
 		userRoleRepository.registerUserListRole(userId, Role.List.CompanyOwner, userId);
 		
-		Company company = companyRepository.findCompanyInherentByUserId(userId);
+		Company company = companyRepository.findCompanyDependencyByUserId(userId);
 		if (company != null) {
 			boolean isCompanyReputation = companyReputationRepository.isCompanyReputationById(company.getId());
 			CompanyJson companyJson = new CompanyJson(company);

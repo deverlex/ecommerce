@@ -31,7 +31,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 	
 	@Override
-	public Company findCompanyInherentByUserId(long userId) {
+	public Company findCompanyDependencyByUserId(long userId) {
 		SqlRowSet rs = jdbc.queryForRowSet("SELECT c.* "
 				+ "FROM Companies c "
 				+ "INNER JOIN CompanyStaff cs ON c.id = cs.companyId "

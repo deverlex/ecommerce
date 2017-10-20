@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,26 +36,25 @@ public class UserRestService {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "${needy.route.user.register}", method = RequestMethod.POST)
+	@RequestMapping(value = "${needy.route.users.passwords.reset}", method = RequestMethod.POST)
+	public ResponseEntity<CertificationResponse> resetPassword(@PathVariable(value = "username", required = true) String username,
+			@RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
+		CertificationResponse cert = userService.resetPassword(username, resetPasswordRequest, device);
+		return ResponseEntity.ok(cert);
+	}
+
+	@RequestMapping(value = "${needy.route.users.registers}", method = RequestMethod.POST)
 	public ResponseEntity<CertificationResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest, Device device) {
 		CertificationResponse cert = userService.registerUser(registerUserRequest, device);
 		return ResponseEntity.ok(cert);
 	}
 	
-	@RequestMapping(value = "${needy.route.user.find}", method = RequestMethod.GET)
-	public ResponseEntity<BaseResponse> findUserExist(@RequestParam(value = "username", required = true) String username) {
+	@RequestMapping(value = "${needy.route.users.existences}", method = RequestMethod.GET)
+	public ResponseEntity<BaseResponse> findUserExistence(@RequestParam(value = "username", required = true) String username) {
 		BaseResponse response = userService.findUserExist(username);
 		return ResponseEntity.ok(response);
 	}
 	
-	@RequestMapping(value = "${needy.route.user.password.reset}", method = RequestMethod.POST)
-	public ResponseEntity<CertificationResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
-			@RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
-		System.out.println(username);
-		CertificationResponse cert = userService.resetPassword(username, resetPasswordRequest, device);
-		return ResponseEntity.ok(cert);
-	}
-
 	
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")
@@ -62,4 +62,5 @@ public class UserRestService {
 		Long idUser = idUtils.getIdentification(request);
 		return new ResponseEntity<String>("UserId: " + idUser, HttpStatus.OK);
 	}
+	
 }

@@ -4,7 +4,7 @@ import vn.needy.ecommerce.domain.entity.Company;
 
 public interface CompanyRepository {
 	
-	Company findCompanyInherentByUserId(long userId);
+	Company findCompanyDependencyByUserId(long userId);
 	
 	long registerCompany(Company company);
 }

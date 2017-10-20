@@ -18,7 +18,7 @@ redis:
 
 # config context path to "/" by setting an empty string
 server:
-  contextPath: /api
+  contextPath: /v1
 
 # JACKSON
 spring:
@@ -37,7 +37,7 @@ needy:
     secret: thisIsSecret
     expiration: 604800
   identification:
-    header: User
+    header: ID
   # Firebase
   firebase:
     path: firebase/needyfirebase.json
@@ -45,16 +45,18 @@ needy:
       url: https://needy-180007.firebaseio.com
   # Router
   route:
-    security:
-      authentication: login
-      refresh: refresh
+    securities:
+      authentications: authentications # POST
+      refreshments: refreshments # GET
       logout: logout
-    user:
-      find: user/find
-      register: user/register
-      password:
-        reset: user/password/reset
-
-    company:
-      inherent: company
-      register: company/register
+    users:
+      existences: users/existences # GET
+      registers: users/registers # POST
+      passwords:
+        reset: users/{username}/passwords # POST: reset PUT: update pass
+        info: users/{username}
+    companies:
+      dependencies: companies/dependencies # GET
+      registers: companies/registers # POST
+      staffs:
+        fcms: companies/{companyid}/staffs/fcmtokens # POST update token

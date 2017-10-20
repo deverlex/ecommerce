@@ -20,18 +20,19 @@ public class AuthenticationRestService {
 	@Autowired
 	private AuthenticationService authenticationService;
 
-	@RequestMapping(value = "${needy.route.security.authentication}", method = RequestMethod.POST)
+	@RequestMapping(value = "${needy.route.securities.authentications}", method = RequestMethod.POST)
 	public ResponseEntity<CertificationResponse> createAuthenticationToken(
 			@RequestBody CredentialsRequest credentials, Device device) {
 		CertificationResponse cert = authenticationService.createAuthenticationToken(credentials, device);
         return ResponseEntity.ok(cert);
 	}
 	
-	@RequestMapping(value = "${needy.route.security.refresh}", method = RequestMethod.GET)
-	public ResponseEntity<CertificationResponse> authenticationRefresh(HttpServletRequest request) {
+	@RequestMapping(value = "${needy.route.securities.refreshments}", method = RequestMethod.GET)
+	public ResponseEntity<CertificationResponse> authenticationRefreshment(HttpServletRequest request) {
 		CertificationResponse cert = authenticationService.authenticationRefresh(request);
 		
 		if (cert != null) return ResponseEntity.ok(cert);
 		else return ResponseEntity.badRequest().body(null);
 	}
+	
 }

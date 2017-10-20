@@ -24,15 +24,15 @@ public class CompanyRestService {
 	@Autowired
 	private CompanyService companyService;
 	
-	@RequestMapping(value= "${needy.route.company.inherent}", method = RequestMethod.GET)
+	@RequestMapping(value= "${needy.route.companies.dependencies}", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<CompanyResponse> findPesonCompany(HttpServletRequest request) {
 		Long userId = idUtils.getIdentification(request);
-		CompanyResponse companyResponse = companyService.findCompanyInherent(userId);
+		CompanyResponse companyResponse = companyService.findCompanyDependency(userId);
 		return ResponseEntity.ok(companyResponse);
 	}
 	
-	@RequestMapping(value= "${needy.route.company.register}", method = RequestMethod.POST)
+	@RequestMapping(value= "${needy.route.companies.registers}", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<CompanyResponse> registerCompany(HttpServletRequest request, 
 			@RequestBody RegisterCompanyRequest registerCompanyRequest) {

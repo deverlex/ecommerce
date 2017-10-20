@@ -83,10 +83,11 @@ public class Role extends BaseDomain {
 		
 		public static final String COMPANY_OWNER = "COMPANY_OWENER";
 		public static final String SELLER = "SELLER";
+		public static final String STORE_KEEPER = "STORE_KEEPER";
 		public static final String STORE_MANAGER = "STORE_MANAGER";
 		
 		public static String[] CompanyOwner = {
-			COMPANY_OWNER, SELLER, STORE_MANAGER
+			COMPANY_OWNER, SELLER, STORE_KEEPER, STORE_MANAGER
 		};
 	}
 }
