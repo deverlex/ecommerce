@@ -34,7 +34,7 @@ public class EcommerceApplication extends SpringBootServletInitializer {
 	
 	@PostConstruct
 	void started() {
-	    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+	    TimeZone.setDefault(TimeZone.getTimeZone("GMT+7:00"));
 	    initializeFirebaseAuthConfig();
 	}
 	

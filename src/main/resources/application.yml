@@ -1,7 +1,7 @@
 # DataSource settings: set here your own configurations for the database connection.
 jdbc:
   driverClassName: com.mysql.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/needy?autoReconnect=true&useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&useLegacyDatetimeCode=false&serverTimezone=UTC
+  url: jdbc:mysql://localhost:3306/needy?autoReconnect=true&useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&useLegacyDatetimeCode=false
   username: root
   password: root
   connectionProperties: useUnicode=true;characterEncoding=utf-8;CharSet=utf8mb4 
