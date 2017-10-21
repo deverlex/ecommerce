@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,8 +35,8 @@ public class UserRestService {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "${needy.route.users.passwords.reset}", method = RequestMethod.POST)
-	public ResponseEntity<CertificationResponse> resetPassword(@PathVariable(value = "username", required = true) String username,
+	@RequestMapping(value = "${needy.route.users.reset}", method = RequestMethod.POST)
+	public ResponseEntity<CertificationResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
 			@RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
 		CertificationResponse cert = userService.resetPassword(username, resetPasswordRequest, device);
 		return ResponseEntity.ok(cert);

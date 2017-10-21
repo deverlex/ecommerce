@@ -46,17 +46,18 @@ needy:
   # Router
   route:
     securities:
-      authentications: authentications # POST
-      refreshments: refreshments # GET
+      authentications: authentications # POST - login
+      refreshments: refreshments # GET - get new token
       logout: logout
     users:
-      existences: users/existences # GET
-      registers: users/registers # POST
+      registers: users/registers # POST - register account
+      existences: users/existences # GET - Check account exist
+      reset: users/reset # reset password
       passwords:
-        reset: users/{username}/passwords # POST: reset PUT: update pass
-        info: users/{username}
+        update: users/{username}/passwords #PUT: update pass
+      info: users # GET get account info DELETE: delete account
     companies:
       dependencies: companies/dependencies # GET
       registers: companies/registers # POST
       staffs:
-        fcms: companies/{companyid}/staffs/fcmtokens # POST update token
+        fcms: companies/{company_id}/staffs/fcm_tokens # PUT update token
