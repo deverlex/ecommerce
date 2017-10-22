@@ -154,6 +154,26 @@ CREATE INDEX `loc_idx` ON `Users` (`lat`, `lng`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `Notifications`
+--
+
+DROP TABLE IF EXISTS `Notifications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Notifications` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `recipientId` bigint(20) NOT NULL,
+  `classReference` varchar(32) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `htmlContent` text(1000) NOT NULL, 
+  `isRead` tinyint(1) NOT NULL DEFAULT 0,
+  `isView` tinyint(0) NOT NULL DEFAULT 0,
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `Fk_notifications_ri` FOREIGN KEY (`recipientId`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `Companies`
 --
 
@@ -428,6 +448,7 @@ DROP TABLE IF EXISTS `Categories`;
 CREATE TABLE `Categories` (
   `category` varchar(16) PRIMARY KEY,
   `title` varchar(32) NOT NULL,
+  `coverPicture` varchar(255) NOT NULL,
   `description` varchar(128) NOT NULL,
   `isService` tinyint(1) DEFAULT 0,
 
@@ -451,8 +472,10 @@ CREATE TABLE `SubCategories` (
   `subcategory` varchar(16) PRIMARY KEY,
   `category` varchar(16) NOT NULL,
   `title` varchar(32) NOT NULL,
+  `coverPicture` varchar(255) NOT NULL,
   `description` varchar(128) NOT NULL,
 
+  `intermediaryFees` float(6, 2) NOT NULL,
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createdBy` bigint(20) NOT NULL,
