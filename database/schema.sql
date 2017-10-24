@@ -307,7 +307,9 @@ CREATE TABLE `PayLogs` (
   `payNumber` varchar(8) NOT NULL,
   `budgetCharge` float(12, 2) NOT NULL,
   `description` text(500) NOT NULL,
+  -- tai khoan thanh toan
   `debitAccount` varchar(32),
+  -- tai khoan nhan
   `creditAccount` varchar(32),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -474,8 +476,9 @@ CREATE TABLE `SubCategories` (
   `title` varchar(32) NOT NULL,
   `coverPicture` varchar(255) NOT NULL,
   `description` varchar(128) NOT NULL,
-
+  -- Phi thu cho moi don hang tren he thong
   `intermediaryFees` float(6, 2) NOT NULL,
+
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createdBy` bigint(20) NOT NULL,
@@ -546,19 +549,16 @@ CREATE TABLE `Products` (
   `subcategory` varchar(16) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
   `state` tinyint(1) DEFAULT 0,
-  -- So luong con
-  `quantity` smallint(5) NOT NULL,
+  -- So luong con trong kho/thoi luong cho dich vu
+  `quantity` smallint(5),
 
-  `name` varchar(64),
-  -- nha san xuat
-  `producer` varchar(64),
+  `name` varchar(120) NOT NULL,
   -- Gia ban
   `price` float(12, 2) NOT NULL,
-  -- Giam gia
-  `saleCost` float(10, 2) NOT NULL,
-  `promotionCost` float(10, 2) NOT NULL, 
-  -- Don vi tien te
-  `currencyUnit` varchar(8) NOT NULL,
+  -- Phi van chuyen cho moi san pham / 1km
+  -- Phi di chuyen neu co - tu van tai nha
+  `feeTransport` float(10, 2) NOT NULL,
+  
 
   `image` varchar(255),
   -- Save JSON format - 5 image
@@ -583,16 +583,44 @@ CREATE TABLE `Products` (
 CREATE INDEX `productNumber_idx` ON `Products` (`productNumber`);
 CREATE INDEX `quantity_idx` ON `Products` (`quantity`);
 CREATE INDEX `price_idx` ON `Products` (`price`);
-CREATE INDEX `saleCost_idx` ON `Products` (`saleCost`);
-CREATE INDEX `promotionCost_idx` ON `Products` (`promotionCost`); 
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ProductHashTag`
+--
+
+DROP TABLE IF EXISTS `ProductHashTag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductHashTag` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint(20) NOT NULL,
+  `hashtagId` bigint(20) NOT NULL,
+  CONSTRAINT `Uniq_product_hashtag_ph` UNIQUE (`productId`,`hashtagId`),
+  CONSTRAINT `Fk_product_hashtag_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_product_hashtag_h` FOREIGN KEY (`hashtagId`) REFERENCES `HashTags` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `HashTags`
+--
+DROP TABLE IF EXISTS `HashTags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `HashTags` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `hashtag` varchar(32) UNIQUE NOT NULL,
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `ServiceProduct`
 --
-
+-- Bang chi ra service bao gom cac product nao, vi du: sua bep gas
+-- San pham: Khoa van, bep gas, day gas, binh gas...
 DROP TABLE IF EXISTS `ServiceProduct`;
-
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ServiceProduct` (
@@ -661,21 +689,37 @@ CREATE TABLE `Orders` (
   `storeId` bigint(20) NOT NULL,
   -- Ma don hang
   `orderNumber` varchar(6) NOT NULL,
+  -- Da dat, dang nhan don hang...
+  `status` tinyint(2) NOT NULL,
   -- Don hang co khan cap hay khong? = 1 neu su dung can ngay
-  `isUrgency` tinyint(1) DEFAULT 0,
+  `isImminent` tinyint(1) DEFAULT 0,
   -- Co lay hoa don (VAT) hay khong
-  `isGetVAT` tinyint(1) DEFAULT 0,
+  `isGetReceipt` tinyint(1) DEFAULT 0,
+  `paymentMethod` tinyint(2),
+  -- Ghi chu cho ca don hang
+  `note` text(180),
 
-  `scheduleFrom` datetime,
-  `scheduleTo` datetime,
+  `receiveFrom` datetime,
+  `receiveTo` datetime,
+
+  -- Phi van chuyen
+  `feeTransport` float(10, 2) NOT NULL,
+
+  `transportFrom` datetime,
+  `transportTo` datetime,
+
+  -- Danh cho goi ho
+  `receiverId` bigint(20),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Fk_orders_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_orders_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`)
+  CONSTRAINT `Fk_orders_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_orders_r` FOREIGN KEY (`receiverId`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `orderNumber_idx` ON `Orders` (`orderNumber`);
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -692,70 +736,37 @@ CREATE TABLE `OrderProduct` (
   `orderId` bigint(20) NOT NULL,
   `productId` bigint(20) NOT NULL,
 
-  -- Da dat, dang nhan don hang...
-  `status` tinyint(2) NOT NULL,
   -- So luong mua
   `quantity` smallint(5) NOT NULL,
-  `note` text(500),
-  -- Anh ve tinh trang sp
-  `pictures` text(1281),
-  -- Danh cho goi ho
-  `receiverId` bigint(20),
+  -- Ghi chu cho don hang
+  `note` text(180),
   
   CONSTRAINT `Fk_order_product_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
-  CONSTRAINT `Fk_order_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
-  CONSTRAINT `Fk_order_product_r` FOREIGN KEY (`receiverId`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_order_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `OrderProductLogs`
+-- Table structure for table `OrderLogs`
 --
 
-DROP TABLE IF EXISTS `OrderProductLogs`;
+DROP TABLE IF EXISTS `OrderLogs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `OrderProductLogs` (
+CREATE TABLE `OrderLogs` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `orderProductId` bigint(20) NOT NULL,
+  `orderId` bigint(20) NOT NULL,
   `companyStaffId` bigint(20) NOT NULL,
   `oldStatus` tinyint(2) NOT NULL,
+  -- Ly do thay doi, huy don mua, tu choi don dat hang
+  `description` text(500),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `Fk_order_product_log_op` FOREIGN KEY (`orderProductId`) REFERENCES `OrderProduct` (`id`),
-  CONSTRAINT `Fk_order_product_log_cs` FOREIGN KEY (`companyStaffId`) REFERENCES `CompanyStaff` (`id`)
+  CONSTRAINT `Fk_order_logs_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
+  CONSTRAINT `Fk_order_logs_cs` FOREIGN KEY (`companyStaffId`) REFERENCES `CompanyStaff` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `oldStatus_idx` ON `OrderProductLogs` (`oldStatus`);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `Provides`
---
-
-DROP TABLE IF EXISTS `Provides`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Provides` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY ,
-  `orderId` bigint(20) NOT NULL,
-
-  -- Phi van chuyen
-  `fee` float(10, 2) NOT NULL,
-
-  `scheduleFrom` datetime,
-  `scheduleTo` datetime,
-
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-
-  -- Vi cua hang co nhieu nguoi ban nen can biet ai la nguoi ban
-  `createdBy` bigint(20) NOT NULL,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_provides_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
-  CONSTRAINT `Fk_provides_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_provides_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE INDEX `oldStatus_idx` ON `OrderLogs` (`oldStatus`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -843,6 +854,47 @@ CREATE TABLE `ReplyProductReview` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `UserReview`
+--
+
+DROP TABLE IF EXISTS `UserReview`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserReview` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `sellerId` bigint(20) NOT NULL,
+  `buyerId` bigint(20) NOT NULL,
+  `rating` smallint(1),
+  `review` text(500),
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `Uniq_user_review_sb` UNIQUE (`sellerId`,`buyerId`),
+  CONSTRAINT `Fk_user_review_s` FOREIGN KEY (`sellerId`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_user_review_b` FOREIGN KEY (`buyerId`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ReplyUserReview`
+--
+
+DROP TABLE IF EXISTS `ReplyUserReview`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ReplyUserReview` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `userId` bigint(20) NOT NULL,
+  `userReviewId` bigint(20) NOT NULL,
+  `isLiked` tinyint(1),
+  `reply` text(500),
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `Uniq_reply_user_review_uur` UNIQUE (`userId`,`userReviewId`),
+  CONSTRAINT `Fk_reply_user_review_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_reply_user_review_ur` FOREIGN KEY (`userReviewId`) REFERENCES `UserReview` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

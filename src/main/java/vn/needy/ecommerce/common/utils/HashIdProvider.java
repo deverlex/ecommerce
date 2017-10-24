@@ -24,22 +24,27 @@ public class HashIdProvider implements Serializable {
 		return hashids.encode(new Date().getTime()).substring(0, 10);
 	}
 	
+	// XY1234
 	public String generateOrderNumber() {
 		return nextId(6);
 	}
 	
+	// XY123456
 	public String generatePayNumber() {
 		return nextId(8);
 	}
 	
+	// XY123
 	public String generateStoreNumber() {
 		return nextId(5);
 	}
 	
+	// XY123
 	public String generateProductNumber() {
 		return nextId(5);
 	}
 	
+	// XY23
 	public String generateAgreementNumber( ) {
 		return nextId(4);
 	}
