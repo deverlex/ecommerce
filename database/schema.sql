@@ -307,7 +307,9 @@ CREATE TABLE `PayLogs` (
   `payNumber` varchar(8) NOT NULL,
   `budgetCharge` float(12, 2) NOT NULL,
   `description` text(500) NOT NULL,
+  -- tai khoan thanh toan
   `debitAccount` varchar(32),
+  -- tai khoan nhan
   `creditAccount` varchar(32),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -556,6 +558,7 @@ CREATE TABLE `Products` (
   -- Phi van chuyen cho moi san pham / 1km
   -- Phi di chuyen neu co - tu van tai nha
   `feeTransport` float(10, 2) NOT NULL,
+  
 
   `image` varchar(255),
   -- Save JSON format - 5 image
@@ -578,7 +581,7 @@ CREATE TABLE `Products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `productNumber_idx` ON `Products` (`productNumber`);
-CREATE INDEX `quantityStock_idx` ON `Products` (`quantityStock`);
+CREATE INDEX `quantity_idx` ON `Products` (`quantity`);
 CREATE INDEX `price_idx` ON `Products` (`price`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -689,9 +692,10 @@ CREATE TABLE `Orders` (
   -- Da dat, dang nhan don hang...
   `status` tinyint(2) NOT NULL,
   -- Don hang co khan cap hay khong? = 1 neu su dung can ngay
-  `isImminence` tinyint(1) DEFAULT 0,
+  `isImminent` tinyint(1) DEFAULT 0,
   -- Co lay hoa don (VAT) hay khong
   `isGetReceipt` tinyint(1) DEFAULT 0,
+  `paymentMethod` tinyint(2),
   -- Ghi chu cho ca don hang
   `note` text(180),
 
@@ -754,6 +758,8 @@ CREATE TABLE `OrderLogs` (
   `orderId` bigint(20) NOT NULL,
   `companyStaffId` bigint(20) NOT NULL,
   `oldStatus` tinyint(2) NOT NULL,
+  -- Ly do thay doi, huy don mua, tu choi don dat hang
+  `description` text(500),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Fk_order_logs_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
@@ -848,6 +854,47 @@ CREATE TABLE `ReplyProductReview` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `UserReview`
+--
+
+DROP TABLE IF EXISTS `UserReview`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserReview` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `sellerId` bigint(20) NOT NULL,
+  `buyerId` bigint(20) NOT NULL,
+  `rating` smallint(1),
+  `review` text(500),
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `Uniq_user_review_sb` UNIQUE (`sellerId`,`buyerId`),
+  CONSTRAINT `Fk_user_review_s` FOREIGN KEY (`sellerId`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_user_review_b` FOREIGN KEY (`buyerId`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ReplyUserReview`
+--
+
+DROP TABLE IF EXISTS `ReplyUserReview`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ReplyUserReview` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `userId` bigint(20) NOT NULL,
+  `userReviewId` bigint(20) NOT NULL,
+  `isLiked` tinyint(1),
+  `reply` text(500),
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `Uniq_reply_user_review_uur` UNIQUE (`userId`,`userReviewId`),
+  CONSTRAINT `Fk_reply_user_review_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_reply_user_review_ur` FOREIGN KEY (`userReviewId`) REFERENCES `UserReview` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
