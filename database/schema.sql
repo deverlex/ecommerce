@@ -547,18 +547,15 @@ CREATE TABLE `Products` (
   `subcategory` varchar(16) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
   `state` tinyint(1) DEFAULT 0,
-  -- So luong con trong kho
-  `quantityStock` smallint(5) NOT NULL,
+  -- So luong con trong kho/thoi luong cho dich vu
+  `quantity` smallint(5),
 
-  `name` varchar(120),
-  -- nha san xuat
-  `producer` varchar(120),
+  `name` varchar(120) NOT NULL,
   -- Gia ban
   `price` float(12, 2) NOT NULL,
   -- Phi van chuyen cho moi san pham / 1km
+  -- Phi di chuyen neu co - tu van tai nha
   `feeTransport` float(10, 2) NOT NULL,
-  -- Don vi tien te
-  `currencyUnit` varchar(8) NOT NULL,
 
   `image` varchar(255),
   -- Save JSON format - 5 image
@@ -586,12 +583,41 @@ CREATE INDEX `price_idx` ON `Products` (`price`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `ProductHashTag`
+--
+
+DROP TABLE IF EXISTS `ProductHashTag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductHashTag` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint(20) NOT NULL,
+  `hashtagId` bigint(20) NOT NULL,
+  CONSTRAINT `Uniq_product_hashtag_ph` UNIQUE (`productId`,`hashtagId`),
+  CONSTRAINT `Fk_product_hashtag_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_product_hashtag_h` FOREIGN KEY (`hashtagId`) REFERENCES `HashTags` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `HashTags`
+--
+DROP TABLE IF EXISTS `HashTags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `HashTags` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `hashtag` varchar(32) UNIQUE NOT NULL,
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `ServiceProduct`
 --
 -- Bang chi ra service bao gom cac product nao, vi du: sua bep gas
 -- San pham: Khoa van, bep gas, day gas, binh gas...
 DROP TABLE IF EXISTS `ServiceProduct`;
-
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ServiceProduct` (
