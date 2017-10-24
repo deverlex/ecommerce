@@ -730,8 +730,8 @@ CREATE TABLE `OrderLogs` (
   `oldStatus` tinyint(2) NOT NULL,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `Fk_order_product_log_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
-  CONSTRAINT `Fk_order_product_log_cs` FOREIGN KEY (`companyStaffId`) REFERENCES `CompanyStaff` (`id`)
+  CONSTRAINT `Fk_order_logs_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
+  CONSTRAINT `Fk_order_logs_cs` FOREIGN KEY (`companyStaffId`) REFERENCES `CompanyStaff` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `oldStatus_idx` ON `OrderLogs` (`oldStatus`);
