@@ -474,8 +474,9 @@ CREATE TABLE `SubCategories` (
   `title` varchar(32) NOT NULL,
   `coverPicture` varchar(255) NOT NULL,
   `description` varchar(128) NOT NULL,
-
+  -- Phi thu cho moi don hang tren he thong
   `intermediaryFees` float(6, 2) NOT NULL,
+
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createdBy` bigint(20) NOT NULL,
@@ -549,14 +550,14 @@ CREATE TABLE `Products` (
   -- So luong con
   `quantity` smallint(5) NOT NULL,
 
-  `name` varchar(64),
+  `name` varchar(120),
   -- nha san xuat
-  `producer` varchar(64),
+  `producer` varchar(120),
   -- Gia ban
   `price` float(12, 2) NOT NULL,
-  -- Giam gia
-  `saleCost` float(10, 2) NOT NULL,
-  `promotionCost` float(10, 2) NOT NULL, 
+  -- Phi van chuyen cho moi san pham
+  -- Co the tinh phi khac tren don hang khi lap
+  `feeTransport` float(10, 2) NOT NULL,
   -- Don vi tien te
   `currencyUnit` varchar(8) NOT NULL,
 
@@ -590,7 +591,8 @@ CREATE INDEX `promotionCost_idx` ON `Products` (`promotionCost`);
 --
 -- Table structure for table `ServiceProduct`
 --
-
+-- Bang chi ra service bao gom cac product nao, vi du: sua bep gas
+-- San pham: Khoa van, bep gas, day gas, binh gas...
 DROP TABLE IF EXISTS `ServiceProduct`;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -664,7 +666,7 @@ CREATE TABLE `Orders` (
   -- Don hang co khan cap hay khong? = 1 neu su dung can ngay
   `isUrgency` tinyint(1) DEFAULT 0,
   -- Co lay hoa don (VAT) hay khong
-  `isGetVAT` tinyint(1) DEFAULT 0,
+  `isGetBill` tinyint(1) DEFAULT 0,
 
   `scheduleFrom` datetime,
   `scheduleTo` datetime,
@@ -741,7 +743,7 @@ CREATE TABLE `Provides` (
   `orderId` bigint(20) NOT NULL,
 
   -- Phi van chuyen
-  `fee` float(10, 2) NOT NULL,
+  `feeTransport` float(10, 2) NOT NULL,
 
   `scheduleFrom` datetime,
   `scheduleTo` datetime,
