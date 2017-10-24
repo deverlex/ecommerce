@@ -490,6 +490,29 @@ CREATE TABLE `SubCategories` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `ProductUnit`
+-- Ten don vi do nguoi dung tu dat:
+-- Vd: m2, ngày công, giờ, chiếc, cái...
+
+DROP TABLE IF EXISTS `ProductUnit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductUnit` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `storeId` bigint(20) NOT NULL,
+  `subcategory` varchar(16) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `createdTime` timestamp CURRENT_TIMESTAMP,
+  `createdBy` bigint(20) NOT NULL,
+  `lastUpdatedBy` bigint(20) NOT NULL,
+  CONSTRAINT `Fk_product_unit_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_product_unit_sc` FOREIGN KEY (`subcategory`) REFERENCES `SubCategories` (`subcategory`),
+  CONSTRAINT `Fk_product_unit_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_product_unit_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `GroupAttribute`
 -- Example: Platform contain: OS, Chipset, CPU, GPU attrs
 
@@ -553,6 +576,7 @@ CREATE TABLE `Products` (
   `quantity` smallint(5),
 
   `name` varchar(120) NOT NULL,
+  `productUnitId` bigint(20) NOT NULL,
   -- Gia ban
   `price` float(12, 2) NOT NULL,
   -- Phi van chuyen cho moi san pham / 1km
