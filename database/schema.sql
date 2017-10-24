@@ -547,16 +547,15 @@ CREATE TABLE `Products` (
   `subcategory` varchar(16) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
   `state` tinyint(1) DEFAULT 0,
-  -- So luong con
-  `quantity` smallint(5) NOT NULL,
+  -- So luong con trong kho
+  `quantityStock` smallint(5) NOT NULL,
 
   `name` varchar(120),
   -- nha san xuat
   `producer` varchar(120),
   -- Gia ban
   `price` float(12, 2) NOT NULL,
-  -- Phi van chuyen cho moi san pham
-  -- Co the tinh phi khac tren don hang khi lap
+  -- Phi van chuyen cho moi san pham / 1km
   `feeTransport` float(10, 2) NOT NULL,
   -- Don vi tien te
   `currencyUnit` varchar(8) NOT NULL,
@@ -582,10 +581,8 @@ CREATE TABLE `Products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `productNumber_idx` ON `Products` (`productNumber`);
-CREATE INDEX `quantity_idx` ON `Products` (`quantity`);
+CREATE INDEX `quantityStock_idx` ON `Products` (`quantityStock`);
 CREATE INDEX `price_idx` ON `Products` (`price`);
-CREATE INDEX `saleCost_idx` ON `Products` (`saleCost`);
-CREATE INDEX `promotionCost_idx` ON `Products` (`promotionCost`); 
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -663,21 +660,36 @@ CREATE TABLE `Orders` (
   `storeId` bigint(20) NOT NULL,
   -- Ma don hang
   `orderNumber` varchar(6) NOT NULL,
+  -- Da dat, dang nhan don hang...
+  `status` tinyint(2) NOT NULL,
   -- Don hang co khan cap hay khong? = 1 neu su dung can ngay
-  `isUrgency` tinyint(1) DEFAULT 0,
+  `isImminence` tinyint(1) DEFAULT 0,
   -- Co lay hoa don (VAT) hay khong
-  `isGetBill` tinyint(1) DEFAULT 0,
+  `isGetReceipt` tinyint(1) DEFAULT 0,
+  -- Ghi chu cho ca don hang
+  `note` text(180),
 
-  `scheduleFrom` datetime,
-  `scheduleTo` datetime,
+  `receiveFrom` datetime,
+  `receiveTo` datetime,
+
+  -- Phi van chuyen
+  `feeTransport` float(10, 2) NOT NULL,
+
+  `transportFrom` datetime,
+  `transportTo` datetime,
+
+  -- Danh cho goi ho
+  `receiverId` bigint(20),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Fk_orders_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_orders_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`)
+  CONSTRAINT `Fk_orders_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_orders_r` FOREIGN KEY (`receiverId`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `orderNumber_idx` ON `Orders` (`orderNumber`);
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -694,70 +706,35 @@ CREATE TABLE `OrderProduct` (
   `orderId` bigint(20) NOT NULL,
   `productId` bigint(20) NOT NULL,
 
-  -- Da dat, dang nhan don hang...
-  `status` tinyint(2) NOT NULL,
   -- So luong mua
   `quantity` smallint(5) NOT NULL,
-  `note` text(500),
-  -- Anh ve tinh trang sp
-  `pictures` text(1281),
-  -- Danh cho goi ho
-  `receiverId` bigint(20),
+  -- Ghi chu cho don hang
+  `note` text(180),
   
   CONSTRAINT `Fk_order_product_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
-  CONSTRAINT `Fk_order_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
-  CONSTRAINT `Fk_order_product_r` FOREIGN KEY (`receiverId`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_order_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `OrderProductLogs`
+-- Table structure for table `OrderLogs`
 --
 
-DROP TABLE IF EXISTS `OrderProductLogs`;
+DROP TABLE IF EXISTS `OrderLogs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `OrderProductLogs` (
+CREATE TABLE `OrderLogs` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `orderProductId` bigint(20) NOT NULL,
+  `orderId` bigint(20) NOT NULL,
   `companyStaffId` bigint(20) NOT NULL,
   `oldStatus` tinyint(2) NOT NULL,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `Fk_order_product_log_op` FOREIGN KEY (`orderProductId`) REFERENCES `OrderProduct` (`id`),
+  CONSTRAINT `Fk_order_product_log_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
   CONSTRAINT `Fk_order_product_log_cs` FOREIGN KEY (`companyStaffId`) REFERENCES `CompanyStaff` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `oldStatus_idx` ON `OrderProductLogs` (`oldStatus`);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `Provides`
---
-
-DROP TABLE IF EXISTS `Provides`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Provides` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY ,
-  `orderId` bigint(20) NOT NULL,
-
-  -- Phi van chuyen
-  `feeTransport` float(10, 2) NOT NULL,
-
-  `scheduleFrom` datetime,
-  `scheduleTo` datetime,
-
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-
-  -- Vi cua hang co nhieu nguoi ban nen can biet ai la nguoi ban
-  `createdBy` bigint(20) NOT NULL,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_provides_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
-  CONSTRAINT `Fk_provides_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_provides_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE INDEX `oldStatus_idx` ON `OrderLogs` (`oldStatus`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
