@@ -757,7 +757,7 @@ CREATE TABLE `Orders` (
   -- Don hang co khan cap hay khong? = 1 neu su dung can ngay
   `isImminent` tinyint(1) DEFAULT 0,
   -- Co lay hoa don (VAT) hay khong
-  `isGetReceipt` tinyint(1) DEFAULT 0,
+  `isGetTax` tinyint(1) DEFAULT 0,
   `paymentMethod` tinyint(2),
   -- Ghi chu cho ca don hang
   `note` text(180),
@@ -801,8 +801,6 @@ CREATE TABLE `OrderProduct` (
 
   -- So luong mua
   `quantity` smallint(5) NOT NULL,
-  -- Ghi chu cho don hang
-  `note` text(180),
   
   CONSTRAINT `Fk_order_product_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
   CONSTRAINT `Fk_order_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
