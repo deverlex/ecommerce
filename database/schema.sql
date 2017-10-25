@@ -526,28 +526,6 @@ CREATE TABLE `ProductUnit` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `GroupAttribute`
--- Example: Platform contain: OS, Chipset, CPU, GPU attrs
-
-DROP TABLE IF EXISTS `GroupAttribute`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `GroupAttribute` (
-  `groupAttribute` varchar(16) PRIMARY KEY,
-  `title` varchar(32) NOT NULL,
-  `description` varchar(128) NOT NULL,
-  `enable` tinyint(1) DEFAULT 1,
-
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `createdBy` bigint(20) NOT NULL,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_group_attribute_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_group_attribute_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `Attributes`
 --
 
@@ -557,7 +535,6 @@ DROP TABLE IF EXISTS `Attributes`;
 CREATE TABLE `Attributes` (
   `attribute` varchar(16) PRIMARY KEY,
   `subcategory` varchar(16) NOT NULL ,
-  `groupAttribute`varchar(16) NOT NULL,
   `title` varchar(32) NOT NULL,
   `description` varchar(64) NOT NULL,
   `enable` tinyint(1) DEFAULT 1,
@@ -567,7 +544,6 @@ CREATE TABLE `Attributes` (
   `createdBy` bigint(20) NOT NULL,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_attrs_sc` FOREIGN KEY (`subcategory`) REFERENCES `SubCategories` (`subcategory`),
-  CONSTRAINT `Fk_attrs_ga` FOREIGN KEY (`groupAttribute`) REFERENCES `GroupAttribute` (`groupAttribute`),
   CONSTRAINT `Fk_attrs_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_attrs_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
