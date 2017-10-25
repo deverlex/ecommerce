@@ -26,6 +26,7 @@ CREATE TABLE `Permissions` (
   `permission` varchar(32) PRIMARY KEY,
   `title` varchar(64) NOT NULL,
   `description` varchar(128),
+  `enable` tinyint(1) DEFAULT 1,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -73,6 +74,7 @@ CREATE TABLE `Roles` (
   `role` varchar(32) NOT NULL PRIMARY KEY,
   `title` varchar(64) NOT NULL,
   `description` varchar(128),
+  `enable` tinyint(1) DEFAULT 1,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -97,15 +99,18 @@ CREATE TABLE `UserRole` (
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+
   `createdBy` bigint(20) NOT NULL,
   `lastUpdatedBy` bigint(20) NOT NULL,
+  CONSTRAINT `Uniq_user_role_ru` UNIQUE (`role`,`userId`), 
+
   CONSTRAINT `Fk_user_role_r` FOREIGN KEY (`role`) REFERENCES `Roles` (`role`),
   CONSTRAINT `Fk_user_role_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
+
   CONSTRAINT `Fk_user_role_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_user_role_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 
 --
 -- Table structure for table `Users`
@@ -163,9 +168,11 @@ DROP TABLE IF EXISTS `Notifications`;
 CREATE TABLE `Notifications` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `recipientId` bigint(20) NOT NULL,
-  `classReference` varchar(32) NOT NULL,
+  -- Will open activity on Client if it available
+  `classReference` varchar(32),
   `title` varchar(255) NOT NULL,
   `htmlContent` text(1000) NOT NULL, 
+
   `isRead` tinyint(1) NOT NULL DEFAULT 0,
   `isView` tinyint(0) NOT NULL DEFAULT 0,
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -244,9 +251,6 @@ CREATE TABLE `CompanyReputation` (
   CONSTRAINT `Fk_company_reputation_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
   CONSTRAINT `Fk_company_reputation_a` FOREIGN KEY (`acceptedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE INDEX `state_idx` ON `CompanyReputation` (`state`);
-CREATE INDEX `agreementNumber_idx` ON `CompanyReputation` (`agreementNumber`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,16 +262,16 @@ DROP TABLE IF EXISTS `UserReport`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `UserReport` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `storeId` bigint(20) NOT NULL,
+  `orderId` bigint(20) NOT NULL,
 
-  `isAccepted` tinyint(1) DEFAULT 0,
+  `accepted` tinyint(1) DEFAULT 0,
   `description` text(1000) NOT NULL,
   `pictures` text(1281) NOT NULL,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createdBy` bigint(20) NOT NULL,
   `acceptedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_company_reputation_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_company_reputation_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
   CONSTRAINT `Fk_company_reputation_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_company_reputation_ac` FOREIGN KEY (`acceptedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -399,6 +403,7 @@ CREATE TABLE `Stores` (
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+
   `createdBy` bigint(20) NOT NULL,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_stores_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
@@ -428,10 +433,13 @@ CREATE TABLE `StoreBankAccount` (
   `beneficiaryName` varchar(64) NOT NULL,
   -- Ten chi nhanh
   `beneficiaryBankName` varchar(128) NOT NULL,
+
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+
   `createdBy` bigint(20) NOT NULL,
   `lastUpdatedBy` bigint(20) NOT NULL,
+
   CONSTRAINT `Fk_store_bank_account_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
   CONSTRAINT `Fk_store_bank_account_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_store_bank_account_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
@@ -453,6 +461,7 @@ CREATE TABLE `Categories` (
   `coverPicture` varchar(255) NOT NULL,
   `description` varchar(128) NOT NULL,
   `isService` tinyint(1) DEFAULT 0,
+  `enable` tinyint(1) DEFAULT 1,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -478,6 +487,7 @@ CREATE TABLE `SubCategories` (
   `description` varchar(128) NOT NULL,
   -- Phi thu cho moi don hang tren he thong
   `intermediaryFees` float(6, 2) NOT NULL,
+  `enable` tinyint(1) DEFAULT 1,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -499,13 +509,16 @@ DROP TABLE IF EXISTS `ProductUnit`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ProductUnit` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `storeId` bigint(20) NOT NULL,
+  `companyId` bigint(20) NOT NULL,
   `subcategory` varchar(16) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  `createdTime` timestamp CURRENT_TIMESTAMP,
+  `unit` varchar(64) NOT NULL,
+
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+
   `createdBy` bigint(20) NOT NULL,
   `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_product_unit_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_product_unit_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
   CONSTRAINT `Fk_product_unit_sc` FOREIGN KEY (`subcategory`) REFERENCES `SubCategories` (`subcategory`),
   CONSTRAINT `Fk_product_unit_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_product_unit_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
@@ -523,6 +536,7 @@ CREATE TABLE `GroupAttribute` (
   `groupAttribute` varchar(16) PRIMARY KEY,
   `title` varchar(32) NOT NULL,
   `description` varchar(128) NOT NULL,
+  `enable` tinyint(1) DEFAULT 1,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -531,6 +545,7 @@ CREATE TABLE `GroupAttribute` (
   CONSTRAINT `Fk_group_attribute_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_group_attribute_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `Attributes`
@@ -544,9 +559,10 @@ CREATE TABLE `Attributes` (
   `subcategory` varchar(16) NOT NULL ,
   `groupAttribute`varchar(16) NOT NULL,
   `title` varchar(32) NOT NULL,
-  `description` varchar(64) NOT NULL ,
+  `description` varchar(64) NOT NULL,
+  `enable` tinyint(1) DEFAULT 1,
 
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP, 
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createdBy` bigint(20) NOT NULL,
   `lastUpdatedBy` bigint(20) NOT NULL,
@@ -568,15 +584,13 @@ DROP TABLE IF EXISTS `Products`;
 CREATE TABLE `Products` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `productNumber` varchar(5) NOT NULL,
-  `storeId` bigint(20) NOT NULL,
+  `companyId` bigint(20) NOT NULL,
   `subcategory` varchar(16) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
   `state` tinyint(1) DEFAULT 0,
-  -- So luong con trong kho/thoi luong cho dich vu
-  `quantity` smallint(5),
 
   `name` varchar(120) NOT NULL,
-  `productUnitId` bigint(20) NOT NULL,
+  `unitId` bigint(20) NOT NULL,
   -- Gia ban
   `price` float(12, 2) NOT NULL,
   -- Phi van chuyen cho moi san pham / 1km
@@ -595,18 +609,53 @@ CREATE TABLE `Products` (
   -- 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+
   `createdBy` bigint(20) NOT NULL,
   `lastUpdatedBy` bigint(20) NOT NULL,
 
-  CONSTRAINT `Fk_products_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_products_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
   CONSTRAINT `Fk_products_sc` FOREIGN KEY (`subcategory`) REFERENCES `SubCategories` (`subcategory`),
+  CONSTRAINT `Fk_products_un` FOREIGN KEY (`unitId`) REFERENCES `ProductUnit` (`id`),
   CONSTRAINT `Fk_products_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_products_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `productNumber_idx` ON `Products` (`productNumber`);
-CREATE INDEX `quantity_idx` ON `Products` (`quantity`);
 CREATE INDEX `price_idx` ON `Products` (`price`);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ProductStore`
+--
+
+DROP TABLE IF EXISTS `ProductStore`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductStore` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint(20) NOT NULL,
+  `storeId` bigint(20) NOT NULL,
+  -- So luong con trong kho (Dich vu thi k can bang nay)
+  `quantity` smallint(5) NOT NULL,
+  CONSTRAINT `Uniq_product_store_ps` UNIQUE (`productId`, `storeId`),
+  CONSTRAINT `Fk_product_store_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_product_store_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE INDEX `quantity_idx` ON `ProductStore` (`quantity`);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `HashTags`
+--
+DROP TABLE IF EXISTS `HashTags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `HashTags` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `hashtag` varchar(32) UNIQUE NOT NULL,
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -623,19 +672,6 @@ CREATE TABLE `ProductHashTag` (
   CONSTRAINT `Uniq_product_hashtag_ph` UNIQUE (`productId`,`hashtagId`),
   CONSTRAINT `Fk_product_hashtag_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
   CONSTRAINT `Fk_product_hashtag_h` FOREIGN KEY (`hashtagId`) REFERENCES `HashTags` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `HashTags`
---
-DROP TABLE IF EXISTS `HashTags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `HashTags` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `hashtag` varchar(32) UNIQUE NOT NULL,
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -674,13 +710,11 @@ CREATE TABLE `ProductPriceLogs` (
   CONSTRAINT `Fk_product_price_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
   CONSTRAINT `Fk_product_price_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE INDEX `oldPrice_idx` ON `ProductPriceLogs` (`oldPrice`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `ProductAttribute`
---
+-- Allow DELETE
 
 DROP TABLE IF EXISTS `ProductAttribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -691,8 +725,11 @@ CREATE TABLE `ProductAttribute` (
   `attribute` varchar(16) NOT NULL,
   -- 12, Do, Composite...
   `value` varchar(64) NOT NULL,
+  `createdBy` bigint(20) NOT NULL,
+  CONSTRAINT `Uniq_product_attr_pa` UNIQUE (`productId`, `attribute`),
   CONSTRAINT `Fk_product_attr_a` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`),
-  CONSTRAINT `Fk_product_attr_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
+  CONSTRAINT `Fk_product_attr_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_product_attr_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `value_idx` ON `ProductAttribute` (`value`);
@@ -780,14 +817,15 @@ DROP TABLE IF EXISTS `OrderLogs`;
 CREATE TABLE `OrderLogs` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `orderId` bigint(20) NOT NULL,
-  `companyStaffId` bigint(20) NOT NULL,
   `oldStatus` tinyint(2) NOT NULL,
   -- Ly do thay doi, huy don mua, tu choi don dat hang
   `description` text(500),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  -- Suy ra dc ben nao huy don
+  `createdBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_order_logs_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
-  CONSTRAINT `Fk_order_logs_cs` FOREIGN KEY (`companyStaffId`) REFERENCES `CompanyStaff` (`id`)
+  CONSTRAINT `Fk_order_logs_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `oldStatus_idx` ON `OrderLogs` (`oldStatus`);
@@ -918,6 +956,24 @@ CREATE TABLE `ReplyUserReview` (
   CONSTRAINT `Fk_reply_user_review_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_reply_user_review_ur` FOREIGN KEY (`userReviewId`) REFERENCES `UserReview` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Logs`
+--
+DROP TABLE IF EXISTS `Logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Logs` (
+  `class` varchar(32) NOT NULL,
+  `method` varchar(32) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE INDEX `createdTime_idx` ON `Logs` (`createdTime`);
+CREATE INDEX `class_idx` ON `Logs` (`class`);
+CREATE INDEX `method_idx` ON `Logs` (`method`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
