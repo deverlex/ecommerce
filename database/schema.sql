@@ -593,6 +593,8 @@ CREATE TABLE `Products` (
   `unitId` bigint(20) NOT NULL,
   -- Gia ban
   `price` float(12, 2) NOT NULL,
+  -- Don vi tien te
+  `unitPrice` varchar(8) NOT NULL,
   -- Phi van chuyen cho moi san pham / 1km
   -- Phi di chuyen neu co - tu van tai nha
   `feeTransport` float(10, 2) NOT NULL,
