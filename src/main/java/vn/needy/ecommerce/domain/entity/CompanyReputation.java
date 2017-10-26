@@ -11,7 +11,7 @@ public class CompanyReputation extends BaseDomain {
 	private long id;
 	private int state;
 	private long companyId;
-	private String agreementCode;
+	private String agreementNumber;
 	private Date createdTime;
 	private Date lastUpdatedTime;
 	private long acceptedBy;
@@ -44,12 +44,12 @@ public class CompanyReputation extends BaseDomain {
 		this.companyId = companyId;
 	}
 
-	public String getAgreementCode() {
-		return agreementCode;
+	public String getAgreementNumber() {
+		return agreementNumber;
 	}
 
-	public void setAgreementCode(String agreementCode) {
-		this.agreementCode = agreementCode;
+	public void setAgreementNumber(String agreementNumber) {
+		this.agreementNumber = agreementNumber;
 	}
 
 	public Date getCreatedTime() {

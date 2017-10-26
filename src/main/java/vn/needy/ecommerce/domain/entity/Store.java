@@ -14,9 +14,9 @@ public class Store extends BaseDomain {
 	private long companyId;
 	private String storeNumber;
 	
-	private boolean isActived;
 	private int state;
 	private int status;
+	private Date unlockTime;
 	private int numberStaff;
 	
 	private String name;
@@ -65,14 +65,6 @@ public class Store extends BaseDomain {
 	public void setStoreNumber(String storeNumber) {
 		this.storeNumber = storeNumber;
 	}
-
-	public boolean isActived() {
-		return isActived;
-	}
-
-	public void setActived(boolean isActived) {
-		this.isActived = isActived;
-	}
 	
 	public int getState() {
 		return state;
@@ -88,6 +80,14 @@ public class Store extends BaseDomain {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public Date getUnlockTime() {
+		return unlockTime;
+	}
+
+	public void setUnlockTime(Date unlockTime) {
+		this.unlockTime = unlockTime;
 	}
 
 	public int getNumberStaff() {
