@@ -57,14 +57,13 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public User findUserExistByUsername(String username) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT firstName, lastName "
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT fullName "
 				+ "FROM Users "
 				+ "WHERE username = ? AND state <> ?", 
 				new Object[] {username, UserState.DELETED.getState()});
 		if (rs.first()) {
 			User user = new User();
-			user.setFirstName(rs.getString("firstName"));
-			user.setLastName(rs.getString("lastName"));
+			user.setFullName(rs.getString("fullName"));
 			return user;
 		}
 		return null;
@@ -88,14 +87,13 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public User findUserForResponseById(long id) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT username, firstName, lastName, gender, address, "
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT username, fullName, gender, address, "
 				+ "avatar, coverPicture, email, birthday, lat, lng, createdTime, lastUpdatedTime, lastResetPassword "
 				+ "WHERE id = ?", new Object[]{id});
 		if (rs.first()) {
 			User user = new User();
 			user.setUsername(rs.getString("username"));
-			user.setFirstName(rs.getString("firstName"));
-			user.setLastName(rs.getString("lastName"));
+			user.setFullName(rs.getString("fullName"));
 			user.setGender(rs.getString("gender"));
 			user.setAddress(rs.getString("address"));
 			user.setAvatar(rs.getString("avatar"));

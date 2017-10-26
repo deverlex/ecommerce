@@ -42,7 +42,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private TimeProvider timeProvider;
 	
 	@Override
-	public CertificationResponse createAuthenticationToken(CredentialsRequest credentials, Device device) {
+	public CertificationResponse authentication(CredentialsRequest credentials, Device device) {
 		// Perform the security
 		final Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(

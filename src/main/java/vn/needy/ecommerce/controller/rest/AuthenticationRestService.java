@@ -21,9 +21,9 @@ public class AuthenticationRestService {
 	private AuthenticationService authenticationService;
 
 	@RequestMapping(value = "${needy.route.securities.authentications}", method = RequestMethod.POST)
-	public ResponseEntity<CertificationResponse> createAuthenticationToken(
+	public ResponseEntity<CertificationResponse> authentications(
 			@RequestBody CredentialsRequest credentials, Device device) {
-		CertificationResponse cert = authenticationService.createAuthenticationToken(credentials, device);
+		CertificationResponse cert = authenticationService.authentication(credentials, device);
         return ResponseEntity.ok(cert);
 	}
 	

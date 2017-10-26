@@ -49,8 +49,7 @@ public class UserServiceImpl implements UserService {
 		}
 		User userExist = userRepository.findUserExistByUsername(registerInfo.getUsername());
 		if (userExist != null) {
-			String message = "This phone number has been registered by " 
-								+ userExist.getFirstName() + userExist.getLastName();
+			String message = "This phone number has been registered by " + userExist.getFullName();
 			return new CertificationResponse(null, message);
 		}
 		registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
@@ -91,7 +90,7 @@ public class UserServiceImpl implements UserService {
 		
 		if (user != null) {
 			BaseResponse response = new BaseResponse();
-			response.setMessage("Account registered by " + user.getFirstName() + " " + user.getLastName());
+			response.setMessage("Account registered by " + user.getFullName());
 			return response;
 		}
 		return null;

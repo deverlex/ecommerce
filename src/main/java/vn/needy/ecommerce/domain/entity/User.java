@@ -17,8 +17,7 @@ public class User extends BaseDomain {
 	private Date unlockTime;
 	private String firebaseUid;
 	private String fcmToken;
-	private String firstName;
-	private String lastName;
+	private String fullName;
 	private String gender;
 	private String address;
 	private String avatar;
@@ -91,20 +90,12 @@ public class User extends BaseDomain {
 		this.fcmToken = fcmToken;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getGender() {

@@ -9,7 +9,7 @@ import vn.needy.ecommerce.model.json.response.CertificationResponse;
 
 public interface AuthenticationService {
 	
-	CertificationResponse createAuthenticationToken(CredentialsRequest credentials, Device device);
+	CertificationResponse authentication(CredentialsRequest credentials, Device device);
 	
 	CertificationResponse authenticationRefresh(HttpServletRequest request);
 }
