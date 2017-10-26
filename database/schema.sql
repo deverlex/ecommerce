@@ -135,9 +135,7 @@ CREATE TABLE `Users` (
   -- Khong yeu cau null de register tu app Vendor
   `fcmToken` varchar(225),
 
-  `firstName` varchar(32) NOT NULL,
-  `lastName` varchar(16) NOT NULL,
-  
+  `fullName` varchar(64),
   `gender` varchar(20), 
   `address` varchar(128),
   `avatar` varchar(255),
@@ -212,6 +210,8 @@ CREATE TABLE `Companies` (
   `pictures` text(1281),
   `description` text(1000),
   `website` varchar(120),
+  -- Gia tri don hang tu ? - mien phi van chuyen
+  `limitFreeTransport` float(8, 2),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -527,28 +527,6 @@ CREATE TABLE `ProductUnit` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `GroupAttribute`
--- Example: Platform contain: OS, Chipset, CPU, GPU attrs
-
-DROP TABLE IF EXISTS `GroupAttribute`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `GroupAttribute` (
-  `groupAttribute` varchar(16) PRIMARY KEY,
-  `title` varchar(32) NOT NULL,
-  `description` varchar(128) NOT NULL,
-  `enable` tinyint(1) DEFAULT 1,
-
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `createdBy` bigint(20) NOT NULL,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_group_attribute_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_group_attribute_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `Attributes`
 --
 
@@ -558,7 +536,6 @@ DROP TABLE IF EXISTS `Attributes`;
 CREATE TABLE `Attributes` (
   `attribute` varchar(16) PRIMARY KEY,
   `subcategory` varchar(16) NOT NULL ,
-  `groupAttribute`varchar(16) NOT NULL,
   `title` varchar(32) NOT NULL,
   `description` varchar(64) NOT NULL,
   `enable` tinyint(1) DEFAULT 1,
@@ -568,12 +545,28 @@ CREATE TABLE `Attributes` (
   `createdBy` bigint(20) NOT NULL,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_attrs_sc` FOREIGN KEY (`subcategory`) REFERENCES `SubCategories` (`subcategory`),
-  CONSTRAINT `Fk_attrs_ga` FOREIGN KEY (`groupAttribute`) REFERENCES `GroupAttribute` (`groupAttribute`),
   CONSTRAINT `Fk_attrs_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_attrs_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `FeeTransport`
+-- Phi van chuyen cho moi cong ty
+-- Phi di chuyen neu co - tu van tai nha
+
+DROP TABLE IF EXISTS `FeeTransport`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `FeeTransport` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `companyId` bigint(20) NOT NULL,
+  `distanceFrom` float(5, 1) NOT NULL,
+  `distanceTo` float(5, 1) NOT NULL,
+  `fee` float(8, 2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Table structure for table `Products`
@@ -596,11 +589,7 @@ CREATE TABLE `Products` (
   `price` float(12, 2) NOT NULL,
   -- Don vi tien te
   `unitPrice` varchar(8) NOT NULL,
-  -- Phi van chuyen cho moi san pham / 1km
-  -- Phi di chuyen neu co - tu van tai nha
-  `feeTransport` float(10, 2) NOT NULL,
-  
-
+ 
   `image` varchar(255),
   -- Save JSON format - 5 image
   `pictures` text(1281),
