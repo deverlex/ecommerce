@@ -345,6 +345,7 @@ CREATE TABLE `CompanyStaff` (
   -- Cho phep chu cua hang tu them sdt nhan vien cua minh vao he thong 
   -- Chi cho phep join thanh vien moi tu cach them tu he thong
   `state` tinyint(2) NOT NULL,
+  `status` tinyint(2) NOT NULL,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
