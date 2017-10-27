@@ -717,11 +717,10 @@ CREATE TABLE `ProductAttribute` (
   `attribute` varchar(16) NOT NULL,
   -- 12, Do, Composite...
   `value` varchar(64) NOT NULL,
-  `createdBy` bigint(20) NOT NULL,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Uniq_product_attr_pa` UNIQUE (`productId`, `attribute`),
   CONSTRAINT `Fk_product_attr_a` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`),
-  CONSTRAINT `Fk_product_attr_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
-  CONSTRAINT `Fk_product_attr_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_product_attr_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `value_idx` ON `ProductAttribute` (`value`);
