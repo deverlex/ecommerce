@@ -8,7 +8,7 @@ public class BaseResponse extends BaseModel {
 	protected String message;
 
 	public BaseResponse() {
-		this.status = 1;
+		this.status = 200;
 		this.message = "Success";
 	}
 	

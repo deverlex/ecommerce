@@ -143,8 +143,8 @@ CREATE TABLE `Users` (
 
   `email` varchar(64),
   `birthday` date,
-  `lat` float(10,6) NOT NULL,
-  `lng` float(10,6) NOT NULL,
+  `lat` float(10,6),
+  `lng` float(10,6),
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -189,7 +189,7 @@ CREATE TABLE `Companies` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- Ma code company tu dong gen
   -- CompanyCode:     1710VKG1FI9O
-  `companyNumber` varchar(10) UNIQUE NOT NULL,
+  `companyNumber` varchar(12) UNIQUE NOT NULL,
   -- It will update for app manager
   `fcmToken` varchar(255),
   -- Trang thai: chua kich hoat, da kich hoat, tam ngung, da dong cua
@@ -243,7 +243,7 @@ CREATE TABLE `CompanyReputation` (
   `state` tinyint(2) NOT NULL,
   `companyId` bigint(20) NOT NULL,
   -- Ma hop dong tu sinh
-  `agreementNumber` varchar(4) NOT NULL,
+  `agreementNumber` varchar(12) NOT NULL,
 
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -308,7 +308,7 @@ CREATE TABLE `PayLogs` (
   `budgetId` bigint(20) NOT NULL,
   `behavior` tinyint(2) NOT NULL,
   -- So giao dich, tu sinh trong may
-  `payNumber` varchar(8) NOT NULL,
+  `payNumber` varchar(12) NOT NULL,
   `budgetCharge` float(12, 2) NOT NULL,
   `description` text(500) NOT NULL,
   -- tai khoan thanh toan
@@ -373,7 +373,7 @@ DROP TABLE IF EXISTS `Stores`;
 CREATE TABLE `Stores` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `companyId` bigint(20) NOT NULL,
-  `storeNumber` varchar(5) NOT NULL,
+  `storeNumber` varchar(9) NOT NULL,
   -- Trang thai cua hang da kich hoat hay chua
   -- Dieu kien kich hoat: khi co hang ban
   -- inactive (0), active(1), locked (-1)
@@ -577,7 +577,7 @@ DROP TABLE IF EXISTS `Products`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Products` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `productNumber` varchar(5) NOT NULL,
+  `productNumber` varchar(9) NOT NULL,
   `companyId` bigint(20) NOT NULL,
   `subcategory` varchar(16) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
@@ -741,7 +741,7 @@ CREATE TABLE `Orders` (
   `userId` bigint(20) NOT NULL,
   `storeId` bigint(20) NOT NULL,
   -- Ma don hang
-  `orderNumber` varchar(6) NOT NULL,
+  `orderNumber` varchar(14) NOT NULL,
   -- Da dat, dang nhan don hang...
   `status` tinyint(2) NOT NULL,
   -- Don hang co khan cap hay khong? = 1 neu su dung can ngay

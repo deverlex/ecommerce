@@ -71,17 +71,11 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public long registerUser(RegisterUserRequest registerInfo) {
-		Map<String, Object> params = new HashMap<>(11);
+		Map<String, Object> params = new HashMap<>(4);
 		params.put("username", registerInfo.getUsername());
 		params.put("password", registerInfo.getPassword());
 		params.put("state", UserState.ACTIVE.getState());
 		params.put("firebaseUid", registerInfo.getFirebaseUid());
-		params.put("firstName", registerInfo.getFirstName());
-		params.put("lastName", registerInfo.getLastName());
-		params.put("gender", registerInfo.getGender());
-		params.put("address", registerInfo.getAddress());
-		params.put("lat", registerInfo.getLat());
-		params.put("lng", registerInfo.getLng());
 		return insert.executeAndReturnKey(params).longValue();
 	}
 

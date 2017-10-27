@@ -1,6 +1,6 @@
-INSERT INTO Users(`username`, `password`, `state`, `firstName`, `lastName`, `lat`, `lng`) VALUES
-('system', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', 'Needy', 'System', '21.028799', '105.850914'),
-('+84968208244', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', 'Needy', 'Ldt', '21.028799', '105.850914');
+INSERT INTO Users(`username`, `password`, `state`, `lat`, `lng`) VALUES
+('system', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', '21.028799', '105.850914'),
+('+84968208244', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', '21.028799', '105.850914');
 
 INSERT INTO Roles(`role`, `title`, `createdBy`, `lastUpdatedBy`) VALUES 
 ('SYSTEM', 'System admin', 1, 1),
@@ -12,8 +12,10 @@ INSERT INTO Roles(`role`, `title`, `createdBy`, `lastUpdatedBy`) VALUES
 ('STORE_MANAGER', 'Normal users', 1 , 1);
 
 INSERT INTO UserRole(`role`, `userId`, `createdBy`, `lastUpdatedBy`) VALUES
+('SYSTEM', 1, 1, 1),
 ('ADMIN', 2, 1, 1),
 ('USER', 2, 1, 1);
+
 -- INSERT INTO Permissions (permission, title) VALUES
 -- ('add_table', 'Create table'),
 -- ('modify_table', 'Modify table'),

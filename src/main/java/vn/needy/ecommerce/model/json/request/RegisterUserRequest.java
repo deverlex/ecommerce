@@ -10,13 +10,6 @@ public class RegisterUserRequest implements Serializable {
 	private String firebaseToken;
 	private String username;
 	private String password;
-	private String firstName;
-	private String lastName;
-	private String fcmToken;
-	private String gender;
-	private String address;
-	private float lat;
-	private float lng;
 	
 	public RegisterUserRequest() {
 		super();
@@ -54,59 +47,4 @@ public class RegisterUserRequest implements Serializable {
 		this.password = password;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getFcmToken() {
-		return fcmToken;
-	}
-
-	public void setFcmToken(String fcmToken) {
-		this.fcmToken = fcmToken;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public float getLat() {
-		return lat;
-	}
-
-	public void setLat(float lat) {
-		this.lat = lat;
-	}
-
-	public float getLng() {
-		return lng;
-	}
-
-	public void setLng(float lng) {
-		this.lng = lng;
-	}
 }
