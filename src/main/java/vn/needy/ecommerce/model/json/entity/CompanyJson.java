@@ -18,7 +18,6 @@ public class CompanyJson implements Serializable {
 	private String companyNumber;
 	private int state;
 	private String name;
-	private int numberEmployee;
 	private String officeAddress;
 	private Date foundedDate;
 	@JsonFormat(pattern = "HH:mm:ss")
@@ -44,7 +43,6 @@ public class CompanyJson implements Serializable {
 		this.companyNumber = company.getCompanyNumber();
 		this.state = company.getState();
 		this.name = company.getName();
-		this.numberEmployee = company.getNumberEmployee();
 		this.officeAddress = company.getOfficeAddress();
 		this.foundedDate = company.getFoundedDate();
 		this.openingTime = company.getOpeningTime();
@@ -96,14 +94,6 @@ public class CompanyJson implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getNumberEmployee() {
-		return numberEmployee;
-	}
-
-	public void setNumberEmployee(int numberEmployee) {
-		this.numberEmployee = numberEmployee;
 	}
 
 	public String getOfficeAddress() {

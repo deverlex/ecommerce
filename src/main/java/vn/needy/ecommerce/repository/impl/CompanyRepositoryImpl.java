@@ -43,7 +43,6 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 			company.setCompanyNumber(rs.getString("companyNumber"));
 			company.setState(rs.getInt("state"));
 			company.setName(rs.getString("name"));
-			company.setNumberEmployee(rs.getInt("numberEmployee"));
 			company.setOfficeAddress(rs.getString("officeAddress"));
 			company.setFoundedDate(rs.getDate("foundedDate"));
 			company.setOpeningTime(rs.getTime("openingTime"));
@@ -64,7 +63,6 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 		Map<String, Object> params = new HashMap<>(11);
 		params.put("state", company.getState());
 		params.put("level", company.getLevel());
-		params.put("numberEmployee", company.getNumberEmployee());
 		params.put("name", company.getName());
 		params.put("officeAddress", company.getOfficeAddress());
 		params.put("companyNumber", company.getCompanyNumber());

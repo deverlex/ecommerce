@@ -74,7 +74,7 @@ public class UserRepositoryImpl implements UserRepository {
 		Map<String, Object> params = new HashMap<>(4);
 		params.put("username", registerInfo.getUsername());
 		params.put("password", registerInfo.getPassword());
-		params.put("state", UserState.ACTIVE.getState());
+		params.put("state", UserState.INACTIVE.getState());
 		params.put("firebaseUid", registerInfo.getFirebaseUid());
 		return insert.executeAndReturnKey(params).longValue();
 	}

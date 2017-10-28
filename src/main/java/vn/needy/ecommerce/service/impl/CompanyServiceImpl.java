@@ -97,7 +97,6 @@ public class CompanyServiceImpl implements CompanyService {
 		registerCompany.setCompanyNumber(companyNumber);
 		registerCompany.setLevel(0);
 		registerCompany.setState(CompanyState.ACTIVE.getState());
-		registerCompany.setNumberEmployee(1);
 		registerCompany.setOpeningTime(timeProvider.parseTime("08:00:00"));
 		registerCompany.setClosingTime(timeProvider.parseTime("17:00:00"));
 		registerCompany.setFoundedDate(new Date());

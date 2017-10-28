@@ -16,7 +16,6 @@ public class Company extends BaseDomain {
 	private int state;
 	private int level;
 	private String name;
-	private int numberEmployee;
 	private String officeAddress;
 	private Date foundedDate;
 	private Date openingTime;
@@ -81,14 +80,6 @@ public class Company extends BaseDomain {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getNumberEmployee() {
-		return numberEmployee;
-	}
-
-	public void setNumberEmployee(int numberEmployee) {
-		this.numberEmployee = numberEmployee;
 	}
 
 	public String getOfficeAddress() {
