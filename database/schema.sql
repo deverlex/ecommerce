@@ -198,7 +198,6 @@ CREATE TABLE `Companies` (
   `level` tinyint(3) NOT NULL,
 
   `name` varchar(128) NOT NULL,
-  `numberEmployee` mediumint(7) NOT NULL,
   `officeAddress` varchar(128) NOT NULL,
   `foundedDate` date,
 
@@ -387,8 +386,6 @@ CREATE TABLE `Stores` (
   
   `name` varchar(64) NOT NULL,
   `address` varchar(128) NOT NULL,
-  -- khuyen mai chung JSON - 10 k/m
-  `promotion` text(1200),
   -- Gioi thieu cua hang
   `description` text(1000),
   `avatar` varchar(255),
