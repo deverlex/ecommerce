@@ -21,7 +21,6 @@ public class Store extends BaseDomain {
 	
 	private String name;
 	private String address;
-	private String promotion;
 	private String description;
 	private String avatar;
 	private String pictures;
@@ -112,14 +111,6 @@ public class Store extends BaseDomain {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getPromotion() {
-		return promotion;
-	}
-
-	public void setPromotion(String promotion) {
-		this.promotion = promotion;
 	}
 
 	public String getDescription() {

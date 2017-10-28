@@ -12,13 +12,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-
+import org.springframework.cache.annotation.EnableCaching;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseCredentials;
 
 @SpringBootApplication
+@EnableCaching
 public class EcommerceApplication extends SpringBootServletInitializer {
 
 	@Value("${needy.firebase.path}")
