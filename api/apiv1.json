@@ -1,0 +1,36 @@
+[
+	// Get all categories
+	[
+		{
+			"category" : "",
+			"coverPicture" : ""
+		},
+		{
+			"category" : "",
+			"coverPicture" : ""
+		}
+	],
+	// Get don hang
+	[
+		{
+			""
+		}
+	],
+	// Get notifications for order
+	[
+		{
+			// status of order
+			"orderStatus" : "",
+			// picture of product
+			"image" : "",
+			// user name
+			"orderName" : "",
+			"orderId" : "",
+			"orderNumber" : "",
+			// display time receive
+			"receiveFrom" : ""
+		}
+	]
+
+
+]
