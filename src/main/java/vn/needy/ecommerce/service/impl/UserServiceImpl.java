@@ -19,9 +19,11 @@ import vn.needy.ecommerce.common.model.Lock;
 import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
+import vn.needy.ecommerce.model.json.entity.UserJson;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
+import vn.needy.ecommerce.model.json.response.UserResponse;
 import vn.needy.ecommerce.repository.UserRepository;
 import vn.needy.ecommerce.security.TokenUtils;
 import vn.needy.ecommerce.service.UserService;
@@ -112,5 +114,13 @@ public class UserServiceImpl implements UserService {
 		user.setUsername(username);
 		String token = tokenPrefix + " " + tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);
 		return new CertificationResponse(token);
+	}
+
+	@Override
+	public UserResponse getUserInfomation(long id) {
+		User user = userRepository.findUserForResponseById(id);
+		UserResponse response = new UserResponse();
+		response.setUser(new UserJson(user));
+		return response;
 	}
 }

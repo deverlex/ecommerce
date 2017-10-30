@@ -55,7 +55,8 @@ needy:
       reset: users/reset # reset password
       passwords:
         update: users/{username}/passwords #PUT: update pass
-      info: users # GET get account info DELETE: delete account
+      infomation: users # GET get account info DELETE: delete account
+
     companies:
       dependencies: companies/dependencies # GET
       registers: companies/registers # POST

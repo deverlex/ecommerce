@@ -17,6 +17,7 @@ import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
+import vn.needy.ecommerce.model.json.response.UserResponse;
 import vn.needy.ecommerce.security.IdentificationUtils;
 import vn.needy.ecommerce.service.UserService;
 
@@ -35,6 +36,7 @@ public class UserRestService {
 	@Autowired
 	private UserService userService;
 	
+	// User can reset password when they forget
 	@RequestMapping(value = "${needy.route.users.reset}", method = RequestMethod.POST)
 	public ResponseEntity<CertificationResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
 			@RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
@@ -42,18 +44,28 @@ public class UserRestService {
 		return ResponseEntity.ok(cert);
 	}
 
+	// Use register new account
 	@RequestMapping(value = "${needy.route.users.registers}", method = RequestMethod.POST)
 	public ResponseEntity<CertificationResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest, Device device) {
 		CertificationResponse cert = userService.registerUser(registerUserRequest, device);
 		return ResponseEntity.ok(cert);
 	}
 	
+	// Sometime, user's behavior need check account is existed. Example: register/reset password
 	@RequestMapping(value = "${needy.route.users.existences}", method = RequestMethod.GET)
 	public ResponseEntity<BaseResponse> findUserExistence(@RequestParam(value = "username", required = true) String username) {
 		BaseResponse response = userService.findUserExist(username);
 		return ResponseEntity.ok(response);
 	}
 	
+	// Get user info
+	@RequestMapping(value = "${needy.route.users.infomation}", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity<UserResponse> getUserInfomation(HttpServletRequest request) {
+		long userid = idUtils.getIdentification(request);
+		UserResponse userResponse = userService.getUserInfomation(userid);
+		return ResponseEntity.ok(userResponse);
+	}
 	
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")
