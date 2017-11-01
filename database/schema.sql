@@ -755,6 +755,26 @@ CREATE INDEX `productNumber_idx` ON `Products` (`productNumber`);
 CREATE INDEX `price_idx` ON `Products` (`price`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+--
+-- Table structure for table `ServiceProduct`
+--
+-- Bang chi ra service bao gom cac product nao, vi du: sua bep gas
+-- San pham: Khoa van, bep gas, day gas, binh gas...
+DROP TABLE IF EXISTS `ServiceProduct`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ServiceProduct` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `serviceId` bigint(20) NOT NULL,
+  `productId` bigint(20) NOT NULL,
+  CONSTRAINT `Uniq_service_product_sp` UNIQUE (`serviceId`, `productId`),
+  CONSTRAINT `Fk_service_product_s` FOREIGN KEY (`serviceId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_service_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
 --
 -- Table structure for table `ProductStore`
 --
@@ -790,6 +810,26 @@ CREATE INDEX `quantity_idx` ON `ProductStore` (`quantity`);
 
 
 --
+-- Table structure for table `ProductPriceLogs`
+--
+
+DROP TABLE IF EXISTS `ProductPriceLogs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductPriceLogs` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productStoreId` bigint(20) NOT NULL,
+  `oldPrice` float(12, 2) NOT NULL,
+
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `createdBy` bigint(20) NOT NULL,
+  CONSTRAINT `Fk_product_price_ps` FOREIGN KEY (`productStoreId`) REFERENCES `ProductStore` (`id`),
+  CONSTRAINT `Fk_product_price_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
 -- Table structure for table `ProductAttribute`
 -- Allow DELETE
 
@@ -810,15 +850,6 @@ CREATE TABLE `ProductAttribute` (
 
 CREATE INDEX `value_idx` ON `ProductAttribute` (`value`);
 /*!40101 SET character_set_client = @saved_cs_client */;
-
-
-
-
-
-
-
-
-
 
 
 --
@@ -850,43 +881,6 @@ CREATE TABLE `ProductUnit` (
 
 
 --
--- Table structure for table `ServiceProduct`
---
--- Bang chi ra service bao gom cac product nao, vi du: sua bep gas
--- San pham: Khoa van, bep gas, day gas, binh gas...
-DROP TABLE IF EXISTS `ServiceProduct`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ServiceProduct` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `serviceId` bigint(20) NOT NULL,
-  `productId` bigint(20) NOT NULL,
-  CONSTRAINT `Uniq_service_product_sp` UNIQUE (`serviceId`, `productId`),
-  CONSTRAINT `Fk_service_product_s` FOREIGN KEY (`serviceId`) REFERENCES `Products` (`id`),
-  CONSTRAINT `Fk_service_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ProductPriceLogs`
---
-
-DROP TABLE IF EXISTS `ProductPriceLogs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ProductPriceLogs` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `productId` bigint(20) NOT NULL,
-  `oldPrice` float(12, 2) NOT NULL,
-
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `createdBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_product_price_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
-  CONSTRAINT `Fk_product_price_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `Orders`
 --
 -- Cua hang hien thi theo order
@@ -903,8 +897,8 @@ CREATE TABLE `Orders` (
   `orderNumber` varchar(14) NOT NULL,
   -- Da dat, dang nhan don hang...
   `status` tinyint(2) NOT NULL,
-  -- Don hang co khan cap hay khong? = 1 neu su dung can ngay
-  `isImminent` tinyint(1) DEFAULT 0,
+  -- Da thanh toan hay chua, tuong lai tich hop them thanh toan dien tu
+  `isPaid` tinyint(1) NOT NULL DEFAULT 0,
   -- Co lay hoa don (VAT) hay khong
   `isGetTax` tinyint(1) DEFAULT 0,
   `paymentMethod` tinyint(2),
@@ -978,6 +972,24 @@ CREATE TABLE `OrderLogs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `oldStatus_idx` ON `OrderLogs` (`oldStatus`);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ViewProductLogs`
+-- Cac san pham da xem
+
+DROP TABLE IF EXISTS `ViewProductLogs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ViewProductLogs` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint(20) NOT NULL,
+  `userId` bigint(20) NOT NULL,
+
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `Fk_view_product_logs_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_view_product_logs_u` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
