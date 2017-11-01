@@ -16,6 +16,9 @@ INSERT INTO UserRole(`role`, `userId`, `createdBy`, `lastUpdatedBy`) VALUES
 ('ADMIN', 2, 1, 1),
 ('USER', 2, 1, 1);
 
+
+INSERT INTO Categories(`category`, )
+
 -- INSERT INTO Permissions (permission, title) VALUES
 -- ('add_table', 'Create table'),
 -- ('modify_table', 'Modify table'),

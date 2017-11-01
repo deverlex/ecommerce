@@ -49,6 +49,7 @@ needy:
       authentications: authentications # POST - login
       refreshments: refreshments # GET - get new token
       logout: logout
+
     users:
       registers: users/registers # POST - register account
       existences: users/existences # GET - Check account exist
@@ -64,3 +65,7 @@ needy:
       registers: companies/registers # POST
       staffs:
         fcms: companies/{company_id}/staffs/fcm_tokens # PUT update token
+      categories: companies/categories #GET - get list categories of company
+
+    categories:
+      lists: categories #GET - get list categories for companies choose
