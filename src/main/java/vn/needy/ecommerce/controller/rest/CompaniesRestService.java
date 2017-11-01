@@ -16,7 +16,7 @@ import vn.needy.ecommerce.security.IdentificationUtils;
 import vn.needy.ecommerce.service.CompanyService;
 
 @RestController
-public class CompanyRestService {
+public class CompaniesRestService {
 	
 	@Autowired
 	private IdentificationUtils idUtils;

@@ -26,7 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @RestController
-public class UserRestService {
+public class UsersRestService {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -78,7 +78,6 @@ public class UserRestService {
 		if (response != null) return ResponseEntity.ok(response); 
 		return ResponseEntity.noContent().build();
 	}
-	
 	
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")
