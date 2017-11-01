@@ -1,6 +1,7 @@
 package vn.needy.ecommerce.repository;
 
 import vn.needy.ecommerce.domain.entity.User;
+import vn.needy.ecommerce.model.json.request.ActiveAccountRequest;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 
 public interface UserRepository {
@@ -11,14 +12,18 @@ public interface UserRepository {
 	// Update state user
 	boolean updateUserState(long id, int state);
 	
+	// Check user exist for: forget password
 	User findUserExistByUsername(String username);
 	
+	// register new user
 	long registerUser(RegisterUserRequest registerUserRequest);
 	
+	// get info of user
 	User findUserForResponseById(long id);
 	
 	User findUserByUsernameForResetPassword(String username);
 	
 	boolean updatePasswordByUserId(long id, String password);
 	
+	int activeAccount(long userId, ActiveAccountRequest request);
 }

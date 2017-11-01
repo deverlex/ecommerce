@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.needy.ecommerce.model.base.BaseResponse;
+import vn.needy.ecommerce.model.json.request.ActiveAccountRequest;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
@@ -66,6 +67,18 @@ public class UserRestService {
 		UserResponse userResponse = userService.getUserInfomation(userid);
 		return ResponseEntity.ok(userResponse);
 	}
+	
+	//Active user account
+	@RequestMapping(value = "${needy.route.users.active}", method = RequestMethod.POST)
+	public ResponseEntity<BaseResponse> activeUserAccount(HttpServletRequest request,
+			@RequestBody ActiveAccountRequest activeRequest) {
+		long userid = idUtils.getIdentification(request);
+		BaseResponse response = userService.activeAccount(userid, activeRequest);
+		System.out.println(response != null);
+		if (response != null) return ResponseEntity.ok(response); 
+		return ResponseEntity.noContent().build();
+	}
+	
 	
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")

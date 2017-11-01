@@ -10,7 +10,8 @@ import vn.needy.ecommerce.domain.entity.User;
 public class UserJson implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	private int state;
 	private String fullName;
     private String gender;
     private String address;
@@ -30,6 +31,7 @@ public class UserJson implements Serializable {
     }
     
     public UserJson(User user) {
+    	state = user.getState();
     	fullName = user.getFullName();
     	gender = user.getGender();
     	address = user.getAddress();
@@ -43,6 +45,14 @@ public class UserJson implements Serializable {
     	lastUpdatedTime = user.getLastUpdatedTime();
     	lastResetPassword = user.getLastResetPassword();
     }
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
 
 	public String getFullName() {
 		return fullName;

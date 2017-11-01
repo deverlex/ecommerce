@@ -56,8 +56,10 @@ needy:
       passwords:
         update: users/{username}/passwords #PUT: update pass
       infomation: users # GET get account info DELETE: delete account
+      active: users/activeness # POST active user account
 
     companies:
+      infomation: companies #GET
       dependencies: companies/dependencies # GET
       registers: companies/registers # POST
       staffs:

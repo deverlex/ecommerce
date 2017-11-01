@@ -6,7 +6,9 @@ public class RegisterUserRequest implements Serializable {
 
 	private static final long serialVersionUID = 13883736L;
 	
+	//User ID of Firebase Auth
 	private String firebaseUid;
+	//Access token
 	private String firebaseToken;
 	private String username;
 	private String password;

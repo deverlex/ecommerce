@@ -20,6 +20,7 @@ import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
 import vn.needy.ecommerce.model.json.entity.UserJson;
+import vn.needy.ecommerce.model.json.request.ActiveAccountRequest;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
@@ -83,13 +84,14 @@ public class UserServiceImpl implements UserService {
 			} catch (InterruptedException e) {
 			}
 		}
+		System.out.println(fbUid != null);
+		System.out.println("uid? " + uid);
 		return uid.equals(fbUid.toString());
 	}
 
 	@Override
 	public BaseResponse findUserExist(String username) {
 		User user = userRepository.findUserExistByUsername(username);
-		
 		if (user != null) {
 			BaseResponse response = new BaseResponse();
 			response.setMessage("This phone number/account is registered");
@@ -122,5 +124,14 @@ public class UserServiceImpl implements UserService {
 		UserResponse response = new UserResponse();
 		response.setUser(new UserJson(user));
 		return response;
+	}
+
+	@Override
+	public BaseResponse activeAccount(long userId, ActiveAccountRequest request) {
+		int rowsEffect = userRepository.activeAccount(userId, request);
+		System.out.println("rowsEffect? " + rowsEffect);
+		if (rowsEffect == 1) 
+			return new BaseResponse();
+		return null;
 	}
 }

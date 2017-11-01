@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.enums.UserState;
+import vn.needy.ecommerce.model.json.request.ActiveAccountRequest;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.repository.UserRepository;
 
@@ -81,12 +82,13 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public User findUserForResponseById(long id) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT username, fullName, gender, address, "
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT state, fullName, gender, address, "
 				+ "avatar, coverPicture, email, birthday, lat, lng, createdTime, lastUpdatedTime, lastResetPassword "
+				+ "FROM Users "
 				+ "WHERE id = ?", new Object[]{id});
 		if (rs.first()) {
 			User user = new User();
-			user.setUsername(rs.getString("username"));
+			user.setState(rs.getInt("state"));
 			user.setFullName(rs.getString("fullName"));
 			user.setGender(rs.getString("gender"));
 			user.setAddress(rs.getString("address"));
@@ -122,6 +124,22 @@ public class UserRepositoryImpl implements UserRepository {
 	public boolean updatePasswordByUserId(long id, String password) {
 		return jdbc.update("UPDATE Users SET password = ? WHERE id = ?", 
 				new Object[] {password, id}) == 1;
+	}
+
+	@Override
+	public int activeAccount(long userId, ActiveAccountRequest request) {
+		Object params[] = new Object[] {
+			UserState.ACTIVE.getState(),
+			request.getFullName(),
+			request.getAddress(),
+			request.getLat(),
+			request.getLng(),
+			userId
+		};
+		String sqlUpdate = "UPDATE Users "
+				+ "SET state =?, fullName = ?, address = ?, lat = ?, lng = ? "
+				+ "WHERE id = ?";
+		return jdbc.update(sqlUpdate, params);
 	}
 
 }
