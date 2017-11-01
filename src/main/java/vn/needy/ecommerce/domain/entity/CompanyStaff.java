@@ -16,6 +16,7 @@ public class CompanyStaff extends BaseDomain {
 	private long storeId;
 	private String fcmToken;
 	private int state;
+	private int status;
 	
 	private Date createdTime;
 	private Date lastUpdatedTime;
@@ -73,6 +74,14 @@ public class CompanyStaff extends BaseDomain {
 
 	public void setState(int state) {
 		this.state = state;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public Date getCreatedTime() {

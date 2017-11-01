@@ -1,11 +1,9 @@
 package vn.needy.ecommerce.model.json.response;
 
-import java.io.Serializable;
-
 import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.json.entity.CompanyJson;
 
-public class CompanyResponse extends BaseResponse implements Serializable {
+public class CompanyResponse extends BaseResponse {
 
 	private static final long serialVersionUID = 130272848L;
 	

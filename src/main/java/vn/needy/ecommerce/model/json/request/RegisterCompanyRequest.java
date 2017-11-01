@@ -7,10 +7,12 @@ public class RegisterCompanyRequest implements Serializable {
 	private static final long serialVersionUID = 1453535344L;
 	
 	private String fcmToken;
+	
 	private String companyName;
 	private String officeAddress;
 	private String storeName;
 	private String storeAddress;
+	
 	private float lat;
 	private float lng;
 	

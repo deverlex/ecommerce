@@ -16,6 +16,7 @@ import vn.needy.ecommerce.domain.entity.PayLog;
 import vn.needy.ecommerce.domain.entity.Role;
 import vn.needy.ecommerce.domain.entity.Store;
 import vn.needy.ecommerce.model.enums.StaffState;
+import vn.needy.ecommerce.model.enums.StaffStatus;
 import vn.needy.ecommerce.model.enums.StoreState;
 import vn.needy.ecommerce.model.enums.StoreStatus;
 import vn.needy.ecommerce.model.enums.CompanyState;
@@ -71,7 +72,7 @@ public class CompanyServiceImpl implements CompanyService {
 			companyJson.setReputation(isCompanyReputation);
 			return new CompanyResponse(companyJson);
 		}
-		return null;
+		return new CompanyResponse();
 	}
 
 	@Override
@@ -147,6 +148,7 @@ public class CompanyServiceImpl implements CompanyService {
 		staff.setStoreId(storeId);
 		staff.setFcmToken(registerCompanyRequest.getFcmToken());
 		staff.setState(StaffState.ACTIVED.getState());
+		staff.setStatus(StaffStatus.READY.getStatus());
 		companyStaffResponsitory.insertCompanyStaff(staff);
 		
 		userRoleRepository.registerUserListRole(userId, Role.List.CompanyOwner, userId);
