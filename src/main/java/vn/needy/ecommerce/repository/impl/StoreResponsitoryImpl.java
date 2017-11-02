@@ -11,10 +11,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.entity.Store;
-import vn.needy.ecommerce.repository.StoreResponsitory;
+import vn.needy.ecommerce.repository.StoresResponsitory;
 
 @Repository("storeResponsitory")
-public class StoreResponsitoryImpl implements StoreResponsitory {
+public class StoreResponsitoryImpl implements StoresResponsitory {
 
 	@Autowired
 	JdbcTemplate jdbc;

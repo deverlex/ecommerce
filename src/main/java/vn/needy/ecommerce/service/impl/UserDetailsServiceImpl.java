@@ -14,13 +14,13 @@ import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
 import vn.needy.ecommerce.repository.UserRoleRepository;
-import vn.needy.ecommerce.repository.UserRepository;
+import vn.needy.ecommerce.repository.UsersRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-    UserRepository userRepository;
+    UsersRepository usersRepository;
 	
 	@Autowired
 	UserRoleRepository userRoleRepository;
@@ -30,12 +30,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findUserByUsernameForAuthenticate(username);
+		User user = usersRepository.findUserByUsernameForAuthenticate(username);
 		
 		if (user.getState() == UserState.LOCKED.getState() 
 				&& isExpiredLockTime(user.getUnlockTime())) {
 			user.setState(UserState.ACTIVE.getState());
-			userRepository.updateUserState(user.getId(), UserState.ACTIVE.getState());
+			usersRepository.updateUserState(user.getId(), UserState.ACTIVE.getState());
 		}
 		
 		List<String> roles = userRoleRepository.findRoleAuthenticationByUserId(user.getId());

@@ -12,24 +12,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.needy.ecommerce.model.json.request.CredentialsRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
-import vn.needy.ecommerce.service.AuthenticationService;
+import vn.needy.ecommerce.service.AuthenticationsService;
 
 @RestController
 public class AuthenticationRestService {
 
 	@Autowired
-	private AuthenticationService authenticationService;
+	private AuthenticationsService authenticationsService;
 
 	@RequestMapping(value = "${needy.route.securities.authentications}", method = RequestMethod.POST)
 	public ResponseEntity<CertificationResponse> authentications(
 			@RequestBody CredentialsRequest credentials, Device device) {
-		CertificationResponse cert = authenticationService.authentication(credentials, device);
+		CertificationResponse cert = authenticationsService.authentication(credentials, device);
         return ResponseEntity.ok(cert);
 	}
 	
 	@RequestMapping(value = "${needy.route.securities.refreshments}", method = RequestMethod.GET)
 	public ResponseEntity<CertificationResponse> authenticationRefreshment(HttpServletRequest request) {
-		CertificationResponse cert = authenticationService.authenticationRefresh(request);
+		CertificationResponse cert = authenticationsService.authenticationRefresh(request);
 		
 		if (cert != null) return ResponseEntity.ok(cert);
 		else return ResponseEntity.badRequest().body(null);

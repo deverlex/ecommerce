@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.needy.ecommerce.model.json.request.RegisterCompanyRequest;
 import vn.needy.ecommerce.model.json.response.CompanyResponse;
 import vn.needy.ecommerce.security.IdentificationUtils;
-import vn.needy.ecommerce.service.CompanyService;
+import vn.needy.ecommerce.service.CompaniesService;
 
 @RestController
 public class CompaniesRestService {
@@ -22,13 +22,13 @@ public class CompaniesRestService {
 	private IdentificationUtils idUtils;
 	
 	@Autowired
-	private CompanyService companyService;
+	private CompaniesService companiesService;
 	
 	@RequestMapping(value= "${needy.route.companies.infomation}", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<CompanyResponse> findCompanyDependence(HttpServletRequest request) {
 		Long userId = idUtils.getIdentification(request);
-		CompanyResponse companyResponse = companyService.findCompanyDependency(userId);
+		CompanyResponse companyResponse = companiesService.findCompanyDependency(userId);
 		return ResponseEntity.ok(companyResponse);
 	}
 	
@@ -37,7 +37,7 @@ public class CompaniesRestService {
 	public ResponseEntity<CompanyResponse> registerCompany(HttpServletRequest request, 
 			@RequestBody RegisterCompanyRequest registerCompanyRequest) {
 		Long userId = idUtils.getIdentification(request);
-		CompanyResponse companyResponse = companyService.registerCompany(userId, registerCompanyRequest);
+		CompanyResponse companyResponse = companiesService.registerCompany(userId, registerCompanyRequest);
 		return ResponseEntity.ok(companyResponse);
 	}
 	

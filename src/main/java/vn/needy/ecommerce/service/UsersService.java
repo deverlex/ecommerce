@@ -9,7 +9,7 @@ import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
 import vn.needy.ecommerce.model.json.response.UserResponse;
 
-public interface UserService {
+public interface UsersService {
 	
 	CertificationResponse registerUser(RegisterUserRequest registerUserRequest, Device device);
 	

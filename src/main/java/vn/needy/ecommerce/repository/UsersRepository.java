@@ -4,7 +4,7 @@ import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.json.request.ActiveAccountRequest;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 
-public interface UserRepository {
+public interface UsersRepository {
 	
 	// Get user for authenticate
 	User findUserByUsernameForAuthenticate(String username);

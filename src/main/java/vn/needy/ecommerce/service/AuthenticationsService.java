@@ -7,7 +7,7 @@ import org.springframework.mobile.device.Device;
 import vn.needy.ecommerce.model.json.request.CredentialsRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
 
-public interface AuthenticationService {
+public interface AuthenticationsService {
 	
 	CertificationResponse authentication(CredentialsRequest credentials, Device device);
 	
