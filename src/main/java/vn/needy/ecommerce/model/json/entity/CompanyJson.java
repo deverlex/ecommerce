@@ -27,7 +27,7 @@ public class CompanyJson implements Serializable {
 	private String avatar;
 	private List<String> pictures;
 	private String description;
-	private String website;
+	private String siteUrl;
 	private Date createdTime;
 	private Date lastUpdatedTime;
 	private boolean isReputation;
@@ -58,7 +58,7 @@ public class CompanyJson implements Serializable {
 			}
 		}
 		this.description = company.getDescription();
-		this.website = company.getWebsite();
+		this.siteUrl = company.getSiteUrl();
 		this.createdTime = company.getCreatedTime();
 		this.lastUpdatedTime = company.getLastUpdatedTime();
 		this.isReputation = false;
@@ -152,12 +152,12 @@ public class CompanyJson implements Serializable {
 		this.description = description;
 	}
 
-	public String getWebsite() {
-		return website;
+	public String getSiteUrl() {
+		return siteUrl;
 	}
 
-	public void setWebsite(String website) {
-		this.website = website;
+	public void setSiteUrl(String siteUrl) {
+		this.siteUrl = siteUrl;
 	}
 
 	public Date getCreatedTime() {

@@ -9,13 +9,13 @@ public class Notifications extends BaseDomain {
 	private static final long serialVersionUID = 17474636L;
 	
 	private long id;
-	private long recipientId;
-	private String classReference;
+	private long senderId;
+	private String refEntity;
+	private long refId;
+	private String refMethod;
 	private String title;
 	private String htmlContent;
 	
-	private boolean isRead;
-	private boolean isView;
 	private Date createdTime;
 	
 	public Notifications() {
@@ -29,21 +29,37 @@ public class Notifications extends BaseDomain {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public long getRecipientId() {
-		return recipientId;
+	
+	public long getSenderId() {
+		return senderId;
 	}
 
-	public void setRecipientId(long recipientId) {
-		this.recipientId = recipientId;
+	public void setSenderId(long senderId) {
+		this.senderId = senderId;
 	}
 
-	public String getClassReference() {
-		return classReference;
+	public String getRefEntity() {
+		return refEntity;
 	}
 
-	public void setClassReference(String classReference) {
-		this.classReference = classReference;
+	public void setRefEntity(String refEntity) {
+		this.refEntity = refEntity;
+	}
+
+	public long getRefId() {
+		return refId;
+	}
+
+	public void setRefId(long refId) {
+		this.refId = refId;
+	}
+
+	public String getRefMethod() {
+		return refMethod;
+	}
+
+	public void setRefMethod(String refMethod) {
+		this.refMethod = refMethod;
 	}
 
 	public String getTitle() {
@@ -60,22 +76,6 @@ public class Notifications extends BaseDomain {
 
 	public void setHtmlContent(String htmlContent) {
 		this.htmlContent = htmlContent;
-	}
-
-	public boolean isRead() {
-		return isRead;
-	}
-
-	public void setRead(boolean isRead) {
-		this.isRead = isRead;
-	}
-
-	public boolean isView() {
-		return isView;
-	}
-
-	public void setView(boolean isView) {
-		this.isView = isView;
 	}
 
 	public Date getCreatedTime() {

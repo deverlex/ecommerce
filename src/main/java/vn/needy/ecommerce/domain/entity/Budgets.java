@@ -4,7 +4,7 @@ import java.util.Date;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class Budget extends BaseDomain {
+public class Budgets extends BaseDomain {
 
 	private static final long serialVersionUID = 145364573L;
 
@@ -12,11 +12,12 @@ public class Budget extends BaseDomain {
 	
 	private long id;
 	private long companyId;
+	private String accountNumber;
 	private float budget;
 	private Date createdTime;
 	private Date lastUpdatedTime;
 	
-	public Budget() {
+	public Budgets() {
 		super();
 	}
 
@@ -34,6 +35,14 @@ public class Budget extends BaseDomain {
 
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 
 	public float getBudget() {

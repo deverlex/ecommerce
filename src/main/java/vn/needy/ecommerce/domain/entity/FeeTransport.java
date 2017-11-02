@@ -1,5 +1,7 @@
 package vn.needy.ecommerce.domain.entity;
 
+import java.util.Date;
+
 import vn.needy.ecommerce.domain.BaseDomain;
 
 public class FeeTransport extends BaseDomain {
@@ -13,6 +15,8 @@ public class FeeTransport extends BaseDomain {
 	private float distanceFrom;
 	private float distanceTo;
 	private float fee;
+	private Date lastUpdatedTime;
+	private long lastUpdatedBy;
 	
 	public FeeTransport() {
 		super();
@@ -56,6 +60,22 @@ public class FeeTransport extends BaseDomain {
 
 	public void setFee(float fee) {
 		this.fee = fee;
+	}
+
+	public Date getLastUpdatedTime() {
+		return lastUpdatedTime;
+	}
+
+	public void setLastUpdatedTime(Date lastUpdatedTime) {
+		this.lastUpdatedTime = lastUpdatedTime;
+	}
+
+	public long getLastUpdatedBy() {
+		return lastUpdatedBy;
+	}
+
+	public void setLastUpdatedBy(long lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
 	}
 	
 }

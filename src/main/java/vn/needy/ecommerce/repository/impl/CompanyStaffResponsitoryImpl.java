@@ -36,7 +36,6 @@ public class CompanyStaffResponsitoryImpl implements CompanyStaffResponsitory {
 		params.put("fcmToken", staff.getFcmToken());
 		params.put("state", staff.getState());
 		params.put("status", staff.getStatus());
-		params.put("createdBy", staff.getCreatedBy());
 		params.put("lastUpdatedBy", staff.getLastUpdatedBy());
 		return insert.executeAndReturnKey(params).longValue();
 	}

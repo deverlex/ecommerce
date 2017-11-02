@@ -9,14 +9,12 @@ public class Attributes extends BaseDomain {
 	private static final long serialVersionUID = 192822526L;
 
 	private String attribute;
-	private String subcategory;
 	private String title;
 	private String description;
 	private boolean enable;
 	
-	private Date createdTime;
 	private Date lastUpdatedTime;
-	private long createdBy;
+	private long lastUpdatedBy;
 
 	public Attributes() {
 		super();
@@ -28,14 +26,6 @@ public class Attributes extends BaseDomain {
 
 	public void setAttribute(String attribute) {
 		this.attribute = attribute;
-	}
-
-	public String getSubcategory() {
-		return subcategory;
-	}
-
-	public void setSubcategory(String subcategory) {
-		this.subcategory = subcategory;
 	}
 
 	public String getTitle() {
@@ -62,14 +52,6 @@ public class Attributes extends BaseDomain {
 		this.enable = enable;
 	}
 
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
 	public Date getLastUpdatedTime() {
 		return lastUpdatedTime;
 	}
@@ -78,12 +60,11 @@ public class Attributes extends BaseDomain {
 		this.lastUpdatedTime = lastUpdatedTime;
 	}
 
-	public long getCreatedBy() {
-		return createdBy;
+	public long getLastUpdatedBy() {
+		return lastUpdatedBy;
 	}
 
-	public void setCreatedBy(long createdBy) {
-		this.createdBy = createdBy;
+	public void setLastUpdatedBy(long lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
 	}
-	
 }

@@ -12,9 +12,8 @@ public class CompanyReputation extends BaseDomain {
 	private int state;
 	private long companyId;
 	private String agreementNumber;
-	private Date createdTime;
 	private Date lastUpdatedTime;
-	private long acceptedBy;
+	private long changedBy;
 	
 	public CompanyReputation() {
 		super();
@@ -52,14 +51,6 @@ public class CompanyReputation extends BaseDomain {
 		this.agreementNumber = agreementNumber;
 	}
 
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
 	public Date getLastUpdatedTime() {
 		return lastUpdatedTime;
 	}
@@ -68,12 +59,11 @@ public class CompanyReputation extends BaseDomain {
 		this.lastUpdatedTime = lastUpdatedTime;
 	}
 
-	public long getAcceptedBy() {
-		return acceptedBy;
+	public long getChangedBy() {
+		return changedBy;
 	}
 
-	public void setAcceptedBy(long acceptedBy) {
-		this.acceptedBy = acceptedBy;
+	public void setChangedBy(long changedBy) {
+		this.changedBy = changedBy;
 	}
-	
 }

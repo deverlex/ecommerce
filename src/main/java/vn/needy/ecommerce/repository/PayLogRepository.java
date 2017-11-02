@@ -1,8 +1,8 @@
 package vn.needy.ecommerce.repository;
 
-import vn.needy.ecommerce.domain.entity.PayLog;
+import vn.needy.ecommerce.domain.entity.Pays;
 
 public interface PayLogRepository {
 
-	long createPayLog(PayLog payLog);
+	long createPayLog(Pays payLog);
 }

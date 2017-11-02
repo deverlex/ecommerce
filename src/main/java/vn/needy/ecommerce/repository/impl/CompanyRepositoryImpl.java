@@ -50,7 +50,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 			company.setAvatar(rs.getString("avatar"));
 			company.setPictures(rs.getString("pictures"));
 			company.setDescription(rs.getString("description"));
-			company.setWebsite(rs.getString("website"));
+			company.setSiteUrl(rs.getString("siteUrl"));
 			company.setCreatedTime(rs.getDate("createdTime"));
 			company.setLastUpdatedTime(rs.getDate("lastUpdatedTime"));
 			return company;
@@ -69,7 +69,6 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 		params.put("foundedDate", company.getFoundedDate());
 		params.put("openingTime", company.getOpeningTime());
 		params.put("closingTime", company.getClosingTime());
-		params.put("createdBy", company.getCreatedBy());
 		params.put("lastUpdatedBy", company.getLastUpdatedBy());
 		return insert.executeAndReturnKey(params).longValue();
 	}

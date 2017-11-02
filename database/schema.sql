@@ -229,7 +229,7 @@ CREATE TABLE `Companies` (
   -- Mang cac url image [{ "url" : "", "host" : ""},...] max = 5 Image
   `pictures` text(1281),
   `description` text(1000),
-  `website` varchar(120),
+  `siteUrl` varchar(120),
   -- Gia tri don hang tu ? - mien phi van chuyen
   `limitFreeTransport` float(8, 2),
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -278,6 +278,7 @@ CREATE TABLE `Budgets` (
   `accountNumber` varchar(12) NOT NULL,
   -- Insert from code
   `budget` float(12,2) NOT NULL,
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Fk_budgets_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -517,7 +518,7 @@ CREATE TABLE `ProductCompany` (
   `quantity` smallint(5) NOT NULL,
   -- Gia ban
   `price` float(12, 2) NOT NULL,
-  `oldPrice` float(12, 2) NOT NULL,
+  `prePrice` float(12, 2) NOT NULL,
   -- Khuyen mai JSON - 5 k/m
   `promotion` text(600),
   -- Mo ta san pham

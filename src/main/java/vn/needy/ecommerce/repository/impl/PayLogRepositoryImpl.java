@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.domain.entity.PayLog;
+import vn.needy.ecommerce.domain.entity.Pays;
 import vn.needy.ecommerce.repository.PayLogRepository;
 
 @Repository("payLogRepository")
@@ -24,12 +24,12 @@ public class PayLogRepositoryImpl implements PayLogRepository {
 	@Autowired
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
-        		.withTableName(PayLog.TABLE)
+        		.withTableName(Pays.TABLE)
         		.usingGeneratedKeyColumns("id");
     }
 	
 	@Override
-	public long createPayLog(PayLog payLog) {
+	public long createPayLog(Pays payLog) {
 		Map<String, Object> params = new HashMap<>(5);
 		params.put("budgetId", payLog.getBudgetId());
 		params.put("behavior", payLog.getBehavior());

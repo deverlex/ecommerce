@@ -9,7 +9,17 @@ public class Company extends BaseDomain {
 	private static final long serialVersionUID = 179847724L;
 
 	public static final String TABLE = "Companies";
-	
+//	  -- It will update for app manager
+//	  -- Trang thai: chua kich hoat, da kich hoat, tam ngung, da dong cua
+//	  -- Xep cap bac
+//	  -- {"url" : "", "host" : ""} -- Phan tan du lieu image
+//	  -- Mang cac url image [{ "url" : "", "host" : ""},...] max = 5 Image
+//	  `site` varchar(120),
+//	  -- Gia tri don hang tu ? - mien phi van chuyen
+//	  `limitFreeTransport` float(8, 2),
+//	  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+//	  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+//	  `lastUpdatedBy` bigint(20) NOT N
 	private long id;
 	private String companyNumber;
 	private String fcmToken;
@@ -23,11 +33,11 @@ public class Company extends BaseDomain {
 	private String avatar;
 	private String pictures;
 	private String description;
-	private String website;
+	private String siteUrl;
 	
+	private float limitFreeTransport;
 	private Date createdTime;
 	private Date lastUpdatedTime;
-	private long createdBy;
 	private long lastUpdatedBy;
 
 	public Company() {
@@ -138,12 +148,20 @@ public class Company extends BaseDomain {
 		this.description = description;
 	}
 
-	public String getWebsite() {
-		return website;
+	public String getSiteUrl() {
+		return siteUrl;
 	}
 
-	public void setWebsite(String website) {
-		this.website = website;
+	public void setSiteUrl(String siteUrl) {
+		this.siteUrl = siteUrl;
+	}
+	
+	public float getLimitFreeTransport() {
+		return limitFreeTransport;
+	}
+
+	public void setLimitFreeTransport(float limitFreeTransport) {
+		this.limitFreeTransport = limitFreeTransport;
 	}
 
 	public Date getCreatedTime() {
@@ -160,14 +178,6 @@ public class Company extends BaseDomain {
 
 	public void setLastUpdatedTime(Date lastUpdatedTime) {
 		this.lastUpdatedTime = lastUpdatedTime;
-	}
-
-	public long getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(long createdBy) {
-		this.createdBy = createdBy;
 	}
 
 	public long getLastUpdatedBy() {

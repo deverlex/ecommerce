@@ -8,6 +8,8 @@ public class ProductAttribute extends BaseDomain {
 
 	private static final long serialVersionUID = 129871525L;
 
+	public static final String TABLE = "ProductAttribute";
+	
 	private long id;
 	private long productId;
 	private String attribute;

@@ -14,9 +14,8 @@ public class Categories extends BaseDomain {
 	private boolean isService;
 	private boolean enable;
 	
-	private Date createdTime;
 	private Date lastUpdatedTime;
-	private long createdBy;
+	private long lastUpdatedBy;
 	
 	public Categories() {
 		super();
@@ -70,14 +69,6 @@ public class Categories extends BaseDomain {
 		this.enable = enable;
 	}
 
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
 	public Date getLastUpdatedTime() {
 		return lastUpdatedTime;
 	}
@@ -86,12 +77,11 @@ public class Categories extends BaseDomain {
 		this.lastUpdatedTime = lastUpdatedTime;
 	}
 
-	public long getCreatedBy() {
-		return createdBy;
+	public long getLastUpdatedBy() {
+		return lastUpdatedBy;
 	}
 
-	public void setCreatedBy(long createdBy) {
-		this.createdBy = createdBy;
+	public void setLastUpdatedBy(long lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
 	}
-	
 }
