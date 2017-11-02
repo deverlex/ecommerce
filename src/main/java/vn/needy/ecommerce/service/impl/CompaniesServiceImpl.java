@@ -25,16 +25,16 @@ import vn.needy.ecommerce.model.json.entity.CompanyJson;
 import vn.needy.ecommerce.model.json.request.RegisterCompanyRequest;
 import vn.needy.ecommerce.model.json.response.CompanyResponse;
 import vn.needy.ecommerce.repository.BudgetRepository;
-import vn.needy.ecommerce.repository.CompanyRepository;
+import vn.needy.ecommerce.repository.CompaniesRepository;
 import vn.needy.ecommerce.repository.CompanyReputationRepository;
 import vn.needy.ecommerce.repository.CompanyStaffResponsitory;
 import vn.needy.ecommerce.repository.PayLogRepository;
-import vn.needy.ecommerce.repository.StoreResponsitory;
+import vn.needy.ecommerce.repository.StoresResponsitory;
 import vn.needy.ecommerce.repository.UserRoleRepository;
-import vn.needy.ecommerce.service.CompanyService;
+import vn.needy.ecommerce.service.CompaniesService;
 
-@Service("companyService")
-public class CompanyServiceImpl implements CompanyService {
+@Service("companiesService")
+public class CompaniesServiceImpl implements CompaniesService {
 
 	@Autowired
 	private HashIdProvider hashIdProvider;
@@ -43,10 +43,10 @@ public class CompanyServiceImpl implements CompanyService {
 	private TimeProvider timeProvider;
 	
 	@Autowired
-	CompanyRepository companyRepository;
+	CompaniesRepository companiesRepository;
 	
 	@Autowired
-	StoreResponsitory storeResponsitory;
+	StoresResponsitory storesResponsitory;
 	
 	@Autowired
 	BudgetRepository budgetRepository;
@@ -65,7 +65,7 @@ public class CompanyServiceImpl implements CompanyService {
 	
 	@Override
 	public CompanyResponse findCompanyDependency(long userId) {
-		Company company = companyRepository.findCompanyDependencyByUserId(userId);
+		Company company = companiesRepository.findCompanyDependencyByUserId(userId);
 		if (company != null) {
 			boolean isCompanyReputation = companyReputationRepository.isCompanyReputationById(company.getId());
 			CompanyJson companyJson = new CompanyJson(company);
@@ -79,7 +79,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public CompanyResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
 		CompanyResponse companyResponse = new CompanyResponse();
-		Company findCompany = companyRepository.findCompanyDependencyByUserId(userId);
+		Company findCompany = companiesRepository.findCompanyDependencyByUserId(userId);
 		
 		if (findCompany != null) {
 			companyResponse = new CompanyResponse();
@@ -100,7 +100,7 @@ public class CompanyServiceImpl implements CompanyService {
 		registerCompany.setOpeningTime(timeProvider.parseTime("08:00:00"));
 		registerCompany.setClosingTime(timeProvider.parseTime("17:00:00"));
 		registerCompany.setFoundedDate(new Date());
-		long companyId = companyRepository.registerCompany(registerCompany);
+		long companyId = companiesRepository.registerCompany(registerCompany);
 	
 		// insert into Budgets
 		// MODIFY UPDATE
@@ -136,7 +136,7 @@ public class CompanyServiceImpl implements CompanyService {
 		registerStore.setLng(registerCompanyRequest.getLng());
 		registerStore.setCreatedBy(userId);
 		registerStore.setLastUpdatedBy(userId);
-		long storeId = storeResponsitory.registerStore(registerStore);
+		long storeId = storesResponsitory.registerStore(registerStore);
 		
 		// insert into CompanyStaff
 		CompanyStaff staff = new CompanyStaff();
@@ -151,7 +151,7 @@ public class CompanyServiceImpl implements CompanyService {
 		
 		userRoleRepository.registerUserListRole(userId, Role.List.CompanyOwner, userId);
 		
-		Company company = companyRepository.findCompanyDependencyByUserId(userId);
+		Company company = companiesRepository.findCompanyDependencyByUserId(userId);
 		if (company != null) {
 			boolean isCompanyReputation = companyReputationRepository.isCompanyReputationById(company.getId());
 			CompanyJson companyJson = new CompanyJson(company);

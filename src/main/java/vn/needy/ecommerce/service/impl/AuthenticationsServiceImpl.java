@@ -18,10 +18,10 @@ import vn.needy.ecommerce.model.json.request.CredentialsRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
 import vn.needy.ecommerce.model.security.UserLicense;
 import vn.needy.ecommerce.security.TokenUtils;
-import vn.needy.ecommerce.service.AuthenticationService;
+import vn.needy.ecommerce.service.AuthenticationsService;
 
-@Service("authenticationService")
-public class AuthenticationServiceImpl implements AuthenticationService {
+@Service("authenticationsService")
+public class AuthenticationsServiceImpl implements AuthenticationsService {
 
 	@Value("${needy.token.header}")
 	private String tokenHeader;

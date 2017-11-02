@@ -15,10 +15,10 @@ import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.model.json.request.ActiveAccountRequest;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
-import vn.needy.ecommerce.repository.UserRepository;
+import vn.needy.ecommerce.repository.UsersRepository;
 
 @Repository("userRepository")
-public class UserRepositoryImpl implements UserRepository {
+public class UsersRepositoryImpl implements UsersRepository {
 
 	@Autowired
 	JdbcTemplate jdbc;

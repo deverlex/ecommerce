@@ -25,18 +25,18 @@ import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
 import vn.needy.ecommerce.model.json.response.UserResponse;
-import vn.needy.ecommerce.repository.UserRepository;
+import vn.needy.ecommerce.repository.UsersRepository;
 import vn.needy.ecommerce.security.TokenUtils;
-import vn.needy.ecommerce.service.UserService;
+import vn.needy.ecommerce.service.UsersService;
 
-@Service("userService")
-public class UserServiceImpl implements UserService {
+@Service("usersService")
+public class UsersServiceImpl implements UsersService {
 
 	@Value("${needy.token.prefix}")
 	private String tokenPrefix;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UsersRepository usersRepository;
 	
 	@Autowired
 	private TokenUtils tokenUtils;
@@ -50,13 +50,13 @@ public class UserServiceImpl implements UserService {
 		if (!isVerifiedByFirebase(registerInfo.getFirebaseUid(), registerInfo.getFirebaseToken()) ) {
 			return new CertificationResponse(null, "Phone number is not valid");
 		}
-		User userExist = userRepository.findUserExistByUsername(registerInfo.getUsername());
+		User userExist = usersRepository.findUserExistByUsername(registerInfo.getUsername());
 		if (userExist != null) {
 			String message = "This phone number has been registered";
 			return new CertificationResponse(null, message);
 		}
 		registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
-		userRepository.registerUser(registerInfo);
+		usersRepository.registerUser(registerInfo);
 		User user = new User();
 		user.setUsername(registerInfo.getUsername());
 		String token = tokenPrefix + " " + tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public BaseResponse findUserExist(String username) {
-		User user = userRepository.findUserExistByUsername(username);
+		User user = usersRepository.findUserExistByUsername(username);
 		if (user != null) {
 			BaseResponse response = new BaseResponse();
 			response.setMessage("This phone number/account is registered");
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public CertificationResponse resetPassword(String username, ResetPasswordRequest resetPasswordRequest, Device device) {
-		User user = userRepository.findUserByUsernameForResetPassword(username);
+		User user = usersRepository.findUserByUsernameForResetPassword(username);
 		if (user == null) {
 			return new CertificationResponse(null, "Phone number is not valid");
 		}
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
 			return new CertificationResponse(null, "Phone number is not valid");
 		}
 		String encodePassword = passwordEncoder.encode(resetPasswordRequest.getPassword());
-		userRepository.updatePasswordByUserId(user.getId(), encodePassword);
+		usersRepository.updatePasswordByUserId(user.getId(), encodePassword);
 		user.setUsername(username);
 		String token = tokenPrefix + " " + tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);
 		return new CertificationResponse(token);
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserResponse getUserInfomation(long id) {
-		User user = userRepository.findUserForResponseById(id);
+		User user = usersRepository.findUserForResponseById(id);
 		UserResponse response = new UserResponse();
 		response.setUser(new UserJson(user));
 		return response;
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public BaseResponse activeAccount(long userId, ActiveAccountRequest request) {
-		int rowsEffect = userRepository.activeAccount(userId, request);
+		int rowsEffect = usersRepository.activeAccount(userId, request);
 		System.out.println("rowsEffect? " + rowsEffect);
 		if (rowsEffect == 1) 
 			return new BaseResponse();

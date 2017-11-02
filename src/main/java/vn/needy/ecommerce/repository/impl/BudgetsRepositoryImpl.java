@@ -13,7 +13,7 @@ import vn.needy.ecommerce.domain.entity.Budget;
 import vn.needy.ecommerce.repository.BudgetRepository;
 
 @Repository("budgetRepository")
-public class BudgetRepositoryImpl implements BudgetRepository {
+public class BudgetsRepositoryImpl implements BudgetRepository {
 
 	private SimpleJdbcInsert insert;
 	
