@@ -128,16 +128,35 @@ CREATE INDEX `loc_idx` ON `Users` (`lat`, `lng`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `UserWallet`
+-- Table structure for table `Wallet`
 --
-DROP TABLE IF EXISTS `UserWallet`;
+DROP TABLE IF EXISTS `Wallets`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `UserWallet` (
+CREATE TABLE `Wallets` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `userId` bigint(20) NOT NULL,
   `budget` smallint(5) NOT NULL,
-  CONSTRAINT `Fk_UserWallet` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `Fk_wallets_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `WalletPays`
+--
+DROP TABLE IF EXISTS `WalletPays`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WalletPays` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `walletId` bigint(20) NOT NULL,
+  `productId` bigint(20) NOT NULL,
+  `budgetCharge` smallint(5) NOT NULL,
+  `description` varchar(255),
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `Fk_wallet_pays_w` FOREIGN KEY (`walletId`) REFERENCES `Wallets` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
