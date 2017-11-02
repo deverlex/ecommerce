@@ -4,7 +4,7 @@ import java.util.Date;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class Budgets extends BaseDomain {
+public class Budget extends BaseDomain {
 
 	private static final long serialVersionUID = 145364573L;
 
@@ -17,7 +17,7 @@ public class Budgets extends BaseDomain {
 	private Date createdTime;
 	private Date lastUpdatedTime;
 	
-	public Budgets() {
+	public Budget() {
 		super();
 	}
 

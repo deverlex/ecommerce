@@ -4,11 +4,11 @@ import java.util.Date;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class Pays extends BaseDomain {
+public class Pay extends BaseDomain {
 
 	private static final long serialVersionUID = 1546365634L;
 
-	public static final String TABLE = "PayLogs";
+	public static final String TABLE = "Pays";
 
 	private long id;
 	private long budgetId;
@@ -21,7 +21,7 @@ public class Pays extends BaseDomain {
 	private Date createdTime;
 	private long createdBy;
 	
-	public Pays() {
+	public Pay() {
 		super();
 	}
 

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.domain.entity.Budgets;
+import vn.needy.ecommerce.domain.entity.Budget;
 import vn.needy.ecommerce.repository.BudgetRepository;
 
 @Repository("budgetRepository")
@@ -20,12 +20,12 @@ public class BudgetRepositoryImpl implements BudgetRepository {
 	@Autowired
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
-        		.withTableName(Budgets.TABLE)
+        		.withTableName(Budget.TABLE)
         		.usingGeneratedKeyColumns("id");
     }
 	
 	@Override
-	public long createBudget(Budgets budget) {
+	public long createBudget(Budget budget) {
 		Map<String, Object> params = new HashMap<>(2);
 		params.put("companyId", budget.getCompanyId());
 		params.put("budget", budget.getBudget());

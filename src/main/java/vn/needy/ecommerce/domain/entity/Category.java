@@ -4,9 +4,12 @@ import java.util.Date;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class Categories extends BaseDomain {
+public class Category extends BaseDomain {
 
 	private static final long serialVersionUID = 164533434L;
+	
+	public static final String TABLE = "Categories";
+	
 	private String category;
 	private String title;
 	private String coverPicture;
@@ -17,7 +20,7 @@ public class Categories extends BaseDomain {
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 	
-	public Categories() {
+	public Category() {
 		super();
 	}
 

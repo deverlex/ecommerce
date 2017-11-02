@@ -4,7 +4,7 @@ import java.util.Date;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class Products extends BaseDomain {
+public class Product extends BaseDomain {
 
 	private static final long serialVersionUID = 137262525L;
 	
@@ -19,7 +19,7 @@ public class Products extends BaseDomain {
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 
-	public Products() {
+	public Product() {
 		super();
 	}
 

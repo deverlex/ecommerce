@@ -11,9 +11,7 @@ public class Role extends BaseDomain {
 	private String role;
 	private String title;
 	private String description;
-	private Date createdTime;
 	private Date lastUpdatedTime;
-	private long createdBy;
 	private long lastUpdatedBy;
 	
 	public Role() {
@@ -44,28 +42,12 @@ public class Role extends BaseDomain {
 		this.description = description;
 	}
 
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
 	public Date getLastUpdatedTime() {
 		return lastUpdatedTime;
 	}
 
 	public void setLastUpdatedTime(Date lastUpdatedTime) {
 		this.lastUpdatedTime = lastUpdatedTime;
-	}
-
-	public long getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(long createdBy) {
-		this.createdBy = createdBy;
 	}
 
 	public long getLastUpdatedBy() {

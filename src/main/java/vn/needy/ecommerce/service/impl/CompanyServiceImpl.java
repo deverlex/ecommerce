@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vn.needy.ecommerce.common.utils.HashIdProvider;
 import vn.needy.ecommerce.common.utils.TimeProvider;
-import vn.needy.ecommerce.domain.entity.Budgets;
+import vn.needy.ecommerce.domain.entity.Budget;
 import vn.needy.ecommerce.domain.entity.Company;
 import vn.needy.ecommerce.domain.entity.CompanyStaff;
-import vn.needy.ecommerce.domain.entity.Pays;
+import vn.needy.ecommerce.domain.entity.Pay;
 import vn.needy.ecommerce.domain.entity.Role;
 import vn.needy.ecommerce.domain.entity.Store;
 import vn.needy.ecommerce.model.enums.StaffState;
@@ -104,14 +104,14 @@ public class CompanyServiceImpl implements CompanyService {
 	
 		// insert into Budgets
 		// MODIFY UPDATE
-		Budgets registerBudget = new Budgets();
+		Budget registerBudget = new Budget();
 		registerBudget.setCompanyId(companyId);
 		registerBudget.setBudget(500000f);
 		long budgetId = budgetRepository.createBudget(registerBudget);
 		
 		// insert into PayLogs
 		String payNumber = hashIdProvider.generatePayNumber();
-		Pays payLog = new Pays();
+		Pay payLog = new Pay();
 		payLog.setBudgetId(budgetId);
 		payLog.setBehavior(PayBehavior.INITIALIZE.getBehavior());
 		payLog.setBudgetCharge(500000f);

@@ -9,17 +9,7 @@ public class Company extends BaseDomain {
 	private static final long serialVersionUID = 179847724L;
 
 	public static final String TABLE = "Companies";
-//	  -- It will update for app manager
-//	  -- Trang thai: chua kich hoat, da kich hoat, tam ngung, da dong cua
-//	  -- Xep cap bac
-//	  -- {"url" : "", "host" : ""} -- Phan tan du lieu image
-//	  -- Mang cac url image [{ "url" : "", "host" : ""},...] max = 5 Image
-//	  `site` varchar(120),
-//	  -- Gia tri don hang tu ? - mien phi van chuyen
-//	  `limitFreeTransport` float(8, 2),
-//	  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-//	  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-//	  `lastUpdatedBy` bigint(20) NOT N
+
 	private long id;
 	private String companyNumber;
 	private String fcmToken;

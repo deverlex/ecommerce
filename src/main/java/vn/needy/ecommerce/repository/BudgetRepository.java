@@ -1,8 +1,8 @@
 package vn.needy.ecommerce.repository;
 
-import vn.needy.ecommerce.domain.entity.Budgets;
+import vn.needy.ecommerce.domain.entity.Budget;
 
 public interface BudgetRepository {
 
-	long createBudget(Budgets budget);
+	long createBudget(Budget budget);
 }

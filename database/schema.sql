@@ -615,12 +615,12 @@ CREATE TABLE `OrderProduct` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `UserReport`
+-- Table structure for table `UserReports`
 --
-DROP TABLE IF EXISTS `UserReport`;
+DROP TABLE IF EXISTS `UserReports`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `UserReport` (
+CREATE TABLE `UserReports` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- Chua don hang => nguoi report
   `orderId` bigint(20) NOT NULL,
@@ -636,12 +636,12 @@ CREATE TABLE `UserReport` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `StoreBankAccount`
+-- Table structure for table `StoreBankAccounts`
 --
-DROP TABLE IF EXISTS `StoreBankAccount`;
+DROP TABLE IF EXISTS `StoreBankAccounts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `StoreBankAccount` (
+CREATE TABLE `StoreBankAccounts` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `storeId` bigint(20) NOT NULL,
   `creditAccount` varchar(32) NOT NULL,
@@ -655,7 +655,7 @@ CREATE TABLE `StoreBankAccount` (
   CONSTRAINT `Fk_store_bank_account_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `creditAccount_idx` ON `StoreBankAccount` (`storeId`);
+CREATE INDEX `creditAccount_idx` ON `StoreBankAccounts` (`storeId`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

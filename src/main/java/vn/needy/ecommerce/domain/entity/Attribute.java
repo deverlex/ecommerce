@@ -4,9 +4,11 @@ import java.util.Date;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class Attributes extends BaseDomain {
+public class Attribute extends BaseDomain {
 
 	private static final long serialVersionUID = 192822526L;
+	
+	public static final String TABLE = "Attributes";
 
 	private String attribute;
 	private String title;
@@ -16,7 +18,7 @@ public class Attributes extends BaseDomain {
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 
-	public Attributes() {
+	public Attribute() {
 		super();
 	}
 
