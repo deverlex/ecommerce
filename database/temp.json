@@ -1,0 +1,12 @@
+[
+	{
+		"id" : "",
+		"username" : "",
+		"password" : "",
+		"lastResetPassword" : "",
+		"roles" : [
+			"ADMIN",
+			"USER"
+		]
+	}
+]
