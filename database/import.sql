@@ -1,23 +1,23 @@
 INSERT INTO Users(`username`, `password`, `state`, `lat`, `lng`) VALUES
-('system', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', '21.028799', '105.850914'),
-('+84968208244', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', '21.028799', '105.850914');
+('system', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', '21.028799', '105.850914');
+-- ('+84968208244', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', '21.028799', '105.850914');
 
-INSERT INTO Roles(`role`, `title`, `createdBy`, `lastUpdatedBy`) VALUES 
-('SYSTEM', 'System admin', 1, 1),
-('ADMIN', 'Company admin', 1, 1),
-('USER', 'Normal users', 1 , 1),
-('COMPANY_OWENER', 'Normal users', 1 , 1),
-('SELLER', 'Normal users', 1 , 1),
-('STORE_KEEPER', 'Keep store', 1, 2),
-('STORE_MANAGER', 'Normal users', 1 , 1);
+INSERT INTO Roles(`role`, `title`, `lastUpdatedBy`) VALUES 
+('SYSTEM', 'System admin', 1),
+('ADMIN', 'Company admin', 1),
+('USER', 'Normal users', 1),
+('COMPANY_OWENER', 'Normal users', 1),
+('SELLER', 'Normal users', 1),
+('STORE_KEEPER', 'Keep store', 1),
+('STORE_MANAGER', 'Normal users', 1);
 
-INSERT INTO UserRole(`role`, `userId`, `createdBy`, `lastUpdatedBy`) VALUES
-('SYSTEM', 1, 1, 1),
-('ADMIN', 2, 1, 1),
-('USER', 2, 1, 1);
+INSERT INTO UserRole(`role`, `userId`, `lastUpdatedBy`) VALUES
+('SYSTEM', 1, 1);
+-- ('ADMIN', 2, 1, 1),
+-- ('USER', 2, 1, 1);
 
 
-INSERT INTO Categories(`category`, )
+-- INSERT INTO Categories(`category`, )
 
 -- INSERT INTO Permissions (permission, title) VALUES
 -- ('add_table', 'Create table'),

@@ -11,10 +11,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.entity.Pay;
-import vn.needy.ecommerce.repository.PayLogRepository;
+import vn.needy.ecommerce.repository.PaysRepository;
 
 @Repository("payLogRepository")
-public class PayLogRepositoryImpl implements PayLogRepository {
+public class PaysRepositoryImpl implements PaysRepository {
 
 	@Autowired
 	JdbcTemplate jdbc;

@@ -36,8 +36,8 @@ FOR EACH ROW
 BEGIN
 	DECLARE userId bigint(20);
 	SET userId = NEW.id;
-	INSERT INTO UserRole(`role`, `userId`, `createdBy`, `lastUpdatedBy`) 
-	VALUES ('USER', userId, 1, 1);
+	INSERT INTO UserRole(`role`, `userId`, `lastUpdatedBy`) 
+	VALUES ('USER', userId, 1);
 END
 
 $$

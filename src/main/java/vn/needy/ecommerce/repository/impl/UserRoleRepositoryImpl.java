@@ -44,25 +44,23 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
 	}
 
 	@Override
-	public long resgisterUserRole(long userId, String role, long createdBy) {
+	public long resgisterUserRole(long userId, String role, long lastUpdatedBy) {
 		Map<String, Object> params = new HashMap<>(2);
 		params.put("userId", userId);
 		params.put("role", role);
-		params.put("createdBy", createdBy);
-		params.put("lastUpdatedBy", createdBy);
+		params.put("lastUpdatedBy", lastUpdatedBy);
 		return insert.executeAndReturnKey(params).longValue();
 	}
 
 	@Override
-	public int registerUserListRole(long userId, String[] roles, long createdBy) {
+	public int registerUserListRole(long userId, String[] roles, long lastUpdatedBy) {
 		@SuppressWarnings("unchecked")
 		Map<String, ?>[] listParams = new Map[roles.length];
 		for (int i = 0; i < roles.length; ++i) {
 			Map<String, Object> params = new HashMap<>(4);
 			params.put("userId", userId);
 			params.put("role", roles[i]);
-			params.put("createdBy", createdBy);
-			params.put("lastUpdatedBy", createdBy);
+			params.put("lastUpdatedBy", lastUpdatedBy);
 			listParams[i] = params;
 		}
 		

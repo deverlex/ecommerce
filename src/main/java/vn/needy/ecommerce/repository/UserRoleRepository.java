@@ -6,7 +6,7 @@ public interface UserRoleRepository {
 	
 	List<String> findRoleAuthenticationByUserId(long userId);
 	
-	long resgisterUserRole(long userId, String role, long createdBy);
+	long resgisterUserRole(long userId, String role, long lastUpdatedBy);
 	
-	int registerUserListRole(long userId, String[] roles, long createdBy);
+	int registerUserListRole(long userId, String[] roles, long lastUpdatedBy);
 }

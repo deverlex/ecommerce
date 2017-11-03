@@ -275,7 +275,7 @@ CREATE TABLE `Budgets` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `companyId` bigint(20) NOT NULL UNIQUE,
   -- tu dong sinh ra
-  `accountNumber` varchar(12) NOT NULL,
+  `budgetNumber` varchar(12) NOT NULL UNIQUE,
   -- Insert from code
   `budget` float(12,2) NOT NULL,
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,

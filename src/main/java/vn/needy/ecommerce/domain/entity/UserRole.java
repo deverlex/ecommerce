@@ -13,9 +13,7 @@ public static final String TABLE = "UserRole";
 	private long id;
 	private String role;
 	private long userId;
-	private Date createdTime;
 	private Date lastUpdatedTime;
-	private long createdBy;
 	private long lastUpdatedBy;
 	
 	public UserRole() {
@@ -46,28 +44,12 @@ public static final String TABLE = "UserRole";
 		this.userId = userId;
 	}
 
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
 	public Date getLastUpdatedTime() {
 		return lastUpdatedTime;
 	}
 
 	public void setLastUpdatedTime(Date lastUpdatedTime) {
 		this.lastUpdatedTime = lastUpdatedTime;
-	}
-
-	public long getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(long createdBy) {
-		this.createdBy = createdBy;
 	}
 
 	public long getLastUpdatedBy() {

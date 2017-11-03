@@ -28,6 +28,7 @@ public class BudgetsRepositoryImpl implements BudgetRepository {
 	public long createBudget(Budget budget) {
 		Map<String, Object> params = new HashMap<>(2);
 		params.put("companyId", budget.getCompanyId());
+		params.put("budgetNumber", budget.getBudgetNumber());
 		params.put("budget", budget.getBudget());
 		return insert.executeAndReturnKey(params).longValue();
 	}

@@ -24,6 +24,11 @@ public class HashIdProvider implements Serializable {
 		return hashids.encode(new Date().getTime()).substring(0, 12);
 	}
 	
+	public String generateBudgetNumber() {
+		Hashids hashids = new Hashids(String.valueOf(new Date()), 12, AUTH);
+		return hashids.encode(new Date().getTime()).substring(0, 12);
+	}
+	
 	public String generateOrderNumber() {
 		return nextId(4, 10);
 	}

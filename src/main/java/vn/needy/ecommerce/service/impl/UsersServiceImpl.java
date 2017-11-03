@@ -56,7 +56,9 @@ public class UsersServiceImpl implements UsersService {
 			return new CertificationResponse(null, message);
 		}
 		registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
+		System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 		usersRepository.registerUser(registerInfo);
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
 		User user = new User();
 		user.setUsername(registerInfo.getUsername());
 		String token = tokenPrefix + " " + tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);

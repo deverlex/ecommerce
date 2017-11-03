@@ -42,7 +42,6 @@ public class StoreResponsitoryImpl implements StoresResponsitory {
 		params.put("closingTime", store.getClosingTime());
 		params.put("lat", store.getLat());
 		params.put("lng", store.getLng());
-		params.put("createdBy", store.getCreatedBy());
 		params.put("lastUpdatedBy", store.getLastUpdatedBy());
 		return insert.executeAndReturnKey(params).longValue();
 	}

@@ -20,7 +20,6 @@ public class CompanyStaff extends BaseDomain {
 	
 	private Date createdTime;
 	private Date lastUpdatedTime;
-	
 	private long lastUpdatedBy;
 	
 	public CompanyStaff() {

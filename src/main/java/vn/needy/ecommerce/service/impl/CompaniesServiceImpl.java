@@ -28,7 +28,7 @@ import vn.needy.ecommerce.repository.BudgetRepository;
 import vn.needy.ecommerce.repository.CompaniesRepository;
 import vn.needy.ecommerce.repository.CompanyReputationRepository;
 import vn.needy.ecommerce.repository.CompanyStaffResponsitory;
-import vn.needy.ecommerce.repository.PayLogRepository;
+import vn.needy.ecommerce.repository.PaysRepository;
 import vn.needy.ecommerce.repository.StoresResponsitory;
 import vn.needy.ecommerce.repository.UserRoleRepository;
 import vn.needy.ecommerce.service.CompaniesService;
@@ -52,7 +52,7 @@ public class CompaniesServiceImpl implements CompaniesService {
 	BudgetRepository budgetRepository;
 	
 	@Autowired
-	PayLogRepository payLogRepository;
+	PaysRepository paysRepository;
 	
 	@Autowired
 	CompanyReputationRepository companyReputationRepository;
@@ -104,8 +104,10 @@ public class CompaniesServiceImpl implements CompaniesService {
 	
 		// insert into Budgets
 		// MODIFY UPDATE
+		String budgetNumber = hashIdProvider.generateBudgetNumber();
 		Budget registerBudget = new Budget();
 		registerBudget.setCompanyId(companyId);
+		registerBudget.setBudgetNumber(budgetNumber);
 		registerBudget.setBudget(500000f);
 		long budgetId = budgetRepository.createBudget(registerBudget);
 		
@@ -118,7 +120,7 @@ public class CompaniesServiceImpl implements CompaniesService {
 		payLog.setPayNumber(payNumber);
 		payLog.setDescription("Initialize budget account.");
 		payLog.setCreatedBy(1); // system id
-		payLogRepository.createPayLog(payLog);
+		paysRepository.createPayLog(payLog);
 		
 		// insert into Stores
 		String storeNumber = hashIdProvider.generateStoreNumber();
@@ -134,7 +136,6 @@ public class CompaniesServiceImpl implements CompaniesService {
 		registerStore.setClosingTime(timeProvider.parseTime("20:00:00"));
 		registerStore.setLat(registerCompanyRequest.getLat());
 		registerStore.setLng(registerCompanyRequest.getLng());
-		registerStore.setCreatedBy(userId);
 		registerStore.setLastUpdatedBy(userId);
 		long storeId = storesResponsitory.registerStore(registerStore);
 		
