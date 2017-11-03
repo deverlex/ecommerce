@@ -1,5 +1,8 @@
 package vn.needy.ecommerce.service;
 
-public interface CategoriesService {
+import vn.needy.ecommerce.model.json.response.CategoriesResponse;
 
+public interface CategoriesService {
+	
+	CategoriesResponse getProductCategories();
 }

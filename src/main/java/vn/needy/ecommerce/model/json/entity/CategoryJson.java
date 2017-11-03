@@ -9,6 +9,7 @@ public class CategoryJson implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String category;
+	private String title;
 	private String coverPicture;
 	
 	public CategoryJson() {
@@ -17,6 +18,7 @@ public class CategoryJson implements Serializable {
 	
 	public CategoryJson(Category category) {
 		this.category = category.getCategory();
+		this.title = category.getTitle();
 		this.coverPicture = category.getCoverPicture();
 	}
 
@@ -26,6 +28,14 @@ public class CategoryJson implements Serializable {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getCoverPicture() {
