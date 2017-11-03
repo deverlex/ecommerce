@@ -320,7 +320,8 @@ DROP TABLE IF EXISTS `CompanyStaff`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `CompanyStaff` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `userId` bigint(20) NOT NULL,
+  -- Moi sdt dang ky duy nhat 1 company
+  `userId` bigint(20) NOT NULL UNIQUE,
   `companyId` bigint(20) NOT NULL,
   -- Khi staff setup app and join system
   -- Firebase token will be update
