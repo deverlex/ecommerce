@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `PermissionRole`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `PermissionRole` (
-  `id` smallint(5) AUTO_INCREMENT PRIMARY KEY,
+  `id` smallint(5) unsigned AUTO_INCREMENT PRIMARY KEY,
   `permission` varchar(32) NOT NULL,
   `role` varchar(32) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -96,17 +96,17 @@ DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- phone number k dc unique vi viec dang ky su dung lai sdt se bi can tro
-  `username` varchar(16) NOT NULL,
+  `username` varchar(15) NOT NULL,
   `password` varchar(255) NOT NULL,
   -- Trang thai tai khoan: khoa, con hoat dong...
   `state` tinyint(2) NOT NULL,
   -- Khoa 90 ngay
   `unlockTime` datetime,
   -- firebase UID
-  `firebaseUid` varchar(32), 
+  `firebaseUid` varchar(64), 
   -- Khong yeu cau null de register tu app Vendor
   `fcmToken` varchar(225),
-  `fullName` varchar(64),
+  `fullName` varchar(128),
   `gender` varchar(20), 
   `address` varchar(128),
   `avatar` varchar(255),
@@ -171,7 +171,7 @@ CREATE TABLE `NotificationUser` (
   -- Nguoi nhan notification
   `receverId` bigint(20) NOT NULL,
   `isRead` tinyint(1) NOT NULL DEFAULT 0,
-  `isView` tinyint(0) NOT NULL DEFAULT 0,
+  `isView` tinyint(1) NOT NULL DEFAULT 0,
   CONSTRAINT `Fk_notify_user_r` FOREIGN KEY (`receverId`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_notify_user_n` FOREIGN KEY (`notificationId`) REFERENCES `Notifications` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -218,16 +218,16 @@ CREATE TABLE `Companies` (
   -- Xep cap bac
   `level` tinyint(3) NOT NULL,
   `name` varchar(128) NOT NULL,
-  `officeAddress` varchar(128) NOT NULL,
+  `officeAddress` varchar(255) NOT NULL,
   `foundedDate` date,
   `openingTime` time NOT NULL,
   `closingTime` time NOT NULL,
   -- {"url" : "", "host" : ""} -- Phan tan du lieu image
   `avatar` varchar(255),
   -- Mang cac url image [{ "url" : "", "host" : ""},...] max = 5 Image
-  `pictures` text(1281),
-  `description` text(1000),
-  `siteUrl` varchar(120),
+  `pictures` text(1500),
+  `description` text(1500),
+  `siteUrl` varchar(255),
   -- Gia tri don hang tu ? - mien phi van chuyen
   `limitFreeTransport` float(8, 2),
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -354,7 +354,7 @@ DROP TABLE IF EXISTS `Stores`;
 CREATE TABLE `Stores` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `companyId` bigint(20) NOT NULL,
-  `storeNumber` varchar(9) NOT NULL,
+  `storeNumber` varchar(10) NOT NULL,
   -- Trang thai cua hang da kich hoat hay chua
   -- Dieu kien kich hoat: khi co hang ban
   -- inactive (0), active(1), locked (-1)
@@ -365,13 +365,13 @@ CREATE TABLE `Stores` (
   -- Qua 3 lan 1 ngay, khoa 7 ngay, de mo khoa, nop tien 1.000.000
   `unlockTime` datetime,
   `numberStaff` smallint(5) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  `address` varchar(128) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `address` varchar(255) NOT NULL,
   -- Gioi thieu cua hang
-  `description` text(1000),
+  `description` text(1500),
   `avatar` varchar(255),
   -- Mang cac url image ["url1", "url2"] max = 5 Image
-  `pictures` text(1281),
+  `pictures` text(1500),
   `lat` float(10,6) NOT NULL,
   `lng` float(10,6) NOT NULL,
   -- Thoi gian mo cua
@@ -398,7 +398,7 @@ DROP TABLE IF EXISTS `Categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Categories` (
-  `category` varchar(16) PRIMARY KEY,
+  `category` varchar(32) PRIMARY KEY,
   `coverPicture` varchar(255) NOT NULL,
   `description` varchar(128) NOT NULL,
   `isService` tinyint(1) DEFAULT 0,
@@ -416,9 +416,9 @@ DROP TABLE IF EXISTS `SubCategories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `SubCategories` (
-  `id` smallint(5) AUTO_INCREMENT PRIMARY KEY,
-  `subCategory` varchar(16) NOT NULL,
-  `refCategory` varchar(16) NOT NULL,
+  `id` smallint(5) unsigned AUTO_INCREMENT PRIMARY KEY,
+  `subCategory` varchar(32) NOT NULL,
+  `refCategory` varchar(32) NOT NULL,
   `refLevel` tinyint(3) NOT NULL,
   `isNext` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -436,8 +436,8 @@ DROP TABLE IF EXISTS `Attributes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Attributes` (
-  `attribute` varchar(16) PRIMARY KEY,
-  `description` varchar(64) NOT NULL,
+  `attribute` varchar(32) PRIMARY KEY,
+  `description` varchar(128) NOT NULL,
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
@@ -452,9 +452,9 @@ DROP TABLE IF EXISTS `CategoryAttribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `CategoryAttribute` (
-  `id` int(10) AUTO_INCREMENT PRIMARY KEY,
-  `attribute` varchar(16) NOT NULL,
-  `category` varchar(16) NOT NULL,
+  `id` int(10) unsigned AUTO_INCREMENT PRIMARY KEY,
+  `attribute` varchar(32) NOT NULL,
+  `category` varchar(32) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_categoryattr_ct` FOREIGN KEY (`category`) REFERENCES `Categories` (`category`),
@@ -471,12 +471,12 @@ DROP TABLE IF EXISTS `Products`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Products` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `productNumber` varchar(9) NOT NULL,
-  `category` varchar(16) NOT NULL,
+  `productNumber` varchar(12) NOT NULL,
+  `category` varchar(32) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
   -- DELETED (-2), DENIED (-1), INACTIVE (0), ACTIVE (1)
-  `state` tinyint(1) DEFAULT 0,
-  `name` varchar(120) NOT NULL,
+  `state` tinyint(2),
+  `name` varchar(255) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_products_cg` FOREIGN KEY (`category`) REFERENCES `Categories` (`category`),
@@ -519,12 +519,12 @@ CREATE TABLE `ProductCompany` (
   `price` float(12, 2) NOT NULL,
   `prePrice` float(12, 2) NOT NULL,
   -- Khuyen mai JSON - 5 k/m
-  `promotion` text(600),
+  `promotion` text(1500),
   -- Mo ta san pham
-  `description` text(1000),
+  `description` text(1500),
   `image` varchar(255),
   -- Save JSON format - 5 image
-  `pictures` text(1281),
+  `pictures` text(1500),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Uniq_product_store_ps` UNIQUE (`productId`, `companyId`),
@@ -545,9 +545,9 @@ DROP TABLE IF EXISTS `ProductAttribute`;
 CREATE TABLE `ProductAttribute` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `productId` bigint(20) NOT NULL,
-  `attribute` varchar(16) NOT NULL,
+  `attribute` varchar(32) NOT NULL,
   -- 12, Do, Composite...
-  `value` varchar(64) NOT NULL,
+  `value` varchar(128) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Uniq_product_attr_pa` UNIQUE (`productId`, `attribute`),
   CONSTRAINT `Fk_product_attr_a` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`),
@@ -568,7 +568,7 @@ CREATE TABLE `Orders` (
   `userId` bigint(20) NOT NULL,
   `storeId` bigint(20) NOT NULL,
   -- Ma don hang
-  `orderNumber` varchar(14) NOT NULL,
+  `orderNumber` varchar(16) NOT NULL,
   -- Da dat, dang nhan don hang...
   `status` tinyint(2) NOT NULL,
   -- Da thanh toan hay chua, tuong lai tich hop them thanh toan dien tu
@@ -578,7 +578,7 @@ CREATE TABLE `Orders` (
   -- Phuong thuc thanh toan: tien mat, chuyen khoan, needy xu
   `paymentMethod` tinyint(2),
   -- Ghi chu cho ca don hang
-  `note` text(180),
+  `note` varchar(255),
   `receiveFrom` datetime,
   `receiveTo` datetime,
   -- Phi van chuyen
@@ -625,8 +625,8 @@ CREATE TABLE `UserReports` (
   `orderId` bigint(20) NOT NULL,
   `typeReport` tinyint(2) NOT NULL,
   `isAccepted` tinyint(1) DEFAULT 0,
-  `description` text(1000) NOT NULL,
-  `pictures` text(1281) NOT NULL,
+  `description` text(1500) NOT NULL,
+  `pictures` text(1500) NOT NULL,
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `acceptedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_company_reputation_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
@@ -645,9 +645,9 @@ CREATE TABLE `StoreBankAccounts` (
   `storeId` bigint(20) NOT NULL,
   `creditAccount` varchar(32) NOT NULL,
   -- Ten chu tai khoan
-  `beneficiaryName` varchar(64) NOT NULL,
+  `beneficiaryName` varchar(128) NOT NULL,
   -- Ten chi nhanh
-  `beneficiaryBankName` varchar(128) NOT NULL,
+  `beneficiaryBankName` varchar(255) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_store_bank_account_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
@@ -667,7 +667,7 @@ CREATE TABLE `StoreReview` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `userId` bigint(20) NOT NULL,
   `storeId` bigint(20) NOT NULL,
-  `rating` smallint(1),
+  `rating` tinyint(2),
   `review` text(500),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Uniq_store_review_us` UNIQUE (`userId`,`storeId`),
@@ -686,7 +686,7 @@ CREATE TABLE `ProductReview` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `userId` bigint(20) NOT NULL,
   `productId` bigint(20) NOT NULL,
-  `rating` smallint(1),
+  `rating` tinyint(2),
   `review` text(500),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Uniq_product_review_up` UNIQUE (`userId`,`productId`),
@@ -705,7 +705,7 @@ CREATE TABLE `UserReview` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `sellerId` bigint(20) NOT NULL,
   `buyerId` bigint(20) NOT NULL,
-  `rating` smallint(2),
+  `rating` tinyint(2),
   `review` text(500),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Uniq_user_review_sb` UNIQUE (`sellerId`,`buyerId`),
