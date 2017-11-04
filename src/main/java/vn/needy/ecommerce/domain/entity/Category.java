@@ -36,10 +36,6 @@ public class Category extends BaseDomain {
 		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 	public String getCoverPicture() {
 		return coverPicture;
 	}

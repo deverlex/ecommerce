@@ -23,7 +23,6 @@ DROP TABLE IF EXISTS `Permissions`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Permissions` (
   `permission` varchar(32) PRIMARY KEY,
-  `title` varchar(64) NOT NULL,
   `description` varchar(128),
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -61,7 +60,6 @@ DROP TABLE IF EXISTS `Roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Roles` (
   `role` varchar(32) NOT NULL PRIMARY KEY,
-  `title` varchar(64) NOT NULL,
   `description` varchar(128),
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -401,7 +399,6 @@ DROP TABLE IF EXISTS `Categories`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Categories` (
   `category` varchar(16) PRIMARY KEY,
-  `title` varchar(32) NOT NULL,
   `coverPicture` varchar(255) NOT NULL,
   `description` varchar(128) NOT NULL,
   `isService` tinyint(1) DEFAULT 0,
@@ -422,6 +419,8 @@ CREATE TABLE `SubCategories` (
   `id` smallint(5) AUTO_INCREMENT PRIMARY KEY,
   `subCategory` varchar(16) NOT NULL,
   `refCategory` varchar(16) NOT NULL,
+  `refLevel` tinyint(3) NOT NULL,
+  `isNext` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_subcategories_sc` FOREIGN KEY (`subCategory`) REFERENCES `Categories` (`category`),
@@ -438,7 +437,6 @@ DROP TABLE IF EXISTS `Attributes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Attributes` (
   `attribute` varchar(16) PRIMARY KEY,
-  `title` varchar(32) NOT NULL,
   `description` varchar(64) NOT NULL,
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,

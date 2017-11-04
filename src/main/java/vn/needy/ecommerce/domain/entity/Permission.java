@@ -2,32 +2,30 @@ package vn.needy.ecommerce.domain.entity;
 
 import java.util.Date;
 
-import vn.needy.ecommerce.domain.BaseDomain;
+import vn.needy.ecommerce.model.base.BaseModel;
 
-public class Attribute extends BaseDomain {
+public class Permission extends BaseModel {
 
-	private static final long serialVersionUID = 192822526L;
-	
-	public static final String TABLE = "Attributes";
+	private static final long serialVersionUID = 14538472784L;
 
-	private String attribute;
+	private String permission;
 	private String title;
 	private String description;
 	private boolean enable;
-	
 	private Date lastUpdatedTime;
+	private long createdBy;
 	private long lastUpdatedBy;
-
-	public Attribute() {
+	
+	public Permission() {
 		super();
 	}
 
-	public String getAttribute() {
-		return attribute;
+	public String getPermission() {
+		return permission;
 	}
 
-	public void setAttribute(String attribute) {
-		this.attribute = attribute;
+	public void setPermission(String permission) {
+		this.permission = permission;
 	}
 
 	public String getTitle() {
@@ -58,6 +56,14 @@ public class Attribute extends BaseDomain {
 		this.lastUpdatedTime = lastUpdatedTime;
 	}
 
+	public long getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(long createdBy) {
+		this.createdBy = createdBy;
+	}
+
 	public long getLastUpdatedBy() {
 		return lastUpdatedBy;
 	}
@@ -65,4 +71,5 @@ public class Attribute extends BaseDomain {
 	public void setLastUpdatedBy(long lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
+	
 }
