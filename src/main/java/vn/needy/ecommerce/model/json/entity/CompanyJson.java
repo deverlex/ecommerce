@@ -8,13 +8,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
+import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.domain.entity.Company;
 
 public class CompanyJson implements Serializable {
 	
 	private static final long serialVersionUID = 153543535L;
 	
-	private long id;
+	private String id;
 	private String companyNumber;
 	private int state;
 	private String name;
@@ -39,7 +40,7 @@ public class CompanyJson implements Serializable {
 	}
 	
 	public CompanyJson(Company company) {
-		this.id = company.getId();
+		this.id = CipherID.encrypt(company.getId());
 		this.companyNumber = company.getCompanyNumber();
 		this.state = company.getState();
 		this.name = company.getName();
@@ -64,12 +65,12 @@ public class CompanyJson implements Serializable {
 		this.isReputation = false;
 	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
 	public void setId(long id) {
-		this.id = id;
+		this.id = CipherID.encrypt(id);
 	}
 
 	public String getCompanyNumber() {

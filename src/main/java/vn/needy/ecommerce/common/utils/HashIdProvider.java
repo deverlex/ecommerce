@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 public class HashIdProvider implements Serializable {
 
 	private static final long serialVersionUID = 1452575675L;
-		
+	
 	private static final String AUTH = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
 	private static final String DIGITS = "123456789";
 	private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private static final int LENGTH_DIGITS = 9;
 	private static final int LENGTH_CHARS = 26;
-	
+		
 	// This function use for generate Company Code
 	public String generateCompanyCode() {
 		Hashids hashids = new Hashids(String.valueOf(new Date()), 12, AUTH);
@@ -63,4 +63,6 @@ public class HashIdProvider implements Serializable {
 		}
 		return String.valueOf(buffChars) + String.valueOf(buffDigits);
 	}
+	
+	
 }

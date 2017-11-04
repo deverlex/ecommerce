@@ -28,8 +28,6 @@ spring:
 
 #Application configurations
 needy:
-  array:
-    hashId: abcdefghiklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
   # Token
   token:
     header: Authorization
@@ -48,24 +46,34 @@ needy:
     securities:
       authentications: authentications # POST - login
       refreshments: refreshments # GET - get new token
-      logout: logout
+      #logout: logout
 
     users:
       registers: users/registers # POST - register account
       existences: users/existences # GET - Check account exist
       reset: users/reset # reset password
-      passwords:
-        update: users/{username}/passwords #PUT: update pass
-      infomation: users # GET get account info DELETE: delete account
-      active: users/activeness # POST active user account
+      #passwords:
+      #  update: users/{username}/passwords #PUT: update pass
+      informations: users # GET get account info DELETE: delete account
+      #active: users/activeness # POST active user account
 
     companies:
       infomation: companies #GET
-      dependencies: companies/dependencies # GET
+      #dependencies: companies/dependencies # GET
       registers: companies/registers # POST
-      staffs:
-        fcms: companies/{company_id}/staffs/fcm_tokens # PUT update token
-      categories: companies/categories #GET - get list categories of company
+      #staffs:
+      #  fcms: companies/{company_id}/staffs/fcm_tokens # PUT update token
 
     categories:
-      lists: categories #GET - get list categories for companies choose
+      products:
+        lists: categories/products 
+        sublists: categories/{category}/products
+        companies: 
+          lists: categories/products/companies #GET - get list categories for companies choose
+          sublists: categories/{category}/products/companies
+      services:
+        lists: categories/services
+        sublists: categories/{category}/services
+        companies: 
+          lists: categories/services/companies
+          sublists: categories/{category}/services/companies

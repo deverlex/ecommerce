@@ -60,7 +60,7 @@ public class UsersRestService {
 	}
 	
 	// Get user info
-	@RequestMapping(value = "${needy.route.users.infomation}", method = RequestMethod.GET)
+	@RequestMapping(value = "${needy.route.users.informations}", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<UserResponse> getUserInfomation(HttpServletRequest request) {
 		long userid = idUtils.getIdentification(request);
@@ -69,15 +69,15 @@ public class UsersRestService {
 	}
 	
 	//Active user account
-	@RequestMapping(value = "${needy.route.users.active}", method = RequestMethod.POST)
-	public ResponseEntity<BaseResponse> activeUserAccount(HttpServletRequest request,
-			@RequestBody ActiveAccountRequest activeRequest) {
-		long userid = idUtils.getIdentification(request);
-		BaseResponse response = usersService.activeAccount(userid, activeRequest);
-		System.out.println(response != null);
-		if (response != null) return ResponseEntity.ok(response); 
-		return ResponseEntity.noContent().build();
-	}
+//	@RequestMapping(value = "${needy.route.users.active}", method = RequestMethod.POST)
+//	public ResponseEntity<BaseResponse> activeUserAccount(HttpServletRequest request,
+//			@RequestBody ActiveAccountRequest activeRequest) {
+//		long userid = idUtils.getIdentification(request);
+//		BaseResponse response = usersService.activeAccount(userid, activeRequest);
+//		System.out.println(response != null);
+//		if (response != null) return ResponseEntity.ok(response); 
+//		return ResponseEntity.noContent().build();
+//	}
 	
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")

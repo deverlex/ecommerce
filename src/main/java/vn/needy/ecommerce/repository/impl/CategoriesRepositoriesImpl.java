@@ -26,13 +26,56 @@ public class CategoriesRepositoriesImpl implements CategoriesRepository {
 		while(rs.next()) {
 			Category category = new Category();
 			category.setCategory(rs.getString("category"));
-			category.setTitle(rs.getString("title"));
 			category.setCoverPicture(rs.getString("coverPicture"));
 			categories.add(category);
 		}
 		return categories;
 	}
 
+	@Override
+	public List<Category> getProductSubCategory(String category) {
+		// TODO Auto-generated method stub
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM Categories c " + 
+				"LEFT JOIN SubCategories sc ON c.category = sc.subCategory " + 
+				"WHERE sc.refCategory = ? AND sc.isNext = true " + 
+				"AND c.enable = true AND c.isService = false", new Object[] {category});
+		List<Category> categories = new LinkedList<>();
+		while(rs.next()) {
+			Category subCategory = new Category();
+			subCategory.setCategory(rs.getString("category"));
+			subCategory.setCoverPicture(rs.getString("coverPicture"));
+			categories.add(subCategory);
+		}
+		return categories;
+	}
+
+	@Override
+	public List<Category> getCompanyProductCategory(long companyId) {
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM Categories c WHERE c.category = " + 
+				"(SELECT scts.refCategory FROM Companies com " + 
+				"INNER JOIN ProductCompany pcom ON pcom.companyId = com.id " + 
+				"INNER JOIN Products prd ON prd.id = pcom.productId " + 
+				"INNER JOIN Categories cts ON cts.category = prd.category " + 
+				"INNER JOIN SubCategories scts ON scts.subCategory = cts.category " + 
+				"WHERE com.id = 2 AND scts.refLevel = 1 LIMIT 1) " + 
+				"AND c.enable = true AND c.isService = false", new Object[] {});
+		List<Category> categories = new LinkedList<>();
+		while(rs.next()) {
+			Category category = new Category();
+			category.setCategory(rs.getString("category"));
+			category.setCoverPicture(rs.getString("coverPicture"));
+			categories.add(category);
+		}
+		return categories;
+	}
+
+	@Override
+	public List<Category> getCompanyProductSubCategory(long userId, String category) {
+		
+		return null;
+	}
+	
+	
 	@Override
 	public List<Category> getServiceCategories() {
 		// TODO Auto-generated method stub
