@@ -54,4 +54,16 @@ public class CategoriesServiceImpl implements CategoriesService {
 		return response;
 	}
 
+	@Override
+	public CategoriesResponse getCompanyProductSubCategory(long companyId, String category) {
+		List<CategoryJson> categoriesJson = new LinkedList<>();
+		List<Category> categories = categoriesRepository.getCompanyProductSubCategory(companyId, category);
+		for(Category subCategories : categories) {
+			categoriesJson.add(new CategoryJson(subCategories));
+		}
+		CategoriesResponse response = new CategoriesResponse();
+		response.setCategories(categoriesJson);
+		return response;
+	}
+
 }

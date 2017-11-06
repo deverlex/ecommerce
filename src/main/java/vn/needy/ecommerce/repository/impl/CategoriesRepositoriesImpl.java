@@ -52,13 +52,13 @@ public class CategoriesRepositoriesImpl implements CategoriesRepository {
 	@Override
 	public List<Category> getCompanyProductCategory(long companyId) {
 		SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM Categories c WHERE c.category = " + 
-				"(SELECT scts.refCategory FROM Companies com " + 
+				"(SELECT DISTINCT scts.refCategory FROM Companies com " + 
 				"INNER JOIN ProductCompany pcom ON pcom.companyId = com.id " + 
 				"INNER JOIN Products prd ON prd.id = pcom.productId " + 
 				"INNER JOIN Categories cts ON cts.category = prd.category " + 
 				"INNER JOIN SubCategories scts ON scts.subCategory = cts.category " + 
-				"WHERE com.id = 2 AND scts.refLevel = 1 LIMIT 1) " + 
-				"AND c.enable = true AND c.isService = false", new Object[] {});
+				"WHERE com.id = ? AND scts.refLevel = 1) " + 
+				"AND c.enable = true AND c.isService = false", new Object[] {companyId});
 		List<Category> categories = new LinkedList<>();
 		while(rs.next()) {
 			Category category = new Category();
@@ -70,9 +70,34 @@ public class CategoriesRepositoriesImpl implements CategoriesRepository {
 	}
 
 	@Override
-	public List<Category> getCompanyProductSubCategory(long userId, String category) {
-		
-		return null;
+	public List<Category> getCompanyProductSubCategory(long companyId, String category) {
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM Categories cts " + 
+				"INNER JOIN " + 
+				"(SELECT DISTINCT sct.* FROM SubCategories sct " + 
+				"WHERE sct.subCategory IN " + 
+				"(SELECT DISTINCT sc.subcategory FROM SubCategories sc " + 
+				"WHERE sc.refCategory = ? AND sc.isNext = true) " + 
+				"AND sct.refCategory IN " + 
+				"(" + 
+				"	SELECT c.category FROM Categories c WHERE c.category IN " + 
+				"	(SELECT DISTINCT scts.refCategory FROM Companies com " + 
+				"	INNER JOIN ProductCompany pcom ON pcom.companyId = com.id " + 
+				"	INNER JOIN Products prd ON prd.id = pcom.productId " + 
+				"	INNER JOIN Categories cts ON cts.category = prd.category " + 
+				"	INNER JOIN SubCategories scts ON scts.subCategory = cts.category " + 
+				"	WHERE com.id = ? AND scts.refLevel = 1) " + 
+				"	AND c.enable = true AND c.isService = false " + 
+				")) as Sub " + 
+				"ON cts.category = Sub.subCategory " + 
+				"WHERE cts.enable = true AND cts.isService = false", new Object[] {category, companyId});
+		List<Category> categories = new LinkedList<>();
+		while(rs.next()) {
+			Category subCategory = new Category();
+			subCategory.setCategory(rs.getString("category"));
+			subCategory.setCoverPicture(rs.getString("coverPicture"));
+			categories.add(subCategory);
+		}
+		return categories;
 	}
 	
 	

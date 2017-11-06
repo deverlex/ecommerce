@@ -9,4 +9,6 @@ public interface CategoriesService {
 	CategoriesResponse getProductSubCategory(String category);
 	
 	CategoriesResponse getCompanyProductCategory(long companyId);
+	
+	CategoriesResponse getCompanyProductSubCategory(long companyId, String category);
 }

@@ -45,7 +45,7 @@ public class CategoriesRestService {
 	@RequestMapping(value = "${needy.route.categories.products.companies.lists}", method = RequestMethod.GET)
 	// categories/products/companies?id=?
 	public ResponseEntity<?> getCompanyProductCategories(HttpServletRequest request,
-			@RequestParam(value = "id", required = true) String companyId) {
+			@RequestParam(value = "company_id", required = true) String companyId) {
 		long id = CipherID.decrypt(companyId);
 		CategoriesResponse response = categoriesService.getCompanyProductCategory(id);
 		return ResponseEntity.ok(response);
@@ -55,8 +55,10 @@ public class CategoriesRestService {
 	@RequestMapping(value = "${needy.route.categories.products.companies.sublists}")
 	// categories/{category}/products/companies
 	public ResponseEntity<?> getCompanyProductSubCategories(HttpServletRequest request,
+			@RequestParam(value = "company_id", required = true) String companyId,
 			@PathVariable(value = "category", required = true) String category) {
-		
-		return null;
+		long id = CipherID.decrypt(companyId);
+		CategoriesResponse response = categoriesService.getCompanyProductSubCategory(id, category);
+		return ResponseEntity.ok(response);
 	}
 }
