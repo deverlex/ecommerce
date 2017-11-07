@@ -2,14 +2,14 @@ INSERT INTO Users(`username`, `password`, `state`, `lat`, `lng`) VALUES
 ('system', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', '21.028799', '105.850914');
 -- ('+84968208244', '$2a$10$l9dsqwEN6nKFjpWZva3i0eUFtL0PZYkS45yEYdQ988Tf01qMahNZq', '1', '21.028799', '105.850914');
 
-INSERT INTO Roles(`role`, `title`, `lastUpdatedBy`) VALUES 
-('SYSTEM', 'System admin', 1),
-('ADMIN', 'Company admin', 1),
-('USER', 'Normal users', 1),
-('COMPANY_OWENER', 'Normal users', 1),
-('SELLER', 'Normal users', 1),
-('STORE_KEEPER', 'Keep store', 1),
-('STORE_MANAGER', 'Normal users', 1);
+INSERT INTO Roles(`role`, `lastUpdatedBy`) VALUES 
+('SYSTEM', 1),
+('ADMIN', 1),
+('USER', 1),
+('COMPANY_OWENER', 1),
+('SELLER', 1),
+('STORE_KEEPER', 1),
+('STORE_MANAGER', 1);
 
 INSERT INTO UserRole(`role`, `userId`, `lastUpdatedBy`) VALUES
 ('SYSTEM', 1, 1);

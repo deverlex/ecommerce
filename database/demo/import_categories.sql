@@ -1,13 +1,19 @@
-INSERT INTO Categories (`category`, `title`, `coverPicture`, `description`, `lastUpdatedBy`)
+INSERT INTO Categories (`category`, `coverPicture`, `lastUpdatedBy`)
 VALUES
-("GASWATER", "Ga và nước", "url", "none", 1),
-("HOTEL", "Nhà nghỉ - khách sạn", "url", "none", 1),
-("GAS", "Gọi Gas", "url", "none", 1),
-("WATER", "Gọi nước", "url", "none", 1),
-("BOOKHOTEL", "Đặt phòng nhà nghỉ", "url", "none", 1);
+("GASWATER","url", 1),
+("HOTEL", "url", 1),
+("GAS", "url", 1),
+("WATER", "url", 1),
+("BOOKHOTEL", "url", 1),
+("CALLGAS", "url", 1),
+("GASTOVE", "url", 1);
 
-INSERT INTO SubCategories (`subCategory`, `refCategory`, `lastUpdatedBy`)
+INSERT INTO SubCategories (`subCategory`, `refCategory`, `refLevel`, `isNext`, `lastUpdatedBy`)
 VALUES
-("GAS", "GASWATER", 1),
-("WATER", "GASWATER", 1),
-("BOOKHOTEL", "HOTEL", 1);
+("GAS", "GASWATER", 1, 1, 1),
+("WATER", "GASWATER", 1, 1, 1),
+("BOOKHOTEL", "HOTEL", 1, 1, 1),
+("CALLGAS", "GASWATER", 1, 0, 1),
+("CALLGAS", "GAS", 2, 1, 1),
+("GASTOVE", "GASWATER", 1, 0, 1),
+("GASTOVE", "GAS", 2, 1, 1);

@@ -23,7 +23,6 @@ DROP TABLE IF EXISTS `Permissions`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Permissions` (
   `permission` varchar(32) PRIMARY KEY,
-  `description` varchar(128),
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createdBy` bigint(20) NOT NULL,
@@ -60,7 +59,6 @@ DROP TABLE IF EXISTS `Roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Roles` (
   `role` varchar(32) NOT NULL PRIMARY KEY,
-  `description` varchar(128),
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
@@ -400,8 +398,7 @@ DROP TABLE IF EXISTS `Categories`;
 CREATE TABLE `Categories` (
   `category` varchar(32) PRIMARY KEY,
   `coverPicture` varchar(255) NOT NULL,
-  `description` varchar(128) NOT NULL,
-  `isService` tinyint(1) DEFAULT 0,
+  `isPriceLater` tinyint(1) DEFAULT 0,
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
@@ -437,7 +434,6 @@ DROP TABLE IF EXISTS `Attributes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Attributes` (
   `attribute` varchar(32) PRIMARY KEY,
-  `description` varchar(128) NOT NULL,
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
@@ -490,16 +486,16 @@ CREATE INDEX `productNumber_idx` ON `Products` (`productNumber`);
 -- Table structure for table `ServiceProduct`
 -- Bang chi ra service bao gom cac product nao, vi du: sua bep gas
 -- San pham: Khoa van, bep gas, day gas, binh gas...
-DROP TABLE IF EXISTS `ServiceProduct`;
+DROP TABLE IF EXISTS `SubProduct`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ServiceProduct` (
+CREATE TABLE `SubProduct` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `serviceId` bigint(20) NOT NULL,
   `productId` bigint(20) NOT NULL,
-  CONSTRAINT `Uniq_service_product_sp` UNIQUE (`serviceId`, `productId`),
-  CONSTRAINT `Fk_service_product_s` FOREIGN KEY (`serviceId`) REFERENCES `Products` (`id`),
-  CONSTRAINT `Fk_service_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
+  CONSTRAINT `Uniq_sub_product_sp` UNIQUE (`serviceId`, `productId`),
+  CONSTRAINT `Fk_sub_product_s` FOREIGN KEY (`serviceId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_sub_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

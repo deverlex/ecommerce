@@ -14,7 +14,7 @@ public class Category extends BaseDomain {
 	private String title;
 	private String coverPicture;
 	private String description;
-	private boolean isService;
+	private boolean isPriceLater;
 	private boolean enable;
 	
 	private Date lastUpdatedTime;
@@ -52,12 +52,12 @@ public class Category extends BaseDomain {
 		this.description = description;
 	}
 
-	public boolean isService() {
-		return isService;
+	public boolean isPriceLater() {
+		return isPriceLater;
 	}
 
-	public void setService(boolean isService) {
-		this.isService = isService;
+	public void setPriceLater(boolean isPriceLater) {
+		this.isPriceLater = isPriceLater;
 	}
 
 	public boolean isEnable() {

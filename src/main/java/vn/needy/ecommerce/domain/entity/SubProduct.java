@@ -2,15 +2,15 @@ package vn.needy.ecommerce.domain.entity;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class ServiceProduct extends BaseDomain {
+public class SubProduct extends BaseDomain {
 
 	private static final long serialVersionUID = 19393837L;
 	
 	private long id;
-	private long serviceId;
+	private long subId;
 	private long productId;
 
-	public ServiceProduct() {
+	public SubProduct() {
 		super();
 	}
 
@@ -22,12 +22,12 @@ public class ServiceProduct extends BaseDomain {
 		this.id = id;
 	}
 
-	public long getServiceId() {
-		return serviceId;
+	public long getSubId() {
+		return subId;
 	}
 
-	public void setServiceId(long serviceId) {
-		this.serviceId = serviceId;
+	public void setSubId(long subId) {
+		this.subId = subId;
 	}
 
 	public long getProductId() {
