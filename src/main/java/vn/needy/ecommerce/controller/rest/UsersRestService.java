@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import vn.needy.ecommerce.common.utils.TextUtils;
 import vn.needy.ecommerce.model.base.BaseResponse;
-import vn.needy.ecommerce.model.json.request.ActiveAccountRequest;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
@@ -53,7 +53,7 @@ public class UsersRestService {
 	}
 	
 	// Sometime, user's behavior need check account is existed. Example: register/reset password
-	@RequestMapping(value = "${needy.route.users.existences}", method = RequestMethod.GET)
+	@RequestMapping(value = "${needy.route.users.find}", method = RequestMethod.GET)
 	public ResponseEntity<BaseResponse> findUserExistence(@RequestParam(value = "username", required = true) String username) {
 		BaseResponse response = usersService.findUserExist(username);
 		return ResponseEntity.ok(response);

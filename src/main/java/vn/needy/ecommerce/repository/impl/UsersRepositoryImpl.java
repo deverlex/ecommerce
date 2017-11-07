@@ -110,7 +110,7 @@ public class UsersRepositoryImpl implements UsersRepository {
 	public User findUserByUsernameForResetPassword(String username) {
 		SqlRowSet rs = jdbc.queryForRowSet("SELECT id, firebaseUid "
 				+ "FROM Users "
-				+ "WHERE username = ? AND state <> ?", new Object[] {username, UserState.DELETED});
+				+ "WHERE username = ? AND state <> ?", new Object[] {username, UserState.DELETED.getState()});
 		if (rs.first()) {
 			User user = new User();
 			user.setId(rs.getLong("id"));

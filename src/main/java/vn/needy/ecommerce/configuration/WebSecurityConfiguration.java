@@ -66,10 +66,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 // allow authenticate request
+                // Login
                 .antMatchers(HttpMethod.POST, "/authentications").permitAll()
+                // Reset password
                 .antMatchers(HttpMethod.POST, "/users/reset").permitAll()
-                .antMatchers(HttpMethod.GET, "/users/existences/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/users/registers").permitAll()
+                // Find an user exist
+                .antMatchers(HttpMethod.GET, "/users/find/**").permitAll()
+                // Register new user
+                .antMatchers(HttpMethod.POST, "/users/news").permitAll()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // allow anonymous resource requests
                 .antMatchers(
