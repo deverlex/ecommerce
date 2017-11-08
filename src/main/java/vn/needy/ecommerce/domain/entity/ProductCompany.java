@@ -21,6 +21,7 @@ public class ProductCompany extends BaseDomain {
 	private String description;
 	private String image;
 	private String pictures;
+	private String feeTransport;
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 	
@@ -127,6 +128,14 @@ public class ProductCompany extends BaseDomain {
 
 	public void setPictures(String pictures) {
 		this.pictures = pictures;
+	}
+
+	public String getFeeTransport() {
+		return feeTransport;
+	}
+
+	public void setFeeTransport(String feeTransport) {
+		this.feeTransport = feeTransport;
 	}
 
 

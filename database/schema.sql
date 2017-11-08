@@ -521,6 +521,8 @@ CREATE TABLE `ProductCompany` (
   `image` varchar(255),
   -- Save JSON format - 5 image
   `pictures` text(1500),
+  -- Gia van chuyen
+  `feeTransport` float(8, 2),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Uniq_product_store_ps` UNIQUE (`productId`, `companyId`),
