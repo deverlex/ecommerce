@@ -491,10 +491,10 @@ DROP TABLE IF EXISTS `SubProduct`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `SubProduct` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `serviceId` bigint(20) NOT NULL,
+  `subProductId` bigint(20) NOT NULL,
   `productId` bigint(20) NOT NULL,
-  CONSTRAINT `Uniq_sub_product_sp` UNIQUE (`serviceId`, `productId`),
-  CONSTRAINT `Fk_sub_product_s` FOREIGN KEY (`serviceId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Uniq_sub_product_sp` UNIQUE (`subProductId`, `productId`),
+  CONSTRAINT `Fk_sub_product_s` FOREIGN KEY (`subProductId`) REFERENCES `Products` (`id`),
   CONSTRAINT `Fk_sub_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

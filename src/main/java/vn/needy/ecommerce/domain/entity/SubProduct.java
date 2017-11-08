@@ -7,7 +7,7 @@ public class SubProduct extends BaseDomain {
 	private static final long serialVersionUID = 19393837L;
 	
 	private long id;
-	private long subId;
+	private long subProductId;
 	private long productId;
 
 	public SubProduct() {
@@ -22,12 +22,12 @@ public class SubProduct extends BaseDomain {
 		this.id = id;
 	}
 
-	public long getSubId() {
-		return subId;
+	public long getSubProductId() {
+		return subProductId;
 	}
 
-	public void setSubId(long subId) {
-		this.subId = subId;
+	public void setSubProductId(long subProductId) {
+		this.subProductId = subProductId;
 	}
 
 	public long getProductId() {
