@@ -1,9 +1,5 @@
 package vn.needy.ecommerce.controller.rest;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.Writer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +40,7 @@ public class ProductsRestService {
 		System.out.println("product_id? " + productId);
 		System.out.println(image.getOriginalFilename());
 		
-		storageService.storeImage(image);
+		System.out.println(storageService.storeImage(image));
 		return ResponseEntity.ok(new BaseResponse());
 	}
 	
