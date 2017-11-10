@@ -6,7 +6,7 @@ public interface StorageService {
 	
 	void init();
 
-    void storeImage(MultipartFile file);
+    String storeImage(MultipartFile image);
     
     void deleteFile(String path);
 }

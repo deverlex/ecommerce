@@ -26,6 +26,10 @@ spring:
     serialization:
       INDENT_OUTPUT: true
 
+## Resource
+resource_dir:
+  images: /home/lion
+
 #Application configurations
 needy:
   # Token
