@@ -49,31 +49,34 @@ needy:
       #logout: logout
 
     users:
-      registers: users/registers # POST - register account
-      existences: users/existences # GET - Check account exist
-      reset: users/reset # reset password
+      registers: users/news # POST - register account
+      find: users/find #?username= |GET - Check account exist
+      reset: users/reset #?username= |POST - reset password
       #passwords:
       #  update: users/{username}/passwords #PUT: update pass
       informations: users # GET get account info DELETE: delete account
       #active: users/activeness # POST active user account
 
     companies:
-      infomation: companies #GET
+      infomation: companies # GET
       #dependencies: companies/dependencies # GET
-      registers: companies/registers # POST
+      registers: companies # POST - post new company
       #staffs:
       #  fcms: companies/{company_id}/staffs/fcm_tokens # PUT update token
 
     categories:
-      products:
-        lists: categories/products 
-        sublists: categories/{category}/products
-        companies: 
-          lists: categories/products/companies #GET - get list categories for companies choose
-          sublists: categories/{category}/products/companies
-      services:
-        lists: categories/services
-        sublists: categories/{category}/services
-        companies: 
-          lists: categories/services/companies
-          sublists: categories/{category}/services/companies
+      price_now:
+        lists: pn/categories #?company_id= |GET - get categories of company
+                             # |GET - get all categories
+        sublists: pn/categories/{category} #?company_id= |GET - get subcategories of category and company
+                                           # |GET - get all subcategories of category
+      price_later:      
+        lists: pl/categories
+        sublists: pl/categories/{category}
+
+    products:
+      price_now:
+        add_new: pn/products #?company_id= |POST - add new product
+        images:
+          add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
+          update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product

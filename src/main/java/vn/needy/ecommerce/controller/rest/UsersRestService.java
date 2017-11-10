@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import vn.needy.ecommerce.common.utils.TextUtils;
 import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
@@ -23,7 +22,6 @@ import vn.needy.ecommerce.security.IdentificationUtils;
 import vn.needy.ecommerce.service.UsersService;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 
 @RestController
 public class UsersRestService {

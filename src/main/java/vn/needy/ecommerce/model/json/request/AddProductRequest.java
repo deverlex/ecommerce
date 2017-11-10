@@ -1,13 +1,13 @@
 package vn.needy.ecommerce.model.json.request;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
-public class CreateProductRequest implements Serializable {
+public class AddProductRequest implements Serializable {
 
 	private static final long serialVersionUID = 12491023L;
 	
-	private long companyId;
 	private String category;
 	private String name;
 	private float price;
@@ -15,17 +15,10 @@ public class CreateProductRequest implements Serializable {
 	private String promotion;
 	private String description;
 	private Map<String, String> attributes;
+	private List<String> hashtag;
 
-	public CreateProductRequest() {
+	public AddProductRequest() {
 		super();
-	}
-
-	public long getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(long companyId) {
-		this.companyId = companyId;
 	}
 
 	public String getCategory() {
@@ -82,6 +75,14 @@ public class CreateProductRequest implements Serializable {
 
 	public void setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
+	}
+
+	public List<String> getHashtag() {
+		return hashtag;
+	}
+
+	public void setHashtag(List<String> hashtag) {
+		this.hashtag = hashtag;
 	}
 	
 }
