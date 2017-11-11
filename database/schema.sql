@@ -29,7 +29,7 @@ CREATE TABLE `Permissions` (
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_permissions_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_permissions_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,7 @@ CREATE TABLE `PermissionRole` (
   CONSTRAINT `Fk_permission_role_p` FOREIGN KEY (`permission`) REFERENCES `Permissions` (`permission`),
   CONSTRAINT `Fk_permission_role_r` FOREIGN KEY (`role`) REFERENCES `Roles` (`role`), 
   CONSTRAINT `Fk_permission_role_cr` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `Roles` (
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_roles_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +82,7 @@ CREATE TABLE `UserRole` (
   CONSTRAINT `Fk_user_role_r` FOREIGN KEY (`role`) REFERENCES `Roles` (`role`),
   CONSTRAINT `Fk_user_role_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_user_role_cr` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,7 +116,7 @@ CREATE TABLE `Users` (
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastResetPassword` timestamp DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE INDEX `state_idx` ON `Users` (`state`);
 CREATE INDEX `username_idx` ON `Users` (`username`);
@@ -135,7 +135,7 @@ CREATE TABLE `Wallets` (
   `budget` smallint(5) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Fk_wallets_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
@@ -153,7 +153,7 @@ CREATE TABLE `WalletPays` (
   `description` varchar(255),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Fk_wallet_pays_w` FOREIGN KEY (`walletId`) REFERENCES `Wallets` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,7 +172,7 @@ CREATE TABLE `NotificationUser` (
   `isView` tinyint(1) NOT NULL DEFAULT 0,
   CONSTRAINT `Fk_notify_user_r` FOREIGN KEY (`receverId`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_notify_user_n` FOREIGN KEY (`notificationId`) REFERENCES `Notifications` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +258,7 @@ CREATE TABLE `CompanyReputation` (
   `changedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_company_reputation_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
   CONSTRAINT `Fk_company_reputation_chg` FOREIGN KEY (`changedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,7 +277,7 @@ CREATE TABLE `Budgets` (
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Fk_budgets_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,7 +302,7 @@ CREATE TABLE `Pays` (
   `createdBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_pays_b` FOREIGN KEY (`budgetId`) REFERENCES `Budgets` (`id`),
   CONSTRAINT `Fk_pays_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 CREATE INDEX `payNumber_idx` ON `Pays` (`payNumber`);
 CREATE INDEX `debitAccount_idx` ON `Pays` (`debitAccount`);
@@ -338,7 +338,7 @@ CREATE TABLE `CompanyStaff` (
   CONSTRAINT `Fk_company_staff_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
   CONSTRAINT `Fk_company_staff_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
   CONSTRAINT `Fk_company_staff_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 CREATE INDEX `state_idx` ON `CompanyStaff` (`state`);
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -403,7 +403,7 @@ CREATE TABLE `Categories` (
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_categories_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -423,7 +423,7 @@ CREATE TABLE `SubCategories` (
   CONSTRAINT `Fk_subcategories_sc` FOREIGN KEY (`subCategory`) REFERENCES `Categories` (`category`),
   CONSTRAINT `Fk_subcategories_rf` FOREIGN KEY (`refCategory`) REFERENCES `Categories` (`category`),
   CONSTRAINT `Fk_subcategories_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -438,7 +438,7 @@ CREATE TABLE `Attributes` (
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_attrs_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -456,7 +456,7 @@ CREATE TABLE `CategoryAttribute` (
   CONSTRAINT `Fk_categoryattr_ct` FOREIGN KEY (`category`) REFERENCES `Categories` (`category`),
   CONSTRAINT `Fk_categoryattr_at` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`),
   CONSTRAINT `Fk_categoryattr_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -477,7 +477,7 @@ CREATE TABLE `Products` (
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_products_cg` FOREIGN KEY (`category`) REFERENCES `Categories` (`category`),
   CONSTRAINT `Fk_products_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE INDEX `productNumber_idx` ON `Products` (`productNumber`);
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -496,7 +496,7 @@ CREATE TABLE `SubProduct` (
   CONSTRAINT `Uniq_sub_product_sp` UNIQUE (`subProductId`, `productId`),
   CONSTRAINT `Fk_sub_product_s` FOREIGN KEY (`subProductId`) REFERENCES `Products` (`id`),
   CONSTRAINT `Fk_sub_product_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -509,7 +509,7 @@ CREATE TABLE `ProductCompany` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `productId` bigint(20) NOT NULL,
   `companyId` bigint(20) NOT NULL,
-  -- So luong con trong kho (Dich vu thi k can bang nay)
+
   `quantity` smallint(5) NOT NULL,
   -- Gia ban
   `price` float(12, 2) NOT NULL,
@@ -550,7 +550,7 @@ CREATE TABLE `ProductAttribute` (
   CONSTRAINT `Uniq_product_attr_pa` UNIQUE (`productId`, `attribute`),
   CONSTRAINT `Fk_product_attr_a` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`),
   CONSTRAINT `Fk_product_attr_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE INDEX `value_idx` ON `ProductAttribute` (`value`);
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -608,7 +608,7 @@ CREATE TABLE `OrderProduct` (
   `quantity` smallint(5) unsigned NOT NULL,
   CONSTRAINT `Fk_order_product_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
   CONSTRAINT `Fk_order_product_ps` FOREIGN KEY (`productCompanyId`) REFERENCES `ProductCompany` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -650,7 +650,7 @@ CREATE TABLE `StoreBankAccounts` (
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_store_bank_account_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
   CONSTRAINT `Fk_store_bank_account_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 CREATE INDEX `creditAccount_idx` ON `StoreBankAccounts` (`storeId`);
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -729,7 +729,7 @@ CREATE TABLE `FeeTransport` (
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_fee_transport_co` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
   CONSTRAINT `Fk_fee_transport_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
