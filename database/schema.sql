@@ -398,7 +398,7 @@ DROP TABLE IF EXISTS `Categories`;
 CREATE TABLE `Categories` (
   `category` varchar(32) PRIMARY KEY,
   `coverPicture` varchar(255) NOT NULL,
-  `isPriceLater` tinyint(1) DEFAULT 0,
+  `isNonPrice` tinyint(1) DEFAULT 0,
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
@@ -499,25 +499,26 @@ CREATE TABLE `SubProduct` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
 --
--- Table structure for table `ProductCompany`
+-- Table structure for table `ProductPrice`
 --
-DROP TABLE IF EXISTS `ProductCompany`;
+DROP TABLE IF EXISTS `ProductPrice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ProductCompany` (
+CREATE TABLE `ProductPrice` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `productId` bigint(20) NOT NULL,
   `companyId` bigint(20) NOT NULL,
-
-  `quantity` smallint(5) NOT NULL,
+  -- So luong trong kho
+  `quantity` smallint(5) NOT NULL, -- attr
   -- Gia ban
-  `price` float(12, 2) NOT NULL,
-  `prePrice` float(12, 2) NOT NULL,
+  `price` float(12, 2) NOT NULL, -- attr
+  `prePrice` float(12, 2) NOT NULL, -- attr
   -- Khuyen mai JSON - 5 k/m
-  `promotion` text(1500),
+  `promotion` text(1500), -- attr
   -- Mo ta san pham
-  `description` text(1500),
+  `description` text(1500), -- attr
   `image` varchar(255),
   -- Save JSON format - 5 image
   `pictures` text(1500),
@@ -531,7 +532,98 @@ CREATE TABLE `ProductCompany` (
   CONSTRAINT `Fk_product_company_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `quantity_idx` ON `ProductCompany` (`quantity`);
+
+
+--
+-- Table structure for table `ProductPrice`
+--
+DROP TABLE IF EXISTS `ProductPrice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductPrice` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint(20) NOT NULL,
+  `companyId` bigint(20) NOT NULL,
+  -- So luong trong kho
+  `quantity` smallint(5) NOT NULL, -- attr
+  -- Gia ban
+  `price` float(12, 2) NOT NULL, -- attr
+  `prePrice` float(12, 2) NOT NULL, -- attr
+  -- Khuyen mai JSON - 5 k/m
+  `promotion` text(1500), -- attr
+  -- Mo ta san pham
+  `description` text(1500), -- attr
+  `image` varchar(255),
+  -- Save JSON format - 5 image
+  `pictures` text(1500),
+  -- Gia van chuyen
+  `feeTransport` float(8, 2),
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedBy` bigint(20) NOT NULL,
+  CONSTRAINT `Uniq_product_store_ps` UNIQUE (`productId`, `companyId`),
+  CONSTRAINT `Fk_product_company_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_product_company_s` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
+  CONSTRAINT `Fk_product_company_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE INDEX `quantity_idx` ON `ProductPrice` (`quantity`);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ProductPriceImage`
+--
+DROP TABLE IF EXISTS `ProductPriceImage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductPriceImage` (
+  `id` bigint AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint NOT NULL,
+  `name` varchar NOT NULL,
+  `uri` varchar NOT NULL,
+  `host` varchar NOT NULL,
+  CONSTRAINT `Fk_product_price_image_p` FOREIGN KEY (`productId`) REFERENCES `ProductPriceImage` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ProductNonPrice`
+--
+DROP TABLE IF EXISTS `ProductNonPrice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductNonPrice` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint(20) NOT NULL,
+  `companyId` bigint(20) NOT NULL,
+  -- Khuyen mai JSON - 5 k/m
+  `promotion` text(1500),
+  -- Mo ta san pham
+  `description` text(1500),
+  `image` varchar(255),
+  -- Save JSON format - 5 image
+  `pictures` text(1500),
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedBy` bigint(20) NOT NULL,
+  CONSTRAINT `Uniq_product_non_price_ps` UNIQUE (`productId`, `companyId`),
+  CONSTRAINT `Fk_product_non_price_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_product_non_price_s` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
+  CONSTRAINT `Fk_product_non_price_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ProductNonPriceImages`
+DROP TABLE IF EXISTS `ProductNonPriceImage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductNonPriceImage` (
+  `id` bigint AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint NOT NULL,
+  `name` varchar NOT NULL,
+  `uri` varchar NOT NULL,
+  `host` varchar NOT NULL,
+  CONSTRAINT `Fk_product_non_price_image_p` FOREIGN KEY (`productId`) REFERENCES `ProductNonPriceImage` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -544,9 +636,8 @@ CREATE TABLE `ProductAttribute` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `productId` bigint(20) NOT NULL,
   `attribute` varchar(32) NOT NULL,
-  -- 12, Do, Composite...
-  `value` varchar(128) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `lastUpdatedBy` bigint NOT NULL,
   CONSTRAINT `Uniq_product_attr_pa` UNIQUE (`productId`, `attribute`),
   CONSTRAINT `Fk_product_attr_a` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`),
   CONSTRAINT `Fk_product_attr_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
@@ -603,11 +694,12 @@ DROP TABLE IF EXISTS `OrderProduct`;
 CREATE TABLE `OrderProduct` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `orderId` bigint(20) NOT NULL,
-  `productCompanyId` bigint(20) NOT NULL,
+  -- Sua thanh productId
+  `productId` bigint(20) NOT NULL,
   -- So luong mua
   `quantity` smallint(5) unsigned NOT NULL,
   CONSTRAINT `Fk_order_product_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
-  CONSTRAINT `Fk_order_product_ps` FOREIGN KEY (`productCompanyId`) REFERENCES `ProductCompany` (`id`)
+  CONSTRAINT `Fk_order_product_ps` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -730,6 +822,33 @@ CREATE TABLE `FeeTransport` (
   CONSTRAINT `Fk_fee_transport_co` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
   CONSTRAINT `Fk_fee_transport_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `HashTags`
+DROP TABLE IF EXISTS `HashTags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `HashTags` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `hashtag` varchar(32) UNIQUE NOT NULL,
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ProductHashTag`
+DROP TABLE IF EXISTS `ProductHashTag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProductHashTag` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `productId` bigint(20) NOT NULL,
+  `hashtagId` bigint(20) NOT NULL,
+  CONSTRAINT `Uniq_product_hashtag_ph` UNIQUE (`productId`,`hashtagId`),
+  CONSTRAINT `Fk_product_hashtag_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
+  CONSTRAINT `Fk_product_hashtag_h` FOREIGN KEY (`hashtagId`) REFERENCES `HashTags` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 

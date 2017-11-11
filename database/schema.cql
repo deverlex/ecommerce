@@ -33,35 +33,6 @@ CREATE INDEX `class_idx` ON `Logs` (`class`);
 CREATE INDEX `method_idx` ON `Logs` (`method`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `HashTags`
---
-DROP TABLE IF EXISTS `HashTags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `HashTags` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `hashtag` varchar(32) UNIQUE NOT NULL,
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `ProductHashTag`
---
-
-DROP TABLE IF EXISTS `ProductHashTag`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ProductHashTag` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `productId` bigint(20) NOT NULL,
-  `hashtagId` bigint(20) NOT NULL,
-  CONSTRAINT `Uniq_product_hashtag_ph` UNIQUE (`productId`,`hashtagId`),
-  CONSTRAINT `Fk_product_hashtag_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`),
-  CONSTRAINT `Fk_product_hashtag_h` FOREIGN KEY (`hashtagId`) REFERENCES `HashTags` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `ProductStoreLogs`

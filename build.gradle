@@ -48,12 +48,14 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-security:${SPRING_VERSION}")
 	compile("org.springframework.mobile:spring-mobile-device:1.1.5.RELEASE")
 	
-	     
    	compile("org.springframework:spring-jdbc:${SPRING_JDBC_VERSION}")
 	compile("commons-dbcp:commons-dbcp:1.4") 
 	
 	// JDBC
 	compile("mysql:mysql-connector-java:${MYSQL_CONNECTOR_VERSION}")
+	
+	// MongoDb
+	compile("org.springframework.boot:spring-boot-starter-data-mongodb:${SPRING_VERSION}")
 	
 	// Redis
 	compile("org.springframework.data:spring-data-redis:${SPRING_REDIS_VERSION}")
