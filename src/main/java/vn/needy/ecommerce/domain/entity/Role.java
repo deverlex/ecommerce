@@ -8,6 +8,8 @@ public class Role extends BaseDomain {
 
 	private static final long serialVersionUID = 15246775L;
 	
+	public static final String TABLE = "role";
+
 	private String role;
 	private String title;
 	private String description;

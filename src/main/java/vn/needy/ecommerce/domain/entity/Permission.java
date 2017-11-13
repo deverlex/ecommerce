@@ -8,6 +8,8 @@ public class Permission extends BaseModel {
 
 	private static final long serialVersionUID = 14538472784L;
 
+	public static final String TABLE = "permission";
+
 	private String permission;
 	private String title;
 	private String description;

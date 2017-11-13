@@ -8,7 +8,7 @@ public class UserReport extends BaseDomain {
 
 	private static final long serialVersionUID = 9732112422L;
 
-	public static final String TABLE = "UserReports";
+	public static final String TABLE = "user_report";
 	
 	private long id;
 	private long orderId;

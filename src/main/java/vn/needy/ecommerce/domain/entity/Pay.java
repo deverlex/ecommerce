@@ -8,7 +8,7 @@ public class Pay extends BaseDomain {
 
 	private static final long serialVersionUID = 1546365634L;
 
-	public static final String TABLE = "Pays";
+	public static final String TABLE = "pay";
 
 	private long id;
 	private long budgetId;

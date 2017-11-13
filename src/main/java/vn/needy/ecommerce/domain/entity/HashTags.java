@@ -8,6 +8,8 @@ public class HashTags extends BaseDomain {
 	
 	private static final long serialVersionUID = 1235322768L;
 
+	public static final String TABLE = "hashtag";
+
 	private long id;
 	private String hashtag;
 	private Date createdTime;

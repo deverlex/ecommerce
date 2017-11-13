@@ -8,7 +8,7 @@ public class Company extends BaseDomain {
 
 	private static final long serialVersionUID = 179847724L;
 
-	public static final String TABLE = "Companies";
+	public static final String TABLE = "company";
 
 	private long id;
 	private String companyNumber;

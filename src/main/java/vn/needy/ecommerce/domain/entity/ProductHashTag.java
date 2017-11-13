@@ -6,6 +6,8 @@ public class ProductHashTag extends BaseDomain {
 
 	private static final long serialVersionUID = 128273535291L;
 
+	public static final String TABLE = "product_hashtag";
+
 	private long id;
 	private long productId;
 	private long hashTagId;

@@ -6,7 +6,7 @@ public class NotificationUser extends BaseDomain {
 
 	private static final long serialVersionUID = 121298012343L;
 
-	public static final String TABLE  = "NotificationUser";
+	public static final String TABLE  = "notification_user";
 	
 	private long id;
 	private long notificationId;

@@ -8,7 +8,7 @@ public class Category extends BaseDomain {
 
 	private static final long serialVersionUID = 164533434L;
 	
-	public static final String TABLE = "Categories";
+	public static final String TABLE = "category";
 	
 	private String category;
 	private String title;

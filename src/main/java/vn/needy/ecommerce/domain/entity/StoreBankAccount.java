@@ -8,7 +8,7 @@ public class StoreBankAccount extends BaseDomain {
 
 	private static final long serialVersionUID = 153452723L;
 	
-	public static final String TABLE = "StoreBankAccounts";
+	public static final String TABLE = "store_bank_account";
 	
 	private long id;
 	private long storeId;

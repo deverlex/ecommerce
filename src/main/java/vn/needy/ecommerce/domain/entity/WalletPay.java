@@ -8,7 +8,7 @@ public class WalletPay extends BaseDomain {
 
 	private static final long serialVersionUID = 1299836511984L;
 
-	public static final String TABLE = "WalletPays";
+	public static final String TABLE = "wallet_pay";
 	
 	private long id;
 	private long walletId;

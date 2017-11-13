@@ -8,7 +8,7 @@ public class Product extends BaseDomain {
 
 	private static final long serialVersionUID = 137262525L;
 	
-	public static final String TABLE = "Products";
+	public static final String TABLE = "product";
 
 	private long id;
 	private String productNumber;

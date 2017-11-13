@@ -8,7 +8,7 @@ public class User extends BaseDomain {
 
 	private static final long serialVersionUID = 153434L;
 	
-	public static final String TABLE = "Users";
+	public static final String TABLE = "user";
 	
 	private long id;
 	private String username;

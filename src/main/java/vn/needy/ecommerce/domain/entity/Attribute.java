@@ -8,7 +8,7 @@ public class Attribute extends BaseDomain {
 
 	private static final long serialVersionUID = 192822526L;
 	
-	public static final String TABLE = "Attributes";
+	public static final String TABLE = "attribute";
 
 	private String attribute;
 	private String title;

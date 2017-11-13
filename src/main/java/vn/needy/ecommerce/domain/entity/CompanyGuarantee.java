@@ -8,6 +8,8 @@ public class CompanyGuarantee extends BaseDomain {
 
 	private static final long serialVersionUID = 166364535345345L;
 	
+	public static final String TABLE = "company_guarantee";
+
 	private long id;
 	private int state;
 	private long companyId;

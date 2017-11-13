@@ -8,7 +8,7 @@ public class CategoryAttribute extends BaseDomain {
 
 	private static final long serialVersionUID = 12131418891L;
 
-	public static final String TABLE = "CategoryAttribute";
+	public static final String TABLE = "category_attribute";
 
 	private long id;
 	private String attribute;

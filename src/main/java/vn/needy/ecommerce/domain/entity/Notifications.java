@@ -8,6 +8,8 @@ public class Notifications extends BaseDomain {
 
 	private static final long serialVersionUID = 17474636L;
 	
+	public static final String TABLE = "notification";
+
 	private long id;
 	private long senderId;
 	private String refEntity;
