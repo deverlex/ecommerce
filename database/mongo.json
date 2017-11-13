@@ -1,7 +1,7 @@
 {
 	"mongo" : [
 		{
-			"userDetail" : {
+			"user_detail" : {
 				"_id" : "user id",
 				"email" : "",
   				"birthday" : "",
@@ -18,7 +18,7 @@
   				}
 			},
 
-			"companyDetail" : [
+			"company_detail" : [
 				{
 					"_id" : "company id",
 					"description" : "",
@@ -37,7 +37,7 @@
 				}
 			],
 
-			"companyPicture" : [
+			"company_picture" : [
 				{
 					"_id" : "",
 					"company_id" : "",
@@ -49,7 +49,7 @@
 				}
 			],
 
-			"storeDetail" : {
+			"store_detail" : {
 				"_id" : "store id",
 				"description" : "",
 				"number_staff" : "",
@@ -63,7 +63,7 @@
 				]
 			},
 
-			"storePicture" : [
+			"store_picture" : [
 				{
 					"_id" : "",
 					"company_id" : "",
@@ -75,7 +75,7 @@
 				}
 			],
 
-			"categoryDetail" : [
+			"category_detail" : [
 				{
 					"_id" : "category",
 					"cover_picture" : {
@@ -92,7 +92,7 @@
 				}
 			],
 
-			"productDetail" : [
+			"product_detail" : [
 				{
 					"_id" : "product id",
 					"category" : "",
@@ -119,7 +119,7 @@
 				}
 			],
 
-			"productPicture" : [
+			"product_picture" : [
 				{
 					"_id" : "",
 					"product_id" : "",
@@ -131,7 +131,7 @@
 				}
 			],
 			
-			"userReportDetail" : [
+			"user_report_detail" : [
 				{
 					"_id" : "report id",
 					"description" : "",
@@ -141,7 +141,7 @@
 				}
 			],
 
-			"userReportPicture" : [
+			"user_report_picture" : [
 				{
 					"_id" : "",
 					"report_id" : "",
@@ -153,7 +153,7 @@
 				}
 			],
 
-			"viewProductLog" : [
+			"view_product_log" : [
 				{
 					"product_id" : "",
 					"user_id" : "",
@@ -162,12 +162,23 @@
 				}
 			],
 
-			"orderLog" : [
+			"order_log" : [
 				{
 					"order_id" : "",
 					"old_status" : "",
 					"description" : "",
 					"created_time" : "new Date()"
+				}
+			],
+
+			"data_access_log" : [
+				{
+					"_id" : "",
+					"class" : "",
+					"function" : "",
+					"content_change" : "",
+					"timestamp" : "",
+					"by" : "user id"
 				}
 			]
 		}
