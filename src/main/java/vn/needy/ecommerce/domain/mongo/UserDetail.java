@@ -10,14 +10,14 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import vn.needy.ecommerce.domain.BaseFile;
 
-@Document(collection = "userdetail")
+@Document(collection = "user_detail")
 public class UserDetail implements Serializable {
 	
 	private static final long serialVersionUID = 188944321316L;
 	
 	@Id
-	private long id;
-	@Indexed(unique = true)
+	private long userId;
+	@Indexed
 	private String email;
 	private Date birthday;
 	private String gender;
@@ -29,12 +29,12 @@ public class UserDetail implements Serializable {
 		super();
 	}
 
-	public long getId() {
-		return id;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public String getEmail() {
