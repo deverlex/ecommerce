@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -22,8 +23,12 @@ public class UsersRepositoryImpl implements UsersRepository {
 
 	@Autowired
 	JdbcTemplate jdbc;
+
+	@Autowired
+	MongoTemplate mongo;
 	
 	private SimpleJdbcInsert insert;
+
 	
 	@Autowired
     public void setDataSource(DataSource dataSource) {
@@ -32,6 +37,7 @@ public class UsersRepositoryImpl implements UsersRepository {
         		.usingGeneratedKeyColumns("id");
     }
 
+	// This function using for authorization (login) 
 	@Override
 	public User findUserByUsernameForAuthenticate(String username) {
 		SqlRowSet rs = jdbc.queryForRowSet("SELECT id, username, password, state, unlockTime, lastResetPassword "
@@ -57,15 +63,13 @@ public class UsersRepositoryImpl implements UsersRepository {
 	}
 
 	@Override
-	public User findUserExistByUsername(String username) {
+	public String findUserExistByUsername(String username) {
 		SqlRowSet rs = jdbc.queryForRowSet("SELECT fullName "
 				+ "FROM Users "
 				+ "WHERE username = ? AND state <> ?", 
 				new Object[] {username, UserState.DELETED.getState()});
 		if (rs.first()) {
-			User user = new User();
-			user.setFullName(rs.getString("fullName"));
-			return user;
+			return rs.getString("fullName");
 		}
 		return null;
 	}
@@ -77,11 +81,12 @@ public class UsersRepositoryImpl implements UsersRepository {
 		params.put("password", registerInfo.getPassword());
 		params.put("state", UserState.INACTIVE.getState());
 		params.put("firebaseUid", registerInfo.getFirebaseUid());
+		params.put("fullName", "No Name");
 		return insert.executeAndReturnKey(params).longValue();
 	}
 
 	@Override
-	public User findUserForResponseById(long id) {
+	public User findUserById(long id) {
 		SqlRowSet rs = jdbc.queryForRowSet("SELECT state, fullName, address, "
 				+ "lat, lng, createdTime, lastUpdatedTime, lastResetPassword "
 				+ "FROM Users "

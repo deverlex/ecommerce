@@ -16,6 +16,7 @@ import com.google.firebase.tasks.OnSuccessListener;
 import com.google.firebase.tasks.Task;
 
 import vn.needy.ecommerce.common.model.Lock;
+import vn.needy.ecommerce.common.utils.TextUtils;
 import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.base.BaseResponse;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
@@ -50,8 +51,8 @@ public class UsersServiceImpl implements UsersService {
 		if (!isVerifiedByFirebase(registerInfo.getFirebaseUid(), registerInfo.getFirebaseToken()) ) {
 			return new CertificationResponse(null, "Phone number is not valid");
 		}
-		User userExist = usersRepository.findUserExistByUsername(registerInfo.getUsername());
-		if (userExist != null) {
+		String userexist = usersRepository.findUserExistByUsername(registerInfo.getUsername());
+		if (!TextUtils.isEmpty(userexist)) {
 			String message = "This phone number has been registered";
 			return new CertificationResponse(null, message);
 		}
@@ -91,8 +92,8 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public BaseResponse findUserExist(String username) {
-		User user = usersRepository.findUserExistByUsername(username);
-		if (user != null) {
+		String userexist = usersRepository.findUserExistByUsername(username);
+		if (!TextUtils.isEmpty(userexist)) {
 			BaseResponse response = new BaseResponse();
 			response.setMessage("This phone number/account is registered");
 			return response;
@@ -120,7 +121,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public UserResponse getUserInfomation(long id) {
-		User user = usersRepository.findUserForResponseById(id);
+		User user = usersRepository.findUserById(id);
 		UserResponse response = new UserResponse();
 		response.setUser(new UserJson(user, null));
 		return response;
