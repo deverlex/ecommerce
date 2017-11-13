@@ -1,5 +1,5 @@
 package vn.needy.ecommerce.domain.mongo;
 
-public class ProductPictures {
+public class ProductPicture {
 
 }
