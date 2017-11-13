@@ -1,6 +1,7 @@
 {
 	"mongo" : [
 		{
+			/////////For users
 			"UserInfos" : {
 				"userId" : "",
 				"email" : "",
@@ -18,6 +19,7 @@
   				}
 			},
 
+			//////For Company
 			"CompanyInfos" : [
 				{
 					"companyId" : "",
@@ -46,6 +48,7 @@
 				}
 			],
 
+			/////////////For Stores
 			"StoreInfos" : {
 				"storeId" : "",
 				"description" : "",
@@ -69,6 +72,7 @@
 				}
 			],
 
+			/////For Categories
 			"CategoriesInfos" : [
 				{
 					"category" : "",
@@ -86,6 +90,7 @@
 				}
 			],
 
+			////////For Products
 			"ProductDetails" : [
 				{
 					"productId" : "",
@@ -131,6 +136,28 @@
 				}
 			],
 			
+			/////For Report
+			"UserReportInfos" : [
+				{
+					"reportId" : "",
+					"description" : "",
+					"pictures" : [
+						"_id1", "_id2"
+					]
+				}
+			],
+
+			"UserReportPictures" : [
+				{
+					"_id" : "",
+					"reportId" : "",
+					"fileName" : "",
+  					"uri" : "",
+  					"host" : ""
+				}
+			],
+
+
 
 			"ViewProductLogs" : [
 				{

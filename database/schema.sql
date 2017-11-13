@@ -22,13 +22,10 @@ DROP TABLE IF EXISTS `Permissions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Permissions` (
-  `permission` varchar(32) PRIMARY KEY,
+  `permission` varchar(64) PRIMARY KEY,
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `createdBy` bigint(20) NOT NULL,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_permissions_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_permissions_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  `lastUpdatedBy` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -40,78 +37,72 @@ DROP TABLE IF EXISTS `PermissionRole`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `PermissionRole` (
   `id` smallint(5) unsigned AUTO_INCREMENT PRIMARY KEY,
-  `permission` varchar(32) NOT NULL,
-  `role` varchar(32) NOT NULL,
+  `permission` varchar(64) NOT NULL,
+  `role` varchar(64) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Uniq_permission_role_pr` UNIQUE (`permission`,`role`), 
   CONSTRAINT `Fk_permission_role_p` FOREIGN KEY (`permission`) REFERENCES `Permissions` (`permission`),
-  CONSTRAINT `Fk_permission_role_r` FOREIGN KEY (`role`) REFERENCES `Roles` (`role`), 
-  CONSTRAINT `Fk_permission_role_cr` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_permission_role_r` FOREIGN KEY (`role`) REFERENCES `Roles` (`role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `Roles`
---
 DROP TABLE IF EXISTS `Roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Roles` (
-  `role` varchar(32) NOT NULL PRIMARY KEY,
+  `role` varchar(64) NOT NULL PRIMARY KEY,
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_roles_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  `lastUpdatedBy` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `UserRole`
---
 DROP TABLE IF EXISTS `UserRole`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `UserRole` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `role` varchar(32) NOT NULL,
+  `role` varchar(64) NOT NULL,
   `userId` bigint(20) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Uniq_user_role_ru` UNIQUE (`role`,`userId`), 
   CONSTRAINT `Fk_user_role_r` FOREIGN KEY (`role`) REFERENCES `Roles` (`role`),
-  CONSTRAINT `Fk_user_role_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_user_role_cr` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_user_role_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `Users`
---
 DROP TABLE IF EXISTS `Users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Users` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- phone number k dc unique vi viec dang ky su dung lai sdt se bi can tro
-  `username` varchar(15) NOT NULL,
+  `username` varchar(32) NOT NULL,
   `password` varchar(255) NOT NULL,
   -- Trang thai tai khoan: khoa, con hoat dong...
   `state` tinyint(2) NOT NULL,
   -- Khoa 90 ngay
   `unlockTime` datetime,
   -- firebase UID
-  `firebaseUid` varchar(64), 
+  `firebaseUid` varchar(255), 
   -- Khong yeu cau null de register tu app Vendor
   `fcmToken` varchar(225),
-  `fullName` varchar(128),
-  `address` varchar(128),
+  `fullName` varchar(255),
+  `address` varchar(255),
   `lat` float(10,6),
   `lng` float(10,6),
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastResetPassword` timestamp DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `state_idx` ON `Users` (`state`);
 CREATE INDEX `username_idx` ON `Users` (`username`);
@@ -120,7 +111,6 @@ CREATE INDEX `loc_idx` ON `Users` (`lat`, `lng`);
 
 --
 -- Table structure for table `Wallet`
---
 DROP TABLE IF EXISTS `Wallets`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -133,10 +123,8 @@ CREATE TABLE `Wallets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-
 --
 -- Table structure for table `WalletPays`
---
 DROP TABLE IF EXISTS `WalletPays`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -145,10 +133,10 @@ CREATE TABLE `WalletPays` (
   `walletId` bigint(20) NOT NULL,
   `productId` bigint(20) NOT NULL,
   `budgetCharge` smallint(5) NOT NULL,
-  `description` varchar(255),
+  `description` text(1000),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Fk_wallet_pays_w` FOREIGN KEY (`walletId`) REFERENCES `Wallets` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,14 +168,14 @@ CREATE TABLE `Notifications` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- nguoi gui
   `senderId` bigint(20) NOT NULL,
-  -- Will open activity on Client (Android) if it available
-  `refEntity` varchar(32),
   -- Id of object - examples: orderId, productId...
   `refId` bigint(20),
+  -- Will open activity on Client (Android) if it available
+  `refEntity` varchar(64),
   -- action, examples: open an edit product...
-  `refMethod` varchar(32),
+  `refMethod` varchar(64),
   `title` varchar(255) NOT NULL,
-  `htmlContent` text(1000) NOT NULL,
+  `htmlContent` text(2000) NOT NULL,
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Fk_notifications_s` FOREIGN KEY (`senderId`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -202,7 +190,7 @@ DROP TABLE IF EXISTS `Companies`;
 CREATE TABLE `Companies` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- Ma code company tu dong gen
-  -- CompanyCode:     1710VKG1FI9O
+  -- CompanyNumber:     1710VKG1FI9O
   `companyNumber` varchar(12) UNIQUE NOT NULL,
   -- It will update for app manager
   `fcmToken` varchar(255),
@@ -210,12 +198,11 @@ CREATE TABLE `Companies` (
   `state` tinyint(2) NOT NULL,
   -- Xep cap bac
   `level` tinyint(3) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `officeAddress` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_companies_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  `lastUpdatedBy` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `companyNumber_idx` ON `Companies` (`companyNumber`);
@@ -224,71 +211,41 @@ CREATE INDEX `level_idx` ON `Companies` (`level`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `CompanyReputation`
--- Chi co CEO moi dc thuc hien hanh dong yeu cau
-DROP TABLE IF EXISTS `CompanyReputation`;
+-- Table structure for table `Stores`
+--
+DROP TABLE IF EXISTS `Stores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CompanyReputation` (
+CREATE TABLE `Stores` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  -- Chua xoa voi, doi doi tac chap thuan hoac xet duyet
-  -- Trang thai: active, inactive, waiting
-  `state` tinyint(2) NOT NULL,
   `companyId` bigint(20) NOT NULL,
-  -- Ma hop dong tu sinh
-  `agreementNumber` varchar(12) NOT NULL,
-  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `changedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_company_reputation_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
-  CONSTRAINT `Fk_company_reputation_chg` FOREIGN KEY (`changedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `Budgets`
---
-DROP TABLE IF EXISTS `Budgets`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Budgets` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `companyId` bigint(20) NOT NULL UNIQUE,
-  -- tu dong sinh ra
-  `budgetNumber` varchar(12) NOT NULL UNIQUE,
-  -- Insert from code
-  `budget` float(12,2) NOT NULL,
+  `storeNumber` varchar(12) NOT NULL,
+  -- Trang thai cua hang da kich hoat hay chua
+  -- Dieu kien kich hoat: khi co hang ban
+  -- inactive (0), active(1), locked (-1)
+  `state` tinyint(2) NOT NULL,
+  -- Trang thai san sang working, busy, close time
+  `status` tinyint(2) NOT NULL,
+  -- Khoa den khi don hang chuyen trang thai
+  -- Qua 3 lan 1 ngay, khoa 7 ngay, de mo khoa, nop tien 1.000.000
+  `unlockTime` datetime,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `lat` float(10,6) NOT NULL,
+  `lng` float(10,6) NOT NULL,
+  -- Thoi gian mo cua
+  `openingTime` time NOT NULL,
+  `closingTime` time NOT NULL,
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `Fk_budgets_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `lastUpdatedBy` bigint(20) NOT NULL,
+  CONSTRAINT `Fk_stores_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `PayLogs`
---
-DROP TABLE IF EXISTS `Pays`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Pays` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `budgetId` bigint(20) NOT NULL,
-  `behavior` tinyint(2) NOT NULL,
-  -- So giao dich, tu sinh trong may
-  `payNumber` varchar(12) NOT NULL,
-  `budgetCharge` float(12, 2) NOT NULL,
-  `description` text(500) NOT NULL,
-  -- tai khoan thanh toan
-  `debitAccount` varchar(32),
-  -- tai khoan nhan
-  `creditAccount` varchar(32),
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `createdBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_pays_b` FOREIGN KEY (`budgetId`) REFERENCES `Budgets` (`id`),
-  CONSTRAINT `Fk_pays_cr` FOREIGN KEY (`createdBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
-
-CREATE INDEX `payNumber_idx` ON `Pays` (`payNumber`);
-CREATE INDEX `debitAccount_idx` ON `Pays` (`debitAccount`);
+CREATE INDEX `storeNumber_idx` ON `Stores` (`storeNumber`);
+CREATE INDEX `status_idx` ON `Stores` (`status`);
+CREATE INDEX `loc_idx` ON `Stores` (`lat`, `lng`);
+CREATE INDEX `activeTime_idx` ON `Stores` (`openingTime`, `closingTime`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -318,52 +275,79 @@ CREATE TABLE `CompanyStaff` (
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Uniq_company_staff_uc` UNIQUE (`userId`,`companyId`),
   CONSTRAINT `Uniq_company_staff_us` UNIQUE (`userId`,`storeId`),
-  CONSTRAINT `Fk_company_staff_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
-  CONSTRAINT `Fk_company_staff_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_company_staff_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+
+  CONSTRAINT `Fk_company_staff_co` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
+  CONSTRAINT `Fk_company_staff_st` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_company_staff_us` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 CREATE INDEX `state_idx` ON `CompanyStaff` (`state`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `Stores`
---
-DROP TABLE IF EXISTS `Stores`;
+-- Table structure for table `CompanyGuarantees`
+-- Chi co CEO moi dc thuc hien hanh dong yeu cau
+DROP TABLE IF EXISTS `CompanyGuarantees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Stores` (
+CREATE TABLE `CompanyGuarantees` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `companyId` bigint(20) NOT NULL,
-  `storeNumber` varchar(10) NOT NULL,
-  -- Trang thai cua hang da kich hoat hay chua
-  -- Dieu kien kich hoat: khi co hang ban
-  -- inactive (0), active(1), locked (-1)
+  -- Chua xoa voi, doi doi tac chap thuan hoac xet duyet
+  -- Trang thai: active, inactive, waiting
   `state` tinyint(2) NOT NULL,
-  -- Trang thai san sang working, busy, close time
-  `status` tinyint(2) NOT NULL,
-  -- Khoa den khi don hang chuyen trang thai
-  -- Qua 3 lan 1 ngay, khoa 7 ngay, de mo khoa, nop tien 1.000.000
-  `unlockTime` datetime,
-  `name` varchar(128) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `lat` float(10,6) NOT NULL,
-  `lng` float(10,6) NOT NULL,
-  -- Thoi gian mo cua
-  `openingTime` time NOT NULL,
-  `closingTime` time NOT NULL,
-  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `companyId` bigint(20) NOT NULL,
+  -- Ma hop dong tu sinh
+  `agreementNumber` varchar(12) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_stores_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
-  CONSTRAINT `Fk_stores_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `changedBy` bigint(20) NOT NULL,
+  CONSTRAINT `Fk_company_guarantee_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
-CREATE INDEX `storeNumber_idx` ON `Stores` (`storeNumber`);
-CREATE INDEX `status_idx` ON `Stores` (`status`);
-CREATE INDEX `numberStaff_idx` ON `Stores` (`numberStaff`);
-CREATE INDEX `loc_idx` ON `Stores` (`lat`, `lng`);
-CREATE INDEX `activeTime_idx` ON `Stores` (`openingTime`, `closingTime`);
+CREATE INDEX `agreementNumber_idx` ON `CompanyGuarantees` (`agreementNumber`);
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Budgets`
+--
+DROP TABLE IF EXISTS `Budgets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Budgets` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `companyId` bigint(20) NOT NULL UNIQUE,
+  -- Insert from code
+  `budget` float(12,2) NOT NULL,
+  `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `Fk_budgets_c` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Pays`
+--
+DROP TABLE IF EXISTS `Pays`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Pays` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `budgetId` bigint(20) NOT NULL,
+  `behavior` tinyint(2) NOT NULL,
+  -- So giao dich, tu sinh trong may
+  `payNumber` varchar(16) NOT NULL,
+  `budgetCharge` float(12, 2) NOT NULL,
+  `description` text(1000) NOT NULL,
+  -- tai khoan thanh toan
+  `debitAccount` varchar(64),
+  -- tai khoan nhan
+  `creditAccount` varchar(64),
+  `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `createdBy` bigint(20) NOT NULL,
+  CONSTRAINT `Fk_pays_b` FOREIGN KEY (`budgetId`) REFERENCES `Budgets` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE INDEX `payNumber_idx` ON `Pays` (`payNumber`);
+CREATE INDEX `debitAccount_idx` ON `Pays` (`debitAccount`);
+CREATE INDEX `creditAccount_idx` ON `Pays` (`creditAccount`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -373,13 +357,10 @@ DROP TABLE IF EXISTS `Categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Categories` (
-  `category` varchar(32) PRIMARY KEY,
-  `coverPicture` varchar(255) NOT NULL,
-  `isNonPrice` tinyint(1) DEFAULT 0,
+  `category` varchar(64) PRIMARY KEY,
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_categories_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  `lastUpdatedBy` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -390,11 +371,10 @@ DROP TABLE IF EXISTS `Attributes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Attributes` (
-  `attribute` varchar(32) PRIMARY KEY,
+  `attribute` varchar(64) PRIMARY KEY,
   `enable` tinyint(1) DEFAULT 1,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_attrs_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  `lastUpdatedBy` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -405,14 +385,13 @@ DROP TABLE IF EXISTS `CategoryAttribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `CategoryAttribute` (
-  `id` int(10) unsigned AUTO_INCREMENT PRIMARY KEY,
-  `attribute` varchar(32) NOT NULL,
-  `category` varchar(32) NOT NULL,
+  `id` bigint(20) unsigned AUTO_INCREMENT PRIMARY KEY,
+  `attribute` varchar(64) NOT NULL,
+  `category` varchar(64) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_categoryattr_ct` FOREIGN KEY (`category`) REFERENCES `Categories` (`category`),
-  CONSTRAINT `Fk_categoryattr_at` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`),
-  CONSTRAINT `Fk_categoryattr_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_categoryattr_at` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -424,7 +403,7 @@ DROP TABLE IF EXISTS `Products`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Products` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `category` varchar(32) NOT NULL,
+  `category` varchar(64) NOT NULL,
   `companyId` bigint(20) NOT NULL,
   `productNumber` varchar(12) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
@@ -433,8 +412,8 @@ CREATE TABLE `Products` (
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
   CONSTRAINT `Fk_products_cg` FOREIGN KEY (`category`) REFERENCES `Categories` (`category`),
-  CONSTRAINT `Fk_products_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  CONSTRAINT `Fk_products_co` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 CREATE INDEX `productNumber_idx` ON `Products` (`productNumber`);
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -448,15 +427,13 @@ DROP TABLE IF EXISTS `ProductAttribute`;
 CREATE TABLE `ProductAttribute` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `productId` bigint(20) NOT NULL,
-  `attribute` varchar(32) NOT NULL,
+  `attribute` varchar(64) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint NOT NULL,
   CONSTRAINT `Uniq_product_attr_pa` UNIQUE (`productId`, `attribute`),
-  CONSTRAINT `Fk_product_attr_a` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`),
-  CONSTRAINT `Fk_product_attr_p` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-CREATE INDEX `value_idx` ON `ProductAttribute` (`value`);
+  CONSTRAINT `Fk_product_attr_at` FOREIGN KEY (`attribute`) REFERENCES `Attributes` (`attribute`),
+  CONSTRAINT `Fk_product_attr_pr` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,19 +457,20 @@ CREATE TABLE `Orders` (
   -- Phuong thuc thanh toan: tien mat, chuyen khoan, needy xu
   `paymentMethod` tinyint(2),
   -- Ghi chu cho ca don hang
-  `note` varchar(255),
+  `note` text(1000),
   `receiveFrom` datetime,
   `receiveTo` datetime,
   -- Phi van chuyen
   `feeTransport` float(10, 2) NOT NULL,
+
   `transportFrom` datetime,
   `transportTo` datetime,
   -- Danh cho goi ho
   `receiverId` bigint(20),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `Fk_orders_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
-  CONSTRAINT `Fk_orders_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
-  CONSTRAINT `Fk_orders_r` FOREIGN KEY (`receiverId`) REFERENCES `Users` (`id`)
+  CONSTRAINT `Fk_orders_us` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
+  CONSTRAINT `Fk_orders_st` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
+  CONSTRAINT `Fk_orders_rc` FOREIGN KEY (`receiverId`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE INDEX `orderNumber_idx` ON `Orders` (`orderNumber`);
@@ -511,7 +489,7 @@ CREATE TABLE `OrderProduct` (
   `productId` bigint(20) NOT NULL,
   -- So luong mua
   `quantity` smallint(5) unsigned NOT NULL,
-  CONSTRAINT `Fk_order_product_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
+  CONSTRAINT `Fk_order_product_or` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
   CONSTRAINT `Fk_order_product_ps` FOREIGN KEY (`productId`) REFERENCES `Products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -528,13 +506,11 @@ CREATE TABLE `UserReports` (
   `orderId` bigint(20) NOT NULL,
   `typeReport` tinyint(2) NOT NULL,
   `isAccepted` tinyint(1) DEFAULT 0,
-  `description` text(1500) NOT NULL,
-  `pictures` text(1500) NOT NULL,
   `createdTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `acceptedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_company_reputation_o` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
+  CONSTRAINT `Fk_company_reputation_or` FOREIGN KEY (`orderId`) REFERENCES `Orders` (`id`),
   CONSTRAINT `Fk_company_reputation_ac` FOREIGN KEY (`acceptedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -546,18 +522,17 @@ DROP TABLE IF EXISTS `StoreBankAccounts`;
 CREATE TABLE `StoreBankAccounts` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `storeId` bigint(20) NOT NULL,
-  `creditAccount` varchar(32) NOT NULL,
+  `creditAccount` varchar(64) NOT NULL,
   -- Ten chu tai khoan
-  `beneficiaryName` varchar(128) NOT NULL,
+  `beneficiaryName` varchar(255) NOT NULL,
   -- Ten chi nhanh
   `beneficiaryBankName` varchar(255) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_store_bank_account_s` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`),
-  CONSTRAINT `Fk_store_bank_account_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+  CONSTRAINT `Fk_store_bank_account_st` FOREIGN KEY (`storeId`) REFERENCES `Stores` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE INDEX `creditAccount_idx` ON `StoreBankAccounts` (`storeId`);
+CREATE INDEX `creditAccount_idx` ON `StoreBankAccounts` (`creditAccount`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -571,7 +546,7 @@ CREATE TABLE `StoreReview` (
   `userId` bigint(20) NOT NULL,
   `storeId` bigint(20) NOT NULL,
   `rating` tinyint(2),
-  `review` text(500),
+  `review` text(1000),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Uniq_store_review_us` UNIQUE (`userId`,`storeId`),
   CONSTRAINT `Fk_store_review_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
@@ -590,7 +565,7 @@ CREATE TABLE `ProductReview` (
   `userId` bigint(20) NOT NULL,
   `productId` bigint(20) NOT NULL,
   `rating` tinyint(2),
-  `review` text(500),
+  `review` text(1000),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Uniq_product_review_up` UNIQUE (`userId`,`productId`),
   CONSTRAINT `Fk_product_review_u` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
@@ -609,7 +584,7 @@ CREATE TABLE `UserReview` (
   `vendorId` bigint(20) NOT NULL,
   `buyerId` bigint(20) NOT NULL,
   `rating` tinyint(2),
-  `review` text(500),
+  `review` text(1000),
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `Uniq_user_review_sb` UNIQUE (`vendorId`,`buyerId`),
   CONSTRAINT `Fk_user_review_v` FOREIGN KEY (`vendorId`) REFERENCES `Users` (`id`),
@@ -632,9 +607,8 @@ CREATE TABLE `FeeTransport` (
   `fee` float(8, 2) NOT NULL,
   `lastUpdatedTime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `lastUpdatedBy` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_fee_transport_co` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
-  CONSTRAINT `Fk_fee_transport_up` FOREIGN KEY (`lastUpdatedBy`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii;
+  CONSTRAINT `Fk_fee_transport_co` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
