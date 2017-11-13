@@ -1,181 +1,173 @@
 {
 	"mongo" : [
 		{
-			"UserDetails" : {
-				"userId" : "",
+			"userDetail" : {
+				"_id" : "user id",
 				"email" : "",
   				"birthday" : "",
   				"gender" : "",
   				"avatar" : {
-  					"fileName" : "",
+  					"file_name" : "",
   					"uri" : "",
   					"host" : ""
   				},
-  				"coverPicture" : {
-  					"fileName" : "",
+  				"cover_picture" : {
+  					"file_name" : "",
   					"uri" : "",
   					"host" : ""
   				}
 			},
 
-			"CompanyDetails" : [
+			"companyDetail" : [
 				{
-					"companyId" : "",
+					"_id" : "company id",
 					"description" : "",
-					"siteUrl" : "",
-					"foundedDate" : "",
-					"openingTime" : "",
-					"closingTime" : "",
+					"site_url" : "",
+					"founded_date" : "",
+					"opening_time" : "",
+					"closing_time" : "",
 					"avatar" : {
-						"fileName" : "",
+						"file_name" : "",
 						"uri" : "",
 						"host" : ""
 					},
-					"pictures" : [
+					"picture" : [
 						"_id1", "_id2"
 					]
 				}
 			],
 
-			"CompanyPictures" : [
+			"companyPicture" : [
 				{
-					"companyId" : "",
-					"fileName" : "",
-					"uri" : "",
-					"host" : ""
+					"_id" : "",
+					"company_id" : "",
+					"image" : {
+						"file_name" : "",
+						"uri" : "",
+						"host" : ""
+					}
 				}
 			],
 
-			"StoreDetails" : {
-				"storeId" : "",
+			"storeDetail" : {
+				"_id" : "store id",
 				"description" : "",
-				"numberStaff" : "",
+				"number_staff" : "",
 				"avatar" : {
-					"fileName" : "",
+					"file_name" : "",
 					"uri" : "",
 					"host" : ""
 				},
-				"coverPicture" : [
+				"cover_picture" : [
 					"_id1", "_id2"
 				]
 			},
 
-			"StorePictures" : [
+			"storePicture" : [
 				{
-					"companyId" : "",
-					"fileName" : "",
-					"uri" : "",
-					"host" : ""
-				}
-			],
-
-			"CategoryDetails" : [
-				{
-					"category" : "",
-					"coverPicture" : {
+					"_id" : "",
+					"company_id" : "",
+					"image" : {
 						"fileName" : "",
 						"uri" : "",
 						"host" : ""
+					}
+				}
+			],
+
+			"categoryDetail" : [
+				{
+					"_id" : "category",
+					"cover_picture" : {
+						"file_name" : "",
+						"uri" : "",
+						"host" : ""
 					},
-					"childCategories" : [
+					"child_category" : [
 						"", ""
 					],
-					"parentCategories" : [
+					"parent_category" : [
 						"", ""
 					]
 				}
 			],
 
-			"ProductDetails" : [
+			"productDetail" : [
 				{
-					"productId" : "",
+					"_id" : "product id",
 					"category" : "",
-					"storeId" : "",
+					"store_id" : "",
 					"name" : "",
-					"gifts" : "",
+					"gift" : "",
 					"description" : "",
 					"attrs" : [
 						{"attr1" : ""},
 						{"attr2" : ""},
 						{"attr3" : ""}
 					],
-					"coverPicture" : {
-						"fileName" : "849682082444512.JPG",
+					"cover_picture" : {
+						"file_name" : "849682082444512.JPG",
 						"uri" : "images/2017/34/Tue/12",
 						"host" : "rsv0001.needy.vn"
 					},
-					"parentProducts" : "",
-					"childProducts" : [
+					"parent_product" : [
 						"_id1", "_id2"
-					]
-				},
-
-				{
-					"productId" : "",
-					"category" : "",
-					"storeId" : "",
-					"attrs" : [
-						{"attr1" : ""},
-						{"attr2" : ""}
+					],
+					"child_product" : [
+						"_id1", "_id2"
 					]
 				}
 			],
 
-			"ProductPictures" : [
+			"productPicture" : [
 				{
 					"_id" : "",
-					"productId" : "",
-					"fileName" : "84968208244 45 12.JPG",
-					"uri" : "images/2017/34/Tue/12",
-					"host" : "rsv0001.needy.vn"
+					"product_id" : "",
+					"image" : {
+						"file_name" : "84968208244 45 12.JPG",
+						"uri" : "images/2017/34/Tue/12",
+						"host" : "rsv0001.needy.vn"
+					}
 				}
 			],
 			
-			"UserReportDetails" : [
+			"userReportDetail" : [
 				{
-					"reportId" : "",
+					"_id" : "report id",
 					"description" : "",
-					"pictures" : [
+					"picture" : [
 						"_id1", "_id2"
 					]
 				}
 			],
 
-			"UserReportPictures" : [
+			"userReportPicture" : [
 				{
 					"_id" : "",
-					"reportId" : "",
-					"fileName" : "",
-  					"uri" : "",
-  					"host" : ""
+					"report_id" : "",
+					"image" : {
+						"file_name" : "",
+	  					"uri" : "",
+	  					"host" : ""
+					}
 				}
 			],
 
-
-			"ViewProductLogs" : [
+			"viewProductLog" : [
 				{
-					"productId" : "",
-					"userId" : "",
-					"totalViews" : "",
-					"lastUpdateTime" : ""
+					"product_id" : "",
+					"user_id" : "",
+					"total_views" : "",
+					"last_update_time" : ""
 				}
 			],
 
-			"ProductCompanyLogs" : [
+			"orderLog" : [
 				{
-					"productId" : "",
-					"productCompanyId" : "",
-					"createdTime" : "new Date()",
-					"createdBy" : ""
-				}
-			],
-
-			"OrderLogs" : [
-				{
-					"orderId" : "",
-					"oldStatus" : "",
+					"order_id" : "",
+					"old_status" : "",
 					"description" : "",
-					"createdTime" : "new Date()"
+					"created_time" : "new Date()"
 				}
 			]
 		}
