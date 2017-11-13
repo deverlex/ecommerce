@@ -13,6 +13,7 @@ INSERT INTO Roles(`role`, `lastUpdatedBy`) VALUES
 
 INSERT INTO UserRole(`role`, `userId`, `lastUpdatedBy`) VALUES
 ('SYSTEM', 1, 1);
+
 -- ('ADMIN', 2, 1, 1),
 -- ('USER', 2, 1, 1);
 

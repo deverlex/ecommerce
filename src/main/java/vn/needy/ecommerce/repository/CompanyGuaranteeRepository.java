@@ -1,6 +1,6 @@
 package vn.needy.ecommerce.repository;
 
-public interface CompanyReputationRepository {
+public interface CompanyGuaranteeRepository {
 	
 	boolean isCompanyReputationById(long companyId);
 }

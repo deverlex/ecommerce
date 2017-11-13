@@ -6,10 +6,10 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.model.enums.CompanyReputationState;
-import vn.needy.ecommerce.repository.CompanyReputationRepository;
+import vn.needy.ecommerce.repository.CompanyGuaranteeRepository;
 
 @Repository("companyReputationRepository")
-public class CompanyReputationRepositoryImpl implements CompanyReputationRepository {
+public class CompanyGuaranteeRepositoryImpl implements CompanyGuaranteeRepository {
 
 	@Autowired
 	JdbcTemplate jdbc;
@@ -17,7 +17,7 @@ public class CompanyReputationRepositoryImpl implements CompanyReputationReposit
 	@Override
 	public boolean isCompanyReputationById(long companyId) {
 		SqlRowSet rs = jdbc.queryForRowSet("SELECT id "
-				+ "FROM CompanyReputation "
+				+ "FROM CompanyGuarantees "
 				+ "WHERE companyId = ? AND state = ?", 
 				new Object[] {companyId, CompanyReputationState.ACTIVE.getState()});
 		return rs.first();

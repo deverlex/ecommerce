@@ -18,12 +18,7 @@ public class User extends BaseDomain {
 	private String firebaseUid;
 	private String fcmToken;
 	private String fullName;
-	private String gender;
 	private String address;
-	private String avatar;
-	private String coverPicture;
-	private String email;
-	private Date birthday;
 	private float lat;
 	private float lng;
 	private Date createdTime;
@@ -98,52 +93,12 @@ public class User extends BaseDomain {
 		this.fullName = fullName;
 	}
 
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
 	public String getAddress() {
 		return address;
 	}
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-
-	public String getCoverPicture() {
-		return coverPicture;
-	}
-
-	public void setCoverPicture(String coverPicture) {
-		this.coverPicture = coverPicture;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
 	}
 
 	public float getLat() {

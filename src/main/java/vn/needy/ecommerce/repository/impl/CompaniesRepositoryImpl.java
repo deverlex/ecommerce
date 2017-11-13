@@ -43,14 +43,6 @@ public class CompaniesRepositoryImpl implements CompaniesRepository {
 			company.setCompanyNumber(rs.getString("companyNumber"));
 			company.setState(rs.getInt("state"));
 			company.setName(rs.getString("name"));
-			company.setOfficeAddress(rs.getString("officeAddress"));
-			company.setFoundedDate(rs.getDate("foundedDate"));
-			company.setOpeningTime(rs.getTime("openingTime"));
-			company.setClosingTime(rs.getTime("closingTime"));
-			company.setAvatar(rs.getString("avatar"));
-			company.setPictures(rs.getString("pictures"));
-			company.setDescription(rs.getString("description"));
-			company.setSiteUrl(rs.getString("siteUrl"));
 			company.setCreatedTime(rs.getDate("createdTime"));
 			company.setLastUpdatedTime(rs.getDate("lastUpdatedTime"));
 			return company;
@@ -64,11 +56,8 @@ public class CompaniesRepositoryImpl implements CompaniesRepository {
 		params.put("state", company.getState());
 		params.put("level", company.getLevel());
 		params.put("name", company.getName());
-		params.put("officeAddress", company.getOfficeAddress());
+		params.put("address", company.getAddress());
 		params.put("companyNumber", company.getCompanyNumber());
-		params.put("foundedDate", company.getFoundedDate());
-		params.put("openingTime", company.getOpeningTime());
-		params.put("closingTime", company.getClosingTime());
 		params.put("lastUpdatedBy", company.getLastUpdatedBy());
 		return insert.executeAndReturnKey(params).longValue();
 	}

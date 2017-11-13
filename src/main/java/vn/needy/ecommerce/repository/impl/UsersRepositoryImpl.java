@@ -82,20 +82,15 @@ public class UsersRepositoryImpl implements UsersRepository {
 
 	@Override
 	public User findUserForResponseById(long id) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT state, fullName, gender, address, "
-				+ "avatar, coverPicture, email, birthday, lat, lng, createdTime, lastUpdatedTime, lastResetPassword "
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT state, fullName, address, "
+				+ "lat, lng, createdTime, lastUpdatedTime, lastResetPassword "
 				+ "FROM Users "
 				+ "WHERE id = ?", new Object[]{id});
 		if (rs.first()) {
 			User user = new User();
 			user.setState(rs.getInt("state"));
 			user.setFullName(rs.getString("fullName"));
-			user.setGender(rs.getString("gender"));
 			user.setAddress(rs.getString("address"));
-			user.setAvatar(rs.getString("avatar"));
-			user.setCoverPicture(rs.getString("coverPicture"));
-			user.setEmail(rs.getString("email"));
-			user.setBirthday(rs.getDate("birthday"));
 			user.setLat(rs.getFloat("lat"));
 			user.setLng(rs.getFloat("lng"));
 			user.setCreatedTime(rs.getTimestamp("createdTime"));

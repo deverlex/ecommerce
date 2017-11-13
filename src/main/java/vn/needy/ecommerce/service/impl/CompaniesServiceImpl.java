@@ -1,7 +1,5 @@
 package vn.needy.ecommerce.service.impl;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,7 +24,7 @@ import vn.needy.ecommerce.model.json.request.RegisterCompanyRequest;
 import vn.needy.ecommerce.model.json.response.CompanyResponse;
 import vn.needy.ecommerce.repository.BudgetRepository;
 import vn.needy.ecommerce.repository.CompaniesRepository;
-import vn.needy.ecommerce.repository.CompanyReputationRepository;
+import vn.needy.ecommerce.repository.CompanyGuaranteeRepository;
 import vn.needy.ecommerce.repository.CompanyStaffResponsitory;
 import vn.needy.ecommerce.repository.PaysRepository;
 import vn.needy.ecommerce.repository.StoresResponsitory;
@@ -55,7 +53,7 @@ public class CompaniesServiceImpl implements CompaniesService {
 	PaysRepository paysRepository;
 	
 	@Autowired
-	CompanyReputationRepository companyReputationRepository;
+	CompanyGuaranteeRepository companyReputationRepository;
 	
 	@Autowired
 	CompanyStaffResponsitory companyStaffResponsitory;
@@ -93,13 +91,10 @@ public class CompaniesServiceImpl implements CompaniesService {
 		Company registerCompany = new Company();
 		registerCompany.setLastUpdatedBy(userId);
 		registerCompany.setName(registerCompanyRequest.getCompanyName());
-		registerCompany.setOfficeAddress(registerCompanyRequest.getOfficeAddress());
+		registerCompany.setAddress(registerCompanyRequest.getOfficeAddress());
 		registerCompany.setCompanyNumber(companyNumber);
 		registerCompany.setLevel(0);
 		registerCompany.setState(CompanyState.ACTIVE.getState());
-		registerCompany.setOpeningTime(timeProvider.parseTime("08:00:00"));
-		registerCompany.setClosingTime(timeProvider.parseTime("17:00:00"));
-		registerCompany.setFoundedDate(new Date());
 		long companyId = companiesRepository.registerCompany(registerCompany);
 	
 		// insert into Budgets

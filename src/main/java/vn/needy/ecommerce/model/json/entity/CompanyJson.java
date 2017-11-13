@@ -19,7 +19,7 @@ public class CompanyJson implements Serializable {
 	private String companyNumber;
 	private int state;
 	private String name;
-	private String officeAddress;
+	private String address;
 	private Date foundedDate;
 	@JsonFormat(pattern = "HH:mm:ss")
 	private Date openingTime;
@@ -44,22 +44,7 @@ public class CompanyJson implements Serializable {
 		this.companyNumber = company.getCompanyNumber();
 		this.state = company.getState();
 		this.name = company.getName();
-		this.officeAddress = company.getOfficeAddress();
-		this.foundedDate = company.getFoundedDate();
-		this.openingTime = company.getOpeningTime();
-		this.closingTime = company.getClosingTime();
-		this.avatar = company.getAvatar();
-		String strPictures = company.getPictures();
-		if (strPictures != null && strPictures.length() >= 2) {
-			mapper = new ObjectMapper();
-			try {
-				this.pictures = mapper.readValue(strPictures, TypeFactory.defaultInstance().constructCollectionType(List.class, String.class));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		this.description = company.getDescription();
-		this.siteUrl = company.getSiteUrl();
+		this.address = company.getAddress();
 		this.createdTime = company.getCreatedTime();
 		this.lastUpdatedTime = company.getLastUpdatedTime();
 		this.isReputation = false;
@@ -97,12 +82,12 @@ public class CompanyJson implements Serializable {
 		this.name = name;
 	}
 
-	public String getOfficeAddress() {
-		return officeAddress;
+	public String address() {
+		return address;
 	}
 
-	public void setOfficeAddress(String officeAddress) {
-		this.officeAddress = officeAddress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public Date getFoundedDate() {

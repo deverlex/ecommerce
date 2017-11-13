@@ -16,6 +16,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -34,6 +37,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.mongodb.MongoClient;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -91,6 +95,22 @@ public class ApplicationDatabaseConfiguration {
     	HikariDataSource ds = new HikariDataSource(config);
     	
         return ds;
+    }
+    
+    // Configuration for MongoDB
+    @Bean("mongoClient")
+    public MongoClient mongoClient() {
+        return new MongoClient("localhost", 27017);
+    }
+    
+    @Bean("mongoDbFactory")
+    public MongoDbFactory mongoDbFactory() {
+    	return new SimpleMongoDbFactory(mongoClient(), "needy");
+    }
+    
+    @Bean("mongoTemplate")
+    public MongoTemplate mongoTemplate() {
+    	return new MongoTemplate(mongoDbFactory());
     }
     
     // Set for Redis - using connection pool

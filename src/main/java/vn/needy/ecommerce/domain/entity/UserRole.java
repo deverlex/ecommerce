@@ -8,7 +8,7 @@ public class UserRole extends BaseDomain {
 	
 	private static final long serialVersionUID = 1041738921L;
 
-public static final String TABLE = "UserRole";
+	public static final String TABLE = "UserRole";
 	
 	private long id;
 	private String role;
