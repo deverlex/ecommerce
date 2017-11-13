@@ -4,7 +4,7 @@ import java.util.Date;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class CompanyReputation extends BaseDomain {
+public class CompanyGuarantee extends BaseDomain {
 
 	private static final long serialVersionUID = 166364535345345L;
 	
@@ -15,7 +15,7 @@ public class CompanyReputation extends BaseDomain {
 	private Date lastUpdatedTime;
 	private long changedBy;
 	
-	public CompanyReputation() {
+	public CompanyGuarantee() {
 		super();
 	}
 

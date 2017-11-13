@@ -1,8 +1,7 @@
 {
 	"mongo" : [
 		{
-			/////////For users
-			"UserInfos" : {
+			"UserDetails" : {
 				"userId" : "",
 				"email" : "",
   				"birthday" : "",
@@ -19,8 +18,7 @@
   				}
 			},
 
-			//////For Company
-			"CompanyInfos" : [
+			"CompanyDetails" : [
 				{
 					"companyId" : "",
 					"description" : "",
@@ -48,8 +46,7 @@
 				}
 			],
 
-			/////////////For Stores
-			"StoreInfos" : {
+			"StoreDetails" : {
 				"storeId" : "",
 				"description" : "",
 				"numberStaff" : "",
@@ -72,8 +69,7 @@
 				}
 			],
 
-			/////For Categories
-			"CategoriesInfos" : [
+			"CategoryDetails" : [
 				{
 					"category" : "",
 					"coverPicture" : {
@@ -90,7 +86,6 @@
 				}
 			],
 
-			////////For Products
 			"ProductDetails" : [
 				{
 					"productId" : "",
@@ -105,7 +100,7 @@
 						{"attr3" : ""}
 					],
 					"coverPicture" : {
-						"fileName" : "849682082444512.JPG", // username + phut + giay
+						"fileName" : "849682082444512.JPG",
 						"uri" : "images/2017/34/Tue/12",
 						"host" : "rsv0001.needy.vn"
 					},
@@ -130,14 +125,13 @@
 				{
 					"_id" : "",
 					"productId" : "",
-					"fileName" : "849682082444512.JPG", // username + phut + giay
+					"fileName" : "84968208244 45 12.JPG",
 					"uri" : "images/2017/34/Tue/12",
 					"host" : "rsv0001.needy.vn"
 				}
 			],
 			
-			/////For Report
-			"UserReportInfos" : [
+			"UserReportDetails" : [
 				{
 					"reportId" : "",
 					"description" : "",
@@ -156,7 +150,6 @@
   					"host" : ""
 				}
 			],
-
 
 
 			"ViewProductLogs" : [
@@ -183,12 +176,6 @@
 					"oldStatus" : "",
 					"description" : "",
 					"createdTime" : "new Date()"
-				}
-			],
-
-			"WalletLogs" : [
-				{
-					"" : ""
 				}
 			]
 		}
