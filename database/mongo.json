@@ -1,0 +1,169 @@
+{
+	"mongo" : [
+		{
+			"UserInfos" : {
+				"userId" : "",
+				"email" : "",
+  				"birthday" : "",
+  				"gender" : "",
+  				"avatar" : {
+  					"fileName" : "",
+  					"uri" : "",
+  					"host" : ""
+  				},
+  				"coverPicture" : {
+  					"fileName" : "",
+  					"uri" : "",
+  					"host" : ""
+  				}
+			},
+
+			"CompanyInfos" : [
+				{
+					"companyId" : "",
+					"description" : "",
+					"siteUrl" : "",
+					"foundedDate" : "",
+					"openingTime" : "",
+					"closingTime" : "",
+					"avatar" : {
+						"fileName" : "",
+						"uri" : "",
+						"host" : ""
+					},
+					"pictures" : [
+						"_id1", "_id2"
+					]
+				}
+			],
+
+			"CompanyPictures" : [
+				{
+					"companyId" : "",
+					"fileName" : "",
+					"uri" : "",
+					"host" : ""
+				}
+			],
+
+			"StoreInfos" : {
+				"storeId" : "",
+				"description" : "",
+				"numberStaff" : "",
+				"avatar" : {
+					"fileName" : "",
+					"uri" : "",
+					"host" : ""
+				},
+				"coverPicture" : [
+					"_id1", "_id2"
+				]
+			},
+
+			"StorePictures" : [
+				{
+					"companyId" : "",
+					"fileName" : "",
+					"uri" : "",
+					"host" : ""
+				}
+			],
+
+			"CategoriesInfos" : [
+				{
+					"category" : "",
+					"coverPicture" : {
+						"fileName" : "",
+						"uri" : "",
+						"host" : ""
+					},
+					"childCategories" : [
+						"", ""
+					],
+					"parentCategories" : [
+						"", ""
+					]
+				}
+			],
+
+			"ProductDetails" : [
+				{
+					"productId" : "",
+					"category" : "",
+					"storeId" : "",
+					"name" : "",
+					"gifts" : "",
+					"description" : "",
+					"attrs" : [
+						{"attr1" : ""},
+						{"attr2" : ""},
+						{"attr3" : ""}
+					],
+					"coverPicture" : {
+						"fileName" : "849682082444512.JPG", // username + phut + giay
+						"uri" : "images/2017/34/Tue/12",
+						"host" : "rsv0001.needy.vn"
+					},
+					"parentProducts" : "",
+					"childProducts" : [
+						"_id1", "_id2"
+					]
+				},
+
+				{
+					"productId" : "",
+					"category" : "",
+					"storeId" : "",
+					"attrs" : [
+						{"attr1" : ""},
+						{"attr2" : ""}
+					]
+				}
+			],
+
+			"ProductPictures" : [
+				{
+					"_id" : "",
+					"productId" : "",
+					"fileName" : "849682082444512.JPG", // username + phut + giay
+					"uri" : "images/2017/34/Tue/12",
+					"host" : "rsv0001.needy.vn"
+				}
+			],
+			
+
+			"ViewProductLogs" : [
+				{
+					"productId" : "",
+					"userId" : "",
+					"totalViews" : "",
+					"lastUpdateTime" : ""
+				}
+			],
+
+			"ProductCompanyLogs" : [
+				{
+					"productId" : "",
+					"productCompanyId" : "",
+					"createdTime" : "new Date()",
+					"createdBy" : ""
+				}
+			],
+
+			"OrderLogs" : [
+				{
+					"orderId" : "",
+					"oldStatus" : "",
+					"description" : "",
+					"createdTime" : "new Date()"
+				}
+			],
+
+			"WalletLogs" : [
+				{
+					"" : ""
+				}
+			]
+		}
+	]
+}

@@ -10,10 +10,10 @@ VALUES
 
 INSERT INTO SubCategories (`subCategory`, `refCategory`, `refLevel`, `isNext`, `lastUpdatedBy`)
 VALUES
-("GAS", "GASWATER", 1, 1, 1),
-("WATER", "GASWATER", 1, 1, 1),
-("BOOKHOTEL", "HOTEL", 1, 1, 1),
-("CALLGAS", "GASWATER", 1, 0, 1),
-("CALLGAS", "GAS", 2, 1, 1),
-("GASTOVE", "GASWATER", 1, 0, 1),
-("GASTOVE", "GAS", 2, 1, 1);
+("GAS", "GASWATER", 1, true, 1),
+("WATER", "GASWATER", 1, true, 1),
+("BOOKHOTEL", "HOTEL", 1, true, 1),
+("CALLGAS", "GASWATER", 1, false, 1),
+("CALLGAS", "GAS", 2, true, 1),
+("GASTOVE", "GASWATER", 1, false, 1),
+("GASTOVE", "GAS", 2, true, 1);
