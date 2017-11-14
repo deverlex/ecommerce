@@ -113,7 +113,7 @@ public class UserRepositoryImpl implements UserRepository {
 				+ "WHERE username = ? AND state <> ?", new Object[] {username, UserState.DELETED.getState()});
 		if (rs.first()) {
 			User user = new User();
-			user.setId(rs.getLong("id"));
+			user.setId(rs.getLong("user_id"));
 			user.setFirebaseUid(rs.getString("firebase_uid"));
 			return user;
 		}
