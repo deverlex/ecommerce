@@ -9,10 +9,10 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.entity.Category;
-import vn.needy.ecommerce.repository.CategoriesRepository;
+import vn.needy.ecommerce.repository.CategoryRepository;
 
-@Repository("categoriesRepository")
-public class CategoriesRepositoriesImpl implements CategoriesRepository {
+@Repository("categoryRepository")
+public class CategoryRepositoriesImpl implements CategoryRepository {
 
 	@Autowired
 	JdbcTemplate jdbc;

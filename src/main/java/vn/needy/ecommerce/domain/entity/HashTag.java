@@ -4,7 +4,7 @@ import java.util.Date;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class HashTags extends BaseDomain {
+public class HashTag extends BaseDomain {
 	
 	private static final long serialVersionUID = 1235322768L;
 
@@ -14,7 +14,7 @@ public class HashTags extends BaseDomain {
 	private String hashtag;
 	private Date createdTime;
 
-	public HashTags() {
+	public HashTag() {
 		super();
 	}
 

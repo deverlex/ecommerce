@@ -4,7 +4,7 @@ import java.util.List;
 
 import vn.needy.ecommerce.domain.entity.Category;
 
-public interface CategoriesRepository {
+public interface CategoryRepository {
 
 	List<Category> getProductCategories();
 	

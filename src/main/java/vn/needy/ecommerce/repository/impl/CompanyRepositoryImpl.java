@@ -13,10 +13,10 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.entity.Company;
 import vn.needy.ecommerce.model.enums.CompanyState;
-import vn.needy.ecommerce.repository.CompaniesRepository;
+import vn.needy.ecommerce.repository.CompanyRepository;
 
-@Repository("companiesRepository")
-public class CompaniesRepositoryImpl implements CompaniesRepository {
+@Repository("companyRepository")
+public class CompanyRepositoryImpl implements CompanyRepository {
 
 	@Autowired
 	JdbcTemplate jdbc;

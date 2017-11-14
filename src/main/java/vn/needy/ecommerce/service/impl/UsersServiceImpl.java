@@ -26,7 +26,7 @@ import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.model.json.request.ResetPasswordRequest;
 import vn.needy.ecommerce.model.json.response.CertificationResponse;
 import vn.needy.ecommerce.model.json.response.UserResponse;
-import vn.needy.ecommerce.repository.UsersRepository;
+import vn.needy.ecommerce.repository.UserRepository;
 import vn.needy.ecommerce.security.TokenUtils;
 import vn.needy.ecommerce.service.UsersService;
 
@@ -37,7 +37,7 @@ public class UsersServiceImpl implements UsersService {
 	private String tokenPrefix;
 	
 	@Autowired
-	private UsersRepository usersRepository;
+	private UserRepository usersRepository;
 	
 	@Autowired
 	private TokenUtils tokenUtils;

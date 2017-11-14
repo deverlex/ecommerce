@@ -2,7 +2,7 @@ package vn.needy.ecommerce.repository;
 
 import vn.needy.ecommerce.domain.entity.Store;
 
-public interface StoresResponsitory {
+public interface StoreResponsitory {
 
 	public long registerStore(Store store);
 	

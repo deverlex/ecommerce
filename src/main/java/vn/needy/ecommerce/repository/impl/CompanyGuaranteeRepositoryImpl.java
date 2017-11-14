@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import vn.needy.ecommerce.model.enums.CompanyReputationState;
 import vn.needy.ecommerce.repository.CompanyGuaranteeRepository;
 
-@Repository("companyReputationRepository")
+@Repository("companyGuaranteeRepository")
 public class CompanyGuaranteeRepositoryImpl implements CompanyGuaranteeRepository {
 
 	@Autowired

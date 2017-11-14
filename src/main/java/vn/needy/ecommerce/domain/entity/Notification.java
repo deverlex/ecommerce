@@ -4,7 +4,7 @@ import java.util.Date;
 
 import vn.needy.ecommerce.domain.BaseDomain;
 
-public class Notifications extends BaseDomain {
+public class Notification extends BaseDomain {
 
 	private static final long serialVersionUID = 17474636L;
 	
@@ -20,7 +20,7 @@ public class Notifications extends BaseDomain {
 	
 	private Date createdTime;
 	
-	public Notifications() {
+	public Notification() {
 		super();
 	}
 

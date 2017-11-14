@@ -23,11 +23,11 @@ import vn.needy.ecommerce.model.json.entity.CompanyJson;
 import vn.needy.ecommerce.model.json.request.RegisterCompanyRequest;
 import vn.needy.ecommerce.model.json.response.CompanyResponse;
 import vn.needy.ecommerce.repository.BudgetRepository;
-import vn.needy.ecommerce.repository.CompaniesRepository;
+import vn.needy.ecommerce.repository.CompanyRepository;
 import vn.needy.ecommerce.repository.CompanyGuaranteeRepository;
 import vn.needy.ecommerce.repository.CompanyStaffResponsitory;
-import vn.needy.ecommerce.repository.PaysRepository;
-import vn.needy.ecommerce.repository.StoresResponsitory;
+import vn.needy.ecommerce.repository.PayRepository;
+import vn.needy.ecommerce.repository.StoreResponsitory;
 import vn.needy.ecommerce.repository.UserRoleRepository;
 import vn.needy.ecommerce.service.CompaniesService;
 
@@ -41,16 +41,16 @@ public class CompaniesServiceImpl implements CompaniesService {
 	private TimeProvider timeProvider;
 	
 	@Autowired
-	CompaniesRepository companiesRepository;
+	CompanyRepository companiesRepository;
 	
 	@Autowired
-	StoresResponsitory storesResponsitory;
+	StoreResponsitory storesResponsitory;
 	
 	@Autowired
 	BudgetRepository budgetRepository;
 	
 	@Autowired
-	PaysRepository paysRepository;
+	PayRepository paysRepository;
 	
 	@Autowired
 	CompanyGuaranteeRepository companyReputationRepository;

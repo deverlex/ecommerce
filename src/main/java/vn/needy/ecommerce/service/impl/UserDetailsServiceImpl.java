@@ -14,13 +14,13 @@ import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
 import vn.needy.ecommerce.repository.UserRoleRepository;
-import vn.needy.ecommerce.repository.UsersRepository;
+import vn.needy.ecommerce.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-    UsersRepository usersRepository;
+    UserRepository usersRepository;
 	
 	@Autowired
 	UserRoleRepository userRoleRepository;
