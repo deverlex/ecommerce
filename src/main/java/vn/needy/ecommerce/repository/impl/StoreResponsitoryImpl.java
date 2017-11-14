@@ -25,24 +25,23 @@ public class StoreResponsitoryImpl implements StoresResponsitory {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(Store.TABLE)
-        		.usingGeneratedKeyColumns("id");
+        		.usingGeneratedKeyColumns("store_id");
     }
 	
 	@Override
 	public long registerStore(Store store) {
 		Map<String, Object> params = new HashMap<>(9);
-		params.put("companyId", store.getCompanyId());
-		params.put("storeNumber", store.getStoreNumber());
+		params.put("company_id", store.getCompanyId());
+		params.put("store_number", store.getStoreNumber());
 		params.put("state", store.getState());
 		params.put("status", store.getStatus());
 		params.put("name", store.getName());
 		params.put("address", store.getAddress());
-		params.put("numberStaff", store.getNumberStaff());
-		params.put("openingTime", store.getOpeningTime());
-		params.put("closingTime", store.getClosingTime());
+		params.put("opening_time", store.getOpeningTime());
+		params.put("closing_time", store.getClosingTime());
 		params.put("lat", store.getLat());
 		params.put("lng", store.getLng());
-		params.put("lastUpdatedBy", store.getLastUpdatedBy());
+		params.put("last_updated_by", store.getLastUpdatedBy());
 		return insert.executeAndReturnKey(params).longValue();
 	}
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import vn.needy.ecommerce.domain.entity.Pay;
 import vn.needy.ecommerce.repository.PaysRepository;
 
-@Repository("payLogRepository")
+@Repository("payRepository")
 public class PaysRepositoryImpl implements PaysRepository {
 
 	@Autowired
@@ -25,18 +25,18 @@ public class PaysRepositoryImpl implements PaysRepository {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(Pay.TABLE)
-        		.usingGeneratedKeyColumns("id");
+        		.usingGeneratedKeyColumns("pay_id");
     }
 	
 	@Override
 	public long createPayLog(Pay payLog) {
-		Map<String, Object> params = new HashMap<>(5);
-		params.put("budgetId", payLog.getBudgetId());
+		Map<String, Object> params = new HashMap<>(6);
+		params.put("budget_id", payLog.getBudgetId());
 		params.put("behavior", payLog.getBehavior());
-		params.put("payNumber", payLog.getPayNumber());
-		params.put("budgetCharge", payLog.getBudgetCharge());
+		params.put("pay_number", payLog.getPayNumber());
+		params.put("budget_charge", payLog.getBudgetCharge());
 		params.put("description", payLog.getDescription());
-		params.put("createdBy", payLog.getCreatedBy());
+		params.put("created_by", payLog.getCreatedBy());
 		return insert.executeAndReturnKey(params).longValue();
 	}
 

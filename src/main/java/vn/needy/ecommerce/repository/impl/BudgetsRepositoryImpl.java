@@ -21,14 +21,13 @@ public class BudgetsRepositoryImpl implements BudgetRepository {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(Budget.TABLE)
-        		.usingGeneratedKeyColumns("id");
+        		.usingGeneratedKeyColumns("budget_id");
     }
 	
 	@Override
 	public long createBudget(Budget budget) {
 		Map<String, Object> params = new HashMap<>(2);
-		params.put("companyId", budget.getCompanyId());
-		params.put("budgetNumber", budget.getBudgetNumber());
+		params.put("company_id", budget.getCompanyId());
 		params.put("budget", budget.getBudget());
 		return insert.executeAndReturnKey(params).longValue();
 	}

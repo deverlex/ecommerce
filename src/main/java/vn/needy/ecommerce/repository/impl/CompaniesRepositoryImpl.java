@@ -33,18 +33,18 @@ public class CompaniesRepositoryImpl implements CompaniesRepository {
 	@Override
 	public Company findCompanyDependencyByUserId(long userId) {
 		SqlRowSet rs = jdbc.queryForRowSet("SELECT c.* "
-				+ "FROM Companies c "
-				+ "INNER JOIN CompanyStaff cs ON c.id = cs.companyId "
-				+ "WHERE cs.userId = ? AND c.state <> ?", 
+				+ "FROM company c "
+				+ "INNER JOIN company_staff cs ON c.company_id = cs.company_id "
+				+ "WHERE cs.user_id = ? AND c.state <> ?", 
 				new Object[] {userId, CompanyState.CLOSED.getState()});
 		if (rs.first()) {
 			Company company = new Company();
 			company.setId(rs.getLong("id"));
-			company.setCompanyNumber(rs.getString("companyNumber"));
+			company.setCompanyNumber(rs.getString("company_number"));
 			company.setState(rs.getInt("state"));
 			company.setName(rs.getString("name"));
-			company.setCreatedTime(rs.getDate("createdTime"));
-			company.setLastUpdatedTime(rs.getDate("lastUpdatedTime"));
+			company.setCreatedTime(rs.getDate("created_time"));
+			company.setLastUpdatedTime(rs.getDate("last_updated_time"));
 			return company;
 		}
 		return null;
@@ -53,12 +53,12 @@ public class CompaniesRepositoryImpl implements CompaniesRepository {
 	@Override
 	public long registerCompany(Company company) {
 		Map<String, Object> params = new HashMap<>(11);
+		params.put("company_number", company.getCompanyNumber());
 		params.put("state", company.getState());
 		params.put("level", company.getLevel());
 		params.put("name", company.getName());
 		params.put("address", company.getAddress());
-		params.put("companyNumber", company.getCompanyNumber());
-		params.put("lastUpdatedBy", company.getLastUpdatedBy());
+		params.put("last_updated_by", company.getLastUpdatedBy());
 		return insert.executeAndReturnKey(params).longValue();
 	}
 

@@ -24,19 +24,19 @@ public class CompanyStaffResponsitoryImpl implements CompanyStaffResponsitory {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(CompanyStaff.TABLE)
-        		.usingGeneratedKeyColumns("id");
+        		.usingGeneratedKeyColumns("comsta_id");
     }
 	
 	@Override
 	public long insertCompanyStaff(CompanyStaff staff) {
 		Map<String, Object> params = new HashMap<>(5);
-		params.put("userId", staff.getUserId());
-		params.put("companyId", staff.getCompanyId());
-		params.put("storeId", staff.getStoreId());
-		params.put("fcmToken", staff.getFcmToken());
+		params.put("user_id", staff.getUserId());
+		params.put("company_id", staff.getCompanyId());
+		params.put("store_id", staff.getStoreId());
+		params.put("fcm_token", staff.getFcmToken());
 		params.put("state", staff.getState());
 		params.put("status", staff.getStatus());
-		params.put("lastUpdatedBy", staff.getLastUpdatedBy());
+		params.put("last_updated_by", staff.getLastUpdatedBy());
 		return insert.executeAndReturnKey(params).longValue();
 	}
 

@@ -34,23 +34,23 @@ public class UsersRepositoryImpl implements UsersRepository {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(User.TABLE)
-        		.usingGeneratedKeyColumns("id");
+        		.usingGeneratedKeyColumns("user_id");
     }
 
 	// This function using for authorization (login) 
 	@Override
 	public User findUserByUsernameForAuthenticate(String username) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT id, username, password, state, unlockTime, lastResetPassword "
-				+ "FROM Users "
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT user_id, username, password, state, unlock_time, last_reset_password "
+				+ "FROM user "
 				+ "WHERE username = ? AND state <> ?", new Object[] {username, UserState.DELETED.getState()});
 		if (rs.first()) {
 			User user = new User();
-			user.setId(rs.getLong("id"));
+			user.setId(rs.getLong("user_id"));
 			user.setUsername(rs.getString("username"));
 			user.setPassword(rs.getString("password"));
 			user.setState(rs.getInt("state"));
-			user.setUnlockTime(rs.getTimestamp("unlockTime"));
-			user.setLastResetPassword(rs.getTimestamp("lastResetPassword"));
+			user.setUnlockTime(rs.getTimestamp("unlock_time"));
+			user.setLastResetPassword(rs.getTimestamp("last_teset_password"));
 			return user;
 		}
 		return null;
@@ -58,18 +58,18 @@ public class UsersRepositoryImpl implements UsersRepository {
 
 	@Override
 	public boolean updateUserState(long id, int state) {
-		return jdbc.update("UPDATE Users SET state = ? WHERE id = ?", 
+		return jdbc.update("UPDATE user SET state = ? WHERE id = ?", 
 				new Object[] {state, id}) == 1;
 	}
 
 	@Override
 	public String findUserExistByUsername(String username) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT fullName "
-				+ "FROM Users "
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT full_name "
+				+ "FROM user "
 				+ "WHERE username = ? AND state <> ?", 
 				new Object[] {username, UserState.DELETED.getState()});
 		if (rs.first()) {
-			return rs.getString("fullName");
+			return rs.getString("full_name");
 		}
 		return null;
 	}
@@ -80,27 +80,27 @@ public class UsersRepositoryImpl implements UsersRepository {
 		params.put("username", registerInfo.getUsername());
 		params.put("password", registerInfo.getPassword());
 		params.put("state", UserState.INACTIVE.getState());
-		params.put("firebaseUid", registerInfo.getFirebaseUid());
-		params.put("fullName", "No Name");
+		params.put("firebase_uid", registerInfo.getFirebaseUid());
+		params.put("full_name", "No Name");
 		return insert.executeAndReturnKey(params).longValue();
 	}
 
 	@Override
 	public User findUserById(long id) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT state, fullName, address, "
-				+ "lat, lng, createdTime, lastUpdatedTime, lastResetPassword "
-				+ "FROM Users "
-				+ "WHERE id = ?", new Object[]{id});
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT state, full_name, address, "
+				+ "lat, lng, created_time, last_updated_time, last_reset_password "
+				+ "FROM user "
+				+ "WHERE user_id = ?", new Object[]{id});
 		if (rs.first()) {
 			User user = new User();
 			user.setState(rs.getInt("state"));
-			user.setFullName(rs.getString("fullName"));
+			user.setFullName(rs.getString("full_name"));
 			user.setAddress(rs.getString("address"));
 			user.setLat(rs.getFloat("lat"));
 			user.setLng(rs.getFloat("lng"));
-			user.setCreatedTime(rs.getTimestamp("createdTime"));
-			user.setLastUpdatedTime(rs.getTimestamp("lastUpdatedTime"));
-			user.setLastResetPassword(rs.getTimestamp("lastResetPassword"));
+			user.setCreatedTime(rs.getTimestamp("created_time"));
+			user.setLastUpdatedTime(rs.getTimestamp("last_updated_time"));
+			user.setLastResetPassword(rs.getTimestamp("last_reset_password"));
 			return user;
 		}
 		return null;
@@ -108,13 +108,13 @@ public class UsersRepositoryImpl implements UsersRepository {
 
 	@Override
 	public User findUserByUsernameForResetPassword(String username) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT id, firebaseUid "
-				+ "FROM Users "
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT user_id, firebase_uid "
+				+ "FROM user "
 				+ "WHERE username = ? AND state <> ?", new Object[] {username, UserState.DELETED.getState()});
 		if (rs.first()) {
 			User user = new User();
 			user.setId(rs.getLong("id"));
-			user.setFirebaseUid(rs.getString("firebaseUid"));
+			user.setFirebaseUid(rs.getString("firebase_uid"));
 			return user;
 		}
 		return null;
@@ -122,7 +122,7 @@ public class UsersRepositoryImpl implements UsersRepository {
 
 	@Override
 	public boolean updatePasswordByUserId(long id, String password) {
-		return jdbc.update("UPDATE Users SET password = ? WHERE id = ?", 
+		return jdbc.update("UPDATE user SET password = ? WHERE user_id = ?", 
 				new Object[] {password, id}) == 1;
 	}
 
@@ -136,9 +136,9 @@ public class UsersRepositoryImpl implements UsersRepository {
 			request.getLng(),
 			userId
 		};
-		String sqlUpdate = "UPDATE Users "
-				+ "SET state =?, fullName = ?, address = ?, lat = ?, lng = ? "
-				+ "WHERE id = ?";
+		String sqlUpdate = "UPDATE user "
+				+ "SET state =?, full_name = ?, address = ?, lat = ?, lng = ? "
+				+ "WHERE user_id = ?";
 		return jdbc.update(sqlUpdate, params);
 	}
 

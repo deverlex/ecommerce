@@ -19,7 +19,7 @@ public class CategoriesRepositoriesImpl implements CategoriesRepository {
 	
 	@Override
 	public List<Category> getProductCategories() {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM Categories c " + 
+		SqlRowSet rs = jdbc.queryForRowSet("SELECT * FROM category c " + 
 				"LEFT JOIN SubCategories sc ON c.category = sc.subCategory " + 
 				"WHERE sc.refCategory IS NULL AND enable = true AND isPriceLater = false");
 		List<Category> categories = new LinkedList<>();
