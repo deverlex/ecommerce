@@ -190,9 +190,6 @@ DROP TABLE IF EXISTS `company`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `company` (
   `company_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  -- Ma code company tu dong gen
-  -- CompanyNumber:     1710VKG1FI9O
-  `company_number` varchar(12) UNIQUE NOT NULL,
   -- It will update for app manager
   `fcm_token` varchar(255),
   -- Trang thai: chua kich hoat, da kich hoat, tam ngung, da dong cua
@@ -206,7 +203,6 @@ CREATE TABLE `company` (
   `last_updated_by` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `idx_company_number` ON `company` (`company_number`);
 CREATE INDEX `idx_state` ON `company` (`state`);
 CREATE INDEX `idx_level` ON `company` (`level`);
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -220,7 +216,6 @@ DROP TABLE IF EXISTS `store`;
 CREATE TABLE `store` (
   `store_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `company_id` bigint(20) NOT NULL,
-  `store_number` varchar(12) NOT NULL,
   -- Trang thai cua hang da kich hoat hay chua
   -- Dieu kien kich hoat: khi co hang ban
   -- inactive (0), active(1), locked (-1)
@@ -243,7 +238,6 @@ CREATE TABLE `store` (
   CONSTRAINT `Fk_store_c` FOREIGN KEY (`company_id`) REFERENCES `company` (`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX `idx_store_number` ON `store` (`store_number`);
 CREATE INDEX `idx_status` ON `store` (`status`);
 CREATE INDEX `idx_loc` ON `store` (`lat`, `lng`);
 CREATE INDEX `idx_active_time` ON `store` (`opening_time`, `closing_time`);
@@ -297,14 +291,10 @@ CREATE TABLE `company_guarantee` (
   -- Trang thai: active, inactive, waiting
   `state` tinyint(2) NOT NULL,
   `company_id` bigint(20) NOT NULL,
-  -- Ma hop dong tu sinh
-  `agreement_number` varchar(12) NOT NULL,
   `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `last_updated_by` bigint(20) NOT NULL,
+  `change_by` bigint(20) NOT NULL,
   CONSTRAINT `Fk_company_guarantee_c` FOREIGN KEY (`company_id`) REFERENCES `company` (`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
-
-CREATE INDEX `idx_agreement_number` ON `company_guarantee` (`agreement_number`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -333,8 +323,6 @@ CREATE TABLE `pay` (
   `pay_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `budget_id` bigint(20) NOT NULL,
   `behavior` tinyint(2) NOT NULL,
-  -- So giao dich, tu sinh trong may
-  `pay_number` varchar(16) NOT NULL,
   `budget_charge` float(12, 2) NOT NULL,
   `description` text(1000) NOT NULL,
   -- tai khoan thanh toan
@@ -346,7 +334,6 @@ CREATE TABLE `pay` (
   CONSTRAINT `Fk_pays_b` FOREIGN KEY (`budget_id`) REFERENCES `budget` (`budget_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE INDEX `idx_pay_number` ON `pay` (`pay_number`);
 CREATE INDEX `idx_debit_account` ON `pay` (`debit_account`);
 CREATE INDEX `idx_credit_account` ON `pay` (`credit_account`);
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -446,8 +433,6 @@ CREATE TABLE `order` (
   `order_id` bigint(20) AUTO_INCREMENT PRIMARY KEY ,
   `user_id` bigint(20) NOT NULL,
   `store_id` bigint(20) NOT NULL,
-  -- Ma don hang
-  `order_number` varchar(16) NOT NULL,
   -- Da dat, dang nhan don hang...
   `status` tinyint(2) NOT NULL,
   -- Da thanh toan hay chua, tuong lai tich hop them thanh toan dien tu
@@ -472,8 +457,6 @@ CREATE TABLE `order` (
   CONSTRAINT `Fk_orders_st` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`),
   CONSTRAINT `Fk_orders_rc` FOREIGN KEY (`receiver_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE INDEX `idx_order_number` ON `order` (`order_number`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -616,7 +599,7 @@ DROP TABLE IF EXISTS `hashtag`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hashtag` (
   `hashtag_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `hashtag` varchar(32) UNIQUE NOT NULL,
+  `hashtag` varchar(255) UNIQUE NOT NULL,
   `created_time` timestamp DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -627,7 +610,7 @@ DROP TABLE IF EXISTS `product_hashtag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_hashtag` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `prohas_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `product_id` bigint(20) NOT NULL,
   `hashtag_id` bigint(20) NOT NULL,
   CONSTRAINT `Uniq_product_hashtag_ph` UNIQUE (`product_id`,`hashtag_id`),

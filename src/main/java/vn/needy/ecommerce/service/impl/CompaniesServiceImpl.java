@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import vn.needy.ecommerce.common.utils.HashIdProvider;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.domain.entity.Budget;
 import vn.needy.ecommerce.domain.entity.Company;
@@ -33,9 +32,6 @@ import vn.needy.ecommerce.service.CompaniesService;
 
 @Service("companiesService")
 public class CompaniesServiceImpl implements CompaniesService {
-
-	@Autowired
-	private HashIdProvider hashIdProvider;
 	
 	@Autowired
 	private TimeProvider timeProvider;
@@ -62,10 +58,10 @@ public class CompaniesServiceImpl implements CompaniesService {
 	UserRoleRepository userRoleRepository;
 	
 	@Override
-	public CompanyResponse findCompanyDependency(long userId) {
-		Company company = companiesRepository.findCompanyDependencyByUserId(userId);
+	public CompanyResponse findCompanyInformation(long userId) {
+		Company company = companiesRepository.findCompanyInformationByUserId(userId);
 		if (company != null) {
-			boolean isCompanyReputation = companyReputationRepository.isCompanyReputationById(company.getId());
+			boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
 			CompanyJson companyJson = new CompanyJson(company);
 			companyJson.setReputation(isCompanyReputation);
 			return new CompanyResponse(companyJson);
@@ -77,7 +73,7 @@ public class CompaniesServiceImpl implements CompaniesService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public CompanyResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
 		CompanyResponse companyResponse = new CompanyResponse();
-		Company findCompany = companiesRepository.findCompanyDependencyByUserId(userId);
+		Company findCompany = companiesRepository.findCompanyInformationByUserId(userId);
 		
 		if (findCompany != null) {
 			companyResponse = new CompanyResponse();
@@ -87,41 +83,33 @@ public class CompaniesServiceImpl implements CompaniesService {
 		}
 				
 		// insert into Companies tables
-		String companyNumber = hashIdProvider.generateCompanyCode();
 		Company registerCompany = new Company();
 		registerCompany.setLastUpdatedBy(userId);
 		registerCompany.setName(registerCompanyRequest.getCompanyName());
 		registerCompany.setAddress(registerCompanyRequest.getOfficeAddress());
-		registerCompany.setCompanyNumber(companyNumber);
 		registerCompany.setLevel(0);
 		registerCompany.setState(CompanyState.ACTIVE.getState());
 		long companyId = companiesRepository.registerCompany(registerCompany);
 	
 		// insert into Budgets
 		// MODIFY UPDATE
-		String budgetNumber = hashIdProvider.generateBudgetNumber();
 		Budget registerBudget = new Budget();
 		registerBudget.setCompanyId(companyId);
-		registerBudget.setBudgetNumber(budgetNumber);
 		registerBudget.setBudget(500000f);
 		long budgetId = budgetRepository.createBudget(registerBudget);
 		
 		// insert into PayLogs
-		String payNumber = hashIdProvider.generatePayNumber();
 		Pay payLog = new Pay();
 		payLog.setBudgetId(budgetId);
 		payLog.setBehavior(PayBehavior.INITIALIZE.getBehavior());
 		payLog.setBudgetCharge(500000f);
-		payLog.setPayNumber(payNumber);
 		payLog.setDescription("Initialize budget account.");
 		payLog.setCreatedBy(1); // system id
-		paysRepository.createPayLog(payLog);
+		paysRepository.createPay(payLog);
 		
 		// insert into Stores
-		String storeNumber = hashIdProvider.generateStoreNumber();
 		Store registerStore = new Store();
 		registerStore.setCompanyId(companyId);
-		registerStore.setStoreNumber(storeNumber);
 		registerStore.setState(StoreState.INACTIVE.getState());
 		registerStore.setStatus(StoreStatus.CLOSED_TIME.getStatus());
 		registerStore.setName(registerCompanyRequest.getStoreName());
@@ -147,9 +135,9 @@ public class CompaniesServiceImpl implements CompaniesService {
 		
 		userRoleRepository.registerUserListRole(userId, Role.List.CompanyOwner, userId);
 		
-		Company company = companiesRepository.findCompanyDependencyByUserId(userId);
+		Company company = companiesRepository.findCompanyInformationByUserId(userId);
 		if (company != null) {
-			boolean isCompanyReputation = companyReputationRepository.isCompanyReputationById(company.getId());
+			boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
 			CompanyJson companyJson = new CompanyJson(company);
 			companyJson.setReputation(isCompanyReputation);
 			return new CompanyResponse(companyJson);

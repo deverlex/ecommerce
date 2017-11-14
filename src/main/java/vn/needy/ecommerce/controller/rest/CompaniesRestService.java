@@ -26,9 +26,9 @@ public class CompaniesRestService {
 	
 	@RequestMapping(value= "${needy.route.companies.infomation}", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('USER')")
-	public ResponseEntity<CompanyResponse> findCompanyDependence(HttpServletRequest request) {
+	public ResponseEntity<CompanyResponse> findCompanyInformation(HttpServletRequest request) {
 		Long userId = idUtils.getIdentification(request);
-		CompanyResponse companyResponse = companiesService.findCompanyDependency(userId);
+		CompanyResponse companyResponse = companiesService.findCompanyInformation(userId);
 		return ResponseEntity.ok(companyResponse);
 	}
 	

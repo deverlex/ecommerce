@@ -13,7 +13,6 @@ public class CompanyGuarantee extends BaseDomain {
 	private long id;
 	private int state;
 	private long companyId;
-	private String agreementNumber;
 	private Date lastUpdatedTime;
 	private long changedBy;
 	
@@ -43,14 +42,6 @@ public class CompanyGuarantee extends BaseDomain {
 
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
-	}
-
-	public String getAgreementNumber() {
-		return agreementNumber;
-	}
-
-	public void setAgreementNumber(String agreementNumber) {
-		this.agreementNumber = agreementNumber;
 	}
 
 	public Date getLastUpdatedTime() {

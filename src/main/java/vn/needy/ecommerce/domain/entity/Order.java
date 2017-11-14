@@ -13,7 +13,6 @@ public class Order extends BaseDomain {
 	private long id;
 	private long userId;
 	private long storeId;
-	private String orderNumber;
 	private short status;
 	private boolean isPaid;
 	private boolean isGetTax;
@@ -53,14 +52,6 @@ public class Order extends BaseDomain {
 
 	public void setStoreId(long storeId) {
 		this.storeId = storeId;
-	}
-
-	public String getOrderNumber() {
-		return orderNumber;
-	}
-
-	public void setOrderNumber(String orderNumber) {
-		this.orderNumber = orderNumber;
 	}
 
 	public short getStatus() {

@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.domain.entity.Company;
@@ -41,7 +40,6 @@ public class CompanyJson implements Serializable {
 	
 	public CompanyJson(Company company) {
 		this.id = CipherID.encrypt(company.getId());
-		this.companyNumber = company.getCompanyNumber();
 		this.state = company.getState();
 		this.name = company.getName();
 		this.address = company.getAddress();

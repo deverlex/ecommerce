@@ -32,7 +32,6 @@ public class StoreResponsitoryImpl implements StoreResponsitory {
 	public long registerStore(Store store) {
 		Map<String, Object> params = new HashMap<>(9);
 		params.put("company_id", store.getCompanyId());
-		params.put("store_number", store.getStoreNumber());
 		params.put("state", store.getState());
 		params.put("status", store.getStatus());
 		params.put("name", store.getName());

@@ -15,7 +15,7 @@ public class CompanyGuaranteeRepositoryImpl implements CompanyGuaranteeRepositor
 	JdbcTemplate jdbc;
 	
 	@Override
-	public boolean isCompanyReputationById(long companyId) {
+	public boolean isCompanyGuaranteeById(long companyId) {
 		SqlRowSet rs = jdbc.queryForRowSet("SELECT comgua_id "
 				+ "FROM company_guarantee "
 				+ "WHERE company_id = ? AND state = ?", 

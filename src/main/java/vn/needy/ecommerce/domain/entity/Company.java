@@ -11,7 +11,6 @@ public class Company extends BaseDomain {
 	public static final String TABLE = "company";
 
 	private long id;
-	private String companyNumber;
 	private String fcmToken;
 	private int state;
 	private int level;
@@ -32,14 +31,6 @@ public class Company extends BaseDomain {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getCompanyNumber() {
-		return companyNumber;
-	}
-
-	public void setCompanyNumber(String companyNumber) {
-		this.companyNumber = companyNumber;
 	}
 
 	public String getFcmToken() {

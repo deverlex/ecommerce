@@ -5,7 +5,7 @@ import vn.needy.ecommerce.model.json.response.CompanyResponse;
 
 public interface CompaniesService {
 	
-	CompanyResponse findCompanyDependency(long userId);
+	CompanyResponse findCompanyInformation(long userId);
 	
 	CompanyResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest);
 }

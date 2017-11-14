@@ -12,7 +12,6 @@ public class Store extends BaseDomain {
 	
 	private long id;
 	private long companyId;
-	private String storeNumber;
 	
 	private int state;
 	private int status;
@@ -53,14 +52,6 @@ public class Store extends BaseDomain {
 
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
-	}
-
-	public String getStoreNumber() {
-		return storeNumber;
-	}
-
-	public void setStoreNumber(String storeNumber) {
-		this.storeNumber = storeNumber;
 	}
 	
 	public int getState() {

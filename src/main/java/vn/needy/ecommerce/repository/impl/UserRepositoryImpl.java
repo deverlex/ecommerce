@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
 			user.setPassword(rs.getString("password"));
 			user.setState(rs.getInt("state"));
 			user.setUnlockTime(rs.getTimestamp("unlock_time"));
-			user.setLastResetPassword(rs.getTimestamp("last_teset_password"));
+			user.setLastResetPassword(rs.getTimestamp("last_reset_password"));
 			return user;
 		}
 		return null;

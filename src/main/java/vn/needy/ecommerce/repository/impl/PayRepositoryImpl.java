@@ -29,14 +29,13 @@ public class PayRepositoryImpl implements PayRepository {
     }
 	
 	@Override
-	public long createPayLog(Pay payLog) {
+	public long createPay(Pay pay) {
 		Map<String, Object> params = new HashMap<>(6);
-		params.put("budget_id", payLog.getBudgetId());
-		params.put("behavior", payLog.getBehavior());
-		params.put("pay_number", payLog.getPayNumber());
-		params.put("budget_charge", payLog.getBudgetCharge());
-		params.put("description", payLog.getDescription());
-		params.put("created_by", payLog.getCreatedBy());
+		params.put("budget_id", pay.getBudgetId());
+		params.put("behavior", pay.getBehavior());
+		params.put("budget_charge", pay.getBudgetCharge());
+		params.put("description", pay.getDescription());
+		params.put("created_by", pay.getCreatedBy());
 		return insert.executeAndReturnKey(params).longValue();
 	}
 

@@ -12,7 +12,6 @@ public class Pay extends BaseDomain {
 
 	private long id;
 	private long budgetId;
-	private String payNumber;
 	private int behavior;
 	private float budgetCharge;
 	private String description;
@@ -39,14 +38,6 @@ public class Pay extends BaseDomain {
 
 	public void setBudgetId(long budgetId) {
 		this.budgetId = budgetId;
-	}
-
-	public String getPayNumber() {
-		return payNumber;
-	}
-
-	public void setPayNumber(String payNumber) {
-		this.payNumber = payNumber;
 	}
 
 	public int getBehavior() {
