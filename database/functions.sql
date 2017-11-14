@@ -4,12 +4,12 @@
 -- ------------------------------------------------------
 -- Server version	5.7.18
 
-DROP FUNCTION IF EXISTS `calculator_distance`;
+DROP FUNCTION IF EXISTS `fun_calculator_distance`;
 
 -- Calculator as Google Map v3
 DELIMITER $$
 
-CREATE FUNCTION `calculator_distance` (plat float, plng float, tlat float, tlng float)
+CREATE FUNCTION `fn_calculator_distance` (plat float, plng float, tlat float, tlng float)
 RETURNS FLOAT
 BEGIN
 	DECLARE distance FLOAT;
@@ -26,18 +26,18 @@ END
 $$
 delimiter ;
 
-DROP TRIGGER IF EXISTS `update_role_for_new_user`;
+DROP TRIGGER IF EXISTS `tr_add_role_for_new_user`;
 
 -- 
 DELIMITER $$
 
-CREATE TRIGGER `after_user_insert` AFTER INSERT ON `Users`
+CREATE TRIGGER `tr_add_role_for_new_user` AFTER INSERT ON `user`
 FOR EACH ROW
 BEGIN
-	DECLARE userId bigint(20);
-	SET userId = NEW.id;
-	INSERT INTO UserRole(`role`, `userId`, `lastUpdatedBy`) 
-	VALUES ('USER', userId, 1);
+	DECLARE user_id bigint(20);
+	SET user_id = NEW.user_id;
+	INSERT INTO user_role(`role_id`, `user_id`, `last_updated_by`) 
+	VALUES ('USER', user_id, 1);
 END
 
 $$
