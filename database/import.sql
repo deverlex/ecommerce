@@ -12,3 +12,7 @@ INSERT INTO `role`(`role_id`, `last_updated_by`) VALUES
 
 INSERT INTO `user_role`(`role_id`, `user_id`, `last_updated_by`) VALUES
 ('SYSTEM', 1, 1);
+
+INSERT INTO `category` (`category_id`, `last_updated_by`) VALUES
+(`price_now`, 1),
+(`price_later`, 1);

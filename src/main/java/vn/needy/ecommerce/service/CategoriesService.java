@@ -4,11 +4,11 @@ import vn.needy.ecommerce.model.json.response.CategoriesResponse;
 
 public interface CategoriesService {
 	
-	CategoriesResponse getProductCategories();
+	CategoriesResponse getCategoriesPriceNow();
 	
-	CategoriesResponse getProductSubCategory(String category);
+	CategoriesResponse getSubCategoriesPriceNow(String category);
 	
-	CategoriesResponse getCompanyProductCategory(long companyId);
+	CategoriesResponse getCompanyCategoriesPriceNow(long companyId);
 	
-	CategoriesResponse getCompanyProductSubCategory(long companyId, String category);
+	CategoriesResponse getCompanySubCategoriesPriceNow(long companyId, String category);
 }

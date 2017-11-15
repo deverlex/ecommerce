@@ -11,12 +11,7 @@ public class Category extends BaseDomain {
 	public static final String TABLE = "category";
 	
 	private String category;
-	private String title;
-	private String coverPicture;
-	private String description;
-	private boolean isPriceLater;
 	private boolean enable;
-	
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 	
@@ -30,34 +25,6 @@ public class Category extends BaseDomain {
 
 	public void setCategory(String category) {
 		this.category = category;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public String getCoverPicture() {
-		return coverPicture;
-	}
-
-	public void setCoverPicture(String coverPicture) {
-		this.coverPicture = coverPicture;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public boolean isPriceLater() {
-		return isPriceLater;
-	}
-
-	public void setPriceLater(boolean isPriceLater) {
-		this.isPriceLater = isPriceLater;
 	}
 
 	public boolean isEnable() {

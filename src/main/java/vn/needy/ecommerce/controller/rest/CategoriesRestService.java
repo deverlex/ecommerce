@@ -19,37 +19,39 @@ public class CategoriesRestService {
 	@Autowired
 	CategoriesService categoriesService;
 	
-	// v1/p/categories  - Get all categories
-	// v1/p/categories?company_id=  - Get all categories of company 
+	// v1/pn/categories  - Get all categories
+	// v1/pn/categories?company_id=  - Get all categories of company 
 	@RequestMapping(value = "${needy.route.categories.price_now.lists}", method = RequestMethod.GET)
-	public ResponseEntity<?> getProductCategories(@RequestParam(value = "company_id") String companyId) {
+	public ResponseEntity<?> getCategoriesPriceNow(
+			@RequestParam(value = "company_id", required = false) String companyId) {
 		CategoriesResponse response = null;
 		if (TextUtils.isEmpty(companyId)) {
 			// Get all categories
-			response = categoriesService.getProductCategories();
+			response = categoriesService.getCategoriesPriceNow();
+			
 		} else {
 			// Get categories of company
 			long id = CipherID.decrypt(companyId);
-			response = categoriesService.getCompanyProductCategory(id);
+			response = categoriesService.getCompanyCategoriesPriceNow(id);
 		}
 		 
 		return ResponseEntity.ok(response);
 	}
 	
 	@RequestMapping(value = "${needy.route.categories.price_now.sublists}", method = RequestMethod.GET)
-	// v1/p/categories/{category}
-	// v1/p/categories/{category}?company_id=
-	public ResponseEntity<?> getProductSubCategories(
-			@PathVariable(value = "category", required = true) String category,
-			@RequestParam(value = "company_id") String companyId) {
+	// v1/pn/categories/{category}
+	// v1/pn/categories/{category}?company_id=
+	public ResponseEntity<?> getSubCategoriesPriceNow(
+			@PathVariable(value = "category") String category,
+			@RequestParam(value = "company_id", required = false) String companyId) {
 		CategoriesResponse response = null;
 		if (TextUtils.isEmpty(companyId)) {
 			// Get all subCategories
-			response = categoriesService.getProductSubCategory(category);
+			response = categoriesService.getSubCategoriesPriceNow(category);
 		} else {
 			// Get subCategories of company
 			long id = CipherID.decrypt(companyId);
-			response = categoriesService.getCompanyProductSubCategory(id, category);
+			response = categoriesService.getCompanySubCategoriesPriceNow(id, category);
 		}
 		return ResponseEntity.ok(response);
 	}

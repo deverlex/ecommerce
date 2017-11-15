@@ -19,9 +19,9 @@ public class CategoriesServiceImpl implements CategoriesService {
 	CategoryRepository categoriesRepository;
 	
 	@Override
-	public CategoriesResponse getProductCategories() {
+	public CategoriesResponse getCategoriesPriceNow() {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
-		List<Category> categories = categoriesRepository.getProductCategories();
+		List<Category> categories = categoriesRepository.getCategoriesPriceNow();
 		for(Category category : categories) {
 			categoriesJson.add(new CategoryJson(category));
 		}
@@ -31,9 +31,9 @@ public class CategoriesServiceImpl implements CategoriesService {
 	}
 
 	@Override
-	public CategoriesResponse getProductSubCategory(String category) {
+	public CategoriesResponse getSubCategoriesPriceNow(String category) {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
-		List<Category> categories = categoriesRepository.getProductSubCategory(category);
+		List<Category> categories = categoriesRepository.getSubCategoriesPriceNow(category);
 		for(Category subCategories : categories) {
 			categoriesJson.add(new CategoryJson(subCategories));
 		}
@@ -43,9 +43,9 @@ public class CategoriesServiceImpl implements CategoriesService {
 	}
 
 	@Override
-	public CategoriesResponse getCompanyProductCategory(long companyId) {
+	public CategoriesResponse getCompanyCategoriesPriceNow(long companyId) {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
-		List<Category> categories = categoriesRepository.getCompanyProductCategory(companyId);
+		List<Category> categories = categoriesRepository.getCompanyCategoriesPriceNow(companyId);
 		for(Category subCategories : categories) {
 			categoriesJson.add(new CategoryJson(subCategories));
 		}
@@ -55,9 +55,9 @@ public class CategoriesServiceImpl implements CategoriesService {
 	}
 
 	@Override
-	public CategoriesResponse getCompanyProductSubCategory(long companyId, String category) {
+	public CategoriesResponse getCompanySubCategoriesPriceNow(long companyId, String category) {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
-		List<Category> categories = categoriesRepository.getCompanyProductSubCategory(companyId, category);
+		List<Category> categories = categoriesRepository.getCompanySubCategoriesPriceNow(companyId, category);
 		for(Category subCategories : categories) {
 			categoriesJson.add(new CategoryJson(subCategories));
 		}

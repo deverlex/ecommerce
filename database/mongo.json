@@ -2,7 +2,7 @@
 	"mongo" : [
 		{
 			"user_detail" : {
-				"user_id" : "user id",
+				"_id" : "user id",
 				"email" : "",
   				"birthday" : "",
   				"gender" : "",
@@ -20,7 +20,7 @@
 
 			"company_detail" : [
 				{
-					"company_id" : "company id",
+					"_id" : "company id",
 					"description" : "",
 					"site_url" : "",
 					"founded_date" : "",
@@ -50,7 +50,7 @@
 			],
 
 			"store_detail" : {
-				"store_id" : "store id",
+				"_id" : "store id",
 				"description" : "",
 				"number_staff" : "",
 				"avatar" : {
@@ -77,24 +77,19 @@
 
 			"category_detail" : [
 				{
-					"category_id" : "category id",
+					"_id" : "category id",
+					"description" : "",
 					"cover_picture" : {
 						"file_name" : "",
 						"uri" : "",
 						"host" : ""
-					},
-					"child_category" : [
-						"", ""
-					],
-					"parent_category" : [
-						"", ""
-					]
+					}
 				}
 			],
 
 			"product_detail" : [
 				{
-					"product_id" : "product id",
+					"_id" : "product id",
 					"category_id" : "",
 					"store_id" : "",
 					"name" : "",
@@ -110,9 +105,7 @@
 						"uri" : "images/2017/34/Tue/12",
 						"host" : "rsv0001.needy.vn"
 					},
-					"parent_product" : [
-						"_id1", "_id2"
-					],
+					"parent_product" : "_id1",
 					"child_product" : [
 						"_id1", "_id2"
 					]
@@ -133,7 +126,7 @@
 			
 			"user_report_detail" : [
 				{
-					"report_id" : "report id",
+					"_id" : "report id",
 					"description" : "",
 					"picture" : [
 						"_id1", "_id2"

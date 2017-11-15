@@ -340,7 +340,6 @@ CREATE INDEX `idx_credit_account` ON `pay` (`credit_account`);
 
 --
 -- Table structure for table `category`
---
 DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -353,8 +352,23 @@ CREATE TABLE `category` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `attribute`
+-- Table structure for table `sub_category`
+DROP TABLE IF EXISTS `sub_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sub_category` (
+  `subcat_id` int(10) AUTO_INCREMENT PRIMARY KEY, 
+  `category_id` varchar(64) NOT NULL,
+  `pre_category` varchar(64) NOT NULL,
+  `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `last_updated_by` bigint(20) NOT NULL,
+  CONSTRAINT `Fk_sub_category_cat` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
+  CONSTRAINT `Fk_sub_category_pre` FOREIGN KEY (`pre_category`) REFERENCES `category` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 --
+-- Table structure for table `attribute`
 DROP TABLE IF EXISTS `attribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -368,7 +382,6 @@ CREATE TABLE `attribute` (
 
 --
 -- Table structure for table `category_attribute`
---
 DROP TABLE IF EXISTS `category_attribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -385,7 +398,6 @@ CREATE TABLE `category_attribute` (
 
 --
 -- Table structure for table `product`
---
 DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -393,7 +405,6 @@ CREATE TABLE `product` (
   `product_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `category_id` varchar(64) NOT NULL,
   `company_id` bigint(20) NOT NULL,
-  `product_number` varchar(12) NOT NULL,
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
   -- DELETED (-2), DENIED (-1), INACTIVE (0), ACTIVE (1)
   `state` tinyint(2),
