@@ -8,7 +8,7 @@ public interface CategoryRepository {
 
 	List<Category> getCategoriesPriceNow();
 	
-	List<Category> getSubCategoriesPriceNow(String preCategory);
+	List<Category> getSubCategories(String preCategory);
 	
 	List<Category> getCompanyCategoriesPriceNow(long companyId);
 	

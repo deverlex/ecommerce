@@ -18,8 +18,7 @@ public class CategoryJson implements Serializable {
 	
 	public CategoryJson(Category category) {
 		this.category = category.getCategory();
-		this.title = category.getTitle();
-		this.coverPicture = category.getCoverPicture();
+		
 	}
 
 	public String getCategory() {

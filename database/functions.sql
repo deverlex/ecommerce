@@ -4,7 +4,7 @@
 -- ------------------------------------------------------
 -- Server version	5.7.18
 
-DROP FUNCTION IF EXISTS `fun_calculator_distance`;
+DROP FUNCTION IF EXISTS `fn_calculator_distance`;
 
 -- Calculator as Google Map v3
 DELIMITER $$

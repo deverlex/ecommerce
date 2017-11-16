@@ -358,12 +358,15 @@ DROP TABLE IF EXISTS `sub_category`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sub_category` (
   `subcat_id` int(10) AUTO_INCREMENT PRIMARY KEY, 
-  `category_id` varchar(64) NOT NULL,
-  `pre_category` varchar(64) NOT NULL,
+  `subcategory_id` varchar(64) NOT NULL,
+  `refcategory_id` varchar(64) NOT NULL,
+  `ref_level` tinyint(3),
+  `is_next` tinyint(1) DEFAULT 1,
   `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,
   `last_updated_by` bigint(20) NOT NULL,
-  CONSTRAINT `Fk_sub_category_cat` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
-  CONSTRAINT `Fk_sub_category_pre` FOREIGN KEY (`pre_category`) REFERENCES `category` (`category_id`)
+  CONSTRAINT `Uniq_sub_category_subref` UNIQUE (`subcategory_id`, `refcategory_id`),
+  CONSTRAINT `Fk_sub_category_sub` FOREIGN KEY (`subcategory_id`) REFERENCES `category` (`category_id`),
+  CONSTRAINT `Fk_sub_category_ref` FOREIGN KEY (`refcategory_id`) REFERENCES `category` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -413,8 +416,6 @@ CREATE TABLE `product` (
   CONSTRAINT `Fk_products_cg` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
   CONSTRAINT `Fk_products_co` FOREIGN KEY (`company_id`) REFERENCES `company` (`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
-
-CREATE INDEX `idx_product_number` ON `product` (`product_number`);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

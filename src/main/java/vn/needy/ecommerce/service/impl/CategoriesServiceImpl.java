@@ -33,7 +33,7 @@ public class CategoriesServiceImpl implements CategoriesService {
 	@Override
 	public CategoriesResponse getSubCategoriesPriceNow(String category) {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
-		List<Category> categories = categoriesRepository.getSubCategoriesPriceNow(category);
+		List<Category> categories = categoriesRepository.getSubCategories(category);
 		for(Category subCategories : categories) {
 			categoriesJson.add(new CategoryJson(subCategories));
 		}
