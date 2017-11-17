@@ -68,6 +68,9 @@ needy:
       #staffs:
       #  fcms: companies/{company_id}/staffs/fcm_tokens # PUT update token
 
+    stores:
+      infomation: stores # GET
+
     categories:
       price_now:
         lists: pn/categories #?company_id= |GET - get categories of company
@@ -80,7 +83,7 @@ needy:
 
     products:
       price_now:
-        add_new: pn/products #?company_id= |POST - add new product
+        add_new: pn/products #?company_id=&store_id= |POST - add new product
         images:
           add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
           update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product

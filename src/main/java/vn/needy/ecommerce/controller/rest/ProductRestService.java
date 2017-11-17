@@ -1,19 +1,24 @@
 package vn.needy.ecommerce.controller.rest;
 
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.model.base.BaseResponse;
+import vn.needy.ecommerce.model.json.request.AddProductRequest;
 import vn.needy.ecommerce.service.StorageService;
 
 @RestController
-public class ProductsRestService {
+public class ProductRestService {
 	
 	@Autowired
 	StorageService storageService;
@@ -27,9 +32,15 @@ public class ProductsRestService {
 	
 	
 	@RequestMapping(value = "${needy.route.products.price_now.add_new}")
-	public ResponseEntity<?> addProductOfCompany(
-			@RequestParam(value = "company_id", required = true) String companyId) {
-		
+	public ResponseEntity<?> addProductPriceNowOfCompany(
+			@RequestParam(value = "company_id", required = true) String companyId,
+			@RequestParam(value = "store_id", required = true) String storeId,
+			@RequestBody AddProductRequest addProductRequest) {
+		System.out.println(Calendar.getInstance().getTimeInMillis());
+		long cId = CipherID.decrypt(companyId);
+		long sId = CipherID.decrypt(storeId);
+		System.out.println(Calendar.getInstance().getTimeInMillis());
+		System.out.println(addProductRequest.getCategory());
 		return null;
 	}
 	

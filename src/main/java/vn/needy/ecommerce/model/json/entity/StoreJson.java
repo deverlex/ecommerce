@@ -1,54 +1,63 @@
-package vn.needy.ecommerce.domain.entity;
+package vn.needy.ecommerce.model.json.entity;
 
 import java.util.Date;
+import java.util.List;
 
-import vn.needy.ecommerce.domain.BaseDomain;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class Store extends BaseDomain {
+import vn.needy.ecommerce.common.utils.CipherID;
+import vn.needy.ecommerce.domain.entity.Store;
 
-	private static final long serialVersionUID = 1553747564L;
-
-	public static final String TABLE = "store";
+public class StoreJson {
 	
-	private long id;
-	private long companyId;
-	
+	private String id;
 	private int state;
 	private int status;
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date unlockTime;
-	
 	private String name;
 	private String address;
+	private String description;
+	private String avatar;
+	private List<String> coverPicture;
 	private float lat;
 	private float lng;
-	
+	@JsonFormat(pattern = "HH:mm:ss")
 	private Date openingTime;
+	@JsonFormat(pattern = "HH:mm:ss")
 	private Date closingTime;
-	
 	private Date createdTime;
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 	
-	public Store() {
+	public StoreJson() {
 		super();
 	}
+	
+	public StoreJson(Store store) {
+		id = CipherID.encrypt(store.getId());
+		state = store.getState();
+		status = store.getStatus();
+		unlockTime = store.getUnlockTime();
+		name = store.getName();
+		address = store.getAddress();
+		lat = store.getLat();
+		lng = store.getLng();
+		openingTime = store.getOpeningTime();
+		closingTime = store.getClosingTime();
+		createdTime = store.getCreatedTime();
+		lastUpdatedTime = store.getLastUpdatedTime();
+		lastUpdatedBy = store.getLastUpdatedBy();
+	}
 
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public long getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(long companyId) {
-		this.companyId = companyId;
-	}
-	
 	public int getState() {
 		return state;
 	}
@@ -87,6 +96,30 @@ public class Store extends BaseDomain {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public List<String> getCoverPicture() {
+		return coverPicture;
+	}
+
+	public void setCoverPicture(List<String> coverPicture) {
+		this.coverPicture = coverPicture;
 	}
 
 	public float getLat() {
@@ -144,5 +177,5 @@ public class Store extends BaseDomain {
 	public void setLastUpdatedBy(long lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
-
+	
 }

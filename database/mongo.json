@@ -52,7 +52,6 @@
 			"store_detail" : {
 				"_id" : "store id",
 				"description" : "",
-				"number_staff" : "",
 				"avatar" : {
 					"file_name" : "",
 					"uri" : "",
@@ -66,7 +65,7 @@
 			"store_picture" : [
 				{
 					"_id" : "",
-					"company_id" : "",
+					"store_id" : "",
 					"image" : {
 						"fileName" : "",
 						"uri" : "",

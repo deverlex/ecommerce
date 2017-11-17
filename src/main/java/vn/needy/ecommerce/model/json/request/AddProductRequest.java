@@ -15,6 +15,7 @@ public class AddProductRequest implements Serializable {
 	private String promotion;
 	private String description;
 	private Map<String, String> attributes;
+	private float feeTransport;
 	private List<String> hashtag;
 
 	public AddProductRequest() {
@@ -75,6 +76,14 @@ public class AddProductRequest implements Serializable {
 
 	public void setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
+	}
+
+	public float getFeeTransport() {
+		return feeTransport;
+	}
+
+	public void setFeeTransport(float feeTransport) {
+		this.feeTransport = feeTransport;
 	}
 
 	public List<String> getHashtag() {

@@ -114,7 +114,6 @@ public class CompaniesServiceImpl implements CompaniesService {
 		registerStore.setStatus(StoreStatus.CLOSED_TIME.getStatus());
 		registerStore.setName(registerCompanyRequest.getStoreName());
 		registerStore.setAddress(registerCompanyRequest.getStoreAddress());
-		registerStore.setNumberStaff(1);
 		registerStore.setOpeningTime(timeProvider.parseTime("08:00:00"));
 		registerStore.setClosingTime(timeProvider.parseTime("20:00:00"));
 		registerStore.setLat(registerCompanyRequest.getLat());

@@ -11,10 +11,9 @@ public class Product extends BaseDomain {
 	public static final String TABLE = "product";
 
 	private long id;
-	private String productNumber;
 	private String category;
+	private long companyId;
 	private int state;
-	private String name;
 	
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
@@ -31,12 +30,12 @@ public class Product extends BaseDomain {
 		this.id = id;
 	}
 
-	public String getProductNumber() {
-		return productNumber;
+	public long getCompanyId() {
+		return companyId;
 	}
 
-	public void setProductNumber(String productNumber) {
-		this.productNumber = productNumber;
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
 	}
 
 	public String getCategory() {
@@ -53,14 +52,6 @@ public class Product extends BaseDomain {
 
 	public void setState(int state) {
 		this.state = state;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Date getLastUpdatedTime() {

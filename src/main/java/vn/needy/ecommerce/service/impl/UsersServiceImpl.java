@@ -123,7 +123,7 @@ public class UsersServiceImpl implements UsersService {
 	public UserResponse getUserInfomation(long id) {
 		User user = usersRepository.findUserById(id);
 		UserResponse response = new UserResponse();
-		response.setUser(new UserJson(user, null));
+		if (user != null) response.setUser(new UserJson(user, null));
 		return response;
 	}
 

@@ -24,7 +24,7 @@ public class ProductDetail implements Serializable {
 	private String name;
 	private String gift;
 	private String description;
-	private Map<Object, Object> attribute;
+	private Map<String, String> attribute;
 	@Field(value = "cover_picture")
 	private BaseFile coverPicture;
 	@Field(value = "parent_product")
@@ -84,11 +84,11 @@ public class ProductDetail implements Serializable {
 		this.description = description;
 	}
 
-	public Map<Object, Object> getAttribute() {
+	public Map<String, String> getAttribute() {
 		return attribute;
 	}
 
-	public void setAttribute(Map<Object, Object> attribute) {
+	public void setAttribute(Map<String, String> attribute) {
 		this.attribute = attribute;
 	}
 
