@@ -24,12 +24,12 @@ public class CategoryRepositoriesImpl implements CategoryRepository {
 	public List<Category> getCategoriesPriceNow() {
 		SqlRowSet rs = jdbc.queryForRowSet("select c.* from category c  " + 
 				"left join sub_category sc on c.category_id = sc.subcategory_id " + 
-				"where sc.refcategory_id = ? and c.enable = 1", new Object[] {PRICE_NOW}); 
+				"where sc.refcategory_id = ? and c.enable = 1 and sc.is_next = 1", new Object[] {PRICE_NOW}); 
 		
 		List<Category> categories = new LinkedList<>();
 		while(rs.next()) {
 			Category category = new Category();
-			category.setCategory(rs.getString("c.category_id"));
+			category.setCategory(rs.getString("category_id"));
 			categories.add(category);
 		}
 		return categories;
@@ -52,20 +52,20 @@ public class CategoryRepositoriesImpl implements CategoryRepository {
 
 	@Override
 	public List<Category> getCompanyCategoriesPriceNow(long companyId) {
-		SqlRowSet rs = jdbc.queryForRowSet("select distinct sc1.refcategory_id from company com " + 
+		SqlRowSet rs = jdbc.queryForRowSet("select distinct sc1.refcategory_id as refcategory from company com " + 
 				"inner join product pr on pr.company_id = com.company_id " + 
 				"inner join category cts on cts.category_id = pr.category_id " + 
 				"inner join sub_category sc1 on sc1.subcategory_id = cts.category_id " + 
 				"left join sub_category sc2 on sc2.subcategory_id = sc1.refcategory_id " + 
-				"where com.company_id = 1 and sc1.ref_level = 1 and sc2.refcategory_id = ?", 
+				"where com.company_id = ? and sc1.ref_level = 1 and sc2.refcategory_id = ?", 
 					new Object[] {companyId, PRICE_NOW});
 		List<Category> categories = new LinkedList<>();
 		while(rs.next()) {
 			Category category = new Category();
-			category.setCategory(rs.getString("sc1.refcategory_id"));
+			category.setCategory(rs.getString("refcategory"));
 			categories.add(category);
 		}
-		return null;
+		return categories;
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class CategoryRepositoriesImpl implements CategoryRepository {
 			subCategory.setCategory(rs.getString("category_id"));
 			categories.add(subCategory);
 		}
-		return null;
+		return categories;
 	}
 	
 	
