@@ -21,7 +21,7 @@ import vn.needy.ecommerce.api.v1.user.response.UserResponse;
 import vn.needy.ecommerce.common.model.Lock;
 import vn.needy.ecommerce.common.utils.TextUtils;
 import vn.needy.ecommerce.domain.entity.User;
-import vn.needy.ecommerce.model.base.BaseResponse;
+import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
 import vn.needy.ecommerce.model.json.UserJson;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
@@ -29,7 +29,7 @@ import vn.needy.ecommerce.repository.UserRepository;
 import vn.needy.ecommerce.security.TokenUtils;
 
 @Service("usersService")
-public class UsersServiceImpl implements UsersService {
+public class UserServiceImpl implements UserService {
 
 	@Value("${needy.token.prefix}")
 	private String tokenPrefix;

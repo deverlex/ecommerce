@@ -8,59 +8,59 @@ import org.springframework.stereotype.Service;
 
 import vn.needy.ecommerce.domain.entity.Category;
 import vn.needy.ecommerce.model.json.CategoryJson;
-import vn.needy.ecommerce.api.v1.category.response.CategoriesResponse;
+import vn.needy.ecommerce.api.v1.category.response.ListCategoryResponse;
 import vn.needy.ecommerce.repository.CategoryRepository;
 
 @Service("categoriesService")
-public class CategoriesServiceImpl implements CategoriesService {
+public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	CategoryRepository categoriesRepository;
 	
 	@Override
-	public CategoriesResponse getCategoriesPriceNow() {
+	public ListCategoryResponse getCategoriesPriceNow() {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
 		List<Category> categories = categoriesRepository.getCategoriesPriceNow();
 		for(Category category : categories) {
 			categoriesJson.add(new CategoryJson(category));
 		}
-		CategoriesResponse response = new CategoriesResponse();
+		ListCategoryResponse response = new ListCategoryResponse();
 		response.setCategories(categoriesJson);
 		return response;
 	}
 
 	@Override
-	public CategoriesResponse getSubCategoriesPriceNow(String category) {
+	public ListCategoryResponse getSubCategoriesPriceNow(String category) {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
 		List<Category> categories = categoriesRepository.getSubCategories(category);
 		for(Category subCategories : categories) {
 			categoriesJson.add(new CategoryJson(subCategories));
 		}
-		CategoriesResponse response = new CategoriesResponse();
+		ListCategoryResponse response = new ListCategoryResponse();
 		response.setCategories(categoriesJson);
 		return response;
 	}
 
 	@Override
-	public CategoriesResponse getCompanyCategoriesPriceNow(long companyId) {
+	public ListCategoryResponse getCompanyCategoriesPriceNow(long companyId) {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
 		List<Category> categories = categoriesRepository.getCompanyCategoriesPriceNow(companyId);
 		for(Category subCategories : categories) {
 			categoriesJson.add(new CategoryJson(subCategories));
 		}
-		CategoriesResponse response = new CategoriesResponse();
+		ListCategoryResponse response = new ListCategoryResponse();
 		response.setCategories(categoriesJson);
 		return response;
 	}
 
 	@Override
-	public CategoriesResponse getCompanySubCategoriesPriceNow(long companyId, String category) {
+	public ListCategoryResponse getCompanySubCategoriesPriceNow(long companyId, String category) {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
 		List<Category> categories = categoriesRepository.getCompanySubCategoriesPriceNow(companyId, category);
 		for(Category subCategories : categories) {
 			categoriesJson.add(new CategoryJson(subCategories));
 		}
-		CategoriesResponse response = new CategoriesResponse();
+		ListCategoryResponse response = new ListCategoryResponse();
 		response.setCategories(categoriesJson);
 		return response;
 	}

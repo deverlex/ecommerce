@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import vn.needy.ecommerce.common.utils.CipherID;
-import vn.needy.ecommerce.model.base.BaseResponse;
+import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.product.request.AddProductRequest;
-import vn.needy.ecommerce.service.StorageService;
+import vn.needy.ecommerce.common.service.StorageService;
 
 @RestController
 public class ProductRestService {

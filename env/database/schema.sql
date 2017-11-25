@@ -36,7 +36,7 @@ DROP TABLE IF EXISTS `permission_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `permission_role` (
-  `perrol_id` smallint(5) unsigned AUTO_INCREMENT PRIMARY KEY,
+  `permission_role_id` smallint(5) unsigned AUTO_INCREMENT PRIMARY KEY,
   `permission_id` varchar(64) NOT NULL,
   `role_id` varchar(64) NOT NULL,
   `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -66,7 +66,7 @@ DROP TABLE IF EXISTS `user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_role` (
-  `userol_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `user_role_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `role_id` varchar(64) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -129,7 +129,7 @@ DROP TABLE IF EXISTS `wallet_pay`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `wallet_pay` (
-  `walpay_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `wallet_pay_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `wallet_id` bigint(20) NOT NULL,
   `product_id` bigint(20) NOT NULL,
   `budget_charge` smallint(5) NOT NULL,
@@ -146,11 +146,11 @@ DROP TABLE IF EXISTS `notification_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `notification_user` (
-  `notuse_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `notify_user_id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   -- Id notification
   `notify_id` bigint(20) NOT NULL,
   -- Nguoi nhan notification
-  `recever_id` bigint(20) NOT NULL,
+  `receiver_id` bigint(20) NOT NULL,
   `is_read` tinyint(1) NOT NULL DEFAULT 0,
   `is_view` tinyint(1) NOT NULL DEFAULT 0,
   `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,

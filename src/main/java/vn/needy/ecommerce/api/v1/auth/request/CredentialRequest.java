@@ -2,18 +2,18 @@ package vn.needy.ecommerce.api.v1.auth.request;
 
 import java.io.Serializable;
 
-public class CredentialsRequest implements Serializable {
+public class CredentialRequest implements Serializable {
 	
 	private static final long serialVersionUID = -84459548965154778L;
 
     private String username;
     private String password;
 
-    public CredentialsRequest() {
+    public CredentialRequest() {
         super();
     }
 
-    public CredentialsRequest(String username, String password) {
+    public CredentialRequest(String username, String password) {
         this.setUsername(username);
         this.setPassword(password);
     }

@@ -5,10 +5,10 @@ import org.springframework.mobile.device.Device;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserResponse;
-import vn.needy.ecommerce.model.base.BaseResponse;
+import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
 
-public interface UsersService {
+public interface UserService {
 	
 	CertificationResponse registerUser(RegisterUserRequest registerUserRequest, Device device);
 	

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import vn.needy.ecommerce.domain.entity.Product;
 import vn.needy.ecommerce.domain.mongo.ProductDetail;
-import vn.needy.ecommerce.model.base.BaseResponse;
+import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.product.request.AddProductRequest;
 import vn.needy.ecommerce.repository.ProductRepository;
 

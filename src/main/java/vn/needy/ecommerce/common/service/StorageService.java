@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.service;
+package vn.needy.ecommerce.common.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,6 +1,6 @@
 package vn.needy.ecommerce.api.v1.user.response;
 
-import vn.needy.ecommerce.model.base.BaseResponse;
+import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.json.UserJson;
 
 public class UserResponse extends BaseResponse {

@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.service.impl;
+package vn.needy.ecommerce.common.service;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -7,8 +7,6 @@ import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import vn.needy.ecommerce.service.StorageService;
 
 @Service("storageService")
 public class StorageServiceImpl implements StorageService {

@@ -1,4 +1,6 @@
-package vn.needy.ecommerce.model.base;
+package vn.needy.ecommerce.api.base;
+
+import vn.needy.ecommerce.model.base.BaseModel;
 
 public class BaseResponse extends BaseModel {
 

@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.model.enums.UserState;
-import vn.needy.ecommerce.api.v1.auth.request.CredentialsRequest;
+import vn.needy.ecommerce.api.v1.auth.request.CredentialRequest;
 import vn.needy.ecommerce.model.security.UserLicense;
 import vn.needy.ecommerce.security.TokenUtils;
 
 @Service("authenticationsService")
-public class AuthenticationsServiceImpl implements AuthenticationsService {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Value("${needy.token.header}")
 	private String tokenHeader;
@@ -41,7 +41,7 @@ public class AuthenticationsServiceImpl implements AuthenticationsService {
 	private TimeProvider timeProvider;
 	
 	@Override
-	public CertificationResponse authentication(CredentialsRequest credentials, Device device) {
+	public CertificationResponse authentication(CredentialRequest credentials, Device device) {
 		// Perform the security
 		final Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(

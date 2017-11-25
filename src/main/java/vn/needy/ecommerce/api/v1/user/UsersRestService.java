@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserResponse;
-import vn.needy.ecommerce.model.base.BaseResponse;
+import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
 import vn.needy.ecommerce.security.IdentificationUtils;
-import vn.needy.ecommerce.api.v1.user.service.UsersService;
+import vn.needy.ecommerce.api.v1.user.service.UserService;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -33,27 +33,27 @@ public class UsersRestService {
 	private IdentificationUtils idUtils;
 	
 	@Autowired
-	private UsersService usersService;
+	private UserService userService;
 	
 	// User can reset password when they forget
 	@RequestMapping(value = "${needy.route.users.reset}", method = RequestMethod.POST)
 	public ResponseEntity<CertificationResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
 			@RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
-		CertificationResponse cert = usersService.resetPassword(username, resetPasswordRequest, device);
+		CertificationResponse cert = userService.resetPassword(username, resetPasswordRequest, device);
 		return ResponseEntity.ok(cert);
 	}
 
 	// Use register new account
 	@RequestMapping(value = "${needy.route.users.registers}", method = RequestMethod.POST)
 	public ResponseEntity<CertificationResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest, Device device) {
-		CertificationResponse cert = usersService.registerUser(registerUserRequest, device);
+		CertificationResponse cert = userService.registerUser(registerUserRequest, device);
 		return ResponseEntity.ok(cert);
 	}
 	
 	// Sometime, user's behavior need check account is existed. Example: register/reset password
 	@RequestMapping(value = "${needy.route.users.find}", method = RequestMethod.GET)
 	public ResponseEntity<BaseResponse> findUserExistence(@RequestParam(value = "username", required = true) String username) {
-		BaseResponse response = usersService.findUserExist(username);
+		BaseResponse response = userService.findUserExist(username);
 		return ResponseEntity.ok(response);
 	}
 	
@@ -62,7 +62,7 @@ public class UsersRestService {
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<UserResponse> getUserInfomation(HttpServletRequest request) {
 		long userid = idUtils.getIdentification(request);
-		UserResponse userResponse = usersService.getUserInfomation(userid);
+		UserResponse userResponse = userService.getUserInfomation(userid);
 		return ResponseEntity.ok(userResponse);
 	}
 

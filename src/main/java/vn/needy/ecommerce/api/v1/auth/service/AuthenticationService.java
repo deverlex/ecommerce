@@ -5,11 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.mobile.device.Device;
 
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
-import vn.needy.ecommerce.api.v1.auth.request.CredentialsRequest;
+import vn.needy.ecommerce.api.v1.auth.request.CredentialRequest;
 
-public interface AuthenticationsService {
+public interface AuthenticationService {
 	
-	CertificationResponse authentication(CredentialsRequest credentials, Device device);
+	CertificationResponse authentication(CredentialRequest credentials, Device device);
 	
 	CertificationResponse authenticationRefresh(HttpServletRequest request);
 }

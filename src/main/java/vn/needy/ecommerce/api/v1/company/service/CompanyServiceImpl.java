@@ -30,7 +30,7 @@ import vn.needy.ecommerce.repository.StoreResponsitory;
 import vn.needy.ecommerce.repository.UserRoleRepository;
 
 @Service("companiesService")
-public class CompaniesServiceImpl implements CompaniesService {
+public class CompanyServiceImpl implements CompanyService {
 	
 	@Autowired
 	private TimeProvider timeProvider;
