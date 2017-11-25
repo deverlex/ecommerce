@@ -1,8 +1,7 @@
 package vn.needy.ecommerce.repository;
 
+import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.domain.entity.User;
-import vn.needy.ecommerce.model.json.request.ActiveAccountRequest;
-import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 
 public interface UserRepository {
 	
@@ -25,5 +24,4 @@ public interface UserRepository {
 	
 	boolean updatePasswordByUserId(long id, String password);
 	
-	int activeAccount(long userId, ActiveAccountRequest request);
 }

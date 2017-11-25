@@ -12,10 +12,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.enums.UserState;
-import vn.needy.ecommerce.model.json.request.ActiveAccountRequest;
-import vn.needy.ecommerce.model.json.request.RegisterUserRequest;
 import vn.needy.ecommerce.repository.UserRepository;
 
 @Repository("userRepository")
@@ -124,22 +123,6 @@ public class UserRepositoryImpl implements UserRepository {
 	public boolean updatePasswordByUserId(long id, String password) {
 		return jdbc.update("UPDATE user SET password = ? WHERE user_id = ?", 
 				new Object[] {password, id}) == 1;
-	}
-
-	@Override
-	public int activeAccount(long userId, ActiveAccountRequest request) {
-		Object params[] = new Object[] {
-			UserState.ACTIVE.getState(),
-			request.getFullName(),
-			request.getAddress(),
-			request.getLat(),
-			request.getLng(),
-			userId
-		};
-		String sqlUpdate = "UPDATE user "
-				+ "SET state =?, full_name = ?, address = ?, lat = ?, lng = ? "
-				+ "WHERE user_id = ?";
-		return jdbc.update(sqlUpdate, params);
 	}
 
 }
