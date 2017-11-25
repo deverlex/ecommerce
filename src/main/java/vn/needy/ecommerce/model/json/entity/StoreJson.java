@@ -3,10 +3,14 @@ package vn.needy.ecommerce.model.json.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import vn.needy.ecommerce.common.utils.CipherID;
+import vn.needy.ecommerce.domain.BaseFile;
 import vn.needy.ecommerce.domain.entity.Store;
+import vn.needy.ecommerce.domain.mongo.StoreDetail;
 
 public class StoreJson {
 	
@@ -34,7 +38,7 @@ public class StoreJson {
 		super();
 	}
 	
-	public StoreJson(Store store) {
+	public StoreJson(@Nonnull Store store,@Nonnull StoreDetail detail) {
 		id = CipherID.encrypt(store.getId());
 		state = store.getState();
 		status = store.getStatus();
@@ -48,6 +52,11 @@ public class StoreJson {
 		createdTime = store.getCreatedTime();
 		lastUpdatedTime = store.getLastUpdatedTime();
 		lastUpdatedBy = store.getLastUpdatedBy();
+		
+		description = detail.getDescription();
+		BaseFile file = detail.getAvatar();
+		avatar = file.getHost() + "/" + file.getUri() + "/" + file.getFileName();
+		coverPicture = detail.getCoverPicture();
 	}
 
 	public String getId() {

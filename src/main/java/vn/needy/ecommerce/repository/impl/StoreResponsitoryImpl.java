@@ -1,17 +1,13 @@
 package vn.needy.ecommerce.repository.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties.Credential;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.CriteriaDefinition;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -19,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.entity.Store;
 import vn.needy.ecommerce.domain.mongo.StoreDetail;
-import vn.needy.ecommerce.domain.mongo.StorePicture;
 import vn.needy.ecommerce.repository.StoreResponsitory;
 
 @Repository("storeResponsitory")
@@ -30,6 +25,9 @@ public class StoreResponsitoryImpl implements StoreResponsitory {
 	
 	@Autowired
 	MongoTemplate mongo;
+	
+	@Autowired
+	MongoOperations operations;
 	
 	private SimpleJdbcInsert insert;
 	
@@ -85,20 +83,21 @@ public class StoreResponsitoryImpl implements StoreResponsitory {
 
 	@Override
 	public StoreDetail getStoreDetail(long storeId) {
+		
 		StoreDetail storeDetail =  mongo.findById(storeId, StoreDetail.class);
 		return storeDetail;
 	}
 
-	@Override
-	public List<StorePicture> getStorePictures(long storeId) {
-		// Dang can xem lai
-		Query query = new Query();
-		Long id = new Long(storeId);
-		query.addCriteria(new Criteria().exists(
-				Criteria.where("store_id").equals(id)
-			));
-		List<StorePicture> storePictures = mongo.find(query, StorePicture.class);
-		return storePictures;
-	}
+//	@Override
+//	public List<StorePicture> getStorePictures(long storeId) {
+//		// Dang can xem lai
+//		Query query = new Query();
+//		Long id = new Long(storeId);
+//		query.addCriteria(new Criteria().exists(
+//				Criteria.where("store_id").equals(id)
+//			));
+//		List<StorePicture> storePictures = mongo.find(query, StorePicture.class);
+//		return storePictures;
+//	}
 
 }
