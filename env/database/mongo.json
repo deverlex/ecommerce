@@ -6,6 +6,8 @@
 					"_id" : "",
 					"company_id" : "",
 					"is_primary" : "",
+					"title" : "",
+					"description" : "",
 					"image" : {
 						"file_name" : "",
 						"uri" : "",
@@ -19,6 +21,8 @@
 					"_id" : "",
 					"store_id" : "",
 					"is_primary" : "",
+					"title" : "",
+					"description" : "",
 					"image" : {
 						"fileName" : "",
 						"uri" : "",
@@ -32,78 +36,12 @@
 					"_id" : "",
 					"product_id" : "",
 					"is_primary" : "",
+					"title" : "",
+					"description" : "",
 					"image" : {
 						"file_name" : "84968208244 45 12.JPG",
 						"uri" : "images/2017/34/Tue/12",
 						"host" : "rsv0001.needy.vn"
-					}
-				}
-			],
-
-
-
-
-
-			"user_detail" : {
-				"_id" : "user id",
-				"email" : "",
-  				"birthday" : "",
-  				"gender" : "",
-  				"avatar" : {
-  					"file_name" : "",
-  					"uri" : "",
-  					"host" : ""
-  				},
-  				"cover_picture" : {
-  					"file_name" : "",
-  					"uri" : "",
-  					"host" : ""
-  				}
-			},
-
-			"company_detail" : [
-				{
-					"_id" : "company id",
-					"description" : "",
-					"site_url" : "",
-					"founded_date" : "",
-					"opening_time" : "",
-					"closing_time" : "",
-					"avatar" : {
-						"file_name" : "",
-						"uri" : "",
-						"host" : ""
-					},
-					"picture" : [
-						"_id1", "_id2"
-					]
-				}
-			],
-
-			
-
-			"store_detail" : {
-				"_id" : "store id",
-				"company_id" : "",
-				"description" : "",
-				"avatar" : {
-					"file_name" : "",
-					"uri" : "",
-					"host" : ""
-				},
-				"cover_picture" : [
-					"_id1", "_id2"
-				]
-			},
-
-			"category_detail" : [
-				{
-					"_id" : "category id",
-					"description" : "",
-					"cover_picture" : {
-						"file_name" : "",
-						"uri" : "",
-						"host" : ""
 					}
 				}
 			],
@@ -113,7 +51,6 @@
 					"_id" : "product id",
 					"category_id" : "",
 					"store_id" : "",
-					"name" : "",
 					"gift" : "",
 					"description" : "",
 					"attribute" : [
@@ -121,19 +58,9 @@
 						{"attr2" : ""},
 						{"attr3" : ""}
 					],
-					"cover_picture" : {
-						"file_name" : "849682082444512.JPG",
-						"uri" : "images/2017/34/Tue/12",
-						"host" : "rsv0001.needy.vn"
-					},
-					"parent_product" : "_id1",
-					"child_product" : [
-						"_id1", "_id2"
-					]
+					"parent_product" : "_id1"
 				}
 			],
-
-			
 			
 			"user_report_detail" : [
 				{
