@@ -15,7 +15,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---- MONGODB will storage: log, image source, activity
+-- MONGODB will storage: log, image source, activity
 
 --
 -- Table structure for table `Permissions`
@@ -74,7 +74,7 @@ CREATE TABLE `user_role` (
   `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,
   `last_updated_by` bigint(20) NOT NULL,
   CONSTRAINT `Uniq_user_role_ru` UNIQUE (`role_name`,`user_id`), 
-  CONSTRAINT `Fk_user_role_r` FOREIGN KEY (`role_name`) REFERENCES `role` (`role_name`),
+  CONSTRAINT `Fk_user_role_r` FOREIGN KEY (`role_name`) REFERENCES `role` (`name`),
   CONSTRAINT `Fk_user_role_u` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -93,6 +93,7 @@ CREATE TABLE `user` (
   `state` tinyint(2) NOT NULL,
   -- Khoa 90 ngay
   `unlock_time` datetime,
+  `is_provider` tinyint(1) DEFAULT 0,
 
   -- firebase UID
   `firebase_uid` varchar(255), 
@@ -164,7 +165,7 @@ CREATE TABLE `notification_user` (
   `is_read` tinyint(1) NOT NULL DEFAULT 0,
   `is_view` tinyint(1) NOT NULL DEFAULT 0,
   `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT `Fk_notify_user_r` FOREIGN KEY (`recever_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `Fk_notify_user_r` FOREIGN KEY (`receiver_id`) REFERENCES `user` (`id`),
   CONSTRAINT `Fk_notify_user_n` FOREIGN KEY (`notify_id`) REFERENCES `notification` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -437,7 +438,10 @@ CREATE TABLE `product` (
   `company_id` bigint(20) NOT NULL,
   `name` text(500) NOT NULL,
   `has_gift` tinyint(1) DEFAULT 0,
-  `price` float(12, 2) NOT NULL, 
+  `price` float(12, 2) NOT NULL,
+  `old_price` float(12, 2),
+  -- reference to parent product (price later type)
+  `ref_product` bigint(20),
   -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
   -- DELETED (-2), DENIED (-1), INACTIVE (0), ACTIVE (1)
   `state` tinyint(3),
@@ -634,7 +638,7 @@ DROP TABLE IF EXISTS `product_hashtag`;
 CREATE TABLE `product_hashtag` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `product_id` bigint(20) NOT NULL,
-  `hashtag_name` bigint(20) NOT NULL,
+  `hashtag_name` varchar(255) NOT NULL,
   CONSTRAINT `Uniq_product_hashtag_ph` UNIQUE (`product_id`,`hashtag_name`),
   CONSTRAINT `Fk_product_hashtag_p` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `Fk_product_hashtag_h` FOREIGN KEY (`hashtag_name`) REFERENCES `hashtag` (`name`)

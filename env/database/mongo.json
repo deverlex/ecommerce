@@ -1,6 +1,20 @@
 {
 	"mongo" : [
 		{
+			"user_picture" : [
+				{
+					"_id" : "",
+					"is_primary" : "",
+					"title" : "",
+					"description" : "",
+					"url" : {
+						"file_name" : "",
+						"path" : "",
+						"host" : ""
+					}
+				}
+			],
+
 			"company_picture" : [
 				{
 					"_id" : "",
@@ -8,9 +22,9 @@
 					"is_primary" : "",
 					"title" : "",
 					"description" : "",
-					"image" : {
+					"url" : {
 						"file_name" : "",
-						"uri" : "",
+						"path" : "",
 						"host" : ""
 					}
 				}
@@ -23,9 +37,9 @@
 					"is_primary" : "",
 					"title" : "",
 					"description" : "",
-					"image" : {
+					"url" : {
 						"fileName" : "",
-						"uri" : "",
+						"path" : "",
 						"host" : ""
 					}
 				}
@@ -38,9 +52,9 @@
 					"is_primary" : "",
 					"title" : "",
 					"description" : "",
-					"image" : {
-						"file_name" : "84968208244 45 12.JPG",
-						"uri" : "images/2017/34/Tue/12",
+					"url" : {
+						"file_name" : "84968208244_45_12.JPG",
+						"path" : "images/2017/34/Tue/12",
 						"host" : "rsv0001.needy.vn"
 					}
 				}
@@ -57,8 +71,7 @@
 						{"attr1" : ""},
 						{"attr2" : ""},
 						{"attr3" : ""}
-					],
-					"parent_product" : "_id1"
+					]
 				}
 			],
 			
@@ -67,20 +80,17 @@
 					"_id" : "report id",
 					"description" : "",
 					"picture" : [
-						"_id1", "_id2"
+						{
+							"file_name" : "",
+		  					"path" : "",
+		  					"host" : ""
+						},
+						{
+							"file_name" : "",
+		  					"path" : "",
+		  					"host" : ""
+						}
 					]
-				}
-			],
-
-			"user_report_picture" : [
-				{
-					"_id" : "",
-					"report_id" : "",
-					"image" : {
-						"file_name" : "",
-	  					"uri" : "",
-	  					"host" : ""
-					}
 				}
 			],
 
