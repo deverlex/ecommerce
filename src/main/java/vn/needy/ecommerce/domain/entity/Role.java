@@ -2,7 +2,7 @@ package vn.needy.ecommerce.domain.entity;
 
 import java.util.Date;
 
-import vn.needy.ecommerce.domain.BaseDomain;
+import vn.needy.ecommerce.domain.base.BaseDomain;
 
 public class Role extends BaseDomain {
 
@@ -10,9 +10,7 @@ public class Role extends BaseDomain {
 	
 	public static final String TABLE = "role";
 
-	private String role;
-	private String title;
-	private String description;
+	private String name;
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 	
@@ -20,24 +18,12 @@ public class Role extends BaseDomain {
 		super();
 	}
 
-	public String getRole() {
-		return role;
+	public String getName() {
+		return name;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Date getLastUpdatedTime() {

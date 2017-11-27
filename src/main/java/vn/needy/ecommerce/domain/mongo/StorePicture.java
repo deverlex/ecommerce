@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import vn.needy.ecommerce.domain.BaseFile;
+import vn.needy.ecommerce.domain.base.BaseFile;
 
 @Document(collection = "store_picture")
 public class StorePicture implements Serializable {

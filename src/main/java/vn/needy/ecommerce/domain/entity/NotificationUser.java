@@ -1,6 +1,6 @@
 package vn.needy.ecommerce.domain.entity;
 
-import vn.needy.ecommerce.domain.BaseDomain;
+import vn.needy.ecommerce.domain.base.BaseDomain;
 
 public class NotificationUser extends BaseDomain {
 

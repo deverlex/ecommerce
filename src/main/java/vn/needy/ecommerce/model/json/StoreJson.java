@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import vn.needy.ecommerce.common.utils.CipherID;
-import vn.needy.ecommerce.domain.BaseFile;
+import vn.needy.ecommerce.domain.base.BaseFile;
 import vn.needy.ecommerce.domain.entity.Store;
 import vn.needy.ecommerce.domain.mongo.StoreDetail;
 

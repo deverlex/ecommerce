@@ -24,8 +24,8 @@ INSERT INTO `role`(`name`, `last_updated_by`) VALUES
 ('STORE_KEEPER', 1),
 ('STORE_MANAGER', 1);
 
-INSERT INTO `permission_role`(`permission_name`, `role_name`) VALUES
-(`ALL`, `SYSTEM`);
+INSERT INTO `permission_role`(`permission_name`, `role_name`, `last_updated_by`) VALUES
+('ALL', 'SYSTEM', 1);
 
 INSERT INTO `user_role`(`role_name`, `permission_name`, `user_id`, `last_updated_by`) VALUES
 ('SYSTEM', 'ALL', 1, 1);

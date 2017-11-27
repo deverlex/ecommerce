@@ -2,7 +2,7 @@ package vn.needy.ecommerce.domain.entity;
 
 import java.util.Date;
 
-import vn.needy.ecommerce.domain.BaseDomain;
+import vn.needy.ecommerce.domain.base.BaseDomain;
 
 public class UserRole extends BaseDomain {
 	
@@ -12,6 +12,7 @@ public class UserRole extends BaseDomain {
 	
 	private long id;
 	private String role;
+	private String permission;
 	private long userId;
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
@@ -34,6 +35,14 @@ public class UserRole extends BaseDomain {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
 	}
 
 	public long getUserId() {

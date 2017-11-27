@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import vn.needy.ecommerce.domain.BaseFile;
+import vn.needy.ecommerce.domain.base.BaseFile;
 
 @Document(collection = "user_detail")
 public class UserDetail implements Serializable {

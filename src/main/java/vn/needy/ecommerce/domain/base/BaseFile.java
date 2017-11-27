@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.domain;
+package vn.needy.ecommerce.domain.base;
 
 import java.io.Serializable;
 

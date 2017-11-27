@@ -2,9 +2,9 @@ package vn.needy.ecommerce.domain.entity;
 
 import java.util.Date;
 
-import vn.needy.ecommerce.model.base.BaseModel;
+import vn.needy.ecommerce.domain.base.BaseDomain;
 
-public class PermissionRole extends BaseModel {
+public class PermissionRole extends BaseDomain {
 
 	private static final long serialVersionUID = 145636363L;
 	

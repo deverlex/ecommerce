@@ -2,7 +2,7 @@ package vn.needy.ecommerce.domain.entity;
 
 import java.util.Date;
 
-import vn.needy.ecommerce.domain.BaseDomain;
+import vn.needy.ecommerce.domain.base.BaseDomain;
 
 public class Category extends BaseDomain {
 
