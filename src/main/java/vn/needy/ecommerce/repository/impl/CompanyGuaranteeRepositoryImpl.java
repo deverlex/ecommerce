@@ -16,9 +16,9 @@ public class CompanyGuaranteeRepositoryImpl implements CompanyGuaranteeRepositor
 	
 	@Override
 	public boolean isCompanyGuaranteeById(long companyId) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT comgua_id "
-				+ "FROM company_guarantee "
-				+ "WHERE company_id = ? AND state = ?", 
+		SqlRowSet rs = jdbc.queryForRowSet("select id "
+				+ "from company_guarantee "
+				+ "where company_id = ? and state = ?",
 				new Object[] {companyId, CompanyReputationState.ACTIVE.getState()});
 		return rs.first();
 	}

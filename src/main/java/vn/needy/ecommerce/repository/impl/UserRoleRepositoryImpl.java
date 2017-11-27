@@ -28,17 +28,17 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(UserRole.TABLE)
-        		.usingGeneratedKeyColumns("userol_id");
+        		.usingGeneratedKeyColumns("id");
     }
 	
 	@Override
 	public List<String> findRoleAuthenticationByUserId(long userId) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT role_id "
-				+ "FROM user_role "
-				+ "WHERE user_id = ?", new Object[] {userId});
+		SqlRowSet rs = jdbc.queryForRowSet("select role_name "
+				+ "from user_role "
+				+ "where user_id = ?", new Object[] {userId});
 		List<String> roles = new LinkedList<>();
 		while(rs.next()) {
-			roles.add(rs.getString("role_id"));
+			roles.add(rs.getString("role_name"));
 		}
 		return roles;
 	}
@@ -47,7 +47,7 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
 	public long resgisterUserRole(long userId, String role, long lastUpdatedBy) {
 		Map<String, Object> params = new HashMap<>(2);
 		params.put("user_id", userId);
-		params.put("role_id", role);
+		params.put("role_name", role);
 		params.put("last_updated_by", lastUpdatedBy);
 		return insert.executeAndReturnKey(params).longValue();
 	}
@@ -59,7 +59,7 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
 		for (int i = 0; i < roles.length; ++i) {
 			Map<String, Object> params = new HashMap<>(4);
 			params.put("user_id", userId);
-			params.put("role_id", roles[i]);
+			params.put("role_name", roles[i]);
 			params.put("last_updated_by", lastUpdatedBy);
 			listParams[i] = params;
 		}

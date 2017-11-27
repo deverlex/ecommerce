@@ -35,8 +35,8 @@ CREATE TRIGGER `tr_add_role_for_new_user` AFTER INSERT ON `user`
 FOR EACH ROW
 BEGIN
 	DECLARE user_id bigint(20);
-	SET user_id = NEW.user_id;
-	INSERT INTO user_role(`role_id`, `user_id`, `last_updated_by`) 
+	SET user_id = NEW.id;
+	INSERT INTO user_role(`role_name`, `user_id`, `last_updated_by`) 
 	VALUES ('USER', user_id, 1);
 END
 

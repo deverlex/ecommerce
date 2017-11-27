@@ -27,19 +27,19 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(Company.TABLE)
-        		.usingGeneratedKeyColumns("company_id");
+        		.usingGeneratedKeyColumns("id");
     }
 	
 	@Override
 	public Company findCompanyInformationByUserId(long userId) {
-		SqlRowSet rs = jdbc.queryForRowSet("SELECT c.* "
-				+ "FROM company c "
-				+ "INNER JOIN company_staff cs ON c.company_id = cs.company_id "
-				+ "WHERE cs.user_id = ? AND c.state <> ?", 
+		SqlRowSet rs = jdbc.queryForRowSet("select c.* "
+				+ "from company c "
+				+ "inner join company_staff cs on c.id = cs.company_id "
+				+ "where cs.user_id = ? and c.state <> ?",
 				new Object[] {userId, CompanyState.CLOSED.getState()});
 		if (rs.first()) {
 			Company company = new Company();
-			company.setId(rs.getLong("company_id"));
+			company.setId(rs.getLong("id"));
 			company.setState(rs.getInt("state"));
 			company.setName(rs.getString("name"));
 			company.setCreatedTime(rs.getDate("created_time"));

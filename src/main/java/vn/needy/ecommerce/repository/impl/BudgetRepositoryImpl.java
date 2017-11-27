@@ -21,7 +21,7 @@ public class BudgetRepositoryImpl implements BudgetRepository {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(Budget.TABLE)
-        		.usingGeneratedKeyColumns("budget_id");
+        		.usingGeneratedKeyColumns("id");
     }
 	
 	@Override

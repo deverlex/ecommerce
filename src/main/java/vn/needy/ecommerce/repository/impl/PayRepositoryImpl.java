@@ -25,7 +25,7 @@ public class PayRepositoryImpl implements PayRepository {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(Pay.TABLE)
-        		.usingGeneratedKeyColumns("pay_id");
+        		.usingGeneratedKeyColumns("id");
     }
 	
 	@Override

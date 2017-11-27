@@ -24,7 +24,7 @@ public class CompanyStaffResponsitoryImpl implements CompanyStaffResponsitory {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(CompanyStaff.TABLE)
-        		.usingGeneratedKeyColumns("comsta_id");
+        		.usingGeneratedKeyColumns("id");
     }
 	
 	@Override

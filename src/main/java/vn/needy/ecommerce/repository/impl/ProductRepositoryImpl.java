@@ -30,13 +30,13 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(Product.TABLE)
-        		.usingGeneratedKeyColumns("product_id");
+        		.usingGeneratedKeyColumns("id");
     }
 	
 	@Override
 	public long addProduct(Product product, ProductDetail productDetail) {
 		Map<String, Object> params = new HashMap<>();
-		params.put("category_id", product.getCategory());
+		params.put("category_name", product.getCategory());
 		params.put("company_id", product.getCompanyId());
 		params.put("state", product.getState());
 		params.put("last_updated_by", product.getLastUpdatedBy());

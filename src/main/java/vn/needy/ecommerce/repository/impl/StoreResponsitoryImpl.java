@@ -35,7 +35,7 @@ public class StoreResponsitoryImpl implements StoreResponsitory {
     public void setDataSource(DataSource dataSource) {
         this.insert = new SimpleJdbcInsert(dataSource)
         		.withTableName(Store.TABLE)
-        		.usingGeneratedKeyColumns("store_id");
+        		.usingGeneratedKeyColumns("id");
     }
 	
 	@Override
@@ -57,12 +57,12 @@ public class StoreResponsitoryImpl implements StoreResponsitory {
 	@Override
 	public Store getStore(long userId) {
 		SqlRowSet rs = jdbc.queryForRowSet("select s.* from user u " + 
-				"inner join company_staff cs on cs.user_id = u.user_id " + 
-				"inner join store s on s.store_id = cs.store_id " + 
-				"where u.user_id = ?", new Object[] {userId});
+				"inner join company_staff cs on cs.user_id = u.id " +
+				"inner join store s on s.id = cs.store_id " +
+				"where u.id = ?", new Object[] {userId});
 		if (rs.first()) {
 			Store store = new Store();
-			store.setId(rs.getLong("store_id"));
+			store.setId(rs.getLong("id"));
 			store.setCompanyId(rs.getLong("company_id"));
 			store.setState(rs.getInt("state"));
 			store.setStatus(rs.getInt("status"));
