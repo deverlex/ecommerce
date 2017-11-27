@@ -19,7 +19,6 @@
 
 --
 -- Table structure for table `Permissions`
---
 DROP TABLE IF EXISTS `permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -33,7 +32,6 @@ CREATE TABLE `permission` (
 
 --
 -- Table structure for table `permission_role`
---
 DROP TABLE IF EXISTS `permission_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -70,6 +68,7 @@ DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `role_name` varchar(64) NOT NULL,
+  `permission_name` varchar(64) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,
   `last_updated_by` bigint(20) NOT NULL,
