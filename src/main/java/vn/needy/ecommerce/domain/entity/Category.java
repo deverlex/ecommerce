@@ -10,7 +10,7 @@ public class Category extends BaseDomain {
 	
 	public static final String TABLE = "category";
 	
-	private String category;
+	private String name;
 	private boolean enable;
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
@@ -19,12 +19,12 @@ public class Category extends BaseDomain {
 		super();
 	}
 
-	public String getCategory() {
-		return category;
+	public String getName() {
+		return name;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public boolean isEnable() {

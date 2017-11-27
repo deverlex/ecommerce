@@ -10,9 +10,7 @@ public class Attribute extends BaseDomain {
 	
 	public static final String TABLE = "attribute";
 
-	private String attribute;
-	private String title;
-	private String description;
+	private String name;
 	private boolean enable;
 	
 	private Date lastUpdatedTime;
@@ -22,24 +20,12 @@ public class Attribute extends BaseDomain {
 		super();
 	}
 
-	public String getAttribute() {
-		return attribute;
+	public String getName() {
+		return name;
 	}
 
-	public void setAttribute(String attribute) {
-		this.attribute = attribute;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public boolean isEnable() {

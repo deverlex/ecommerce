@@ -17,7 +17,6 @@ public class Notification extends BaseDomain {
 	private String refMethod;
 	private String title;
 	private String htmlContent;
-	
 	private Date createdTime;
 	
 	public Notification() {

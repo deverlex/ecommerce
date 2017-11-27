@@ -13,7 +13,6 @@ public class Budget extends BaseDomain {
 	private long id;
 	private long companyId;
 	private float budget;
-	private Date createdTime;
 	private Date lastUpdatedTime;
 	
 	public Budget() {
@@ -42,14 +41,6 @@ public class Budget extends BaseDomain {
 
 	public void setBudget(float budget) {
 		this.budget = budget;
-	}
-
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
 	}
 
 	public Date getLastUpdatedTime() {

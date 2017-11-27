@@ -16,6 +16,15 @@ public class Company extends BaseDomain {
 	private int level;
 	private String name;
 	private String address;
+
+	private String description;
+	private String siteUrl;
+	private String email;
+	private Date foundedDate;
+	private Date openingTime;
+	private Date closingTime;
+	private float lat;
+	private float lng;
 	
 	private Date createdTime;
 	private Date lastUpdatedTime;
@@ -71,6 +80,70 @@ public class Company extends BaseDomain {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getSiteUrl() {
+		return siteUrl;
+	}
+
+	public void setSiteUrl(String siteUrl) {
+		this.siteUrl = siteUrl;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Date getFoundedDate() {
+		return foundedDate;
+	}
+
+	public void setFoundedDate(Date foundedDate) {
+		this.foundedDate = foundedDate;
+	}
+
+	public Date getOpeningTime() {
+		return openingTime;
+	}
+
+	public void setOpeningTime(Date openingTime) {
+		this.openingTime = openingTime;
+	}
+
+	public Date getClosingTime() {
+		return closingTime;
+	}
+
+	public void setClosingTime(Date closingTime) {
+		this.closingTime = closingTime;
+	}
+
+	public float getLat() {
+		return lat;
+	}
+
+	public void setLat(float lat) {
+		this.lat = lat;
+	}
+
+	public float getLng() {
+		return lng;
+	}
+
+	public void setLng(float lng) {
+		this.lng = lng;
 	}
 
 	public Date getCreatedTime() {

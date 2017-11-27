@@ -14,8 +14,6 @@ public class UserReport extends BaseDomain {
 	private long orderId;
 	private short typeReport;
 	private boolean isAccepted;
-	private String description;
-	private String pictures;
 	private Date createdTime;
 	private long acceptedBy;
 	
@@ -53,22 +51,6 @@ public class UserReport extends BaseDomain {
 
 	public void setAccepted(boolean isAccepted) {
 		this.isAccepted = isAccepted;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getPictures() {
-		return pictures;
-	}
-
-	public void setPictures(String pictures) {
-		this.pictures = pictures;
 	}
 
 	public Date getCreatedTime() {

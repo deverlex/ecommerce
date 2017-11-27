@@ -15,7 +15,6 @@ public class StoreBankAccount extends BaseDomain {
 	private String creditAccount;
 	private String beneficiaryName;
 	private String beneficiaryBankName;
-	private Date createdTime;
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 	
@@ -61,14 +60,6 @@ public class StoreBankAccount extends BaseDomain {
 
 	public void setBeneficiaryBankName(String beneficiaryBankName) {
 		this.beneficiaryBankName = beneficiaryBankName;
-	}
-
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
 	}
 
 	public Date getLastUpdatedTime() {

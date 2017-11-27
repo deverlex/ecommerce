@@ -10,7 +10,7 @@ public class ProductHashTag extends BaseDomain {
 
 	private long id;
 	private long productId;
-	private long hashTagId;
+	private String hashTagName;
 
 	public ProductHashTag() {
 		super();
@@ -32,12 +32,11 @@ public class ProductHashTag extends BaseDomain {
 		this.productId = productId;
 	}
 
-	public long getHashTagId() {
-		return hashTagId;
+	public String getHashTagName() {
+		return hashTagName;
 	}
 
-	public void setHashTagId(long hashTagId) {
-		this.hashTagId = hashTagId;
+	public void setHashTagName(String hashTagName) {
+		this.hashTagName = hashTagName;
 	}
-	
 }

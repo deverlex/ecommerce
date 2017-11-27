@@ -435,15 +435,15 @@ CREATE TABLE `product` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `category_name` varchar(64) NOT NULL,
   `company_id` bigint(20) NOT NULL,
+  -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
+  -- DELETED (-2), DENIED (-1), INACTIVE (0), ACTIVE (1)
+  `state` tinyint(3),
   `name` text(500) NOT NULL,
   `has_gift` tinyint(1) DEFAULT 0,
   `price` float(12, 2) NOT NULL,
   `old_price` float(12, 2),
   -- reference to parent product (price later type)
   `ref_product` bigint(20),
-  -- Trang thai con su dung khong, con su dung, da duoc kiem duyt hay chua
-  -- DELETED (-2), DENIED (-1), INACTIVE (0), ACTIVE (1)
-  `state` tinyint(3),
   `last_updated_time` timestamp DEFAULT CURRENT_TIMESTAMP,
   `last_updated_by` bigint(20) NOT NULL,
   CONSTRAINT `Fk_products_cg` FOREIGN KEY (`category_name`) REFERENCES `category` (`name`),

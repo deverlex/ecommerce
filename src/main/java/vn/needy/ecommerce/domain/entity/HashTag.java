@@ -10,28 +10,19 @@ public class HashTag extends BaseDomain {
 
 	public static final String TABLE = "hashtag";
 
-	private long id;
-	private String hashtag;
+	private String name;
 	private Date createdTime;
 
 	public HashTag() {
 		super();
 	}
 
-	public long getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getHashtag() {
-		return hashtag;
-	}
-
-	public void setHashtag(String hashtag) {
-		this.hashtag = hashtag;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Date getCreatedTime() {

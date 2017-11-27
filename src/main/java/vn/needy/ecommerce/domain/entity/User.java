@@ -15,12 +15,16 @@ public class User extends BaseDomain {
 	private String password;
 	private int state;
 	private Date unlockTime;
+	private boolean isProvider;
 	private String firebaseUid;
 	private String fcmToken;
 	private String fullName;
 	private String address;
 	private float lat;
 	private float lng;
+	private Date birthday;
+	private String gender;
+	private String email;
 	private Date createdTime;
 	private Date lastUpdatedTime;
 	private Date lastResetPassword;
@@ -69,6 +73,14 @@ public class User extends BaseDomain {
 		this.unlockTime = unlockTime;
 	}
 
+	public boolean isProvider() {
+		return isProvider;
+	}
+
+	public void setProvider(boolean provider) {
+		isProvider = provider;
+	}
+
 	public String getFirebaseUid() {
 		return firebaseUid;
 	}
@@ -115,6 +127,30 @@ public class User extends BaseDomain {
 
 	public void setLng(float lng) {
 		this.lng = lng;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Date getCreatedTime() {

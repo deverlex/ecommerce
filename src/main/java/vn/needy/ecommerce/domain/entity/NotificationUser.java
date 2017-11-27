@@ -2,6 +2,8 @@ package vn.needy.ecommerce.domain.entity;
 
 import vn.needy.ecommerce.domain.base.BaseDomain;
 
+import java.util.Date;
+
 public class NotificationUser extends BaseDomain {
 
 	private static final long serialVersionUID = 121298012343L;
@@ -10,9 +12,10 @@ public class NotificationUser extends BaseDomain {
 	
 	private long id;
 	private long notificationId;
-	private long receverId;
+	private long receiverId;
 	private boolean isRead;
 	private boolean isView;
+	private Date lastUpdatedTime;
 	
 	public NotificationUser() {
 		super();
@@ -34,12 +37,12 @@ public class NotificationUser extends BaseDomain {
 		this.notificationId = notificationId;
 	}
 
-	public long getReceverId() {
-		return receverId;
+	public long getReceiverId() {
+		return receiverId;
 	}
 
-	public void setReceverId(long receverId) {
-		this.receverId = receverId;
+	public void setReceiverId(long receiverId) {
+		this.receiverId = receiverId;
 	}
 
 	public boolean isRead() {
@@ -57,5 +60,12 @@ public class NotificationUser extends BaseDomain {
 	public void setView(boolean isView) {
 		this.isView = isView;
 	}
-	
+
+	public Date getLastUpdatedTime() {
+		return lastUpdatedTime;
+	}
+
+	public void setLastUpdatedTime(Date lastUpdatedTime) {
+		this.lastUpdatedTime = lastUpdatedTime;
+	}
 }

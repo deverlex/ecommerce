@@ -24,6 +24,9 @@ public class Store extends BaseDomain {
 	
 	private Date openingTime;
 	private Date closingTime;
+
+	private String description;
+	private String email;
 	
 	private Date createdTime;
 	private Date lastUpdatedTime;
@@ -119,6 +122,22 @@ public class Store extends BaseDomain {
 
 	public void setClosingTime(Date closingTime) {
 		this.closingTime = closingTime;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Date getCreatedTime() {

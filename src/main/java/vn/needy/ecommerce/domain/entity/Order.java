@@ -23,7 +23,10 @@ public class Order extends BaseDomain {
 	private float feeTransport;
 	private Date transportFrom;
 	private Date transportTo;
-	private long receiverId;
+
+	private float latTo;
+	private float lngTo;
+
 	private Date lastUpdatedTime;
 	
 	public Order() {
@@ -134,12 +137,20 @@ public class Order extends BaseDomain {
 		this.transportTo = transportTo;
 	}
 
-	public long getReceiverId() {
-		return receiverId;
+	public float getLatTo() {
+		return latTo;
 	}
 
-	public void setReceiverId(long receiverId) {
-		this.receiverId = receiverId;
+	public void setLatTo(float latTo) {
+		this.latTo = latTo;
+	}
+
+	public float getLngTo() {
+		return lngTo;
+	}
+
+	public void setLngTo(float lngTo) {
+		this.lngTo = lngTo;
 	}
 
 	public Date getLastUpdatedTime() {

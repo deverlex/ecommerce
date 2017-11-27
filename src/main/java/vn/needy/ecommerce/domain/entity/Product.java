@@ -14,7 +14,13 @@ public class Product extends BaseDomain {
 	private String category;
 	private long companyId;
 	private int state;
-	
+
+	private String name;
+	private boolean hasGift;
+	private float price;
+	private float oldPrice;
+	private long refProduct;
+
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 
@@ -54,7 +60,47 @@ public class Product extends BaseDomain {
 		this.state = state;
 	}
 
-	public Date getLastUpdatedTime() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isHasGift() {
+        return hasGift;
+    }
+
+    public void setHasGift(boolean hasGift) {
+        this.hasGift = hasGift;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public float getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(float oldPrice) {
+        this.oldPrice = oldPrice;
+    }
+
+    public long getRefProduct() {
+        return refProduct;
+    }
+
+    public void setRefProduct(long refProduct) {
+        this.refProduct = refProduct;
+    }
+
+    public Date getLastUpdatedTime() {
 		return lastUpdatedTime;
 	}
 

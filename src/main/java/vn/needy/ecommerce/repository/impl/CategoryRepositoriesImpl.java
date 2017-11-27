@@ -29,7 +29,7 @@ public class CategoryRepositoriesImpl implements CategoryRepository {
 		List<Category> categories = new LinkedList<>();
 		while(rs.next()) {
 			Category category = new Category();
-			category.setCategory(rs.getString("name"));
+			category.setName(rs.getString("name"));
 			categories.add(category);
 		}
 		return categories;
@@ -44,7 +44,7 @@ public class CategoryRepositoriesImpl implements CategoryRepository {
 	    List<Category> categories = new LinkedList<>(); 
 	    while(rs.next()) {
 	      Category subCategory = new Category(); 
-	      subCategory.setCategory(rs.getString("name"));
+	      subCategory.setName(rs.getString("name"));
 	      categories.add(subCategory); 
 	    }
 	    return categories;
@@ -62,7 +62,7 @@ public class CategoryRepositoriesImpl implements CategoryRepository {
 		List<Category> categories = new LinkedList<>();
 		while(rs.next()) {
 			Category category = new Category();
-			category.setCategory(rs.getString("refcategory"));
+			category.setName(rs.getString("refcategory"));
 			categories.add(category);
 		}
 		return categories;
@@ -95,7 +95,7 @@ public class CategoryRepositoriesImpl implements CategoryRepository {
 		List<Category> categories = new LinkedList<>();
 		while(rs.next()) {
 			Category subCategory = new Category();
-			subCategory.setCategory(rs.getString("category_id"));
+			subCategory.setName(rs.getString("category_id"));
 			categories.add(subCategory);
 		}
 		return categories;

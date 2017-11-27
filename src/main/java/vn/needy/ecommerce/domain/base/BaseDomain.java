@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 @SuppressWarnings("serial")
-public class BaseDomain implements Serializable {
+public abstract class BaseDomain implements Serializable {
 
 	@Override
 	public String toString() {
