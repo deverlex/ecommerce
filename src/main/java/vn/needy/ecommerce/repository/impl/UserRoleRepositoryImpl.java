@@ -23,6 +23,8 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
 	JdbcTemplate jdbc;
 	
 	private SimpleJdbcInsert insert;
+
+	private final String PERMISSION_DEFAULT = "ALL";
 	
 	@Autowired
     public void setDataSource(DataSource dataSource) {
@@ -44,7 +46,7 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
 	}
 
 	@Override
-	public long resgisterUserRole(long userId, String role, long lastUpdatedBy) {
+	public long registerUserRole(long userId, String role, long lastUpdatedBy) {
 		Map<String, Object> params = new HashMap<>(2);
 		params.put("user_id", userId);
 		params.put("role_name", role);
@@ -59,6 +61,7 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
 		for (int i = 0; i < roles.length; ++i) {
 			Map<String, Object> params = new HashMap<>(4);
 			params.put("user_id", userId);
+			params.put("permission_name", PERMISSION_DEFAULT);
 			params.put("role_name", roles[i]);
 			params.put("last_updated_by", lastUpdatedBy);
 			listParams[i] = params;
