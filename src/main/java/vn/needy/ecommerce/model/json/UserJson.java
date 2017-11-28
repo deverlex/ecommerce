@@ -6,7 +6,6 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import vn.needy.ecommerce.domain.entity.User;
-import vn.needy.ecommerce.domain.mongo.UserDetail;
 
 public class UserJson implements Serializable {
 
@@ -31,7 +30,7 @@ public class UserJson implements Serializable {
     	super();
     }
     
-    public UserJson(User user, UserDetail details) {
+    public UserJson(User user) {
     	state = user.getState();
     	fullName = user.getFullName();
     	address = user.getAddress();
@@ -40,8 +39,6 @@ public class UserJson implements Serializable {
     	createdTime = user.getCreatedTime();
     	lastUpdatedTime = user.getLastUpdatedTime();
     	lastResetPassword = user.getLastResetPassword();
-    	
-    	
     }
 
 	public int getState() {

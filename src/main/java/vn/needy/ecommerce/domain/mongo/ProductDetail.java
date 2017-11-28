@@ -25,13 +25,7 @@ public class ProductDetail implements Serializable {
 	private String gift;
 	private String description;
 	private Map<String, String> attribute;
-	@Field(value = "cover_picture")
-	private BaseFile coverPicture;
-	@Field(value = "parent_product")
-	private List<Long> parentProduct;
-	@Field(value = "child_product")
-	private List<Long> childProduct;
-	
+
 	public ProductDetail() {
 		super();
 	}
@@ -90,30 +84,6 @@ public class ProductDetail implements Serializable {
 
 	public void setAttribute(Map<String, String> attribute) {
 		this.attribute = attribute;
-	}
-
-	public BaseFile getCoverPicture() {
-		return coverPicture;
-	}
-
-	public void setCoverPicture(BaseFile coverPicture) {
-		this.coverPicture = coverPicture;
-	}
-
-	public List<Long> getParentProduct() {
-		return parentProduct;
-	}
-
-	public void setParentProduct(List<Long> parentProduct) {
-		this.parentProduct = parentProduct;
-	}
-
-	public List<Long> getChildProduct() {
-		return childProduct;
-	}
-
-	public void setChildProduct(List<Long> childProduct) {
-		this.childProduct = childProduct;
 	}
 	
 }

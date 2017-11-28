@@ -17,6 +17,10 @@ public class CompanyPicture implements Serializable {
 	private String id;
 	@Field(value = "company_id")
 	private String companyId;
+	@Field(value = "is_primary")
+	private boolean isPrimary;
+	private String title;
+	private String description;
 	@Field(value = "image")
 	private BaseFile image;
 	

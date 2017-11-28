@@ -24,9 +24,9 @@ import vn.needy.ecommerce.api.v1.company.response.CompanyResponse;
 import vn.needy.ecommerce.repository.BudgetRepository;
 import vn.needy.ecommerce.repository.CompanyRepository;
 import vn.needy.ecommerce.repository.CompanyGuaranteeRepository;
-import vn.needy.ecommerce.repository.CompanyStaffResponsitory;
+import vn.needy.ecommerce.repository.CompanyStaffRepository;
 import vn.needy.ecommerce.repository.PayRepository;
-import vn.needy.ecommerce.repository.StoreResponsitory;
+import vn.needy.ecommerce.repository.StoreRepository;
 import vn.needy.ecommerce.repository.UserRoleRepository;
 
 @Service("companiesService")
@@ -39,7 +39,7 @@ public class CompanyServiceImpl implements CompanyService {
 	CompanyRepository companiesRepository;
 	
 	@Autowired
-	StoreResponsitory storesResponsitory;
+	StoreRepository storesRepository;
 	
 	@Autowired
 	BudgetRepository budgetRepository;
@@ -51,7 +51,7 @@ public class CompanyServiceImpl implements CompanyService {
 	CompanyGuaranteeRepository companyReputationRepository;
 	
 	@Autowired
-	CompanyStaffResponsitory companyStaffResponsitory;
+	CompanyStaffRepository companyStaffRepository;
 	
 	@Autowired
 	UserRoleRepository userRoleRepository;
@@ -76,7 +76,7 @@ public class CompanyServiceImpl implements CompanyService {
 		
 		if (findCompany != null) {
 			companyResponse = new CompanyResponse();
-			companyResponse.setStatus(-1);
+			companyResponse.setSuccess(false);
 			companyResponse.setMessage("You can not register 2 company both active.");
 			return companyResponse;
 		}
@@ -118,7 +118,7 @@ public class CompanyServiceImpl implements CompanyService {
 		registerStore.setLat(registerCompanyRequest.getLat());
 		registerStore.setLng(registerCompanyRequest.getLng());
 		registerStore.setLastUpdatedBy(userId);
-		long storeId = storesResponsitory.registerStore(registerStore);
+		long storeId = storesRepository.registerStore(registerStore);
 		
 		// insert into CompanyStaff
 		CompanyStaff staff = new CompanyStaff();
@@ -129,7 +129,7 @@ public class CompanyServiceImpl implements CompanyService {
 		staff.setFcmToken(registerCompanyRequest.getFcmToken());
 		staff.setState(StaffState.ACTIVED.getState());
 		staff.setStatus(StaffStatus.READY.getStatus());
-		companyStaffResponsitory.insertCompanyStaff(staff);
+		companyStaffRepository.insertCompanyStaff(staff);
 		
 		userRoleRepository.registerUserListRole(userId, Role.List.CompanyOwner, userId);
 		
@@ -140,7 +140,7 @@ public class CompanyServiceImpl implements CompanyService {
 			companyJson.setReputation(isCompanyReputation);
 			return new CompanyResponse(companyJson);
 		}
-		companyResponse.setStatus(-1);
+		companyResponse.setSuccess(false);
 		companyResponse.setMessage("Create company is failed.");
 		return companyResponse;
 	}

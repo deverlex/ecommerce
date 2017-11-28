@@ -10,10 +10,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.entity.CompanyStaff;
-import vn.needy.ecommerce.repository.CompanyStaffResponsitory;
+import vn.needy.ecommerce.repository.CompanyStaffRepository;
 
 @Repository("companyStaffResponsitory")
-public class CompanyStaffResponsitoryImpl implements CompanyStaffResponsitory {
+public class CompanyStaffRepositoryImpl implements CompanyStaffRepository {
 
 	private SimpleJdbcInsert insert;
 	

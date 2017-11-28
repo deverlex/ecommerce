@@ -17,6 +17,10 @@ public class StorePicture implements Serializable {
 	private String id;
 	@Field(value = "store_id")
 	private long storeId;
+	@Field(value = "is_primary")
+	private boolean isPrimary;
+	private String title;
+	private String description;
 	private BaseFile image;
 	
 	public StorePicture() {

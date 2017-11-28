@@ -4,10 +4,11 @@
 			"user_picture" : [
 				{
 					"_id" : "",
+					"user_id" : "",
 					"is_primary" : "",
 					"title" : "",
 					"description" : "",
-					"url" : {
+					"image" : {
 						"file_name" : "",
 						"path" : "",
 						"host" : ""
@@ -22,7 +23,7 @@
 					"is_primary" : "",
 					"title" : "",
 					"description" : "",
-					"url" : {
+					"image" : {
 						"file_name" : "",
 						"path" : "",
 						"host" : ""
@@ -37,7 +38,7 @@
 					"is_primary" : "",
 					"title" : "",
 					"description" : "",
-					"url" : {
+					"image" : {
 						"fileName" : "",
 						"path" : "",
 						"host" : ""
@@ -52,7 +53,7 @@
 					"is_primary" : "",
 					"title" : "",
 					"description" : "",
-					"url" : {
+					"image" : {
 						"file_name" : "84968208244_45_12.JPG",
 						"path" : "images/2017/34/Tue/12",
 						"host" : "rsv0001.needy.vn"

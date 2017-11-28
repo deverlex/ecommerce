@@ -8,9 +8,7 @@ import javax.annotation.Nonnull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import vn.needy.ecommerce.common.utils.CipherID;
-import vn.needy.ecommerce.domain.base.BaseFile;
 import vn.needy.ecommerce.domain.entity.Store;
-import vn.needy.ecommerce.domain.mongo.StoreDetail;
 
 public class StoreJson {
 	
@@ -22,8 +20,7 @@ public class StoreJson {
 	private String name;
 	private String address;
 	private String description;
-	private String avatar;
-	private List<String> coverPicture;
+	private String email;
 	private float lat;
 	private float lng;
 	@JsonFormat(pattern = "HH:mm:ss")
@@ -38,7 +35,7 @@ public class StoreJson {
 		super();
 	}
 	
-	public StoreJson(@Nonnull Store store,@Nonnull StoreDetail detail) {
+	public StoreJson(@Nonnull Store store) {
 		id = CipherID.encrypt(store.getId());
 		state = store.getState();
 		status = store.getStatus();
@@ -52,11 +49,6 @@ public class StoreJson {
 		createdTime = store.getCreatedTime();
 		lastUpdatedTime = store.getLastUpdatedTime();
 		lastUpdatedBy = store.getLastUpdatedBy();
-		
-		description = detail.getDescription();
-		BaseFile file = detail.getAvatar();
-		avatar = file.getHost() + "/" + file.getUri() + "/" + file.getFileName();
-		coverPicture = detail.getCoverPicture();
 	}
 
 	public String getId() {
@@ -115,20 +107,12 @@ public class StoreJson {
 		this.description = description;
 	}
 
-	public String getAvatar() {
-		return avatar;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-
-	public List<String> getCoverPicture() {
-		return coverPicture;
-	}
-
-	public void setCoverPicture(List<String> coverPicture) {
-		this.coverPicture = coverPicture;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public float getLat() {

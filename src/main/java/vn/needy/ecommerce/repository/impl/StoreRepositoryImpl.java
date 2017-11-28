@@ -14,11 +14,10 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.entity.Store;
-import vn.needy.ecommerce.domain.mongo.StoreDetail;
-import vn.needy.ecommerce.repository.StoreResponsitory;
+import vn.needy.ecommerce.repository.StoreRepository;
 
 @Repository("storeResponsitory")
-public class StoreResponsitoryImpl implements StoreResponsitory {
+public class StoreRepositoryImpl implements StoreRepository {
 
 	@Autowired
 	JdbcTemplate jdbc;
@@ -79,13 +78,6 @@ public class StoreResponsitoryImpl implements StoreResponsitory {
 			return store;
 		}
 		return null;
-	}
-
-	@Override
-	public StoreDetail getStoreDetail(long storeId) {
-		
-		StoreDetail storeDetail =  mongo.findById(storeId, StoreDetail.class);
-		return storeDetail;
 	}
 
 //	@Override

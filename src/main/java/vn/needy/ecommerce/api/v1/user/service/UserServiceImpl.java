@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 	public UserResponse getUserInfomation(long id) {
 		User user = usersRepository.findUserById(id);
 		UserResponse response = new UserResponse();
-		if (user != null) response.setUser(new UserJson(user, null));
+		if (user != null) response.setUser(new UserJson(user));
 		return response;
 	}
 

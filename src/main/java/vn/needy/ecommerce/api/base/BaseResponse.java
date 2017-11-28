@@ -6,12 +6,12 @@ public class BaseResponse extends BaseModel {
 
 	private static final long serialVersionUID = 1487362522L;
 	
-	protected int status;
+	protected boolean success;
 	protected String message;
 
 	public BaseResponse() {
 		super();
-		this.status = 200;
+		this.success = true;
 		this.message = "Success";
 	}
 	
@@ -19,17 +19,17 @@ public class BaseResponse extends BaseModel {
 		this.message = message;
 	}
 	
-	public BaseResponse(int status, String message) {
-		this.status = status;
+	public BaseResponse(boolean success, String message) {
+		this.success = success;
 		this.message = message;
 	}
 
-	public int getStatus() {
-		return status;
+	public boolean isSuccess() {
+		return success;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 	public String getMessage() {
