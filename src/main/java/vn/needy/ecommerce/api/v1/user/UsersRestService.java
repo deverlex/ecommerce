@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserResponse;
 import vn.needy.ecommerce.api.base.BaseResponse;
@@ -58,15 +59,25 @@ public class UsersRestService {
 	}
 	
 	// Get user info
-	@RequestMapping(value = "${needy.route.users.informations}", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('USER')")
-	public ResponseEntity<UserResponse> getUserInfomation(HttpServletRequest request) {
+	@RequestMapping(value = "${needy.route.users.information}", method = RequestMethod.GET)
+//	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity<UserResponse> getUserInformation(HttpServletRequest request) {
 		long userid = idUtils.getIdentification(request);
 		UserResponse userResponse = userService.getUserInfomation(userid);
 		return ResponseEntity.ok(userResponse);
 	}
 
-	
+	@RequestMapping(value = "${needy.route.users.update_info}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateUserInformation(
+			HttpServletRequest request,
+			@RequestBody UpdateUserInfoRequest updateRequest) {
+		long userid = idUtils.getIdentification(request);
+
+
+		return ResponseEntity.accepted().build();
+	}
+
+
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> demo(HttpServletRequest request) {
