@@ -34,15 +34,17 @@ public class UserRoleRepositoryImpl implements UserRoleRepository {
     }
 	
 	@Override
-	public List<String> findRoleAuthenticationByUserId(long userId) {
-		SqlRowSet rs = jdbc.queryForRowSet("select role_name "
+	public List<String> findRolePermissionByUserId(long userId) {
+		SqlRowSet rs = jdbc.queryForRowSet("select role_name, permission_name "
 				+ "from user_role "
 				+ "where user_id = ?", new Object[] {userId});
-		List<String> roles = new LinkedList<>();
+		List<String> rolePermissions = new LinkedList<>();
 		while(rs.next()) {
-			roles.add(rs.getString("role_name"));
+			String role = rs.getString("role_name");
+			String permission = rs.getString("permission_name");
+			rolePermissions.add(role + "_" + permission);
 		}
-		return roles;
+		return rolePermissions;
 	}
 
 	@Override
