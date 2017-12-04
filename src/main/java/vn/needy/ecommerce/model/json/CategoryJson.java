@@ -8,7 +8,7 @@ public class CategoryJson implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String category;
+	private String name;
 	private String title;
 	private String coverPicture;
 	
@@ -17,16 +17,16 @@ public class CategoryJson implements Serializable {
 	}
 	
 	public CategoryJson(Category category) {
-		this.category = category.getName();
+		this.name = category.getName();
 		
 	}
 
-	public String getCategory() {
-		return category;
+	public String getName() {
+		return name;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getTitle() {

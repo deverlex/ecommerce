@@ -10,13 +10,11 @@ import vn.needy.ecommerce.domain.entity.User;
 public class UserJson implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private int state;
 	private String fullName;
     private String gender;
     private String address;
-    private String avatar;
-    private String coverPicture;
     private String email;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthday;
@@ -71,22 +69,6 @@ public class UserJson implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-
-	public String getCoverPicture() {
-		return coverPicture;
-	}
-
-	public void setCoverPicture(String coverPicture) {
-		this.coverPicture = coverPicture;
 	}
 
 	public String getEmail() {
