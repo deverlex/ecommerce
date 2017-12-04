@@ -2,6 +2,7 @@ package vn.needy.ecommerce.api.v1.user.service;
 
 import org.springframework.mobile.device.Device;
 
+import org.springframework.web.context.request.async.DeferredResult;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserResponse;
@@ -10,12 +11,12 @@ import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
 
 public interface UserService {
 	
-	CertificationResponse registerUser(RegisterUserRequest registerUserRequest, Device device);
+	void registerUser(DeferredResult result, RegisterUserRequest registerUserRequest, Device device);
 	
 	BaseResponse findUserExist(String username);
 	
-	CertificationResponse resetPassword(String username, ResetPasswordRequest resetPasswordRequest, Device device);
+	void resetPassword(DeferredResult result, String username, ResetPasswordRequest resetPasswordRequest, Device device);
 	
-	UserResponse getUserInfomation(long id);
+	UserResponse getUserInformation(long id);
 	
 }

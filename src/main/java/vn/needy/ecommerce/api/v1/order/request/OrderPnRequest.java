@@ -3,7 +3,8 @@ package vn.needy.ecommerce.api.v1.order.request;
 import java.io.Serializable;
 import java.util.Date;
 
-public class OrderRequest implements Serializable {
+public class OrderPnRequest implements Serializable {
+
     private static final long serialVersionUID = 1453535344L;
 
     private long productId;
@@ -17,7 +18,7 @@ public class OrderRequest implements Serializable {
     private Date receiveTo;
     private float fee;
 
-    public OrderRequest() {
+    public OrderPnRequest() {
         super();
     }
 

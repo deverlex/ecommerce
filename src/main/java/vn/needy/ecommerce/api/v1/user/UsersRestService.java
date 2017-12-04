@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.context.request.async.DeferredResult;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
@@ -38,17 +39,20 @@ public class UsersRestService {
 	
 	// User can reset password when they forget
 	@RequestMapping(value = "${needy.route.users.reset}", method = RequestMethod.POST)
-	public ResponseEntity<CertificationResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
+	public DeferredResult<CertificationResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
 			@RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
-		CertificationResponse cert = userService.resetPassword(username, resetPasswordRequest, device);
-		return ResponseEntity.ok(cert);
+		DeferredResult<CertificationResponse> result = new DeferredResult<>();
+		userService.resetPassword(result, username, resetPasswordRequest, device);
+		return result;
 	}
 
 	// Use register new account
 	@RequestMapping(value = "${needy.route.users.registers}", method = RequestMethod.POST)
-	public ResponseEntity<CertificationResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest, Device device) {
-		CertificationResponse cert = userService.registerUser(registerUserRequest, device);
-		return ResponseEntity.ok(cert);
+	public DeferredResult<CertificationResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest, Device device) {
+		DeferredResult<CertificationResponse> result = new DeferredResult<>();
+
+		userService.registerUser(result, registerUserRequest, device);
+		return result;
 	}
 	
 	// Sometime, user's behavior need check account is existed. Example: register/reset password
@@ -63,7 +67,7 @@ public class UsersRestService {
 //	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<UserResponse> getUserInformation(HttpServletRequest request) {
 		long userid = idUtils.getIdentification(request);
-		UserResponse userResponse = userService.getUserInfomation(userid);
+		UserResponse userResponse = userService.getUserInformation(userid);
 		return ResponseEntity.ok(userResponse);
 	}
 
