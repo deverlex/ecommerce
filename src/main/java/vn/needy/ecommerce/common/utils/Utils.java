@@ -11,7 +11,7 @@ public class Utils {
 
         public static InputStream base64ToInputStream(String encodedImage) {
             String imgDataBytes = encodedImage.substring(encodedImage.indexOf(",") + 1);
-            return new ByteArrayInputStream(Base64.getDecoder().decode(imgDataBytes.getBytes(StandardCharsets.UTF_8)));
+            return new ByteArrayInputStream(Base64.getMimeDecoder().decode(imgDataBytes.getBytes(StandardCharsets.UTF_8)));
         }
     }
 }
