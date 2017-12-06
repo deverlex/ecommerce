@@ -72,13 +72,12 @@ public class UsersRestService {
 	}
 
 	@RequestMapping(value = "${needy.route.users.update_info}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateUserInformation(
+	public ResponseEntity<BaseResponse> updateUserInformation(
 			HttpServletRequest request,
 			@RequestBody UpdateUserInfoRequest updateRequest) {
 		long userid = idUtils.getIdentification(request);
-
-
-		return ResponseEntity.accepted().build();
+		BaseResponse response = userService.updateUserInformation(userid, updateRequest);
+		return ResponseEntity.ok(response);
 	}
 
 

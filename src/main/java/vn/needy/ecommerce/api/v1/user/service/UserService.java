@@ -4,6 +4,7 @@ import org.springframework.mobile.device.Device;
 
 import org.springframework.web.context.request.async.DeferredResult;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserResponse;
 import vn.needy.ecommerce.api.base.BaseResponse;
@@ -18,5 +19,6 @@ public interface UserService {
 	void resetPassword(DeferredResult result, String username, ResetPasswordRequest resetPasswordRequest, Device device);
 	
 	UserResponse getUserInformation(long id);
-	
+
+	BaseResponse updateUserInformation(long id, UpdateUserInfoRequest request);
 }
