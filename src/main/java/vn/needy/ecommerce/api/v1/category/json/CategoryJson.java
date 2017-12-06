@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.model.json;
+package vn.needy.ecommerce.api.v1.category.json;
 
 import java.io.Serializable;
 
@@ -10,15 +10,13 @@ public class CategoryJson implements Serializable {
 	
 	private String name;
 	private String title;
-	private String coverPicture;
-	
+
 	public CategoryJson() {
 		super();
 	}
 	
 	public CategoryJson(Category category) {
 		this.name = category.getName();
-		
 	}
 
 	public String getName() {
@@ -37,12 +35,4 @@ public class CategoryJson implements Serializable {
 		this.title = title;
 	}
 
-	public String getCoverPicture() {
-		return coverPicture;
-	}
-
-	public void setCoverPicture(String coverPicture) {
-		this.coverPicture = coverPicture;
-	}
-	
 }

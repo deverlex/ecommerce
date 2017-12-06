@@ -14,98 +14,54 @@ import vn.needy.ecommerce.repository.CategoryRepository;
 @Repository("categoryRepository")
 public class CategoryRepositoriesImpl implements CategoryRepository {
 
-	private static final String PRICE_NOW = "price_now";
-	//private static final String PRICE_LATER ="price_later";
-	
 	@Autowired
 	JdbcTemplate jdbc;
 	
-	@Override
-	public List<Category> getCategoriesPriceNow() {
-		SqlRowSet rs = jdbc.queryForRowSet("select c.* from category c  " + 
-				"left join sub_category sc on c.name = sc.subcategory_name " +
-				"where sc.refcategory_name = ? and c.enable = 1 and sc.is_next = 1", new Object[] {PRICE_NOW});
-		
-		List<Category> categories = new LinkedList<>();
-		while(rs.next()) {
-			Category category = new Category();
-			category.setName(rs.getString("name"));
-			categories.add(category);
-		}
-		return categories;
-	}
 
 	@Override
-	public List<Category> getSubCategories(String preCategory) {
-		SqlRowSet rs = jdbc.queryForRowSet("select c.* from category c " + 
-				"left join sub_category sc on c.name = sc.subcategory_name " +
-				"where sc.refcategory_name = ? and sc.is_next = 1 and c.enable = 1",
+	public List<Category> getLinkCategories(String preCategory) {
+		SqlRowSet rs = jdbc.queryForRowSet("select lc.category_name " +
+						"	from category cat " +
+						"	inner join link_category lc on lc.reference_name = cat.name " +
+						"	inner join category sca on lc.category_name = sca.name " +
+						"where cat.name = ? and cat.enable = 1 " +
+						"and lc.is_next = 1 and sca.enable = 1",
 					new Object[] {preCategory}); 
 	    List<Category> categories = new LinkedList<>(); 
 	    while(rs.next()) {
 	      Category subCategory = new Category(); 
-	      subCategory.setName(rs.getString("name"));
+	      subCategory.setName(rs.getString("category_name"));
 	      categories.add(subCategory); 
 	    }
 	    return categories;
 	}
 
 	@Override
-	public List<Category> getCompanyCategoriesPriceNow(long companyId) {
-		SqlRowSet rs = jdbc.queryForRowSet("select distinct sc1.refcategory_name as refcategory from company com " +
-				"inner join product pr on pr.company_id = com.id " +
-				"inner join category cts on cts.name = pr.category_name " +
-				"inner join sub_category sc1 on sc1.subcategory_name = cts.name " +
-				"left join sub_category sc2 on sc2.subcategory_name = sc1.refcategory_name " +
-				"where com.id = ? and sc1.ref_level = 1 and sc2.refcategory_name = ?",
-					new Object[] {companyId, PRICE_NOW});
-		List<Category> categories = new LinkedList<>();
-		while(rs.next()) {
-			Category category = new Category();
-			category.setName(rs.getString("refcategory"));
-			categories.add(category);
-		}
-		return categories;
-	}
-
-	@Override
-	public List<Category> getCompanySubCategoriesPriceNow(long companyId, String category) {
-		SqlRowSet rs = jdbc.queryForRowSet("select * from category ct " +
+	public List<Category> getCompanyLinkCategories(long companyId, String category) {
+		SqlRowSet rs = jdbc.queryForRowSet("select cat.name from (" +
+				"	select distinct lc.reference_name as reference_name from company c" +
+				"	inner join product p on p.company_id = c.id" +
+				"	inner join category cat on cat.name = p.category_name" +
+				"	inner join link_category lc on lc.category_name = cat.name" +
+				"	where c.id = ? and cat.enable = 1" +
+				") as ct " +
 				"inner join " +
-				"(" + 
-				"	select distinct sct.* from sub_category sct " +
-				"	where sct.subcategory_id in " +
-				"	(" + 
-				"		select distinct sc.subcategory_name from sub_category sc " +
-				"		where sc.refcategory_name = ? and sc.is_next = true " +
-				"   )" + 
-				"	and sct.refcategory_name in " +
-				"	(" + 
-				"		select distinct sc1.refcategory_name from company com " +
-				"		inner join product pr on pr.company_id = com.id " +
-				"		inner join category cts on cts.name = pr.category_id " +
-				"		inner join sub_category sc1 on sc1.subcategory_name = cts.name " +
-				"		left join sub_category sc2 on sc2.subcategory_name = sc1.refcategory_name " +
-				"		where com.id = ? and sc1.ref_level = 1 and sc2.refcategory_name = ? " +
-				"	)" + 
-				") as sub " +
-				"on ct.name = sub.subcategory_name " +
-				"where ct.enable = true",
-			new Object[] {category, companyId, PRICE_NOW});
+				"(" +
+				"	select distinct lc.category_name as category_name, lc.is_next as is_next " +
+				"	from category cat" +
+				"   inner join link_category lc on lc.reference_name = cat.name" +
+				"   where cat.name = ? and cat.enable = 1" +
+				") as rt " +
+				"on ct.reference_name = rt.category_name " +
+				"inner join category cat on rt.category_name = cat.name " +
+				"where rt.is_next = 1 and cat.enable = 1", new Object[] {companyId, category});
 		List<Category> categories = new LinkedList<>();
 		while(rs.next()) {
-			Category subCategory = new Category();
-			subCategory.setName(rs.getString("category_id"));
-			categories.add(subCategory);
+			Category cat = new Category();
+			cat.setName(rs.getString("name"));
+			categories.add(cat);
 		}
 		return categories;
-	}
-	
-	
-	@Override
-	public List<Category> getCategoriesPriceLater() {
-		
-		return null;
 	}
 
 }

@@ -1,7 +1,7 @@
 # DataSource settings: set here your own configurations for the database connection.
 jdbc:
   driverClassName: com.mysql.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/needy?autoReconnect=true&useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&useLegacyDatetimeCode=false
+  url: jdbc:mysql://192.168.0.103:3306/needy?autoReconnect=true&useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&useLegacyDatetimeCode=false
   username: root
   password: root
   connectionProperties: useUnicode=true;characterEncoding=utf-8;CharSet=utf8mb4 
@@ -75,11 +75,11 @@ needy:
       price_now:
         lists: pn/categories #?company_id= |GET - get categories of company
                              # |GET - get all categories
-        sublists: pn/categories/{category} #?company_id= |GET - get subcategories of category and company
+        link_lists: pn/categories/{category} #?company_id= |GET - get subcategories of category and company
                                            # |GET - get all subcategories of category
       price_later:      
         lists: pl/categories
-        sublists: pl/categories/{category}
+        link_lists: pl/categories/{category}
 
     products:
       price_now:
