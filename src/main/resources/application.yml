@@ -72,14 +72,8 @@ needy:
       infomation: stores # GET
 
     categories:
-      price_now:
-        lists: pn/categories #?company_id= |GET - get categories of company
-                             # |GET - get all categories
-        link_lists: pn/categories/{category} #?company_id= |GET - get subcategories of category and company
-                                           # |GET - get all subcategories of category
-      price_later:      
-        lists: pl/categories
-        link_lists: pl/categories/{category}
+      lists: categories/{category} #?company_id= |GET - get link categories of category and company
+                                      # |GET - get all link categories of category
 
     products:
       price_now:

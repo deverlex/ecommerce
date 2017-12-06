@@ -20,37 +20,18 @@ public class CategoryRestService {
 	@Autowired
 	CategoryService categoryService;
 	
-	// v1/pn/categories  - Get all categories
-	// v1/pn/categories?company_id=  - Get all categories of company 
-	@RequestMapping(value = "${needy.route.categories.price_now.lists}", method = RequestMethod.GET)
-	public ResponseEntity<?> getCategoriesPriceNow(
-			@RequestParam(value = "company_id", required = false) String companyId) {
-		ListCategoryResponse response = null;
-		if (TextUtils.isEmpty(companyId)) {
-			// Get all categories price now
-			response = categoryService.getLinkCategories(Constance.PRICE_NOW);
-			
-		} else {
-			// Get categories of company
-			long id = CipherID.decrypt(companyId);
-			response = categoryService.getCompanyLinkCategories(id, Constance.PRICE_NOW);
-		}
-
-		return ResponseEntity.ok(response);
-	}
-	
-	@RequestMapping(value = "${needy.route.categories.price_now.link_lists}", method = RequestMethod.GET)
-	// v1/pn/categories/{category}
-	// v1/pn/categories/{category}?company_id=
+	@RequestMapping(value = "${needy.route.categories.lists}", method = RequestMethod.GET)
+	// v1/categories/{category}
+	// v1/categories/{category}?company_id=
 	public ResponseEntity<?> getSubCategoriesPriceNow(
 			@PathVariable(value = "category") String category,
 			@RequestParam(value = "company_id", required = false) String companyId) {
 		ListCategoryResponse response = null;
 		if (TextUtils.isEmpty(companyId)) {
-			// Get all subCategories
+			// Get all link categories
 			response = categoryService.getLinkCategories(category);
 		} else {
-			// Get subCategories of company
+			// Get link categories of company
 			long id = CipherID.decrypt(companyId);
 			response = categoryService.getCompanyLinkCategories(id, category);
 		}
