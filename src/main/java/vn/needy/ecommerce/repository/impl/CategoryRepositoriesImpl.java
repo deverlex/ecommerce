@@ -18,23 +18,21 @@ public class CategoryRepositoriesImpl implements CategoryRepository {
 	JdbcTemplate jdbc;
 
 	@Override
-	public List<Category> getLinkCategories(String preCategory) {
+	public List<String> getLinkCategories(String preCategory) {
 		SqlRowSet rs = jdbc.queryForRowSet("select category_name " +
 						"from link_category " +
 						"where reference_name = ? " +
 						"and is_next = 1",
-					new Object[] {preCategory}); 
-	    List<Category> categories = new LinkedList<>(); 
-	    while(rs.next()) {
-	      Category category = new Category();
-	      category.setName(rs.getString("category_name"));
-	      categories.add(category);
-	    }
-	    return categories;
+					new Object[] {preCategory});
+		List<String> categories = new LinkedList<>();
+		while(rs.next()) {
+			categories.add(rs.getString("category_name"));
+		}
+		return categories;
 	}
 
 	@Override
-	public List<Category> getCompanyLinkCategories(long companyId, String category) {
+	public List<String> getCompanyLinkCategories(long companyId, String category) {
 		SqlRowSet rs = jdbc.queryForRowSet("select rt.category_name from " +
 				"(" +
 				"	select distinct lc.reference_name as reference_name from company c" +
@@ -49,11 +47,24 @@ public class CategoryRepositoriesImpl implements CategoryRepository {
 				"   where reference_name = ? and is_next = 1" +
 				") as rt " +
 				"on rt.category_name = ct.reference_name", new Object[] {companyId, category});
-		List<Category> categories = new LinkedList<>();
+		List<String> categories = new LinkedList<>();
 		while(rs.next()) {
-			Category cat = new Category();
-			cat.setName(rs.getString("category_name"));
-			categories.add(cat);
+			categories.add(rs.getString("category_name"));
+		}
+		return categories;
+	}
+
+	@Override
+	public List<String> getParentCategories(String preCategory) {
+		SqlRowSet rs = jdbc.queryForRowSet("select distinct lc3.* from link_category lc1 " +
+				"inner join link_category lc2 on lc2.category_name = lc1.reference_name " +
+				"inner join category cat on cat.name = lc2.reference_name " +
+				"inner join link_category lc3 on lc3.reference_name = cat.name " +
+				"where lc1.category_name = ? and lc1.is_next = 1 " +
+				"and lc2.is_next = 1 and lc3.is_next = 1", new Object[] {preCategory});
+		List<String> categories = new LinkedList<>();
+		while(rs.next()) {
+			categories.add(rs.getString("category_name"));
 		}
 		return categories;
 	}

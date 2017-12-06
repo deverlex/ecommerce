@@ -20,9 +20,9 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public ListCategoryResponse getLinkCategories(String category) {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
-		List<Category> categories = categoriesRepository.getLinkCategories(category);
-		for(Category subCategories : categories) {
-			categoriesJson.add(new CategoryJson(subCategories));
+		List<String> categories = categoriesRepository.getLinkCategories(category);
+		for(String cat : categories) {
+			categoriesJson.add(new CategoryJson(cat));
 		}
 		ListCategoryResponse response = new ListCategoryResponse();
 		response.setCategories(categoriesJson);
@@ -32,9 +32,9 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public ListCategoryResponse getCompanyLinkCategories(long companyId, String category) {
 		List<CategoryJson> categoriesJson = new LinkedList<>();
-		List<Category> categories = categoriesRepository.getCompanyLinkCategories(companyId, category);
-		for(Category subCategories : categories) {
-			categoriesJson.add(new CategoryJson(subCategories));
+		List<String> categories = categoriesRepository.getCompanyLinkCategories(companyId, category);
+		for(String cat : categories) {
+			categoriesJson.add(new CategoryJson(cat));
 		}
 		ListCategoryResponse response = new ListCategoryResponse();
 		response.setCategories(categoriesJson);

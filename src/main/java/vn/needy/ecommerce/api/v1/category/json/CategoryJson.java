@@ -15,8 +15,8 @@ public class CategoryJson implements Serializable {
 		super();
 	}
 	
-	public CategoryJson(Category category) {
-		this.name = category.getName();
+	public CategoryJson(String category) {
+		this.name = category;
 	}
 
 	public String getName() {

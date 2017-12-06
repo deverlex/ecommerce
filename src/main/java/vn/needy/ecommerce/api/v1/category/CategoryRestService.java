@@ -23,7 +23,7 @@ public class CategoryRestService {
 	@RequestMapping(value = "${needy.route.categories.lists}", method = RequestMethod.GET)
 	// v1/categories/{category}
 	// v1/categories/{category}?company_id=
-	public ResponseEntity<?> getSubCategoriesPriceNow(
+	public ResponseEntity<?> getLinkCategories(
 			@PathVariable(value = "category") String category,
 			@RequestParam(value = "company_id", required = false) String companyId) {
 		ListCategoryResponse response = null;
