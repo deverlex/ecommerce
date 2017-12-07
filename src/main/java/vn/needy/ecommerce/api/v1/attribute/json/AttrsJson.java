@@ -1,5 +1,7 @@
 package vn.needy.ecommerce.api.v1.attribute.json;
 
+import vn.needy.ecommerce.domain.entity.Attribute;
+
 import java.io.Serializable;
 
 public class AttrsJson implements Serializable {
@@ -8,13 +10,15 @@ public class AttrsJson implements Serializable {
 
     private String name;
     private String title;
+    private int dataType;
 
     public AttrsJson() {
         super();
     }
 
-    public AttrsJson(String category) {
-        this.name = category;
+    public AttrsJson(Attribute attribute) {
+        this.name = attribute.getName();
+        this.dataType = attribute.getDataType();
     }
 
     public String getName() {
@@ -31,5 +35,13 @@ public class AttrsJson implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(int dataType) {
+        this.dataType = dataType;
     }
 }

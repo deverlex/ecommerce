@@ -12,12 +12,17 @@ public class Attribute extends BaseDomain {
 
 	private String name;
 	private boolean enable;
-	private short dataType;
+	private int dataType;
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 
 	public Attribute() {
 		super();
+	}
+
+	public Attribute(String name, int dataType) {
+		this.name = name;
+		this.dataType = dataType;
 	}
 
 	public String getName() {
@@ -36,11 +41,11 @@ public class Attribute extends BaseDomain {
 		this.enable = enable;
 	}
 
-	public short getDataType() {
+	public int getDataType() {
 		return dataType;
 	}
 
-	public void setDataType(short dataType) {
+	public void setDataType(int dataType) {
 		this.dataType = dataType;
 	}
 
