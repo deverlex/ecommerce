@@ -130,7 +130,8 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public boolean updateUserInformation(long id, UpdateUserInfoRequest updateUserInfoRequest) {
-		return jdbc.update("update user set full_name = ?, address = ?, birthday = ?, gender = ?, email = ?, lat = ?, lng = ?" +
+		return jdbc.update("update user set full_name = ?, address = ?, birthday = ?, " +
+				"gender = ?, email = ?, lat = ?, lng = ?" +
 				"where id = ?",
 				new Object[]{updateUserInfoRequest.getName(),
 						updateUserInfoRequest.getAddress(),
