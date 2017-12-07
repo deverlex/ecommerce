@@ -12,7 +12,7 @@ public class Attribute extends BaseDomain {
 
 	private String name;
 	private boolean enable;
-	
+	private short dataType;
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 
@@ -34,6 +34,14 @@ public class Attribute extends BaseDomain {
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
+	}
+
+	public short getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(short dataType) {
+		this.dataType = dataType;
 	}
 
 	public Date getLastUpdatedTime() {

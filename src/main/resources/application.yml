@@ -67,9 +67,11 @@ needy:
       registers: companies # POST - post new company
       #staffs:
       #  fcms: companies/{company_id}/staffs/fcm_tokens # PUT update token
+      update_info: companies/{company_id} # PUT - update company info
 
     stores:
       infomation: stores # GET
+      update_info: stores/{store_id} # PUT - update store info
 
     categories:
       lists: categories/{category} #?company_id= |GET - get link categories of category and company
