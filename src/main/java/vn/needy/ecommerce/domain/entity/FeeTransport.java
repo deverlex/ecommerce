@@ -12,8 +12,9 @@ public class FeeTransport extends BaseDomain {
 	
 	private long id;
 	private long companyId;
-	private float distanceFrom;
-	private float distanceTo;
+	private short feeType;
+	private float from;
+	private float to;
 	private float fee;
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
@@ -38,20 +39,28 @@ public class FeeTransport extends BaseDomain {
 		this.companyId = companyId;
 	}
 
-	public float getDistanceFrom() {
-		return distanceFrom;
+	public short getFeeType() {
+		return feeType;
 	}
 
-	public void setDistanceFrom(float distanceFrom) {
-		this.distanceFrom = distanceFrom;
+	public void setFeeType(short feeType) {
+		this.feeType = feeType;
 	}
 
-	public float getDistanceTo() {
-		return distanceTo;
+	public float getFrom() {
+		return from;
 	}
 
-	public void setDistanceTo(float distanceTo) {
-		this.distanceTo = distanceTo;
+	public void setFrom(float from) {
+		this.from = from;
+	}
+
+	public float getTo() {
+		return to;
+	}
+
+	public void setTo(float to) {
+		this.to = to;
 	}
 
 	public float getFee() {
