@@ -1,6 +1,7 @@
 package vn.needy.ecommerce.repository;
 
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.domain.entity.User;
 
 public interface UserRepository {
@@ -23,5 +24,6 @@ public interface UserRepository {
 	User findUserByUsernameForResetPassword(String username);
 	
 	boolean updatePasswordByUserId(long id, String password);
-	
+
+	boolean updateUserInformation(long id, UpdateUserInfoRequest updateUserInfoRequest);
 }
