@@ -81,3 +81,6 @@ needy:
         images:
           add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
           update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product
+
+    attributes:
+      lists: attributes #?category_name= |GET - all attribute of category

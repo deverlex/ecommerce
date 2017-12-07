@@ -2,11 +2,9 @@ package vn.needy.ecommerce.api.v1.category.json;
 
 import java.io.Serializable;
 
-import vn.needy.ecommerce.domain.entity.Category;
-
 public class CategoryJson implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 153425646L;
 	
 	private String name;
 	private String title;
