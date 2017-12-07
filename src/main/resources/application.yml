@@ -57,8 +57,9 @@ needy:
       find: users/find #?username= |GET - Check account exist
       reset: users/reset #?username= |POST - reset password
       #passwords:
-      #  update: users/{username}/passwords #PUT: update pass
-      informations: users # GET get account info DELETE: delete account
+#      update: users/{username}/passwords #PUT: update pass
+      information: users # GET get account info DELETE: delete account
+      update_info: users # PUT update info account
       #active: users/activeness # POST active user account
 
     companies:

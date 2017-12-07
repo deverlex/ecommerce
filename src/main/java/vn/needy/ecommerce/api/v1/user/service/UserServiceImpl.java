@@ -16,6 +16,7 @@ import com.google.firebase.tasks.OnSuccessListener;
 
 import org.springframework.web.context.request.async.DeferredResult;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserResponse;
 import vn.needy.ecommerce.common.utils.TextUtils;
@@ -125,6 +126,15 @@ public class UserServiceImpl implements UserService {
 		User user = usersRepository.findUserById(id);
 		UserResponse response = new UserResponse();
 		if (user != null) response.setUser(new UserJson(user));
+		return response;
+	}
+
+	@Override
+	public BaseResponse updateUserInformation(long id, UpdateUserInfoRequest request) {
+		boolean isUpdate = usersRepository.updateUserInformation(id, request);
+		BaseResponse response = new BaseResponse();
+		response.setSuccess(isUpdate);
+		response.setMessage(isUpdate ? "Update completed" : "Update failed");
 		return response;
 	}
 

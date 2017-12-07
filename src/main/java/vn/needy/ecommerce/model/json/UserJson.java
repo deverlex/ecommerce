@@ -34,6 +34,9 @@ public class UserJson implements Serializable {
     	address = user.getAddress();
     	lat = user.getLat();
     	lng = user.getLng();
+    	email = user.getEmail();
+    	birthday = user.getBirthday();
+    	gender = user.getGender();
     	createdTime = user.getCreatedTime();
     	lastUpdatedTime = user.getLastUpdatedTime();
     	lastResetPassword = user.getLastResetPassword();
