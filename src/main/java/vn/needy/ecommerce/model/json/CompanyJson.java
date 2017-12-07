@@ -31,6 +31,9 @@ public class CompanyJson implements Serializable {
 	private Date createdTime;
 	private Date lastUpdatedTime;
 	private boolean isReputation;
+	private String email;
+	private float lat;
+	private float lng;
 	
 	ObjectMapper mapper;
 	
@@ -46,6 +49,14 @@ public class CompanyJson implements Serializable {
 		this.createdTime = company.getCreatedTime();
 		this.lastUpdatedTime = company.getLastUpdatedTime();
 		this.isReputation = false;
+		this.email = company.getEmail();
+		this.foundedDate = company.getFoundedDate();
+		this.openingTime = company.getOpeningTime();
+		this.closingTime = company.getClosingTime();
+		this.description = company.getDescription();
+		this.siteUrl = company.getSiteUrl();
+		this.lat = company.getLat();
+		this.lng = company.getLng();
 	}
 
 	public String getId() {
@@ -167,5 +178,32 @@ public class CompanyJson implements Serializable {
 	public void setReputation(boolean isReputation) {
 		this.isReputation = isReputation;
 	}
-	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public float getLat() {
+		return lat;
+	}
+
+	public void setLat(float lat) {
+		this.lat = lat;
+	}
+
+	public float getLng() {
+		return lng;
+	}
+
+	public void setLng(float lng) {
+		this.lng = lng;
+	}
 }
