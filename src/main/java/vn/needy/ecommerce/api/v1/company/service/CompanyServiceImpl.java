@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.domain.entity.Budget;
 import vn.needy.ecommerce.domain.entity.Company;
@@ -145,5 +147,14 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyResponse;
 	}
 
-	
+	@Override
+	public BaseResponse updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest) {
+		boolean isUpdate = companiesRepository.updateCompanyInformation(id, infoRequest);
+		BaseResponse response = new BaseResponse();
+		response.setSuccess(isUpdate);
+		response.setMessage(isUpdate ? "Update completed" : "Update failed");
+		return response;
+	}
+
+
 }
