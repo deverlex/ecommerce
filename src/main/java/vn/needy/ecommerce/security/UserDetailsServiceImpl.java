@@ -38,12 +38,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			usersRepository.updateUserState(user.getId(), UserState.ACTIVE.getState());
 		}
 		
-		List<String> roles = userRoleRepository.findRoleAuthenticationByUserId(user.getId());
+		List<String> rolePermissions = userRoleRepository.findRolePermissionByUserId(user.getId());
 		
-		if (user == null || roles == null) {
+		if (user == null || rolePermissions == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
-        	return UserLicenseFactory.create(user, roles);
+        	return UserLicenseFactory.create(user, rolePermissions);
         }
 	}
 	

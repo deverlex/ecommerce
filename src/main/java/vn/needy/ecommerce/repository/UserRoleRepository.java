@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface UserRoleRepository {
 	
-	List<String> findRoleAuthenticationByUserId(long userId);
+	List<String> findRolePermissionByUserId(long userId);
 	
 	long registerUserRole(long userId, String role, long lastUpdatedBy);
 	
