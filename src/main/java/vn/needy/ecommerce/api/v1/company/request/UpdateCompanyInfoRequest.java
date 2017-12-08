@@ -1,5 +1,7 @@
 package vn.needy.ecommerce.api.v1.company.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,8 +11,11 @@ public class UpdateCompanyInfoRequest implements Serializable {
     private String description;
     private String siteURL;
     private String email;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date foundedDate;
+    @JsonFormat(pattern = "HH:mm")
     private Date openingTime;
+    @JsonFormat(pattern = "HH:mm")
     private Date closingTime;
     private float lat;
     private float lng;

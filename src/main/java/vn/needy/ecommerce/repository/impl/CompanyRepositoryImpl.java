@@ -48,8 +48,8 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 			company.setCreatedTime(rs.getDate("created_time"));
 			company.setLastUpdatedTime(rs.getDate("last_updated_time"));
 			company.setFoundedDate(rs.getDate("founded_date"));
-			company.setOpeningTime(rs.getDate("opening_time"));
-			company.setClosingTime(rs.getDate("closing_time"));
+			company.setOpeningTime(rs.getTimestamp("opening_time"));
+			company.setClosingTime(rs.getTimestamp("closing_time"));
 			company.setDescription(rs.getString("description"));
 			company.setSiteUrl(rs.getString("site_url"));
 			company.setLat(rs.getFloat("lat"));

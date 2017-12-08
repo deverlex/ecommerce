@@ -19,10 +19,11 @@ public class CompanyJson implements Serializable {
 	private int state;
 	private String name;
 	private String address;
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private Date foundedDate;
-	@JsonFormat(pattern = "HH:mm:ss")
+	@JsonFormat(pattern = "HH:mm")
 	private Date openingTime;
-	@JsonFormat(pattern = "HH:mm:ss")
+	@JsonFormat(pattern = "HH:mm")
 	private Date closingTime;
 	private String avatar;
 	private List<String> pictures;
