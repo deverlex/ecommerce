@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
 import vn.needy.ecommerce.domain.entity.Company;
 import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.repository.CompanyRepository;
@@ -69,4 +70,21 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 		return insert.executeAndReturnKey(params).longValue();
 	}
 
+	@Override
+	public boolean updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest) {
+		return jdbc.update("update company set name = ?, address = ?, description = ?, " +
+						"site_url = ?, email = ?, lat = ?, lng = ?, " +
+						"founded_date = ?, opening_time = ?, closing_time = ? " +
+						"where id = ?",
+				new Object[]{infoRequest.getName(),
+						infoRequest.getAddress(),
+						infoRequest.getDescription(),
+						infoRequest.getSiteURL(),
+						infoRequest.getEmail(),
+						infoRequest.getLat(),
+						infoRequest.getLng(),
+						infoRequest.getFoundedDate(),
+						infoRequest.getOpeningTime(),
+						infoRequest.getClosingTime(), id}) == 1;
+	}
 }
