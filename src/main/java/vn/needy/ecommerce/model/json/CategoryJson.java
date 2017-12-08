@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.api.v1.category.json;
+package vn.needy.ecommerce.model.json;
 
 import java.io.Serializable;
 

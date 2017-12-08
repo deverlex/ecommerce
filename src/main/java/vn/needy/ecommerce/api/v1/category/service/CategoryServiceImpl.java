@@ -6,8 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.needy.ecommerce.domain.entity.Category;
-import vn.needy.ecommerce.api.v1.category.json.CategoryJson;
+import vn.needy.ecommerce.model.json.CategoryJson;
 import vn.needy.ecommerce.api.v1.category.response.ListCategoryResponse;
 import vn.needy.ecommerce.repository.CategoryRepository;
 

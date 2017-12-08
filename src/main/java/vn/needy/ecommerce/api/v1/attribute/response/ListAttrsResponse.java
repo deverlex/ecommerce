@@ -1,7 +1,7 @@
 package vn.needy.ecommerce.api.v1.attribute.response;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.api.v1.attribute.json.AttrsJson;
+import vn.needy.ecommerce.model.json.AttrsJson;
 
 import java.util.List;
 

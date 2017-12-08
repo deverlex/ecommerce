@@ -2,7 +2,7 @@ package vn.needy.ecommerce.api.v1.attribute.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vn.needy.ecommerce.api.v1.attribute.json.AttrsJson;
+import vn.needy.ecommerce.model.json.AttrsJson;
 import vn.needy.ecommerce.api.v1.attribute.response.ListAttrsResponse;
 import vn.needy.ecommerce.domain.entity.Attribute;
 import vn.needy.ecommerce.repository.AttributeRepository;

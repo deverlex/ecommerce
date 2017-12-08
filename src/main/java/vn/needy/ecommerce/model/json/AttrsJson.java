@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.api.v1.attribute.json;
+package vn.needy.ecommerce.model.json;
 
 import vn.needy.ecommerce.domain.entity.Attribute;
 
