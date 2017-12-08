@@ -42,8 +42,17 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 			company.setId(rs.getLong("id"));
 			company.setState(rs.getInt("state"));
 			company.setName(rs.getString("name"));
+			company.setEmail(rs.getString("email"));
+			company.setAddress(rs.getString("address"));
 			company.setCreatedTime(rs.getDate("created_time"));
 			company.setLastUpdatedTime(rs.getDate("last_updated_time"));
+			company.setFoundedDate(rs.getDate("founded_date"));
+			company.setOpeningTime(rs.getDate("opening_time"));
+			company.setClosingTime(rs.getDate("closing_time"));
+			company.setDescription(rs.getString("description"));
+			company.setSiteUrl(rs.getString("site_url"));
+			company.setLat(rs.getFloat("lat"));
+			company.setLng(rs.getFloat("lng"));
 			return company;
 		}
 		return null;
