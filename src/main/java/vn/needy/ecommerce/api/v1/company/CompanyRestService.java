@@ -25,7 +25,6 @@ public class CompanyRestService {
 	private CompanyService companyService;
 	
 	@RequestMapping(value= "${needy.route.companies.infomation}", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<CompanyResponse> findCompanyInformation(HttpServletRequest request) {
 		Long userId = idUtils.getIdentification(request);
 		CompanyResponse companyResponse = companyService.findCompanyInformation(userId);
@@ -33,7 +32,6 @@ public class CompanyRestService {
 	}
 	
 	@RequestMapping(value= "${needy.route.companies.registers}", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<CompanyResponse> registerCompany(HttpServletRequest request, 
 			@RequestBody RegisterCompanyRequest registerCompanyRequest) {
 		Long userId = idUtils.getIdentification(request);
@@ -42,7 +40,6 @@ public class CompanyRestService {
 	}
 
 	@RequestMapping(value = "${needy.route.companies.update_info}", method = RequestMethod.PUT)
-	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<BaseResponse> updateCompanyInformation(@PathVariable(value = "company_id") String compantId,
 																 @RequestBody UpdateCompanyInfoRequest infoRequest) {
 		long id = CipherID.decrypt(compantId);
