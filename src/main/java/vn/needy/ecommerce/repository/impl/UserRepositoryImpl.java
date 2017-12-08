@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.repository.UserRepository;
@@ -27,7 +28,6 @@ public class UserRepositoryImpl implements UserRepository {
 	MongoTemplate mongo;
 	
 	private SimpleJdbcInsert insert;
-
 	
 	@Autowired
     public void setDataSource(DataSource dataSource) {
@@ -87,7 +87,7 @@ public class UserRepositoryImpl implements UserRepository {
 	@Override
 	public User findUserById(long id) {
 		SqlRowSet rs = jdbc.queryForRowSet("select state, full_name, address, "
-				+ "lat, lng, created_time, last_updated_time, last_reset_password "
+				+ "lat, lng, birthday, gender, email, created_time, last_updated_time, last_reset_password "
 				+ "from user "
 				+ "where id = ?", new Object[]{id});
 		if (rs.first()) {
@@ -97,6 +97,9 @@ public class UserRepositoryImpl implements UserRepository {
 			user.setAddress(rs.getString("address"));
 			user.setLat(rs.getFloat("lat"));
 			user.setLng(rs.getFloat("lng"));
+			user.setEmail(rs.getString("email"));
+			user.setGender(rs.getString("gender"));
+			user.setBirthday(rs.getDate("birthday"));
 			user.setCreatedTime(rs.getTimestamp("created_time"));
 			user.setLastUpdatedTime(rs.getTimestamp("last_updated_time"));
 			user.setLastResetPassword(rs.getTimestamp("last_reset_password"));
@@ -123,6 +126,20 @@ public class UserRepositoryImpl implements UserRepository {
 	public boolean updatePasswordByUserId(long id, String password) {
 		return jdbc.update("update user set password = ? where id = ?",
 				new Object[] {password, id}) == 1;
+	}
+
+	@Override
+	public boolean updateUserInformation(long id, UpdateUserInfoRequest updateUserInfoRequest) {
+		return jdbc.update("update user set full_name = ?, address = ?, birthday = ?, " +
+				"gender = ?, email = ?, lat = ?, lng = ?" +
+				"where id = ?",
+				new Object[]{updateUserInfoRequest.getName(),
+						updateUserInfoRequest.getAddress(),
+						updateUserInfoRequest.getBirthday(),
+						updateUserInfoRequest.getGender(),
+						updateUserInfoRequest.getEmail(),
+						updateUserInfoRequest.getLat(),
+						updateUserInfoRequest.getLng(), id}) == 1;
 	}
 
 }

@@ -2,11 +2,13 @@ package vn.needy.ecommerce.configuration;
 
 import javax.sql.DataSource;
 
+import com.zaxxer.hikari.HikariConfig;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -38,10 +40,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.mongodb.MongoClient;
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import redis.clients.jedis.JedisPoolConfig;
+
+import java.util.Properties;
 
 @Configuration
 @ComponentScan
@@ -76,25 +79,23 @@ public class ApplicationDatabaseConfiguration {
     @Bean
     public DataSource dataSource()
     {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(enviroment.getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(enviroment.getProperty("jdbc.url"));
-        dataSource.setUsername(enviroment.getProperty("jdbc.username"));
-        dataSource.setPassword(enviroment.getProperty("jdbc.password"));
-        dataSource.setConnectionProperties(enviroment.getProperty("jdbc.connectionProperties"));
-        
-        // Connection pool MySQL
-        HikariConfig config = new HikariConfig();
-        config.setDataSource(dataSource);
-        config.addDataSourceProperty("minimumIdle", "16");
-        config.addDataSourceProperty("maximumPoolSize", "32");
-    	config.addDataSourceProperty("cachePrepStmts", "true");
-    	config.addDataSourceProperty("prepStmtCacheSize", "250");
-    	config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        
-    	HikariDataSource ds = new HikariDataSource(config);
-    	
-        return ds;
+		HikariConfig config = new HikariConfig();
+		config.setDriverClassName(enviroment.getProperty("jdbc.driverClassName"));
+		config.setJdbcUrl(enviroment.getProperty("jdbc.url"));
+		config.setUsername(enviroment.getProperty("jdbc.username"));
+		config.setPassword(enviroment.getProperty("jdbc.password"));
+
+		config.setMinimumIdle(16);
+		config.setMaximumPoolSize(32);
+
+    	Properties properties = new Properties();
+		properties.put("useUnicode", true);
+		properties.put("characterEncoding", "utf-8");
+		properties.put("CharSet", "utf8mb4");
+
+		config.setDataSourceProperties(properties);
+
+        return new HikariDataSource(config);
     }
     
     // Configuration for MongoDB
