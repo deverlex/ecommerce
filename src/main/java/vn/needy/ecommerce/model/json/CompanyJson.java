@@ -25,8 +25,6 @@ public class CompanyJson implements Serializable {
 	private Date openingTime;
 	@JsonFormat(pattern = "HH:mm")
 	private Date closingTime;
-	private String avatar;
-	private List<String> pictures;
 	private String description;
 	private String siteUrl;
 	private Date createdTime;
@@ -122,22 +120,6 @@ public class CompanyJson implements Serializable {
 
 	public void setClosingTime(Date closingTime) {
 		this.closingTime = closingTime;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-
-	public List<String> getPictures() {
-		return pictures;
-	}
-
-	public void setPictures(List<String> pictures) {
-		this.pictures = pictures;
 	}
 
 	public String getDescription() {
