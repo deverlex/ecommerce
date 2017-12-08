@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +54,15 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
             try {
                 username = tokenUtils.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
-                logger.error("an error occured during getting username from token", e);
+                logger.error("an error occurred during getting username from token", e);
             } catch (ExpiredJwtException e) {
                 logger.warn("the token is expired and not valid anymore", e);
+            } catch (SignatureException e) {
+                logger.error("the token is not match locally computed signature", e);
+            } catch (MalformedJwtException e) {
+                logger.error("Unable to read JSON value", e);
+            } catch (Exception e) {
+                logger.error("Can not find error", e);
             }
         } else {
             logger.warn("couldn't find bearer string, will ignore the header");
