@@ -6,13 +6,9 @@ import vn.needy.ecommerce.domain.entity.Category;
 
 public interface CategoryRepository {
 
-	List<Category> getCategoriesPriceNow();
-	
-	List<Category> getSubCategories(String preCategory);
-	
-	List<Category> getCompanyCategoriesPriceNow(long companyId);
-	
-	List<Category> getCompanySubCategoriesPriceNow(long companyId, String preCategory);
-	
-	List<Category> getCategoriesPriceLater();
+	List<String> getLinkCategories(String preCategory);
+
+	List<String> getCompanyLinkCategories(long companyId, String preCategory);
+
+	List<String> getParentCategories(String preCategory);
 }

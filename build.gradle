@@ -92,6 +92,6 @@ dependencies {
     
     // Firebase Auth
     compile ("com.google.firebase:firebase-admin:${FIRBASE_ADMIN_VERSION}")
-    compile 'com.google.guava:guava:23.1-jre'
+    compile ("com.google.guava:guava:23.1-jre")
 
 }

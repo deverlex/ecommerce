@@ -3,7 +3,7 @@ package vn.needy.ecommerce.api.v1.category.response;
 import java.util.List;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.model.json.CategoryJson;
+import vn.needy.ecommerce.api.v1.category.json.CategoryJson;
 
 public class ListCategoryResponse extends BaseResponse {
 
