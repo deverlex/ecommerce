@@ -3,9 +3,12 @@ package vn.needy.ecommerce.repository;
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
 import vn.needy.ecommerce.domain.entity.Company;
 
+import java.util.Map;
+
 public interface CompanyRepository {
 	
 	Company findCompanyInformationByUserId(long userId);
+	Map getInfoByUserId(long UserId);
 	
 	long registerCompany(Company company);
 

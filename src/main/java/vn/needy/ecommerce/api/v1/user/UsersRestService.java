@@ -65,10 +65,10 @@ public class UsersRestService {
 	// Get user info
 	@RequestMapping(value = "${needy.route.users.information}", method = RequestMethod.GET)
 //	@PreAuthorize("hasRole('USER')")
-	public ResponseEntity<UserResponse> getUserInformation(HttpServletRequest request) {
+	public ResponseEntity<BaseResponse> getUserInformation(HttpServletRequest request) {
 		long userid = idUtils.getIdentification(request);
-		UserResponse userResponse = userService.getUserInformation(userid);
-		return ResponseEntity.ok(userResponse);
+		BaseResponse response = userService.getUserInformation(userid);
+		return ResponseEntity.ok(response);
 	}
 
 	@RequestMapping(value = "${needy.route.users.update_info}", method = RequestMethod.PUT)

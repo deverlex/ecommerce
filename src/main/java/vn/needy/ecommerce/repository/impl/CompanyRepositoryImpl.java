@@ -60,6 +60,39 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 	}
 
 	@Override
+	public Map getInfoByUserId(long userId) {
+		SqlRowSet rs = jdbc.queryForRowSet("select c.*, (select count(*) from company_staff cs1 where cs1.company_id = c.id) as count_staff " +
+						"from company_staff cs2 " +
+						"inner join company c on c.id = cs2.company_id" +
+						" where cs2.user_id = ? and c.state <> ?",
+				new Object[] {userId, CompanyState.CLOSED.getState()});
+		if (rs.first()) {
+			Map map = new HashMap();
+			Company company = new Company();
+			company.setId(rs.getLong("id"));
+			company.setState(rs.getInt("state"));
+			company.setName(rs.getString("name"));
+			company.setEmail(rs.getString("email"));
+			company.setAddress(rs.getString("address"));
+			company.setCreatedTime(rs.getDate("created_time"));
+			company.setLastUpdatedTime(rs.getDate("last_updated_time"));
+			company.setFoundedDate(rs.getDate("founded_date"));
+			company.setOpeningTime(rs.getTimestamp("opening_time"));
+			company.setClosingTime(rs.getTimestamp("closing_time"));
+			company.setDescription(rs.getString("description"));
+			company.setSiteUrl(rs.getString("site_url"));
+			company.setLat(rs.getFloat("lat"));
+			company.setLng(rs.getFloat("lng"));
+			System.out.println("-------------------------------------------" + rs.getInt("count_staff"));
+
+			map.put("company", company);
+			map.put("staffCount", rs.getInt("count_staff"));
+			return map;
+		}
+		return null;
+	}
+
+	@Override
 	public long registerCompany(Company company) {
 		Map<String, Object> params = new HashMap<>(11);
 		params.put("state", company.getState());

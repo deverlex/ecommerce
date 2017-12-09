@@ -18,7 +18,7 @@ public interface UserService {
 	
 	void resetPassword(DeferredResult result, String username, ResetPasswordRequest resetPasswordRequest, Device device);
 	
-	UserResponse getUserInformation(long id);
+	BaseResponse getUserInformation(long id);
 
 	BaseResponse updateUserInformation(long id, UpdateUserInfoRequest request);
 }
