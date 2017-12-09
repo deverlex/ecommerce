@@ -5,31 +5,43 @@ import vn.needy.ecommerce.model.base.BaseModel;
 public class BaseResponse extends BaseModel {
 
 	private static final long serialVersionUID = 1487362522L;
-	
-	protected boolean success;
+
+	protected String status;
+	protected int code;
 	protected String message;
 
-	public BaseResponse() {
+	private BaseResponse() {
 		super();
-		this.success = true;
-		this.message = "Success";
+		this.message = "";
 	}
 	
-	public BaseResponse(String message) {
-		this.message = message;
+	public BaseResponse(String status, int code) {
+		super();
+		this.status = status;
+		this.code = code;
 	}
-	
-	public BaseResponse(boolean success, String message) {
-		this.success = success;
+
+	public BaseResponse(String status, int code, String message) {
+		super();
+		this.status = status;
+		this.code = code;
 		this.message = message;
 	}
 
-	public boolean isSuccess() {
-		return success;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
 	}
 
 	public String getMessage() {
