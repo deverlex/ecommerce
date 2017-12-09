@@ -77,15 +77,12 @@ public class UserServiceImpl implements UserService {
 			}).addOnFailureListener(new OnFailureListener() {
 				@Override
 				public void onFailure(Exception e) {
-					result.setResult(new CertificationResponse(null, "Sorry, server has error"));
+					BaseResponse response = new BaseResponse(BaseResponse.ERROR,
+							ResponseCode.NOT_IMPLEMENTED, "Sorry, server has error");
 				}
 			});
 	}
-    @Value("${needy.token.prefix}")
-    private String tokenPrefix;
 
-    @Autowired
-    private UserRepository usersRepository;
 	@Override
 	public BaseResponse findUserExist(String username) {
 		String userExist = usersRepository.findUsernameExist(username);
@@ -99,8 +96,6 @@ public class UserServiceImpl implements UserService {
 		return response;
 	}
 
-    @Autowired
-    private TokenUtils tokenUtils;
 	@Override
 	@Transactional
 	public void resetPassword(DeferredResult result,String username, ResetPasswordRequest resetPasswordRequest, Device device) {
@@ -111,8 +106,6 @@ public class UserServiceImpl implements UserService {
 			result.setResult(response);
 		}
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
 		FirebaseAuth.getInstance().verifyIdToken(resetPasswordRequest.getFirebaseToken())
 				.addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
 					@Override
@@ -140,84 +133,7 @@ public class UserServiceImpl implements UserService {
 						ResponseCode.NOT_IMPLEMENTED, "Sorry, server has error");
 			}
 		});
-
-    @Override
-    @Transactional
-    public void registerUser(DeferredResult result, RegisterUserRequest registerInfo, Device device) {
-        FirebaseAuth.getInstance().verifyIdToken(registerInfo.getFirebaseToken())
-                .addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
-                    @Override
-                    public void onSuccess(FirebaseToken decodedToken) {
-                        // Verify token when use phone auth
-                        if (!registerInfo.getFirebaseUid().equals(decodedToken.getUid())) {
-                            result.setResult(new CertificationResponse(null, "Phone number is not valid"));
-                        } else {
-                            String userExist = usersRepository.findUserExistByUsername(registerInfo.getUsername());
-                            if (!TextUtils.isEmpty(userExist)) {
-                                String message = "This phone number has been registered";
-                                result.setResult(new CertificationResponse(null, message));
-                            } else {
-                                registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
-                                usersRepository.registerUser(registerInfo);
-                                User user = new User();
-                                user.setUsername(registerInfo.getUsername());
-                                String token = tokenPrefix + " " + tokenUtils.generateToken(
-                                        UserLicenseFactory.create(user, new LinkedList<>()), device);
-                                result.setResult(new CertificationResponse(token));
-                            }
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                result.setResult(new CertificationResponse(null, "Sorry, server has error"));
-            }
-        });
-    }
-
-    @Override
-    public BaseResponse findUserExist(String username) {
-        String userExist = usersRepository.findUserExistByUsername(username);
-        if (!TextUtils.isEmpty(userExist)) {
-            BaseResponse response = new BaseResponse();
-            response.setMessage("This phone number/account is registered");
-            return response;
-        }
-        return null;
-    }
-
-    @Override
-    @Transactional
-    public void resetPassword(DeferredResult result, String username, ResetPasswordRequest resetPasswordRequest, Device device) {
-        User user = usersRepository.findUserByUsernameForResetPassword(username);
-        if (user == null) {
-            result.setResult(new CertificationResponse(null, "Phone number is not valid"));
-        }
-
-        FirebaseAuth.getInstance().verifyIdToken(resetPasswordRequest.getFirebaseToken())
-                .addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
-                    @Override
-                    public void onSuccess(FirebaseToken decodedToken) {
-                        // Verify token when use phone auth
-                        if (user.getFirebaseUid().equals(decodedToken.getUid())) {
-                            String encodePassword = passwordEncoder.encode(resetPasswordRequest.getPassword());
-                            usersRepository.updatePasswordByUserId(user.getId(), encodePassword);
-                            user.setUsername(username);
-                            String token = tokenPrefix + " "
-                                    + tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);
-                            result.setResult(new CertificationResponse(token));
-                        } else {
-                            result.setResult(new CertificationResponse(null, "Phone number is not valid"));
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                result.setResult(new CertificationResponse(null, "Sorry, server has error"));
-            }
-        });
-
-    }
+	}
 
     @Override
     public BaseResponse getUserInformation(long id) {

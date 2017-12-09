@@ -25,18 +25,18 @@ public class CompanyRestService {
 	private CompanyService companyService;
 	
 	@RequestMapping(value= "${needy.route.companies.infomation}", method = RequestMethod.GET)
-	public ResponseEntity<CompanyResponse> findCompanyInformation(HttpServletRequest request) {
+	public ResponseEntity<BaseResponse> findCompanyInformation(HttpServletRequest request) {
 		Long userId = idUtils.getIdentification(request);
-		CompanyResponse companyResponse = companyService.findCompanyInformation(userId);
-		return ResponseEntity.ok(companyResponse);
+		BaseResponse response = companyService.findCompanyInformation(userId);
+		return ResponseEntity.ok(response);
 	}
 	
 	@RequestMapping(value= "${needy.route.companies.registers}", method = RequestMethod.POST)
-	public ResponseEntity<CompanyResponse> registerCompany(HttpServletRequest request, 
+	public ResponseEntity<BaseResponse> registerCompany(HttpServletRequest request,
 			@RequestBody RegisterCompanyRequest registerCompanyRequest) {
 		Long userId = idUtils.getIdentification(request);
-		CompanyResponse companyResponse = companyService.registerCompany(userId, registerCompanyRequest);
-		return ResponseEntity.ok(companyResponse);
+		BaseResponse response = companyService.registerCompany(userId, registerCompanyRequest);
+		return ResponseEntity.ok(response);
 	}
 
 	@RequestMapping(value = "${needy.route.companies.update_info}", method = RequestMethod.PUT)

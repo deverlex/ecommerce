@@ -7,9 +7,9 @@ import vn.needy.ecommerce.api.v1.company.response.CompanyResponse;
 
 public interface CompanyService {
 	
-	CompanyResponse findCompanyInformation(long userId);
-	
-	CompanyResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest);
+	BaseResponse findCompanyInformation(long userId);
+
+	BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest);
 
 	BaseResponse updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest);
 }

@@ -62,7 +62,7 @@ public class CompanyServiceImpl implements CompanyService {
     UserRoleRepository userRoleRepository;
 
     @Override
-    public CompanyResponse findCompanyInformation(long userId) {
+    public BaseResponse findCompanyInformation(long userId) {
         Company company = companiesRepository.findCompanyInformationByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
@@ -75,15 +75,14 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public CompanyResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
+    public BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
         CompanyResponse companyResponse = new CompanyResponse();
         Company findCompany = companiesRepository.findCompanyInformationByUserId(userId);
 
         if (findCompany != null) {
-            companyResponse = new CompanyResponse();
-            companyResponse.setSuccess(false);
-            companyResponse.setMessage("You can not register 2 company both active.");
-            return companyResponse;
+        	BaseResponse response = new BaseResponse(BaseResponse.ERROR,
+					ResponseCode.NOT_IMPLEMENTED, "You can not register 2 company both active.");
+            return response;
         }
 
         // insert into Companies tables
@@ -145,9 +144,9 @@ public class CompanyServiceImpl implements CompanyService {
             companyJson.setReputation(isCompanyReputation);
             return new CompanyResponse(companyJson);
         }
-        companyResponse.setSuccess(false);
-        companyResponse.setMessage("Create company is failed.");
-        return companyResponse;
+
+        return new BaseResponse(BaseResponse.ERROR,
+				ResponseCode.NOT_IMPLEMENTED, "Create company is failed.");
     }
 
     @Override

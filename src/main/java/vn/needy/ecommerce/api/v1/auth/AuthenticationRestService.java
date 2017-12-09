@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.api.v1.auth.request.CredentialRequest;
 import vn.needy.ecommerce.api.v1.auth.service.AuthenticationService;
@@ -21,15 +22,15 @@ public class AuthenticationRestService {
 	private AuthenticationService authenticationService;
 
 	@RequestMapping(value = "${needy.route.securities.authentications}", method = RequestMethod.POST)
-	public ResponseEntity<CertificationResponse> authentications(
+	public ResponseEntity<BaseResponse> authentications(
             @RequestBody CredentialRequest credentials, Device device) {
-		CertificationResponse cert = authenticationService.authentication(credentials, device);
+		BaseResponse cert = authenticationService.authentication(credentials, device);
         return ResponseEntity.ok(cert);
 	}
 	
 	@RequestMapping(value = "${needy.route.securities.refreshments}", method = RequestMethod.GET)
-	public ResponseEntity<CertificationResponse> authenticationRefreshment(HttpServletRequest request) {
-		CertificationResponse cert = authenticationService.authenticationRefresh(request);
+	public ResponseEntity<BaseResponse> authenticationRefreshment(HttpServletRequest request) {
+		BaseResponse cert = authenticationService.authenticationRefresh(request);
 		
 		if (cert != null) return ResponseEntity.ok(cert);
 		else return ResponseEntity.badRequest().body(null);
