@@ -13,7 +13,7 @@ public interface UserRepository {
 	boolean updateUserState(long id, int state);
 	
 	// Check user exist for: forget password
-	String findUserExistByUsername(String username);
+	String findUsernameExist(String username);
 	
 	// register new user
 	long registerUser(RegisterUserRequest registerUserRequest);

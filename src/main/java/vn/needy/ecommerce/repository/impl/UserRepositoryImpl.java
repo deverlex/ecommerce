@@ -62,7 +62,7 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public String findUserExistByUsername(String username) {
+	public String findUsernameExist(String username) {
 		SqlRowSet rs = jdbc.queryForRowSet("select full_name "
 				+ "from user "
 				+ "where username = ? and state <> ?",

@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.model.enums.UserState;
@@ -41,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private TimeProvider timeProvider;
 	
 	@Override
-	public CertificationResponse authentication(CredentialRequest credentials, Device device) {
+	public BaseResponse authentication(CredentialRequest credentials, Device device) {
 		// Perform the security
 		final Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(
@@ -56,7 +58,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userLicense.getState() == UserState.LOCKED.getState()) {
         	String message = "Your account is locked, we will unlock on " 
         			+ timeProvider.formatDate(userLicense.getUnlockTime());
-        	return new CertificationResponse(null, message);
+        	return new BaseResponse(BaseResponse.ERROR,
+					ResponseCode.NOT_IMPLEMENTED, message);
         }
         final String token = tokenPrefix  + " " + tokenUtils.generateToken(userLicense, device);
         // Add new token to header
@@ -65,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public CertificationResponse authenticationRefresh(HttpServletRequest request) {
+	public BaseResponse authenticationRefresh(HttpServletRequest request) {
 		String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
 		
 		String username = this.tokenUtils.getUsernameFromToken(token);
@@ -77,7 +80,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			//response.addHeader(tokenHeader,refreshedToken);
 			return new CertificationResponse(refreshedToken);
 		}
-		return null;
+		return new BaseResponse(BaseResponse.ERROR,
+				ResponseCode.UNAUTHORIZED, "UNAUTHORIZED");
 	}
 
 }

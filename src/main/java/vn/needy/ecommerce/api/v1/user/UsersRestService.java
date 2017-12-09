@@ -57,7 +57,7 @@ public class UsersRestService {
 	
 	// Sometime, user's behavior need check account is existed. Example: register/reset password
 	@RequestMapping(value = "${needy.route.users.find}", method = RequestMethod.GET)
-	public ResponseEntity<BaseResponse> findUserExistence(@RequestParam(value = "username", required = true) String username) {
+	public ResponseEntity<BaseResponse> findUsernameExist(@RequestParam(value = "username", required = true) String username) {
 		BaseResponse response = userService.findUserExist(username);
 		return ResponseEntity.ok(response);
 	}

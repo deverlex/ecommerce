@@ -6,6 +6,9 @@ public class BaseResponse extends BaseModel {
 
 	private static final long serialVersionUID = 1487362522L;
 
+	public static final String OK = "OK";
+	public static final String ERROR = "ERROR";
+
 	protected String status;
 	protected int code;
 	protected String message;

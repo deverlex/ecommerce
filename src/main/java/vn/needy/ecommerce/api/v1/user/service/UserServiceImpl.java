@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.tasks.OnSuccessListener;
 
 import org.springframework.web.context.request.async.DeferredResult;
+import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
@@ -52,12 +53,16 @@ public class UserServiceImpl implements UserService {
 				public void onSuccess(FirebaseToken decodedToken) {
 					// Verify token when use phone auth
 					if (!registerInfo.getFirebaseUid().equals(decodedToken.getUid())) {
-						result.setResult(new CertificationResponse(null, "Phone number is not valid"));
+						BaseResponse response = new BaseResponse(BaseResponse.ERROR,
+								ResponseCode.UNAUTHORIZED, "Phone number is not valid");
+						result.setResult(response);
 					} else {
-						String userExist = usersRepository.findUserExistByUsername(registerInfo.getUsername());
+						String userExist = usersRepository.findUsernameExist(registerInfo.getUsername());
 						if (!TextUtils.isEmpty(userExist)) {
+							BaseResponse response = new BaseResponse(BaseResponse.ERROR,
+									ResponseCode.NOT_IMPLEMENTED, "This phone number has been registered");
 							String message = "This phone number has been registered";
-							result.setResult(new CertificationResponse(null, message));
+							result.setResult(response);
 						} else {
 							registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
 							usersRepository.registerUser(registerInfo);
@@ -79,13 +84,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public BaseResponse findUserExist(String username) {
-		String userExist = usersRepository.findUserExistByUsername(username);
+		String userExist = usersRepository.findUsernameExist(username);
+		BaseResponse response = new BaseResponse();
 		if (!TextUtils.isEmpty(userExist)) {
-			BaseResponse response = new BaseResponse();
 			response.setMessage("This phone number/account is registered");
-			return response;
+		} else {
+			response.setMessage("Empty");
 		}
-		return null;
+
+		return response;
 	}
 
 	@Override
@@ -93,7 +100,9 @@ public class UserServiceImpl implements UserService {
 	public void resetPassword(DeferredResult result,String username, ResetPasswordRequest resetPasswordRequest, Device device) {
 		User user = usersRepository.findUserByUsernameForResetPassword(username);
 		if (user == null) {
-			result.setResult(new CertificationResponse(null, "Phone number is not valid"));
+			BaseResponse response = new BaseResponse(BaseResponse.ERROR,
+					ResponseCode.NO_CONTENT, "Phone number is not valid");
+			result.setResult(response);
 		}
 
 		FirebaseAuth.getInstance().verifyIdToken(resetPasswordRequest.getFirebaseToken())
@@ -107,15 +116,20 @@ public class UserServiceImpl implements UserService {
 							user.setUsername(username);
 							String token = tokenPrefix + " "
 									+ tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);
+
+
 							result.setResult(new CertificationResponse(token));
 						} else {
-							result.setResult(new CertificationResponse(null, "Phone number is not valid"));
+							BaseResponse response = new BaseResponse(BaseResponse.ERROR,
+									ResponseCode.UNAUTHORIZED, "Phone number is not valid");
+							result.setResult(response);
 						}
 					}
 				}).addOnFailureListener(new OnFailureListener() {
 			@Override
 			public void onFailure(Exception e) {
-				result.setResult(new CertificationResponse(null, "Sorry, server has error"));
+				BaseResponse response = new BaseResponse(BaseResponse.ERROR,
+						ResponseCode.NOT_IMPLEMENTED, "Sorry, server has error");
 			}
 		});
 
