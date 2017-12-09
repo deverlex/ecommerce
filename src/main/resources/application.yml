@@ -61,6 +61,7 @@ needy:
       information: users # GET get account info DELETE: delete account
       update_info: users # PUT update info account
       #active: users/activeness # POST active user account
+      company: users/companies
 
     companies:
       infomation: companies # GET

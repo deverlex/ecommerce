@@ -26,6 +26,7 @@ import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
 import vn.needy.ecommerce.model.json.UserJson;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
+import vn.needy.ecommerce.repository.CompanyStaffRepository;
 import vn.needy.ecommerce.repository.UserRepository;
 import vn.needy.ecommerce.security.TokenUtils;
 
@@ -36,7 +37,10 @@ public class UserServiceImpl implements UserService {
 	private String tokenPrefix;
 	
 	@Autowired
-	private UserRepository usersRepository;
+	private UserRepository usersRepo;
+
+	@Autowired
+	private CompanyStaffRepository companyStaffRepo;
 	
 	@Autowired
 	private TokenUtils tokenUtils;
@@ -57,7 +61,7 @@ public class UserServiceImpl implements UserService {
 								ResponseCode.UNAUTHORIZED, "Phone number is not valid");
 						result.setResult(response);
 					} else {
-						String userExist = usersRepository.findUsernameExist(registerInfo.getUsername());
+						String userExist = usersRepo.findUsernameExist(registerInfo.getUsername());
 						if (!TextUtils.isEmpty(userExist)) {
 							BaseResponse response = new BaseResponse(BaseResponse.ERROR,
 									ResponseCode.NOT_IMPLEMENTED, "This phone number has been registered");
@@ -65,7 +69,7 @@ public class UserServiceImpl implements UserService {
 							result.setResult(response);
 						} else {
 							registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
-							usersRepository.registerUser(registerInfo);
+							usersRepo.registerUser(registerInfo);
 							User user = new User();
 							user.setUsername(registerInfo.getUsername());
 							String token = tokenPrefix + " " + tokenUtils.generateToken(
@@ -85,7 +89,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public BaseResponse findUserExist(String username) {
-		String userExist = usersRepository.findUsernameExist(username);
+		String userExist = usersRepo.findUsernameExist(username);
 		BaseResponse response = new BaseResponse();
 		if (!TextUtils.isEmpty(userExist)) {
 			response.setMessage("This phone number/account is registered");
@@ -99,7 +103,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void resetPassword(DeferredResult result,String username, ResetPasswordRequest resetPasswordRequest, Device device) {
-		User user = usersRepository.findUserByUsernameForResetPassword(username);
+		User user = usersRepo.findUserByUsernameForResetPassword(username);
 		if (user == null) {
 			BaseResponse response = new BaseResponse(BaseResponse.ERROR,
 					ResponseCode.NO_CONTENT, "Phone number is not valid");
@@ -113,7 +117,7 @@ public class UserServiceImpl implements UserService {
 						// Verify token when use phone auth
 						if (user.getFirebaseUid().equals(decodedToken.getUid())) {
 							String encodePassword = passwordEncoder.encode(resetPasswordRequest.getPassword());
-							usersRepository.updatePasswordByUserId(user.getId(), encodePassword);
+							usersRepo.updatePasswordByUserId(user.getId(), encodePassword);
 							user.setUsername(username);
 							String token = tokenPrefix + " "
 									+ tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);
@@ -137,7 +141,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BaseResponse getUserInformation(long id) {
-        User user = usersRepository.findUserById(id);
+        User user = usersRepo.findUserById(id);
         if (user != null) {
             UserResponse userResponse = new UserResponse();
             userResponse.setUser(new UserJson());
@@ -149,12 +153,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BaseResponse updateUserInformation(long id, UpdateUserInfoRequest request) {
-        boolean isUpdate = usersRepository.updateUserInformation(id, request);
+        boolean isUpdate = usersRepo.updateUserInformation(id, request);
         if (isUpdate) {
             return new BaseResponse();
         } else {
             return new BaseResponse("Error", ResponseCode.ERROR);
         }
     }
+
+	@Override
+	public BaseResponse findCompany(long userId) {
+		long companyId = companyStaffRepo.findCompanyStaffByUserId(userId);
+		if (companyId != -1) {
+			return new BaseResponse();
+		}
+		return new BaseResponse(BaseResponse.ERROR,
+				ResponseCode.NO_CONTENT, "Do not have a company");
+	}
 
 }

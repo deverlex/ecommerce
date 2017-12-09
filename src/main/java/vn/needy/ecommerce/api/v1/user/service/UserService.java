@@ -21,4 +21,6 @@ public interface UserService {
 	BaseResponse getUserInformation(long id);
 
 	BaseResponse updateUserInformation(long id, UpdateUserInfoRequest request);
+
+	BaseResponse findCompany(long userId);
 }
