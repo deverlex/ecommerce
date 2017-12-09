@@ -2,8 +2,8 @@ package vn.needy.ecommerce.api.base;
 
 public enum  ResponseCode {
 
-    NOT_FOUND(1),
-    EXIST(2);
+    OK(200),
+    NO_CONTENT(204);
 
     private int code;
 

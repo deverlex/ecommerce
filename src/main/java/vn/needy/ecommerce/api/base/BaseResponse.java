@@ -10,21 +10,23 @@ public class BaseResponse extends BaseModel {
 	protected int code;
 	protected String message;
 
-	private BaseResponse() {
+	public BaseResponse() {
 		super();
+		this.status = "OK";
+		this.code = ResponseCode.OK.getCode();
 		this.message = "";
 	}
 	
-	public BaseResponse(String status, int code) {
+	public BaseResponse(String status, ResponseCode code) {
 		super();
 		this.status = status;
-		this.code = code;
+		this.code = code.getCode();
 	}
 
-	public BaseResponse(String status, int code, String message) {
+	public BaseResponse(String status, ResponseCode code, String message) {
 		super();
 		this.status = status;
-		this.code = code;
+		this.code = code.getCode();
 		this.message = message;
 	}
 
