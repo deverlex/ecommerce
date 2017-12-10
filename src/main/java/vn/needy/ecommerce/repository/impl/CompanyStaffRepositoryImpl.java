@@ -31,15 +31,18 @@ public class CompanyStaffRepositoryImpl implements CompanyStaffRepository {
     }
 
 	@Override
-	public long findCompanyStaffByUserId(long userId) {
-		SqlRowSet rs = jdbc.queryForRowSet("select company_id " +
+	public Map<String, Long> findInfoIdByUserId(long userId) {
+		SqlRowSet rs = jdbc.queryForRowSet("select company_id, store_id " +
 						"from company_staff " +
 						"where user_id = ? and state <> ?",
 				new Object[] {userId, StaffState.INACTIVE});
 		if (rs.next()) {
-			return rs.getLong("company_id");
+			Map map = new HashMap<String, Long>();
+			map.put("company_id", rs.getLong("company_id"));
+			map.put("store_id", rs.getLong("store_id"));
+			return map;
 		}
-		return -1;
+		return null;
 	}
 	
 	@Override

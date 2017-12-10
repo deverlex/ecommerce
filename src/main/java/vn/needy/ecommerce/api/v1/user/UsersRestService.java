@@ -83,7 +83,8 @@ public class UsersRestService {
 	@RequestMapping(value = "${needy.route.users.company}", method = RequestMethod.GET)
 	public ResponseEntity<BaseResponse> getCompany(HttpServletRequest request) {
 		long userId = idUtils.getIdentification(request);
-		return ResponseEntity.ok(userService.findCompany(userId));
+		// get and return company & store ID
+		return ResponseEntity.ok(userService.findBusinessId(userId));
 	}
 
 	@RequestMapping(value = {""})

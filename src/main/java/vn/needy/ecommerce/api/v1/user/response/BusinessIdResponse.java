@@ -5,18 +5,28 @@ import vn.needy.ecommerce.common.utils.CipherID;
 
 public class BusinessIdResponse extends BaseResponse {
 
-    private String id;
+    private String companyId;
+    private String storeId;
 
-    public BusinessIdResponse(long id) {
+    public BusinessIdResponse(Long companyId, Long storeId) {
         super();
-        this.id = CipherID.encrypt(id);
+        this.companyId = CipherID.encrypt(companyId);
+        this.storeId = CipherID.encrypt(storeId);
     }
 
-    public String getId() {
-        return id;
+    public String getCompanyId() {
+        return companyId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
 }

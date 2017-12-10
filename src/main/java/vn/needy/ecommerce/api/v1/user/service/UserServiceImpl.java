@@ -1,6 +1,7 @@
 package vn.needy.ecommerce.api.v1.user.service;
 
 import java.util.LinkedList;
+import java.util.Map;
 
 import com.google.firebase.tasks.OnFailureListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,13 +164,13 @@ public class UserServiceImpl implements UserService {
     }
 
 	@Override
-	public BaseResponse findCompany(long userId) {
-		long companyId = companyStaffRepo.findCompanyStaffByUserId(userId);
-		if (companyId != -1) {
-			return new BusinessIdResponse(companyId);
+	public BaseResponse findBusinessId(long userId) {
+		Map<String, Long> result = companyStaffRepo.findInfoIdByUserId(userId);
+		if (result != null) {
+			return new BusinessIdResponse(result.get("company_id"), result.get("store_id"));
 		}
 		return new BaseResponse(BaseResponse.ERROR,
-				ResponseCode.NO_CONTENT, "Do not have a company");
+				ResponseCode.NO_CONTENT, "Do not have a business establishment");
 	}
 
 }
