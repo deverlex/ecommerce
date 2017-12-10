@@ -19,6 +19,7 @@ import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
+import vn.needy.ecommerce.api.v1.user.response.FindCompanyResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserResponse;
 import vn.needy.ecommerce.common.utils.TextUtils;
 import vn.needy.ecommerce.domain.entity.User;
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService {
 			.addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
 				@Override
 				public void onSuccess(FirebaseToken decodedToken) {
-					// Verify token when use phone auth
+					// Verify token when use phone authentication
 					if (!registerInfo.getFirebaseUid().equals(decodedToken.getUid())) {
 						BaseResponse response = new BaseResponse(BaseResponse.ERROR,
 								ResponseCode.UNAUTHORIZED, "Phone number is not valid");
@@ -114,7 +115,7 @@ public class UserServiceImpl implements UserService {
 				.addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
 					@Override
 					public void onSuccess(FirebaseToken decodedToken) {
-						// Verify token when use phone auth
+						// Verify token when use phone authentication
 						if (user.getFirebaseUid().equals(decodedToken.getUid())) {
 							String encodePassword = passwordEncoder.encode(resetPasswordRequest.getPassword());
 							usersRepo.updatePasswordByUserId(user.getId(), encodePassword);
@@ -165,7 +166,7 @@ public class UserServiceImpl implements UserService {
 	public BaseResponse findCompany(long userId) {
 		long companyId = companyStaffRepo.findCompanyStaffByUserId(userId);
 		if (companyId != -1) {
-			return new BaseResponse();
+			return new FindCompanyResponse(companyId);
 		}
 		return new BaseResponse(BaseResponse.ERROR,
 				ResponseCode.NO_CONTENT, "Do not have a company");

@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.api.v1.auth.service;
+package vn.needy.ecommerce.api.v1.authentication.service;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +17,7 @@ import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.model.enums.UserState;
-import vn.needy.ecommerce.api.v1.auth.request.CredentialRequest;
+import vn.needy.ecommerce.api.v1.authentication.request.LoginRequest;
 import vn.needy.ecommerce.model.security.UserLicense;
 import vn.needy.ecommerce.security.TokenUtils;
 
@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private TimeProvider timeProvider;
 	
 	@Override
-	public BaseResponse authentication(CredentialRequest credentials, Device device) {
+	public BaseResponse authentication(LoginRequest credentials, Device device) {
 		// Perform the security
 		final Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(

@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.api.v1.auth;
+package vn.needy.ecommerce.api.v1.authentication;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
-import vn.needy.ecommerce.api.v1.auth.request.CredentialRequest;
-import vn.needy.ecommerce.api.v1.auth.service.AuthenticationService;
+import vn.needy.ecommerce.api.v1.authentication.request.LoginRequest;
+import vn.needy.ecommerce.api.v1.authentication.service.AuthenticationService;
 
 @RestController
 public class AuthenticationRestService {
@@ -23,7 +22,7 @@ public class AuthenticationRestService {
 
 	@RequestMapping(value = "${needy.route.securities.authentications}", method = RequestMethod.POST)
 	public ResponseEntity<BaseResponse> authentications(
-            @RequestBody CredentialRequest credentials, Device device) {
+			@RequestBody LoginRequest credentials, Device device) {
 		BaseResponse cert = authenticationService.authentication(credentials, device);
         return ResponseEntity.ok(cert);
 	}
