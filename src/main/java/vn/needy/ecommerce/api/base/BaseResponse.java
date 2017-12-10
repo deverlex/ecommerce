@@ -15,7 +15,7 @@ public class BaseResponse extends BaseModel {
 
 	public BaseResponse() {
 		super();
-		this.status = "OK";
+		this.status = OK;
 		this.code = ResponseCode.OK.getCode();
 		this.message = "";
 	}

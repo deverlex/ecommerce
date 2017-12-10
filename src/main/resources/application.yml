@@ -46,45 +46,56 @@ needy:
     database:
       url: https://needy-180007.firebaseio.com
   # Router
+  # Note: [____] = OPTION
   route:
     securities:
-      authentications: authentications # POST - login
-      refreshments: refreshments # GET - get new token
-      #logout: logout
+      #POST - login
+      authentications: authentications
+      #GET - get new token
+      refreshments: refreshments
+      #GET - logout system
+      logout: logout
 
     users:
-      registers: users/news # POST - register account
-      find: users/find #?username= |GET - Check account exist
-      reset: users/reset #?username= |POST - reset password
-      #passwords:
-#      update: users/{username}/passwords #PUT: update pass
-      information: users # GET get account info DELETE: delete account
-      update_info: users # PUT update info account
-      #active: users/activeness # POST active user account
+      #POST - register account
+      registers: users/news
+      #GET - check account exist
+      find: users/find #?username=
+      #POST - reset password
+      reset: users/reset #?username=
+      #GET   - get account info
+      information: users
+      #PUT update info account
+      update_info: users
+      #GET check company where user is working
       company: users/companies
 
     companies:
-      infomation: companies # GET
-      #dependencies: companies/dependencies # GET
-      registers: companies # POST - post new company
-      #staffs:
-      #  fcms: companies/{company_id}/staffs/fcm_tokens # PUT update token
-      update_info: companies/{company_id} # PUT - update company info
-
-    stores:
-      infomation: stores # GET
-      update_info: stores/{store_id} # PUT - update store info
+      #GET - get company
+      infomation: companies/{company_id}
+      #POST - register new company
+      registers: companies
+      #PUT - update company info
+      update_info: companies/{company_id}
 
     categories:
-      lists: categories/{category} #?company_id= |GET - get link categories of category and company
-                                      # |GET - get all link categories of category
-
-    products:
-      price_now:
-        add_new: pn/products #?company_id=&store_id= |POST - add new product
-        images:
-          add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
-          update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product
+      #GET - get link categories of category and company
+      lists: categories/{category} #[?company_id]=
 
     attributes:
-      lists: attributes #?category_name= |GET - all attribute of category
+      #GET - get all attribute of category
+      lists: attributes #?category_name=
+
+
+
+
+    products:
+          price_now:
+            add_new: pn/products #?company_id=&store_id= |POST - add new product
+            images:
+              add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
+              update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product
+
+    stores:
+        infomation: stores # GET
+        update_info: stores/{store_id} # PUT - update store info
