@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
-import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
-import vn.needy.ecommerce.api.v1.user.response.UserResponse;
+import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
 import vn.needy.ecommerce.security.IdentificationUtils;
@@ -39,17 +38,17 @@ public class UsersRestService {
 	
 	// User can reset password when they forget
 	@RequestMapping(value = "${needy.route.users.reset}", method = RequestMethod.POST)
-	public DeferredResult<CertificationResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
-			@RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
-		DeferredResult<CertificationResponse> result = new DeferredResult<>();
+	public DeferredResult<TokenResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
+													   @RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
+		DeferredResult<TokenResponse> result = new DeferredResult<>();
 		userService.resetPassword(result, username, resetPasswordRequest, device);
 		return result;
 	}
 
 	// Use register new account
 	@RequestMapping(value = "${needy.route.users.registers}", method = RequestMethod.POST)
-	public DeferredResult<CertificationResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest, Device device) {
-		DeferredResult<CertificationResponse> result = new DeferredResult<>();
+	public DeferredResult<TokenResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest, Device device) {
+		DeferredResult<TokenResponse> result = new DeferredResult<>();
 
 		userService.registerUser(result, registerUserRequest, device);
 		return result;

@@ -3,13 +3,13 @@ package vn.needy.ecommerce.api.v1.user.response;
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.json.UserJson;
 
-public class UserResponse extends BaseResponse {
+public class UserInfoResponse extends BaseResponse {
 	
 	private static final long serialVersionUID = 1989372663L;
 	
     private UserJson user;
     
-    public UserResponse() {
+    public UserInfoResponse() {
     	super();
     }
 

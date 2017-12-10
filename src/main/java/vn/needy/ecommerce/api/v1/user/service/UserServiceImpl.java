@@ -18,9 +18,9 @@ import org.springframework.web.context.request.async.DeferredResult;
 import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
-import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
-import vn.needy.ecommerce.api.v1.user.response.FindCompanyResponse;
-import vn.needy.ecommerce.api.v1.user.response.UserResponse;
+import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
+import vn.needy.ecommerce.api.v1.user.response.BusinessIdResponse;
+import vn.needy.ecommerce.api.v1.user.response.UserInfoResponse;
 import vn.needy.ecommerce.common.utils.TextUtils;
 import vn.needy.ecommerce.domain.entity.User;
 import vn.needy.ecommerce.api.base.BaseResponse;
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 							user.setUsername(registerInfo.getUsername());
 							String token = tokenPrefix + " " + tokenUtils.generateToken(
 									UserLicenseFactory.create(user, new LinkedList<>()), device);
-							result.setResult(new CertificationResponse(token));
+							result.setResult(new TokenResponse(token));
 						}
 					}
 				}
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
 									+ tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);
 
 
-							result.setResult(new CertificationResponse(token));
+							result.setResult(new TokenResponse(token));
 						} else {
 							BaseResponse response = new BaseResponse(BaseResponse.ERROR,
 									ResponseCode.UNAUTHORIZED, "Phone number is not valid");
@@ -144,9 +144,9 @@ public class UserServiceImpl implements UserService {
     public BaseResponse getUserInformation(long id) {
         User user = usersRepo.findUserById(id);
         if (user != null) {
-            UserResponse userResponse = new UserResponse();
-            userResponse.setUser(new UserJson());
-            return userResponse;
+            UserInfoResponse userInfoResponse = new UserInfoResponse();
+            userInfoResponse.setUser(new UserJson());
+            return userInfoResponse;
         } else {
             return new BaseResponse("Error", ResponseCode.ERROR);
         }
@@ -166,7 +166,7 @@ public class UserServiceImpl implements UserService {
 	public BaseResponse findCompany(long userId) {
 		long companyId = companyStaffRepo.findCompanyStaffByUserId(userId);
 		if (companyId != -1) {
-			return new FindCompanyResponse(companyId);
+			return new BusinessIdResponse(companyId);
 		}
 		return new BaseResponse(BaseResponse.ERROR,
 				ResponseCode.NO_CONTENT, "Do not have a company");

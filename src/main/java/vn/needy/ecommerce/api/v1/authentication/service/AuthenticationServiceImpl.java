@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.base.ResponseCode;
-import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
+import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.api.v1.authentication.request.LoginRequest;
@@ -64,7 +64,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         final String token = tokenPrefix  + " " + tokenUtils.generateToken(userLicense, device);
         // Add new token to header
         //response.addHeader(tokenHeader, token);
-		return new CertificationResponse(token);
+		return new TokenResponse(token);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			
 			// Add refresh token to response
 			//response.addHeader(tokenHeader,refreshedToken);
-			return new CertificationResponse(refreshedToken);
+			return new TokenResponse(refreshedToken);
 		}
 		return new BaseResponse(BaseResponse.ERROR,
 				ResponseCode.UNAUTHORIZED, "UNAUTHORIZED");
