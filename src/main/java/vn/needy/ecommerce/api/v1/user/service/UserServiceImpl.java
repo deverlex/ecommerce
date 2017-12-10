@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
         User user = usersRepo.findUserById(id);
         if (user != null) {
             UserInfoResponse userInfoResponse = new UserInfoResponse();
-            userInfoResponse.setUser(new UserJson());
+            userInfoResponse.setUser(new UserJson(user));
             return userInfoResponse;
         } else {
             return new BaseResponse("Error", ResponseCode.ERROR);

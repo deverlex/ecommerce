@@ -24,11 +24,8 @@ public class UserJson implements Serializable {
     private Date lastUpdatedTime;
     private Date lastResetPassword;
     
-    public UserJson() {
-    	super();
-    }
-    
     public UserJson(User user) {
+    	super();
     	state = user.getState();
     	fullName = user.getFullName();
     	address = user.getAddress();
