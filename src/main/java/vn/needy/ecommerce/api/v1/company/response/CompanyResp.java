@@ -3,17 +3,17 @@ package vn.needy.ecommerce.api.v1.company.response;
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 
-public class CompanyResponse extends BaseResponse {
+public class CompanyResp extends BaseResponse {
 
 	private static final long serialVersionUID = 130272848L;
 	
 	private CompanyWrapper company;
 	
-	public CompanyResponse() {
+	public CompanyResp() {
 		super();
 	}
 
-	public CompanyResponse(CompanyWrapper companyWrapper) {
+	public CompanyResp(CompanyWrapper companyWrapper) {
 		this.company = companyWrapper;
 	}
 

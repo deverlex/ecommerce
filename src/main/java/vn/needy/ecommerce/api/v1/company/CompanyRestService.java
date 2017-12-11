@@ -4,13 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
-import vn.needy.ecommerce.api.v1.company.response.CompanyResponse;
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.security.IdentificationUtils;
 import vn.needy.ecommerce.api.v1.company.service.CompanyService;
@@ -25,11 +23,10 @@ public class CompanyRestService {
 	private CompanyService companyService;
 
 	@RequestMapping(value = "${needy.route.v1.companies.find_our_company}", method = RequestMethod.GET)
-	public ResponseEntity<BaseResponse> getCompany(HttpServletRequest request) {
+	public ResponseEntity<BaseResponse> findOurCompany(HttpServletRequest request) {
 		long userId = idUtils.getIdentification(request);
 		// get and return company
-		return ResponseEntity.ok().build();
-//		return ResponseEntity.ok(userService.findBusinessId(userId));
+		return ResponseEntity.ok(companyService.findOurCompany(userId));
 	}
 	
 	@RequestMapping(value= "${needy.route.v1.companies.information_details}", method = RequestMethod.GET)

@@ -19,7 +19,7 @@ import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.model.enums.PayBehavior;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
-import vn.needy.ecommerce.api.v1.company.response.CompanyResponse;
+import vn.needy.ecommerce.api.v1.company.response.CompanyResp;
 import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 import vn.needy.ecommerce.repository.BudgetRepository;
 import vn.needy.ecommerce.repository.CompanyRepository;
@@ -61,15 +61,25 @@ public class CompanyServiceImpl implements CompanyService {
     UserRoleRepository userRoleRepository;
 
     @Override
+    public BaseResponse findOurCompany(long userId) {
+        Company company = companiesRepository.findByUserId(userId);
+        if (company != null) {
+            return new CompanyResp(new CompanyWrapper(company));
+        }
+        return new BaseResponse(BaseResponse.ERROR, ResponseCode.NO_CONTENT);
+    }
+
+    // This function is not used.
+    @Override
     public BaseResponse findCompanyInformation(long userId) {
-        Company company = companiesRepository.findCompanyInformationByUserId(userId);
+        Company company = companiesRepository.findByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new CompanyResponse(companyWrapper);
+            return new CompanyResp(companyWrapper);
         }
-        return new CompanyResponse();
+        return new CompanyResp();
     }
 
     @Override
@@ -94,8 +104,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
-        CompanyResponse companyResponse = new CompanyResponse();
-        Company findCompany = companiesRepository.findCompanyInformationByUserId(userId);
+        CompanyResp companyResp = new CompanyResp();
+        Company findCompany = companiesRepository.findByUserId(userId);
 
         if (findCompany != null) {
             BaseResponse response = new BaseResponse(BaseResponse.ERROR,
@@ -155,12 +165,12 @@ public class CompanyServiceImpl implements CompanyService {
 
         userRoleRepository.registerUserListRole(userId, Role.List.CompanyOwner, userId);
 
-        Company company = companiesRepository.findCompanyInformationByUserId(userId);
+        Company company = companiesRepository.findByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new CompanyResponse(companyWrapper);
+            return new CompanyResp(companyWrapper);
         }
 
         return new BaseResponse(BaseResponse.ERROR,
