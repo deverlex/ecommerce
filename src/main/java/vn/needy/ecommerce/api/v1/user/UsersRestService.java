@@ -94,14 +94,6 @@ public class UsersRestService {
 		return ResponseEntity.ok(response);
 	}
 
-
-	@RequestMapping(value = "${needy.route.v1.users.find_our_company}", method = RequestMethod.GET)
-	public ResponseEntity<BaseResponse> getCompany(HttpServletRequest request) {
-		long userId = idUtils.getIdentification(request);
-		// get and return company & store ID
-		return ResponseEntity.ok(userService.findBusinessId(userId));
-	}
-
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> demo(HttpServletRequest request) {

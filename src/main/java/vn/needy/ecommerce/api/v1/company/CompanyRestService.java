@@ -23,6 +23,14 @@ public class CompanyRestService {
 	
 	@Autowired
 	private CompanyService companyService;
+
+	@RequestMapping(value = "${needy.route.v1.companies.find_our_company}", method = RequestMethod.GET)
+	public ResponseEntity<BaseResponse> getCompany(HttpServletRequest request) {
+		long userId = idUtils.getIdentification(request);
+		// get and return company
+		return ResponseEntity.ok().build();
+//		return ResponseEntity.ok(userService.findBusinessId(userId));
+	}
 	
 	@RequestMapping(value= "${needy.route.v1.companies.information_details}", method = RequestMethod.GET)
 	public ResponseEntity<BaseResponse> findCompanyInformation(HttpServletRequest request) {

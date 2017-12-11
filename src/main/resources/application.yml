@@ -68,10 +68,10 @@ needy:
         information_details: v1/users/informations/details
         #PUT update info account
         update_information_details: v1/users/informations/details
-        #GET check company where user is working
-        find_our_company: v1/users/companies
 
       companies:
+        #GET check company where user is working
+        find_our_company: v1/companies/users
         #GET - get company
         information_details: v1/companies/{company_id}/informations/details
         #POST - register new company
