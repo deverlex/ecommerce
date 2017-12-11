@@ -218,7 +218,7 @@ public class UserServiceImpl implements UserService {
             userInfoResponse.setUser(new UserWrapper(user));
             return userInfoResponse;
         } else {
-            return new BaseResponse("Error", ResponseCode.ERROR);
+            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
         }
     }
 
@@ -228,7 +228,7 @@ public class UserServiceImpl implements UserService {
         if (isUpdate) {
             return new BaseResponse();
         } else {
-            return new BaseResponse("Error", ResponseCode.ERROR);
+            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
         }
     }
 

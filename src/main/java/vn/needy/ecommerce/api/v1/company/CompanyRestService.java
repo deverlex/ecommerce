@@ -35,7 +35,7 @@ public class CompanyRestService {
 	@RequestMapping(value= "${needy.route.v1.companies.information_details}", method = RequestMethod.GET)
 	public ResponseEntity<BaseResponse> findCompanyInformation(HttpServletRequest request) {
 		Long userId = idUtils.getIdentification(request);
-		BaseResponse response = companyService.findCompanyInformation(userId);
+		BaseResponse response = companyService.findInformation(userId);
 		return ResponseEntity.ok(response);
 	}
 	

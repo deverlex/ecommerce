@@ -16,6 +16,7 @@ public class CompanyResponse extends BaseResponse {
 	public CompanyResponse(CompanyWrapper companyWrapper) {
 		this.company = companyWrapper;
 	}
+
 	
 	public CompanyWrapper getCompany() {
 		return company;
@@ -24,5 +25,4 @@ public class CompanyResponse extends BaseResponse {
 	public void setCompany(CompanyWrapper company) {
 		this.company = company;
 	}
-	
 }
