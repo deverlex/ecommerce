@@ -63,7 +63,6 @@ public class ApplicationDatabaseConfiguration {
     }    
  
     // Set for MySQL
-    
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource)
     {

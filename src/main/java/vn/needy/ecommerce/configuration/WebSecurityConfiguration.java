@@ -71,9 +71,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // Reset password
                 .antMatchers(HttpMethod.POST, "/users/reset").permitAll()
                 // Find an user exist
-                .antMatchers(HttpMethod.GET, "/users/find/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/find").permitAll()
                 // Register new user
-                .antMatchers(HttpMethod.POST, "/users/news").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // allow anonymous resource requests
                 .antMatchers(
