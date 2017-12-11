@@ -73,11 +73,11 @@ needy:
 
       companies:
         #GET - get company
-        infomation: companies/{company_id}/informations/details
+        information_details: companies/{company_id}/informations/details
         #POST - register new company
         registers: companies
         #PUT - update company info
-        update_info: companies/{company_id}/informations/details
+        update_information_details: companies/{company_id}/informations/details
 
       categories:
         #GET - get link categories of category and company
