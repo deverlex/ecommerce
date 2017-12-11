@@ -9,6 +9,8 @@ public interface CompanyService {
 	
 	BaseResponse findCompanyInformation(long userId);
 
+	BaseResponse findInformation(long userId);
+
 	BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest);
 
 	BaseResponse updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest);

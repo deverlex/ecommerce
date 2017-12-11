@@ -9,12 +9,7 @@ import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
 import vn.needy.ecommerce.common.utils.TimeProvider;
-import vn.needy.ecommerce.domain.entity.Budget;
-import vn.needy.ecommerce.domain.entity.Company;
-import vn.needy.ecommerce.domain.entity.CompanyStaff;
-import vn.needy.ecommerce.domain.entity.Pay;
-import vn.needy.ecommerce.domain.entity.Role;
-import vn.needy.ecommerce.domain.entity.Store;
+import vn.needy.ecommerce.domain.entity.*;
 import vn.needy.ecommerce.model.enums.StaffState;
 import vn.needy.ecommerce.model.enums.StaffStatus;
 import vn.needy.ecommerce.model.enums.StoreState;
@@ -24,6 +19,7 @@ import vn.needy.ecommerce.model.enums.PayBehavior;
 import vn.needy.ecommerce.model.json.CompanyJson;
 import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
 import vn.needy.ecommerce.api.v1.company.response.CompanyResponse;
+import vn.needy.ecommerce.model.json.FeeTransportJson;
 import vn.needy.ecommerce.repository.BudgetRepository;
 import vn.needy.ecommerce.repository.CompanyRepository;
 import vn.needy.ecommerce.repository.CompanyGuaranteeRepository;
@@ -33,6 +29,9 @@ import vn.needy.ecommerce.repository.StoreRepository;
 import vn.needy.ecommerce.repository.UserRoleRepository;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service("companiesService")
 public class CompanyServiceImpl implements CompanyService {
@@ -74,14 +73,33 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public BaseResponse findInformation(long userId) {
+        Map companyInfo = companiesRepository.findInformationByUserId(userId);
+        if (companyInfo != null) {
+            Company company = (Company) companyInfo.get("company");
+            int staffCount = (int) companyInfo.get("staffCount");
+            List<FeeTransportJson> feeTransportJsons = new ArrayList<>();
+            for (FeeTransport ft : (List<FeeTransport>) companyInfo.get("feeTransport")) {
+                feeTransportJsons.add(new FeeTransportJson(ft));
+            }
+            boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
+            CompanyJson companyJson = new CompanyJson(company);
+            companyJson.setReputation(isCompanyReputation);
+            return new CompanyResponse(companyJson, staffCount, feeTransportJsons);
+        } else {
+            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
+        }
+    }
+
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
         CompanyResponse companyResponse = new CompanyResponse();
         Company findCompany = companiesRepository.findCompanyInformationByUserId(userId);
 
         if (findCompany != null) {
-        	BaseResponse response = new BaseResponse(BaseResponse.ERROR,
-					ResponseCode.NOT_IMPLEMENTED, "You can not register 2 company both active.");
+            BaseResponse response = new BaseResponse(BaseResponse.ERROR,
+                    ResponseCode.NOT_IMPLEMENTED, "You can not register 2 company both active.");
             return response;
         }
 
@@ -146,7 +164,7 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
         return new BaseResponse(BaseResponse.ERROR,
-				ResponseCode.NOT_IMPLEMENTED, "Create company is failed.");
+                ResponseCode.NOT_IMPLEMENTED, "Create company is failed.");
     }
 
     @Override
@@ -155,7 +173,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (isUpdate) {
             return new BaseResponse();
         } else {
-			return new BaseResponse("Error", ResponseCode.ERROR);
+            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
         }
     }
 

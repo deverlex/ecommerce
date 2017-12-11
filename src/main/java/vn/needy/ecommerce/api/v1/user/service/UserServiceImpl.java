@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
             userResponse.setUser(new UserJson());
             return userResponse;
         } else {
-            return new BaseResponse("Error", ResponseCode.ERROR);
+            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
         }
     }
 
@@ -153,7 +153,7 @@ public class UserServiceImpl implements UserService {
         if (isUpdate) {
             return new BaseResponse();
         } else {
-            return new BaseResponse("Error", ResponseCode.ERROR);
+            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
         }
     }
 

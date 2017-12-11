@@ -8,8 +8,9 @@ import java.util.Map;
 public interface CompanyRepository {
 	
 	Company findCompanyInformationByUserId(long userId);
-	Map getInfoByUserId(long UserId);
-	
+
+	Map findInformationByUserId(long userId);
+
 	long registerCompany(Company company);
 
 	boolean updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest);

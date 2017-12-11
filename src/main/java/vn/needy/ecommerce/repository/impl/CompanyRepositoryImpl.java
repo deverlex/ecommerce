@@ -1,6 +1,8 @@
 package vn.needy.ecommerce.repository.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
 import vn.needy.ecommerce.domain.entity.Company;
+import vn.needy.ecommerce.domain.entity.FeeTransport;
 import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.repository.CompanyRepository;
 
@@ -60,7 +63,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 	}
 
 	@Override
-	public Map getInfoByUserId(long userId) {
+	public Map findInformationByUserId(long userId) {
 		SqlRowSet rs = jdbc.queryForRowSet("select c.*, (select count(*) from company_staff cs1 where cs1.company_id = c.id) as count_staff " +
 						"from company_staff cs2 " +
 						"inner join company c on c.id = cs2.company_id" +
@@ -83,10 +86,25 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 			company.setSiteUrl(rs.getString("site_url"));
 			company.setLat(rs.getFloat("lat"));
 			company.setLng(rs.getFloat("lng"));
-			System.out.println("-------------------------------------------" + rs.getInt("count_staff"));
 
 			map.put("company", company);
 			map.put("staffCount", rs.getInt("count_staff"));
+
+			List<FeeTransport> feeTransports = new ArrayList<>();
+
+			SqlRowSet rsFeeTransport = jdbc.queryForRowSet("select ft.* from fee_transport ft where ft.company_id = ?", new Object[]{company.getId()});
+			while (rsFeeTransport.next()) {
+				FeeTransport ft = new FeeTransport();
+				ft.setFeeType(rsFeeTransport.getShort("fee_type"));
+				ft.setFrom(rsFeeTransport.getFloat("from"));
+				ft.setTo(rsFeeTransport.getFloat("to"));
+				ft.setFee(rsFeeTransport.getFloat("fee"));
+				ft.setLastUpdatedTime(rsFeeTransport.getDate("last_updated_time"));
+				ft.setLastUpdatedBy(rsFeeTransport.getLong("last_updated_by"));
+				feeTransports.add(ft);
+			}
+			System.out.println("--------------------------------" + company.getId());
+			map.put("feeTransport", feeTransports);
 			return map;
 		}
 		return null;
