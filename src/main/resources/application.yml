@@ -55,29 +55,29 @@ needy:
         #GET - get new token
         refreshments: v1/refreshments
         #GET - logout system
-        logout: v1/logout
+        logout: v1/exitses
         #POST - register account
         registers: v1/users
         #GET - check account exist
-        find_username_exist: v1/users/find #?username=
+        find_username_exist: v1/users/finds #?username=
         #POST - reset password
-        reset_account: v1/users/reset #?username=
+        reset_account: v1/users/resets #?username=
         #GET  - get self user info
         #self: users
         #GET   - get user info details
         information_details: v1/users/informations/details
         #PUT update info account
-        update_information_details: v1/users/infomations/details
+        update_information_details: v1/users/informations/details
         #GET check company where user is working
         find_our_company: v1/users/companies
 
       companies:
         #GET - get company
-        information_details: companies/{company_id}/informations/details
+        information_details: v1/companies/{company_id}/informations/details
         #POST - register new company
-        registers: companies
+        registers: v1/companies
         #PUT - update company info
-        update_information_details: companies/{company_id}/informations/details
+        update_information_details: v1/companies/{company_id}/informations/details
 
       categories:
         #GET - get link categories of category and company
