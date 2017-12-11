@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.context.request.async.DeferredResult;
-import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
 import vn.needy.ecommerce.api.base.BaseResponse;
@@ -47,10 +47,10 @@ public class UsersRestService {
 
 	// Use register new account
 	@RequestMapping(value = "${needy.route.users.registers}", method = RequestMethod.POST)
-	public DeferredResult<TokenResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest, Device device) {
+	public DeferredResult<TokenResponse> registerUser(@RequestBody RegisterUserReq registerUserReq, Device device) {
 		DeferredResult<TokenResponse> result = new DeferredResult<>();
 
-		userService.registerUser(result, registerUserRequest, device);
+		userService.registerUser(result, registerUserReq, device);
 		return result;
 	}
 	

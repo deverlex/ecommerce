@@ -17,7 +17,7 @@ import com.google.firebase.tasks.OnSuccessListener;
 
 import org.springframework.web.context.request.async.DeferredResult;
 import vn.needy.ecommerce.api.base.ResponseCode;
-import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
 import vn.needy.ecommerce.api.v1.user.response.BusinessIdResponse;
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public void registerUser(DeferredResult result, RegisterUserRequest registerInfo, Device device) {
+	public void registerUser(DeferredResult result, RegisterUserReq registerInfo, Device device) {
 		FirebaseAuth.getInstance().verifyIdToken(registerInfo.getFirebaseToken())
 			.addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
 				@Override

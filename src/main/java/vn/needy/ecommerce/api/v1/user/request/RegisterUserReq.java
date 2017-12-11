@@ -2,7 +2,7 @@ package vn.needy.ecommerce.api.v1.user.request;
 
 import java.io.Serializable;
 
-public class RegisterUserRequest implements Serializable {
+public class RegisterUserReq implements Serializable {
 
 	private static final long serialVersionUID = 13883736L;
 	
@@ -13,7 +13,7 @@ public class RegisterUserRequest implements Serializable {
 	private String username;
 	private String password;
 	
-	public RegisterUserRequest() {
+	public RegisterUserReq() {
 		super();
 	}
 

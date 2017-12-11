@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.domain.mysql.User;
 import vn.needy.ecommerce.model.enums.UserState;
@@ -74,7 +74,7 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public long registerUser(RegisterUserRequest registerInfo) {
+	public long registerUser(RegisterUserReq registerInfo) {
 		Map<String, Object> params = new HashMap<>(4);
 		params.put("username", registerInfo.getUsername());
 		params.put("password", registerInfo.getPassword());

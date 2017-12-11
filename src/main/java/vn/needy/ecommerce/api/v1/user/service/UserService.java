@@ -3,14 +3,14 @@ package vn.needy.ecommerce.api.v1.user.service;
 import org.springframework.mobile.device.Device;
 
 import org.springframework.web.context.request.async.DeferredResult;
-import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
 
 public interface UserService {
 	
-	void registerUser(DeferredResult result, RegisterUserRequest registerUserRequest, Device device);
+	void registerUser(DeferredResult result, RegisterUserReq registerUserReq, Device device);
 	
 	BaseResponse findUserExist(String username);
 	
