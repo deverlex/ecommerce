@@ -7,6 +7,11 @@ import com.google.firebase.tasks.OnFailureListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,26 +22,36 @@ import com.google.firebase.tasks.OnSuccessListener;
 
 import org.springframework.web.context.request.async.DeferredResult;
 import vn.needy.ecommerce.api.base.ResponseCode;
+import vn.needy.ecommerce.api.v1.user.request.LoginReq;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
+import vn.needy.ecommerce.api.v1.user.response.LoginResp;
 import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
 import vn.needy.ecommerce.api.v1.user.response.BusinessIdResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserInfoResponse;
 import vn.needy.ecommerce.common.utils.TextUtils;
+import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.domain.mysql.User;
 import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.model.factory.NeedyUserDetailsFactory;
+import vn.needy.ecommerce.model.security.NeedyUserDetails;
 import vn.needy.ecommerce.model.wrapper.UserWrapper;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
 import vn.needy.ecommerce.repository.CompanyStaffRepository;
 import vn.needy.ecommerce.repository.UserRepository;
 import vn.needy.ecommerce.security.TokenUtils;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service("usersService")
 public class UserServiceImpl implements UserService {
 
 	@Value("${needy.token.prefix}")
 	private String tokenPrefix;
+
+	@Value("${needy.token.header}")
+	private String tokenHeader;
 	
 	@Autowired
 	private UserRepository usersRepo;
@@ -46,10 +61,62 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private TokenUtils tokenUtils;
-	
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private UserDetailsService userDetailsService;
+
+	@Autowired
+	private TimeProvider timeProvider;
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
+	@Override
+	public BaseResponse login(LoginReq request, Device device) {
+		// Perform the security
+		final Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(
+						request.getUsername(),
+						request.getPassword())
+				);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		// Reload password post-security so we can generate token
+		final NeedyUserDetails needyUserDetails = (NeedyUserDetails) userDetailsService.loadUserByUsername(request.getUsername());
+
+		// If user is locked, do not return an token
+		if (needyUserDetails.getState() == UserState.LOCKED.getState()) {
+			String message = "Your account is locked, we will unlock on "
+					+ timeProvider.formatDate(needyUserDetails.getUnlockTime());
+			return new BaseResponse(BaseResponse.ERROR,
+					ResponseCode.NOT_IMPLEMENTED, message);
+		}
+		final String token = tokenPrefix  + " " + tokenUtils.generateToken(needyUserDetails, device);
+		// get user info return to client
+		User user = usersRepo.findUserById(needyUserDetails.getId());
+		// wrapper user before return to client
+		return new LoginResp(new UserWrapper(user), token);
+	}
+
+	@Override
+	public BaseResponse refresh(HttpServletRequest request) {
+		String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
+
+		String username = this.tokenUtils.getUsernameFromToken(token);
+		NeedyUserDetails needyUserDetails = (NeedyUserDetails) this.userDetailsService.loadUserByUsername(username);
+		if (this.tokenUtils.canTokenBeRefreshed(token, needyUserDetails.getLastResetPassword())) {
+			String refreshedToken = tokenPrefix  + " " + this.tokenUtils.refreshToken(token);
+
+			// Add refresh token to response
+			//response.addHeader(tokenHeader,refreshedToken);
+			return new TokenResponse(refreshedToken);
+		}
+		return new BaseResponse(BaseResponse.ERROR,
+				ResponseCode.UNAUTHORIZED, "UNAUTHORIZED");
+	}
+
 	@Override
 	@Transactional
 	public void registerUser(DeferredResult result, RegisterUserReq registerInfo, Device device) {
@@ -96,6 +163,8 @@ public class UserServiceImpl implements UserService {
 		if (!TextUtils.isEmpty(userExist)) {
 			response.setMessage("This phone number/account is registered");
 		} else {
+			response.setStatus(BaseResponse.ERROR);
+			response.setCode(ResponseCode.NO_CONTENT.getCode());
 			response.setMessage("Empty");
 		}
 

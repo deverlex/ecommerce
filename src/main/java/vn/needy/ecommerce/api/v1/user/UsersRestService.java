@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.context.request.async.DeferredResult;
+import vn.needy.ecommerce.api.v1.user.request.LoginReq;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
 import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
@@ -35,6 +36,21 @@ public class UsersRestService {
 	
 	@Autowired
 	private UserService userService;
+
+
+	@RequestMapping(value = "${needy.route.users.login}", method = RequestMethod.POST)
+	public ResponseEntity<BaseResponse> login(
+			@RequestBody LoginReq request, Device device) {
+		BaseResponse response = userService.login(request, device);
+		return ResponseEntity.ok(response);
+	}
+
+	@RequestMapping(value = "${needy.route.users.refreshments}", method = RequestMethod.GET)
+	public ResponseEntity<BaseResponse> refreshment(HttpServletRequest request) {
+		BaseResponse response = userService.refresh(request);
+		return ResponseEntity.ok(response);
+	}
+
 	
 	// User can reset password when they forget
 	@RequestMapping(value = "${needy.route.users.reset}", method = RequestMethod.POST)

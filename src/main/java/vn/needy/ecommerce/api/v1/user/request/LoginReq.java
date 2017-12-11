@@ -1,8 +1,8 @@
-package vn.needy.ecommerce.api.v1.authentication.request;
+package vn.needy.ecommerce.api.v1.user.request;
 
 import java.io.Serializable;
 
-public class LoginRequest implements Serializable {
+public class LoginReq implements Serializable {
 	
 	private static final long serialVersionUID = -84459548965154778L;
 

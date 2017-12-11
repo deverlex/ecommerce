@@ -5,12 +5,14 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.domain.mysql.User;
 
 public class UserWrapper implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private String id;
 	private int state;
 	private String fullName;
     private String gender;
@@ -26,6 +28,7 @@ public class UserWrapper implements Serializable {
     
     public UserWrapper(User user) {
     	super();
+    	id = CipherID.encrypt(user.getId());
     	state = user.getState();
     	fullName = user.getFullName();
     	address = user.getAddress();
@@ -38,6 +41,14 @@ public class UserWrapper implements Serializable {
     	lastUpdatedTime = user.getLastUpdatedTime();
     	lastResetPassword = user.getLastResetPassword();
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public int getState() {
 		return state;

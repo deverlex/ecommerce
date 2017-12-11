@@ -42,21 +42,19 @@ needy:
     header: ID
   # Firebase
   firebase:
-    path: firebase/needyfirebase.wrapper
+    path: firebase/needyfirebase.json
     database:
       url: https://needy-180007.firebaseio.com
   # Router
   # Note: [____] = OPTION
   route:
-    securities:
+    users:
       #POST - login
-      authentications: authentications
+      login: authentications
       #GET - get new token
       refreshments: refreshments
       #GET - logout system
       logout: logout
-
-    users:
       #POST - register account
       registers: users/news
       #GET - check account exist
