@@ -81,13 +81,11 @@ needy:
 
       categories:
         #GET - get link categories of category and company
-        lists: categories/{category} #[?company_id]=
+        get_lists: v1/categories/{category}/childs #[?company_id]=
 
       attributes:
         #GET - get all attribute of category
-        lists: attributes #?category_name=
-
-
+        get_lists: v1/attributes/lists #?category_name=
 
 
       products:
