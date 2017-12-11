@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
+import vn.needy.ecommerce.api.v1.company.response.CompanyInfoResp;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.domain.mysql.*;
 import vn.needy.ecommerce.model.enums.StaffState;
@@ -82,9 +83,9 @@ public class CompanyServiceImpl implements CompanyService {
                 feeTransportWrappers.add(new FeeTransportWrapper(ft));
             }
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
-            CompanyWrapper companyJson = new CompanyWrapper(company);
-            companyJson.setReputation(isCompanyReputation);
-            return new CompanyResponse(companyJson, staffCount, feeTransportWrappers);
+            CompanyWrapper companyWrapper = new CompanyWrapper(company);
+            companyWrapper.setReputation(isCompanyReputation);
+            return new CompanyInfoResp(companyWrapper, staffCount, feeTransportWrappers);
         } else {
             return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
         }
