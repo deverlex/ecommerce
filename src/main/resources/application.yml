@@ -56,13 +56,15 @@ needy:
       #GET - logout system
       logout: logout
       #POST - register account
-      registers: users/news
+      registers: users
       #GET - check account exist
       find: users/find #?username=
       #POST - reset password
       reset: users/reset #?username=
-      #GET   - get account info
-      information: users
+      #GET  - get self user info
+      #self: users
+      #GET   - get user info details
+      information: users/informations/details
       #PUT update info account
       update_info: users
       #GET check company where user is working
@@ -70,11 +72,11 @@ needy:
 
     companies:
       #GET - get company
-      infomation: companies/{company_id}
+      infomation: companies/{company_id}/informations/details
       #POST - register new company
       registers: companies
       #PUT - update company info
-      update_info: companies/{company_id}
+      update_info: companies/{company_id}/informations/details
 
     categories:
       #GET - get link categories of category and company
