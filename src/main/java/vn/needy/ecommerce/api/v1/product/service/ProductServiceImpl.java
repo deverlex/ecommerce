@@ -3,7 +3,7 @@ package vn.needy.ecommerce.api.v1.product.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.needy.ecommerce.domain.entity.Product;
+import vn.needy.ecommerce.domain.mysql.Product;
 import vn.needy.ecommerce.domain.mongo.ProductDetail;
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.product.request.AddProductRequest;

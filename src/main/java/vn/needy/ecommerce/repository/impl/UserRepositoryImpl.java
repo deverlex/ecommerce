@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
-import vn.needy.ecommerce.domain.entity.User;
+import vn.needy.ecommerce.domain.mysql.User;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.repository.UserRepository;
 

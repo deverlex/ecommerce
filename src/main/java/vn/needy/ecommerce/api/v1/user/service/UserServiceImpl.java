@@ -23,7 +23,7 @@ import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
 import vn.needy.ecommerce.api.v1.user.response.BusinessIdResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserInfoResponse;
 import vn.needy.ecommerce.common.utils.TextUtils;
-import vn.needy.ecommerce.domain.entity.User;
+import vn.needy.ecommerce.domain.mysql.User;
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.factory.UserLicenseFactory;
 import vn.needy.ecommerce.model.json.UserJson;

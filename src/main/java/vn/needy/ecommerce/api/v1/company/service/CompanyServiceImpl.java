@@ -9,12 +9,12 @@ import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
 import vn.needy.ecommerce.common.utils.TimeProvider;
-import vn.needy.ecommerce.domain.entity.Budget;
-import vn.needy.ecommerce.domain.entity.Company;
-import vn.needy.ecommerce.domain.entity.CompanyStaff;
-import vn.needy.ecommerce.domain.entity.Pay;
-import vn.needy.ecommerce.domain.entity.Role;
-import vn.needy.ecommerce.domain.entity.Store;
+import vn.needy.ecommerce.domain.mysql.Budget;
+import vn.needy.ecommerce.domain.mysql.Company;
+import vn.needy.ecommerce.domain.mysql.CompanyStaff;
+import vn.needy.ecommerce.domain.mysql.Pay;
+import vn.needy.ecommerce.domain.mysql.Role;
+import vn.needy.ecommerce.domain.mysql.Store;
 import vn.needy.ecommerce.model.enums.StaffState;
 import vn.needy.ecommerce.model.enums.StaffStatus;
 import vn.needy.ecommerce.model.enums.StoreState;
@@ -31,8 +31,6 @@ import vn.needy.ecommerce.repository.CompanyStaffRepository;
 import vn.needy.ecommerce.repository.PayRepository;
 import vn.needy.ecommerce.repository.StoreRepository;
 import vn.needy.ecommerce.repository.UserRoleRepository;
-
-import javax.servlet.http.HttpServletResponse;
 
 @Service("companiesService")
 public class CompanyServiceImpl implements CompanyService {

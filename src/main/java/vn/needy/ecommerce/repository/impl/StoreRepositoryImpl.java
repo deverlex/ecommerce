@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.domain.entity.Store;
+import vn.needy.ecommerce.domain.mysql.Store;
 import vn.needy.ecommerce.repository.StoreRepository;
 
 @Repository("storeResponsitory")

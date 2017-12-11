@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.domain.entity.Budget;
+import vn.needy.ecommerce.domain.mysql.Budget;
 import vn.needy.ecommerce.repository.BudgetRepository;
 
 @Repository("budgetRepository")

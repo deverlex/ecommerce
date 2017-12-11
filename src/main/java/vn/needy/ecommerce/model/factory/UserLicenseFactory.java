@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import vn.needy.ecommerce.domain.entity.User;
+import vn.needy.ecommerce.domain.mysql.User;
 import vn.needy.ecommerce.model.security.UserLicense;
 
 public final class UserLicenseFactory {

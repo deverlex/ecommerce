@@ -5,7 +5,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import vn.needy.ecommerce.domain.entity.User;
+import vn.needy.ecommerce.domain.mysql.User;
 
 public class UserJson implements Serializable {
 

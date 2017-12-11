@@ -1,6 +1,6 @@
 package vn.needy.ecommerce.repository;
 
-import vn.needy.ecommerce.domain.entity.CompanyStaff;
+import vn.needy.ecommerce.domain.mysql.CompanyStaff;
 
 import java.util.Map;
 

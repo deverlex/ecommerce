@@ -1,6 +1,6 @@
 package vn.needy.ecommerce.model.json;
 
-import vn.needy.ecommerce.domain.entity.Attribute;
+import vn.needy.ecommerce.domain.mysql.Attribute;
 
 import java.io.Serializable;
 

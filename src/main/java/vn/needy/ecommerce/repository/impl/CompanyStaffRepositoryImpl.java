@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.domain.entity.CompanyStaff;
+import vn.needy.ecommerce.domain.mysql.CompanyStaff;
 import vn.needy.ecommerce.model.enums.StaffState;
 import vn.needy.ecommerce.repository.CompanyStaffRepository;
 

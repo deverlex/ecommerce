@@ -2,13 +2,12 @@ package vn.needy.ecommerce.model.json;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import vn.needy.ecommerce.common.utils.CipherID;
-import vn.needy.ecommerce.domain.entity.Company;
+import vn.needy.ecommerce.domain.mysql.Company;
 
 public class CompanyJson implements Serializable {
 	

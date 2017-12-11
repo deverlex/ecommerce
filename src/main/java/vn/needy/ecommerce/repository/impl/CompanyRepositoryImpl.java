@@ -12,7 +12,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
-import vn.needy.ecommerce.domain.entity.Company;
+import vn.needy.ecommerce.domain.mysql.Company;
 import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.repository.CompanyRepository;
 

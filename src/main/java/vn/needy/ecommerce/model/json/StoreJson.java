@@ -1,14 +1,13 @@
 package vn.needy.ecommerce.model.json;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import vn.needy.ecommerce.common.utils.CipherID;
-import vn.needy.ecommerce.domain.entity.Store;
+import vn.needy.ecommerce.domain.mysql.Store;
 
 public class StoreJson {
 	
