@@ -1,9 +1,7 @@
 package vn.needy.ecommerce.api.v1.company.response;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.domain.entity.FeeTransport;
-import vn.needy.ecommerce.model.json.CompanyJson;
-import vn.needy.ecommerce.model.json.FeeTransportJson;
+import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 
 import java.util.List;
 
@@ -11,18 +9,14 @@ public class CompanyResponse extends BaseResponse {
 
 	private static final long serialVersionUID = 130272848L;
 	
-	private CompanyJson company;
-
-	private int staffCount;
-
-	private List<FeeTransportJson> feeTransports;
+	private CompanyWrapper company;
 	
 	public CompanyResponse() {
 		super();
 	}
 
-	public CompanyResponse(CompanyJson companyJson) {
-		this.company = companyJson;
+	public CompanyResponse(CompanyWrapper companyWrapper) {
+		this.company = companyWrapper;
 	}
 
 	public CompanyResponse(CompanyJson companyJson, int staffCount) {
@@ -36,11 +30,11 @@ public class CompanyResponse extends BaseResponse {
 		this.feeTransports = feeTransports;
 	}
 	
-	public CompanyJson getCompany() {
+	public CompanyWrapper getCompany() {
 		return company;
 	}
 
-	public void setCompany(CompanyJson company) {
+	public void setCompany(CompanyWrapper company) {
 		this.company = company;
 	}
 

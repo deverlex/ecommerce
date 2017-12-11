@@ -10,7 +10,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import vn.needy.ecommerce.common.utils.TimeProvider;
-import vn.needy.ecommerce.model.security.UserLicense;
+import vn.needy.ecommerce.model.security.NeedyUserDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -90,9 +90,9 @@ public class TokenUtils implements Serializable {
         return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
     }
 
-    public String generateToken(UserLicense userLicense, Device device) {
+    public String generateToken(NeedyUserDetails needyUserDetails, Device device) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userLicense.getUsername(), generateAudience(device));
+        return doGenerateToken(claims, needyUserDetails.getUsername(), generateAudience(device));
     }
     
     private String doGenerateToken(Map<String, Object> claims, String subject, String audience) {
@@ -131,13 +131,13 @@ public class TokenUtils implements Serializable {
                 .compact();
     }
     
-    public Boolean validateToken(String token, UserLicense userLicense) {
+    public Boolean validateToken(String token, NeedyUserDetails needyUserDetails) {
         final String username = getUsernameFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
         return (
-              username.equals(userLicense.getUsername())
+              username.equals(needyUserDetails.getUsername())
                     && !isTokenExpired(token)
-                    && !isCreatedBeforeLastPasswordReset(created, userLicense.getLastResetPassword())
+                    && !isCreatedBeforeLastPasswordReset(created, needyUserDetails.getLastResetPassword())
         );
     }
     

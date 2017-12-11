@@ -1,7 +1,6 @@
 package vn.needy.ecommerce.repository;
 
-import org.springframework.stereotype.Repository;
-import vn.needy.ecommerce.domain.entity.Attribute;
+import vn.needy.ecommerce.domain.mysql.Attribute;
 
 import java.util.List;
 

@@ -2,8 +2,6 @@ package vn.needy.ecommerce.repository;
 
 import java.util.List;
 
-import vn.needy.ecommerce.domain.entity.Category;
-
 public interface CategoryRepository {
 
 	List<String> getLinkCategories(String preCategory);

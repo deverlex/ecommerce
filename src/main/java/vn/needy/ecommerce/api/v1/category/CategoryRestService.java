@@ -21,7 +21,7 @@ public class CategoryRestService {
 	@Autowired
 	CategoryService categoryService;
 	
-	@RequestMapping(value = "${needy.route.categories.lists}", method = RequestMethod.GET)
+	@RequestMapping(value = "${needy.route.v1.categories.lists}", method = RequestMethod.GET)
 	// v1/categories/{category}
 	// v1/categories/{category}?company_id=
 	public ResponseEntity<?> getLinkCategories(

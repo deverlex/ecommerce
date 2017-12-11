@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import vn.needy.ecommerce.common.utils.TimeProvider;
-import vn.needy.ecommerce.domain.entity.User;
+import vn.needy.ecommerce.domain.mysql.User;
 import vn.needy.ecommerce.model.enums.UserState;
-import vn.needy.ecommerce.model.factory.UserLicenseFactory;
+import vn.needy.ecommerce.model.factory.NeedyUserDetailsFactory;
 import vn.needy.ecommerce.repository.UserRoleRepository;
 import vn.needy.ecommerce.repository.UserRepository;
 
@@ -43,7 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (user == null || rolePermissions == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
-        	return UserLicenseFactory.create(user, rolePermissions);
+        	return NeedyUserDetailsFactory.create(user, rolePermissions);
         }
 	}
 	

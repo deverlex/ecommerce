@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import vn.needy.ecommerce.model.security.UserLicense;
+import vn.needy.ecommerce.model.security.NeedyUserDetails;
 
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
@@ -73,19 +73,19 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         	// It is not compelling necessary to load the use details from the database. You could also store the information
             // in the token and read it from it. It's up to you ;)
-            UserLicense userLicense = (UserLicense) this.userDetailsService.loadUserByUsername(username);
+            NeedyUserDetails needyUserDetails = (NeedyUserDetails) this.userDetailsService.loadUserByUsername(username);
 
             // For simple validation it is completely sufficient to just check the token integrity. You don't have to call
             // the database compellingly. Again it's up to you ;)
-            if (tokenUtils.validateToken(authToken, userLicense)) {
+            if (tokenUtils.validateToken(authToken, needyUserDetails)) {
             	UsernamePasswordAuthenticationToken authentication 
-            		= new UsernamePasswordAuthenticationToken(userLicense, null, userLicense.getAuthorities());
+            		= new UsernamePasswordAuthenticationToken(needyUserDetails, null, needyUserDetails.getAuthorities());
             	authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             	logger.info("authenticated user " + username + ", setting security context");
             	
             	// Custom header on server, each request, we can get user id, this solution allow we access user success
                 // because we will have many username duplicated
-                request.getSession().setAttribute(identificationHeader, userLicense.getId());
+                request.getSession().setAttribute(identificationHeader, needyUserDetails.getId());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

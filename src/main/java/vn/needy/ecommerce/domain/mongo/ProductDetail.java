@@ -1,14 +1,11 @@
 package vn.needy.ecommerce.domain.mongo;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import vn.needy.ecommerce.domain.base.BaseFile;
 
 @Document(collection = "product_detail")
 public class ProductDetail implements Serializable {

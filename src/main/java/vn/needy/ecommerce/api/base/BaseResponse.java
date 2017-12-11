@@ -1,6 +1,6 @@
 package vn.needy.ecommerce.api.base;
 
-import vn.needy.ecommerce.model.base.BaseModel;
+import vn.needy.ecommerce.model.BaseModel;
 
 public class BaseResponse extends BaseModel {
 
@@ -15,7 +15,7 @@ public class BaseResponse extends BaseModel {
 
 	public BaseResponse() {
 		super();
-		this.status = "OK";
+		this.status = OK;
 		this.code = ResponseCode.OK.getCode();
 		this.message = "";
 	}

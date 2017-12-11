@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.domain.entity.Category;
 import vn.needy.ecommerce.repository.CategoryRepository;
 
 @Repository("categoryRepository")

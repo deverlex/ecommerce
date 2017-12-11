@@ -1,7 +1,7 @@
 package vn.needy.ecommerce.repository;
 
 
-import vn.needy.ecommerce.domain.entity.Store;
+import vn.needy.ecommerce.domain.mysql.Store;
 
 public interface StoreRepository {
 

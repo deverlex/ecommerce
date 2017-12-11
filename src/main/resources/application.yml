@@ -18,7 +18,7 @@ redis:
 
 # config context path to "/" by setting an empty string
 server:
-  contextPath: /v1
+  contextPath: /
 
 # JACKSON
 spring:
@@ -46,44 +46,58 @@ needy:
     database:
       url: https://needy-180007.firebaseio.com
   # Router
+  # Note: [____] = OPTION
   route:
-    securities:
-      authentications: authentications # POST - login
-      refreshments: refreshments # GET - get new token
-      #logout: logout
+    v1:
+      users:
+        #POST - login
+        login: v1/authentications
+        #GET - get new token
+        refreshments: v1/refreshments
+        #GET - logout system
+        logout: v1/exitses
+        #POST - register account
+        registers: v1/users
+        #GET - check account exist
+        find_username_exist: v1/users/finds #?username=
+        #POST - reset password
+        reset_account: v1/users/resets #?username=
+        #GET  - get self user info
+        #self: users
+        #GET   - get user info details
+        information_details: v1/users/informations/details
+        #PUT update info account
+        update_information_details: v1/users/informations/details
+        #GET check company where user is working
+        find_our_company: v1/users/companies
 
-    users:
-      registers: users/news # POST - register account
-      find: users/find #?username= |GET - Check account exist
-      reset: users/reset #?username= |POST - reset password
-      #passwords:
-#      update: users/{username}/passwords #PUT: update pass
-      information: users # GET get account info DELETE: delete account
-      update_info: users # PUT update info account
-      #active: users/activeness # POST active user account
+      companies:
+        #GET - get company
+        information_details: v1/companies/{company_id}/informations/details
+        #POST - register new company
+        registers: v1/companies
+        #PUT - update company info
+        update_information_details: v1/companies/{company_id}/informations/details
 
-    companies:
-      infomation: companies # GET
-      #dependencies: companies/dependencies # GET
-      registers: companies # POST - post new company
-      #staffs:
-      #  fcms: companies/{company_id}/staffs/fcm_tokens # PUT update token
-      update_info: companies/{company_id} # PUT - update company info
+      categories:
+        #GET - get link categories of category and company
+        lists: categories/{category} #[?company_id]=
 
-    stores:
-      infomation: stores # GET
-      update_info: stores/{store_id} # PUT - update store info
+      attributes:
+        #GET - get all attribute of category
+        lists: attributes #?category_name=
 
-    categories:
-      lists: categories/{category} #?company_id= |GET - get link categories of category and company
-                                      # |GET - get all link categories of category
 
-    products:
-      price_now:
-        add_new: pn/products #?company_id=&store_id= |POST - add new product
-        images:
-          add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
-          update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product
 
-    attributes:
-      lists: attributes #?category_name= |GET - all attribute of category
+
+      products:
+            price_now:
+              add_new: pn/products #?company_id=&store_id= |POST - add new product
+              images:
+                add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
+                update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product
+
+      stores:
+          infomation: stores # GET
+          update_info: stores/{store_id} # PUT - update store info
+    v2: v2

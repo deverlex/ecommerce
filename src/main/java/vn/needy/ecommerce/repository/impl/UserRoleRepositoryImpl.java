@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.domain.entity.UserRole;
+import vn.needy.ecommerce.domain.mysql.UserRole;
 import vn.needy.ecommerce.repository.UserRoleRepository;
 
 @Repository("userRoleRepository")

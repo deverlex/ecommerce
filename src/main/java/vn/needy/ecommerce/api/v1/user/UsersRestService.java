@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.context.request.async.DeferredResult;
-import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
+import vn.needy.ecommerce.api.v1.user.request.LoginReq;
+import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
-import vn.needy.ecommerce.api.v1.user.response.CertificationResponse;
-import vn.needy.ecommerce.api.v1.user.response.UserResponse;
+import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
 import vn.needy.ecommerce.security.IdentificationUtils;
@@ -36,34 +36,48 @@ public class UsersRestService {
 	
 	@Autowired
 	private UserService userService;
+
+
+	@RequestMapping(value = "${needy.route.v1.users.login}", method = RequestMethod.POST)
+	public ResponseEntity<BaseResponse> login(
+			@RequestBody LoginReq request, Device device) {
+		BaseResponse response = userService.login(request, device);
+		return ResponseEntity.ok(response);
+	}
+
+	@RequestMapping(value = "${needy.route.v1.users.refreshments}", method = RequestMethod.GET)
+	public ResponseEntity<BaseResponse> refreshment(HttpServletRequest request) {
+		BaseResponse response = userService.refresh(request);
+		return ResponseEntity.ok(response);
+	}
 	
 	// User can reset password when they forget
-	@RequestMapping(value = "${needy.route.users.reset}", method = RequestMethod.POST)
-	public DeferredResult<CertificationResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
-			@RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
-		DeferredResult<CertificationResponse> result = new DeferredResult<>();
+	@RequestMapping(value = "${needy.route.v1.users.reset_account}", method = RequestMethod.POST)
+	public DeferredResult<TokenResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
+													   @RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
+		DeferredResult<TokenResponse> result = new DeferredResult<>();
 		userService.resetPassword(result, username, resetPasswordRequest, device);
 		return result;
 	}
 
 	// Use register new account
-	@RequestMapping(value = "${needy.route.users.registers}", method = RequestMethod.POST)
-	public DeferredResult<CertificationResponse> registerUser(@RequestBody RegisterUserRequest registerUserRequest, Device device) {
-		DeferredResult<CertificationResponse> result = new DeferredResult<>();
+	@RequestMapping(value = "${needy.route.v1.users.registers}", method = RequestMethod.POST)
+	public DeferredResult<TokenResponse> registerUser(@RequestBody RegisterUserReq registerUserReq, Device device) {
+		DeferredResult<TokenResponse> result = new DeferredResult<>();
 
-		userService.registerUser(result, registerUserRequest, device);
+		userService.registerUser(result, registerUserReq, device);
 		return result;
 	}
 	
 	// Sometime, user's behavior need check account is existed. Example: register/reset password
-	@RequestMapping(value = "${needy.route.users.find}", method = RequestMethod.GET)
+	@RequestMapping(value = "${needy.route.v1.users.find_username_exist}", method = RequestMethod.GET)
 	public ResponseEntity<BaseResponse> findUsernameExist(@RequestParam(value = "username", required = true) String username) {
 		BaseResponse response = userService.findUserExist(username);
 		return ResponseEntity.ok(response);
 	}
 	
 	// Get user info
-	@RequestMapping(value = "${needy.route.users.information}", method = RequestMethod.GET)
+	@RequestMapping(value = "${needy.route.v1.users.information_details}", method = RequestMethod.GET)
 //	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<BaseResponse> getUserInformation(HttpServletRequest request) {
 		long userid = idUtils.getIdentification(request);
@@ -71,15 +85,22 @@ public class UsersRestService {
 		return ResponseEntity.ok(response);
 	}
 
-	@RequestMapping(value = "${needy.route.users.update_info}", method = RequestMethod.PUT)
+	@RequestMapping(value = "${needy.route.v1.users.update_information_details}", method = RequestMethod.PUT)
 	public ResponseEntity<BaseResponse> updateUserInformation(
 			HttpServletRequest request,
 			@RequestBody UpdateUserInfoRequest updateRequest) {
-		long userid = idUtils.getIdentification(request);
-		BaseResponse response = userService.updateUserInformation(userid, updateRequest);
+		long userId = idUtils.getIdentification(request);
+		BaseResponse response = userService.updateUserInformation(userId, updateRequest);
 		return ResponseEntity.ok(response);
 	}
 
+
+	@RequestMapping(value = "${needy.route.v1.users.find_our_company}", method = RequestMethod.GET)
+	public ResponseEntity<BaseResponse> getCompany(HttpServletRequest request) {
+		long userId = idUtils.getIdentification(request);
+		// get and return company & store ID
+		return ResponseEntity.ok(userService.findBusinessId(userId));
+	}
 
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")

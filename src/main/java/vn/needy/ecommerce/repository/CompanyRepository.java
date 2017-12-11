@@ -1,7 +1,7 @@
 package vn.needy.ecommerce.repository;
 
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
-import vn.needy.ecommerce.domain.entity.Company;
+import vn.needy.ecommerce.domain.mysql.Company;
 
 import java.util.Map;
 
