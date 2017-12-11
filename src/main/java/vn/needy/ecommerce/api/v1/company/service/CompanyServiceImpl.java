@@ -21,7 +21,7 @@ import vn.needy.ecommerce.model.enums.StoreState;
 import vn.needy.ecommerce.model.enums.StoreStatus;
 import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.model.enums.PayBehavior;
-import vn.needy.ecommerce.model.json.CompanyJson;
+import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
 import vn.needy.ecommerce.api.v1.company.response.CompanyResponse;
 import vn.needy.ecommerce.repository.BudgetRepository;
@@ -64,9 +64,9 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = companiesRepository.findCompanyInformationByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
-            CompanyJson companyJson = new CompanyJson(company);
-            companyJson.setReputation(isCompanyReputation);
-            return new CompanyResponse(companyJson);
+            CompanyWrapper companyWrapper = new CompanyWrapper(company);
+            companyWrapper.setReputation(isCompanyReputation);
+            return new CompanyResponse(companyWrapper);
         }
         return new CompanyResponse();
     }
@@ -138,9 +138,9 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = companiesRepository.findCompanyInformationByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
-            CompanyJson companyJson = new CompanyJson(company);
-            companyJson.setReputation(isCompanyReputation);
-            return new CompanyResponse(companyJson);
+            CompanyWrapper companyWrapper = new CompanyWrapper(company);
+            companyWrapper.setReputation(isCompanyReputation);
+            return new CompanyResponse(companyWrapper);
         }
 
         return new BaseResponse(BaseResponse.ERROR,

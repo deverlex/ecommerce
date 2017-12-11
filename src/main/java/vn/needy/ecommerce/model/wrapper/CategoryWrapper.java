@@ -1,19 +1,19 @@
-package vn.needy.ecommerce.model.json;
+package vn.needy.ecommerce.model.wrapper;
 
 import java.io.Serializable;
 
-public class CategoryJson implements Serializable {
+public class CategoryWrapper implements Serializable {
 
 	private static final long serialVersionUID = 153425646L;
 	
 	private String name;
 	private String title;
 
-	public CategoryJson() {
+	public CategoryWrapper() {
 		super();
 	}
 	
-	public CategoryJson(String category) {
+	public CategoryWrapper(String category) {
 		this.name = category;
 	}
 

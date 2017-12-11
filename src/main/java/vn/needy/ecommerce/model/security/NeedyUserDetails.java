@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import vn.needy.ecommerce.model.enums.UserState;
 
-public class UserLicense implements UserDetails {
+public class NeedyUserDetails implements UserDetails {
 	
 	private static final long serialVersionUID = 183873736528L;
 
@@ -20,12 +20,12 @@ public class UserLicense implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 	private Date lastResetPassword;
 	
-	public UserLicense() {
+	public NeedyUserDetails() {
 		super();
 	}
 	
-	public UserLicense(long id, String username, String password, int state, Date unlockTime, 
-			Collection<? extends GrantedAuthority> authorities, Date lastUpdatedPassword) {
+	public NeedyUserDetails(long id, String username, String password, int state, Date unlockTime,
+							Collection<? extends GrantedAuthority> authorities, Date lastUpdatedPassword) {
 		this.id = id;
 		this.username = username;
 		this.password = password;

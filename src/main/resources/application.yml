@@ -42,7 +42,7 @@ needy:
     header: ID
   # Firebase
   firebase:
-    path: firebase/needyfirebase.json
+    path: firebase/needyfirebase.wrapper
     database:
       url: https://needy-180007.firebaseio.com
   # Router

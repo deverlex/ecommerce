@@ -25,8 +25,8 @@ import vn.needy.ecommerce.api.v1.user.response.UserInfoResponse;
 import vn.needy.ecommerce.common.utils.TextUtils;
 import vn.needy.ecommerce.domain.mysql.User;
 import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.model.factory.UserLicenseFactory;
-import vn.needy.ecommerce.model.json.UserJson;
+import vn.needy.ecommerce.model.factory.NeedyUserDetailsFactory;
+import vn.needy.ecommerce.model.wrapper.UserWrapper;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
 import vn.needy.ecommerce.repository.CompanyStaffRepository;
 import vn.needy.ecommerce.repository.UserRepository;
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 							User user = new User();
 							user.setUsername(registerInfo.getUsername());
 							String token = tokenPrefix + " " + tokenUtils.generateToken(
-									UserLicenseFactory.create(user, new LinkedList<>()), device);
+									NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
 							result.setResult(new TokenResponse(token));
 						}
 					}
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
 							usersRepo.updatePasswordByUserId(user.getId(), encodePassword);
 							user.setUsername(username);
 							String token = tokenPrefix + " "
-									+ tokenUtils.generateToken(UserLicenseFactory.create(user, new LinkedList<>()), device);
+									+ tokenUtils.generateToken(NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
 
 
 							result.setResult(new TokenResponse(token));
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
         User user = usersRepo.findUserById(id);
         if (user != null) {
             UserInfoResponse userInfoResponse = new UserInfoResponse();
-            userInfoResponse.setUser(new UserJson(user));
+            userInfoResponse.setUser(new UserWrapper(user));
             return userInfoResponse;
         } else {
             return new BaseResponse("Error", ResponseCode.ERROR);

@@ -7,12 +7,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import vn.needy.ecommerce.domain.mysql.User;
-import vn.needy.ecommerce.model.security.UserLicense;
+import vn.needy.ecommerce.model.security.NeedyUserDetails;
 
-public final class UserLicenseFactory {
+public final class NeedyUserDetailsFactory {
 	
-	public static UserLicense create(User user, List<String> roles) {
-        return new UserLicense(
+	public static NeedyUserDetails create(User user, List<String> roles) {
+        return new NeedyUserDetails(
         		user.getId(),
                 user.getUsername(),
                 user.getPassword(),

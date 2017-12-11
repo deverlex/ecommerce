@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.model.json;
+package vn.needy.ecommerce.model.wrapper;
 
 import java.util.Date;
 
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.domain.mysql.Store;
 
-public class StoreJson {
+public class StoreWrapper {
 	
 	private String id;
 	private int state;
@@ -30,11 +30,11 @@ public class StoreJson {
 	private Date lastUpdatedTime;
 	private long lastUpdatedBy;
 	
-	public StoreJson() {
+	public StoreWrapper() {
 		super();
 	}
 	
-	public StoreJson(@Nonnull Store store) {
+	public StoreWrapper(@Nonnull Store store) {
 		id = CipherID.encrypt(store.getId());
 		state = store.getState();
 		status = store.getStatus();

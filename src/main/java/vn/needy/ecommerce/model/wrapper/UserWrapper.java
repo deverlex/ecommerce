@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.model.json;
+package vn.needy.ecommerce.model.wrapper;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import vn.needy.ecommerce.domain.mysql.User;
 
-public class UserJson implements Serializable {
+public class UserWrapper implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +24,7 @@ public class UserJson implements Serializable {
     private Date lastUpdatedTime;
     private Date lastResetPassword;
     
-    public UserJson(User user) {
+    public UserWrapper(User user) {
     	super();
     	state = user.getState();
     	fullName = user.getFullName();

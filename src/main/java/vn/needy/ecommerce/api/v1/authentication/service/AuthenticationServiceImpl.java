@@ -18,7 +18,7 @@ import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.api.v1.authentication.request.LoginRequest;
-import vn.needy.ecommerce.model.security.UserLicense;
+import vn.needy.ecommerce.model.security.NeedyUserDetails;
 import vn.needy.ecommerce.security.TokenUtils;
 
 @Service("authenticationsService")
@@ -52,16 +52,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		// Reload password post-security so we can generate token
-        final UserLicense userLicense = (UserLicense) userDetailsService.loadUserByUsername(credentials.getUsername());
+        final NeedyUserDetails needyUserDetails = (NeedyUserDetails) userDetailsService.loadUserByUsername(credentials.getUsername());
         
         // If user is locked, do not return an token
-        if (userLicense.getState() == UserState.LOCKED.getState()) {
+        if (needyUserDetails.getState() == UserState.LOCKED.getState()) {
         	String message = "Your account is locked, we will unlock on " 
-        			+ timeProvider.formatDate(userLicense.getUnlockTime());
+        			+ timeProvider.formatDate(needyUserDetails.getUnlockTime());
         	return new BaseResponse(BaseResponse.ERROR,
 					ResponseCode.NOT_IMPLEMENTED, message);
         }
-        final String token = tokenPrefix  + " " + tokenUtils.generateToken(userLicense, device);
+        final String token = tokenPrefix  + " " + tokenUtils.generateToken(needyUserDetails, device);
         // Add new token to header
         //response.addHeader(tokenHeader, token);
 		return new TokenResponse(token);
@@ -72,8 +72,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
 		
 		String username = this.tokenUtils.getUsernameFromToken(token);
-		UserLicense userLicense = (UserLicense) this.userDetailsService.loadUserByUsername(username);
-		if (this.tokenUtils.canTokenBeRefreshed(token, userLicense.getLastResetPassword())) {
+		NeedyUserDetails needyUserDetails = (NeedyUserDetails) this.userDetailsService.loadUserByUsername(username);
+		if (this.tokenUtils.canTokenBeRefreshed(token, needyUserDetails.getLastResetPassword())) {
 			String refreshedToken = tokenPrefix  + " " + this.tokenUtils.refreshToken(token);
 			
 			// Add refresh token to response

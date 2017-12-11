@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.model.json;
+package vn.needy.ecommerce.model.wrapper;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.domain.mysql.Company;
 
-public class CompanyJson implements Serializable {
+public class CompanyWrapper implements Serializable {
 	
 	private static final long serialVersionUID = 153543535L;
 	
@@ -35,11 +35,11 @@ public class CompanyJson implements Serializable {
 	
 	ObjectMapper mapper;
 	
-	public CompanyJson() {
+	public CompanyWrapper() {
 		super();
 	}
 	
-	public CompanyJson(Company company) {
+	public CompanyWrapper(Company company) {
 		this.id = CipherID.encrypt(company.getId());
 		this.state = company.getState();
 		this.name = company.getName();

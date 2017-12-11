@@ -1,10 +1,10 @@
-package vn.needy.ecommerce.model.json;
+package vn.needy.ecommerce.model.wrapper;
 
 import vn.needy.ecommerce.domain.mysql.Attribute;
 
 import java.io.Serializable;
 
-public class AttrsJson implements Serializable {
+public class AttributeWrapper implements Serializable {
 
     private static final long serialVersionUID = 1532998899646L;
 
@@ -12,11 +12,11 @@ public class AttrsJson implements Serializable {
     private String title;
     private int dataType;
 
-    public AttrsJson() {
+    public AttributeWrapper() {
         super();
     }
 
-    public AttrsJson(Attribute attribute) {
+    public AttributeWrapper(Attribute attribute) {
         this.name = attribute.getName();
         this.dataType = attribute.getDataType();
     }

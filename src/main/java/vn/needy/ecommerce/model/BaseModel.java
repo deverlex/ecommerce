@@ -1,4 +1,4 @@
-package vn.needy.ecommerce.model.base; 
+package vn.needy.ecommerce.model;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
