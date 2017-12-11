@@ -31,7 +31,7 @@ public class ProductRestService {
 	}
 	
 	
-	@RequestMapping(value = "${needy.route.products.price_now.add_new}")
+	@RequestMapping(value = "${needy.route.v1.products.price_now.add_new}")
 	public ResponseEntity<?> addProductPriceNowOfCompany(
 			@RequestParam(value = "company_id", required = true) String companyId,
 			@RequestParam(value = "store_id", required = true) String storeId,
@@ -44,7 +44,7 @@ public class ProductRestService {
 		return null;
 	}
 	
-	@RequestMapping(value = "${needy.route.products.price_now.images.add_new}", method = RequestMethod.POST)
+	@RequestMapping(value = "${needy.route.v1.products.price_now.images.add_new}", method = RequestMethod.POST)
 	public ResponseEntity<?> addImageForProduct(
 			@PathVariable(value = "product_id") String productId,
 			@RequestParam(value = "multiparty") MultipartFile image) {
@@ -56,7 +56,7 @@ public class ProductRestService {
 	}
 	
 	// productId is id of productCompany
-	@RequestMapping(value = "${needy.route.products.price_now.images.update}", method = RequestMethod.PUT)
+	@RequestMapping(value = "${needy.route.v1.products.price_now.images.update}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateImageForProduct(
 			@PathVariable(value = "product_id") String productId,
 			@RequestParam(value = "multiparty") MultipartFile image) {

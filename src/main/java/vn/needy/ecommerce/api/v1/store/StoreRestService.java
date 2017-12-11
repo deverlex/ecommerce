@@ -9,7 +9,7 @@ import vn.needy.ecommerce.api.v1.store.response.StoreResponse;
 @RestController
 public class StoreRestService {
 
-	@RequestMapping(value = "${needy.route.stores.infomation}")
+	@RequestMapping(value = "${needy.route.v1.stores.infomation}")
 	public ResponseEntity<StoreResponse> getStoreInformation() {
 		
 		return null;

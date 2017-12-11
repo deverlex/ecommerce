@@ -24,14 +24,14 @@ public class CompanyRestService {
 	@Autowired
 	private CompanyService companyService;
 	
-	@RequestMapping(value= "${needy.route.companies.infomation}", method = RequestMethod.GET)
+	@RequestMapping(value= "${needy.route.v1.companies.infomation}", method = RequestMethod.GET)
 	public ResponseEntity<BaseResponse> findCompanyInformation(HttpServletRequest request) {
 		Long userId = idUtils.getIdentification(request);
 		BaseResponse response = companyService.findCompanyInformation(userId);
 		return ResponseEntity.ok(response);
 	}
 	
-	@RequestMapping(value= "${needy.route.companies.registers}", method = RequestMethod.POST)
+	@RequestMapping(value= "${needy.route.v1.companies.registers}", method = RequestMethod.POST)
 	public ResponseEntity<BaseResponse> registerCompany(HttpServletRequest request,
 			@RequestBody RegisterCompanyRequest registerCompanyRequest) {
 		Long userId = idUtils.getIdentification(request);
@@ -39,7 +39,7 @@ public class CompanyRestService {
 		return ResponseEntity.ok(response);
 	}
 
-	@RequestMapping(value = "${needy.route.companies.update_info}", method = RequestMethod.PUT)
+	@RequestMapping(value = "${needy.route.v1.companies.update_info}", method = RequestMethod.PUT)
 	public ResponseEntity<BaseResponse> updateCompanyInformation(@PathVariable(value = "company_id") String compantId,
 																 @RequestBody UpdateCompanyInfoRequest infoRequest) {
 		long id = CipherID.decrypt(compantId);

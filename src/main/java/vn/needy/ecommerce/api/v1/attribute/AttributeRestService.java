@@ -15,7 +15,7 @@ public class AttributeRestService {
     @Autowired
     AttributeService attributeService;
 
-    @RequestMapping(value = "${needy.route.attributes.lists}")
+    @RequestMapping(value = "${needy.route.v1.attributes.lists}")
     public ResponseEntity<?> getAttributeCategory(
             @RequestParam(value = "category_name") String category) {
         ListAttrsResponse response = attributeService.getListAttrsOfCategory(category);
