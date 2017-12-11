@@ -14,5 +14,5 @@ public interface CompanyService {
 
 	BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest);
 
-	BaseResponse updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest);
+	BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest);
 }

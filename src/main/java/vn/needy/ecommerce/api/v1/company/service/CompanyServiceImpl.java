@@ -178,8 +178,8 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public BaseResponse updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest) {
-        boolean isUpdate = companiesRepository.updateCompanyInformation(id, infoRequest);
+    public BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest) {
+        boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
         if (isUpdate) {
             return new BaseResponse();
         } else {

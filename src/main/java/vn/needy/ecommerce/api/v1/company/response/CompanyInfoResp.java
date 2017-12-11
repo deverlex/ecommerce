@@ -9,17 +9,17 @@ import java.util.List;
 public class CompanyInfoResp extends BaseResponse {
 
     private CompanyWrapper company;
-    private int staffCount;
+    private int totalStaff;
     private List<FeeTransportWrapper> feeTransports;
 
     public CompanyInfoResp(CompanyWrapper wrapper, int staffCount) {
         this.company = wrapper;
-        this.staffCount = staffCount;
+        this.totalStaff = staffCount;
     }
 
     public CompanyInfoResp(CompanyWrapper wrapper, int staffCount, List<FeeTransportWrapper> feeTransports) {
         this.company = wrapper;
-        this.staffCount = staffCount;
+        this.totalStaff = staffCount;
         this.feeTransports = feeTransports;
     }
 
@@ -31,12 +31,12 @@ public class CompanyInfoResp extends BaseResponse {
         this.company = company;
     }
 
-    public int getStaffCount() {
-        return staffCount;
+    public int getTotalStaff() {
+        return totalStaff;
     }
 
-    public void setStaffCount(int staffCount) {
-        this.staffCount = staffCount;
+    public void setTotalStaff(int totalStaff) {
+        this.totalStaff = totalStaff;
     }
 
     public List<FeeTransportWrapper> getFeeTransports() {
