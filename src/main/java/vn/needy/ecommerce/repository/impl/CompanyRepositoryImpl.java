@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
 import vn.needy.ecommerce.domain.mysql.Company;
+import vn.needy.ecommerce.domain.mysql.FeeTransport;
 import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.repository.CompanyRepository;
 

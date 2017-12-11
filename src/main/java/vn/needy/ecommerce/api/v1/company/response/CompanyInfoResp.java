@@ -23,6 +23,14 @@ public class CompanyInfoResp extends BaseResponse {
         this.feeTransports = feeTransports;
     }
 
+    public CompanyWrapper getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyWrapper company) {
+        this.company = company;
+    }
+
     public int getStaffCount() {
         return staffCount;
     }
