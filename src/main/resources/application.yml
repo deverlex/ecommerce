@@ -18,7 +18,7 @@ redis:
 
 # config context path to "/" by setting an empty string
 server:
-  contextPath: /v1
+  contextPath: /
 
 # JACKSON
 spring:
@@ -48,54 +48,56 @@ needy:
   # Router
   # Note: [____] = OPTION
   route:
-    users:
-      #POST - login
-      login: authentications
-      #GET - get new token
-      refreshments: refreshments
-      #GET - logout system
-      logout: logout
-      #POST - register account
-      registers: users
-      #GET - check account exist
-      find: users/find #?username=
-      #POST - reset password
-      reset: users/reset #?username=
-      #GET  - get self user info
-      #self: users
-      #GET   - get user info details
-      information: users/informations/details
-      #PUT update info account
-      update_info: users
-      #GET check company where user is working
-      company: users/companies
+    v1:
+      users:
+        #POST - login
+        login: v1/authentications
+        #GET - get new token
+        refreshments: v1/refreshments
+        #GET - logout system
+        logout: v1/logout
+        #POST - register account
+        registers: v1/users
+        #GET - check account exist
+        find_username_exist: v1/users/find #?username=
+        #POST - reset password
+        reset_account: v1/users/reset #?username=
+        #GET  - get self user info
+        #self: users
+        #GET   - get user info details
+        information_details: v1/users/informations/details
+        #PUT update info account
+        update_information_details: v1/users/infomations/details
+        #GET check company where user is working
+        find_our_company: v1/users/companies
 
-    companies:
-      #GET - get company
-      infomation: companies/{company_id}/informations/details
-      #POST - register new company
-      registers: companies
-      #PUT - update company info
-      update_info: companies/{company_id}/informations/details
+      companies:
+        #GET - get company
+        infomation: companies/{company_id}/informations/details
+        #POST - register new company
+        registers: companies
+        #PUT - update company info
+        update_info: companies/{company_id}/informations/details
 
-    categories:
-      #GET - get link categories of category and company
-      lists: categories/{category} #[?company_id]=
+      categories:
+        #GET - get link categories of category and company
+        lists: categories/{category} #[?company_id]=
 
-    attributes:
-      #GET - get all attribute of category
-      lists: attributes #?category_name=
-
-
+      attributes:
+        #GET - get all attribute of category
+        lists: attributes #?category_name=
 
 
-    products:
-          price_now:
-            add_new: pn/products #?company_id=&store_id= |POST - add new product
-            images:
-              add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
-              update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product
 
-    stores:
-        infomation: stores # GET
-        update_info: stores/{store_id} # PUT - update store info
+
+      products:
+            price_now:
+              add_new: pn/products #?company_id=&store_id= |POST - add new product
+              images:
+                add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
+                update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product
+
+      stores:
+          infomation: stores # GET
+          update_info: stores/{store_id} # PUT - update store info
+    v2: v2
