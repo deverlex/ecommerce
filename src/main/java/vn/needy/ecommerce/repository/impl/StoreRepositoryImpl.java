@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import vn.needy.ecommerce.api.v1.store.request.UpdateStoreInfoReq;
 import vn.needy.ecommerce.domain.mysql.Store;
 import vn.needy.ecommerce.repository.StoreRepository;
 
@@ -54,7 +55,7 @@ public class StoreRepositoryImpl implements StoreRepository {
 	}
 
 	@Override
-	public Store getStore(long userId) {
+	public Store getOurStore(long userId) {
 		SqlRowSet rs = jdbc.queryForRowSet("select s.* from user u " + 
 				"inner join company_staff cs on cs.user_id = u.id " +
 				"inner join store s on s.id = cs.store_id " +
@@ -80,16 +81,14 @@ public class StoreRepositoryImpl implements StoreRepository {
 		return null;
 	}
 
-//	@Override
-//	public List<StorePicture> getStorePictures(long storeId) {
-//		// Dang can xem lai
-//		Query query = new Query();
-//		Long id = new Long(storeId);
-//		query.addCriteria(new Criteria().exists(
-//				Criteria.where("store_id").equals(id)
-//			));
-//		List<StorePicture> storePictures = mongo.find(query, StorePicture.class);
-//		return storePictures;
-//	}
+	@Override
+	public Map getStoreInformation(long storeId) {
+		return null;
+	}
+
+	@Override
+	public boolean updateStoreInformation(long storeId, UpdateStoreInfoReq req) {
+		return false;
+	}
 
 }

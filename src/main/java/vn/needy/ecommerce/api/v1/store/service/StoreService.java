@@ -1,8 +1,13 @@
 package vn.needy.ecommerce.api.v1.store.service;
 
-import vn.needy.ecommerce.api.v1.store.response.StoreResponse;
+import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.v1.store.request.UpdateStoreInfoReq;
 
 public interface StoreService {
-	
-	StoreResponse getStoreInformation(long userId);
+
+	BaseResponse getOurStore(long userId, long companyId);
+
+	BaseResponse getStoreInformation(long storeId);
+
+	BaseResponse updateStoreInformation(long storeId, UpdateStoreInfoReq storeInfoReq);
 }

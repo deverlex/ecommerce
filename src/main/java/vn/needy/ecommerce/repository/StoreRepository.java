@@ -1,13 +1,19 @@
 package vn.needy.ecommerce.repository;
 
 
+import vn.needy.ecommerce.api.v1.store.request.UpdateStoreInfoReq;
 import vn.needy.ecommerce.domain.mysql.Store;
+
+import java.util.Map;
 
 public interface StoreRepository {
 
-	public long registerStore(Store store);
+	long registerStore(Store store);
 	
-	public Store getStore(long userId);
+	Store getOurStore(long userId);
 
-//	public List<StorePicture> getStorePictures(long storeId);
+	Map getStoreInformation(long storeId);
+
+	boolean updateStoreInformation(long storeId, UpdateStoreInfoReq req);
+
 }

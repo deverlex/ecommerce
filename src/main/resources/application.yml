@@ -87,15 +87,20 @@ needy:
         #GET - get all attribute of category
         get_lists: v1/attributes/lists #?category_name=
 
+      stores:
+        #GET check st where user is working
+        find_our_store: v1/stores/users
+        #GET - get store info details
+        information_details: v1/stores/{store_id}/infomations/details
+        #PUT - update store info
+        update_information_details: v1/stores/{store_id}/infomations/details
+
 
       products:
-            price_now:
-              add_new: pn/products #?company_id=&store_id= |POST - add new product
-              images:
-                add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
-                update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product
+        price_now:
+          add_new: pn/products #?company_id=&store_id= |POST - add new product
+          images:
+            add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
+            update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product
 
-      stores:
-          infomation: stores # GET
-          update_info: stores/{store_id} # PUT - update store info
     v2: v2
