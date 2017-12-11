@@ -1,11 +1,12 @@
-package vn.needy.ecommerce.model.json;
+package vn.needy.ecommerce.model.wrapper;
 
-import vn.needy.ecommerce.domain.entity.FeeTransport;
+
+import vn.needy.ecommerce.domain.mysql.FeeTransport;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class FeeTransportJson implements Serializable {
+public class FeeTransportWrapper implements Serializable {
 
     private short feeType;
     private float from;
@@ -14,11 +15,11 @@ public class FeeTransportJson implements Serializable {
     private Date lastUpdatedTime;
     private long lastUpdatedBy;
 
-    public FeeTransportJson() {
+    public FeeTransportWrapper() {
         super();
     }
 
-    public FeeTransportJson(FeeTransport feeTransport) {
+    public FeeTransportWrapper(FeeTransport feeTransport) {
         feeType = feeTransport.getFeeType();
         from = feeTransport.getFrom();
         to = feeTransport.getTo();

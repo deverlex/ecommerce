@@ -9,12 +9,7 @@ import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
 import vn.needy.ecommerce.common.utils.TimeProvider;
-import vn.needy.ecommerce.domain.mysql.Budget;
-import vn.needy.ecommerce.domain.mysql.Company;
-import vn.needy.ecommerce.domain.mysql.CompanyStaff;
-import vn.needy.ecommerce.domain.mysql.Pay;
-import vn.needy.ecommerce.domain.mysql.Role;
-import vn.needy.ecommerce.domain.mysql.Store;
+import vn.needy.ecommerce.domain.mysql.*;
 import vn.needy.ecommerce.model.enums.StaffState;
 import vn.needy.ecommerce.model.enums.StaffStatus;
 import vn.needy.ecommerce.model.enums.StoreState;
@@ -24,7 +19,7 @@ import vn.needy.ecommerce.model.enums.PayBehavior;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
 import vn.needy.ecommerce.api.v1.company.response.CompanyResponse;
-import vn.needy.ecommerce.model.json.FeeTransportJson;
+import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 import vn.needy.ecommerce.repository.BudgetRepository;
 import vn.needy.ecommerce.repository.CompanyRepository;
 import vn.needy.ecommerce.repository.CompanyGuaranteeRepository;
@@ -32,6 +27,10 @@ import vn.needy.ecommerce.repository.CompanyStaffRepository;
 import vn.needy.ecommerce.repository.PayRepository;
 import vn.needy.ecommerce.repository.StoreRepository;
 import vn.needy.ecommerce.repository.UserRoleRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service("companiesService")
 public class CompanyServiceImpl implements CompanyService {
@@ -78,14 +77,14 @@ public class CompanyServiceImpl implements CompanyService {
         if (companyInfo != null) {
             Company company = (Company) companyInfo.get("company");
             int staffCount = (int) companyInfo.get("staffCount");
-            List<FeeTransportJson> feeTransportJsons = new ArrayList<>();
+            List<FeeTransportWrapper> feeTransportWrappers = new ArrayList<>();
             for (FeeTransport ft : (List<FeeTransport>) companyInfo.get("feeTransport")) {
-                feeTransportJsons.add(new FeeTransportJson(ft));
+                feeTransportWrappers.add(new FeeTransportWrapper(ft));
             }
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
-            CompanyJson companyJson = new CompanyJson(company);
+            CompanyWrapper companyJson = new CompanyWrapper(company);
             companyJson.setReputation(isCompanyReputation);
-            return new CompanyResponse(companyJson, staffCount, feeTransportJsons);
+            return new CompanyResponse(companyJson, staffCount, feeTransportWrappers);
         } else {
             return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
         }
