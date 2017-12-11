@@ -121,11 +121,13 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 	}
 
 	@Override
-	public boolean updateCompanyInformation(long companyId, long userId,UpdateCompanyInfoRequest infoRequest) {
+	public boolean updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest) {
 		return jdbc.update("update company set name = ?, address = ?, description = ?, " +
 						"site_url = ?, email = ?, lat = ?, lng = ?, " +
 						"founded_date = ?, opening_time = ?, closing_time = ? " +
-						"where id = (select company_id from company_staff cs where user_id = ? and company_id = ? limit 1)",
+						"where id = ? and id = (select company_id " +
+								"from company_staff cs " +
+								"where user_id = ? and company_id = ? limit 1)",
 						infoRequest.getName(),
 						infoRequest.getAddress(),
 						infoRequest.getDescription(),
@@ -135,6 +137,8 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 						infoRequest.getLng(),
 						infoRequest.getFoundedDate(),
 						infoRequest.getOpeningTime(),
-						infoRequest.getClosingTime(), userId, companyId) == 1;
+						infoRequest.getClosingTime(),
+						/** optimize update access with where primary_key = xxx */
+						companyId, userId, companyId) == 1;
 	}
 }
