@@ -10,7 +10,7 @@ public class CompanyInfoResp extends BaseResponse {
 
     private CompanyWrapper company;
     private int totalStaff;
-    private List<FeeTransportWrapper> feeTransports;
+    private List<FeeTransportWrapper> feeTransport;
 
     public CompanyInfoResp(CompanyWrapper wrapper, int staffCount) {
         this.company = wrapper;
@@ -20,7 +20,7 @@ public class CompanyInfoResp extends BaseResponse {
     public CompanyInfoResp(CompanyWrapper wrapper, int staffCount, List<FeeTransportWrapper> feeTransports) {
         this.company = wrapper;
         this.totalStaff = staffCount;
-        this.feeTransports = feeTransports;
+        this.feeTransport = feeTransports;
     }
 
     public CompanyWrapper getCompany() {
@@ -39,11 +39,11 @@ public class CompanyInfoResp extends BaseResponse {
         this.totalStaff = totalStaff;
     }
 
-    public List<FeeTransportWrapper> getFeeTransports() {
-        return feeTransports;
+    public List<FeeTransportWrapper> getFeeTransport() {
+        return feeTransport;
     }
 
-    public void setFeeTransports(List<FeeTransportWrapper> feeTransports) {
-        this.feeTransports = feeTransports;
+    public void setFeeTransport(List<FeeTransportWrapper> feeTransport) {
+        this.feeTransport = feeTransport;
     }
 }

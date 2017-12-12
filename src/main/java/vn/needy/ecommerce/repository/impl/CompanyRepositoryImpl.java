@@ -90,20 +90,6 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 			map.put("company", company);
 			map.put("staffCount", rs.getInt("count_staff"));
 
-			List<FeeTransport> feeTransports = new ArrayList<>();
-
-			SqlRowSet rsFeeTransport = jdbc.queryForRowSet("select ft.* from fee_transport ft where ft.company_id = ?", company.getId());
-			while (rsFeeTransport.next()) {
-				FeeTransport ft = new FeeTransport();
-				ft.setFeeType(rsFeeTransport.getShort("fee_type"));
-				ft.setFrom(rsFeeTransport.getFloat("from"));
-				ft.setTo(rsFeeTransport.getFloat("to"));
-				ft.setFee(rsFeeTransport.getFloat("fee"));
-				ft.setLastUpdatedTime(rsFeeTransport.getDate("last_updated_time"));
-				ft.setLastUpdatedBy(rsFeeTransport.getLong("last_updated_by"));
-				feeTransports.add(ft);
-			}
-			map.put("feeTransport", feeTransports);
 			return map;
 		}
 		return null;
