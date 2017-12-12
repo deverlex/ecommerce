@@ -13,5 +13,5 @@ public interface CompanyRepository {
 
 	long registerCompany(Company company);
 
-	boolean updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest);
+	boolean updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest);
 }

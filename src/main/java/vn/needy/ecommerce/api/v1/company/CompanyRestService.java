@@ -45,10 +45,11 @@ public class CompanyRestService {
 	}
 
 	@RequestMapping(value = "${needy.route.v1.companies.update_information_details}", method = RequestMethod.PUT)
-	public ResponseEntity<BaseResponse> updateCompanyInformation(@PathVariable(value = "company_id") String compantId,
+	public ResponseEntity<BaseResponse> updateCompanyInformation(HttpServletRequest request, @PathVariable(value = "company_id") String compantId,
 																 @RequestBody UpdateCompanyInfoRequest infoRequest) {
-		long id = CipherID.decrypt(compantId);
-		BaseResponse response = companyService.updateCompanyInformation(id, infoRequest);
+		long companyId = CipherID.decrypt(compantId);
+		long userId = idUtils.getIdentification(request);
+		BaseResponse response = companyService.updateCompanyInformation(companyId, userId, infoRequest);
 		return ResponseEntity.ok(response);
 	}
 }

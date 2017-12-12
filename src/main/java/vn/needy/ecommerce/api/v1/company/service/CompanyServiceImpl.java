@@ -21,15 +21,10 @@ import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
 import vn.needy.ecommerce.api.v1.company.response.CompanyResp;
 import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
-import vn.needy.ecommerce.repository.BudgetRepository;
-import vn.needy.ecommerce.repository.CompanyRepository;
-import vn.needy.ecommerce.repository.CompanyGuaranteeRepository;
-import vn.needy.ecommerce.repository.CompanyStaffRepository;
-import vn.needy.ecommerce.repository.PayRepository;
-import vn.needy.ecommerce.repository.StoreRepository;
-import vn.needy.ecommerce.repository.UserRoleRepository;
+import vn.needy.ecommerce.repository.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +55,9 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     UserRoleRepository userRoleRepository;
 
+    @Autowired
+    FeeTransportRepository feeTransportRepo;
+
     @Override
     public BaseResponse findOurCompany(long userId) {
         Company company = companiesRepository.findByUserId(userId);
@@ -88,16 +86,22 @@ public class CompanyServiceImpl implements CompanyService {
         if (companyInfo != null) {
             Company company = (Company) companyInfo.get("company");
             int staffCount = (int) companyInfo.get("staffCount");
-            List<FeeTransportWrapper> feeTransportWrappers = new ArrayList<>();
-            for (FeeTransport ft : (List<FeeTransport>) companyInfo.get("feeTransport")) {
+
+            List<FeeTransport> feeTransports = feeTransportRepo.getListByCompanyId(company.getId());
+
+            List<FeeTransportWrapper> feeTransportWrappers = new LinkedList<>();
+            for (FeeTransport ft : feeTransports) {
                 feeTransportWrappers.add(new FeeTransportWrapper(ft));
             }
+
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
+
             return new CompanyInfoResp(companyWrapper, staffCount, feeTransportWrappers);
         } else {
-            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
+            // Need use error code for client
+            return new BaseResponse(BaseResponse.ERROR, ResponseCode.NO_CONTENT);
         }
     }
 
@@ -178,12 +182,12 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public BaseResponse updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest) {
-        boolean isUpdate = companiesRepository.updateCompanyInformation(id, infoRequest);
+    public BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest) {
+        boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
         if (isUpdate) {
             return new BaseResponse();
         } else {
-            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
+            return new BaseResponse(BaseResponse.ERROR, ResponseCode.NOT_IMPLEMENTED);
         }
     }
 

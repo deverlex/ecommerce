@@ -12,8 +12,6 @@ public class FeeTransportWrapper implements Serializable {
     private float from;
     private float to;
     private float fee;
-    private Date lastUpdatedTime;
-    private long lastUpdatedBy;
 
     public FeeTransportWrapper() {
         super();
@@ -24,8 +22,6 @@ public class FeeTransportWrapper implements Serializable {
         from = feeTransport.getFrom();
         to = feeTransport.getTo();
         fee = feeTransport.getFee();
-        lastUpdatedTime = feeTransport.getLastUpdatedTime();
-        lastUpdatedBy = feeTransport.getLastUpdatedBy();
     }
 
     public short getFeeType() {
@@ -58,21 +54,5 @@ public class FeeTransportWrapper implements Serializable {
 
     public void setFee(float fee) {
         this.fee = fee;
-    }
-
-    public Date getLastUpdatedTime() {
-        return lastUpdatedTime;
-    }
-
-    public void setLastUpdatedTime(Date lastUpdatedTime) {
-        this.lastUpdatedTime = lastUpdatedTime;
-    }
-
-    public long getLastUpdatedBy() {
-        return lastUpdatedBy;
-    }
-
-    public void setLastUpdatedBy(long lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
     }
 }

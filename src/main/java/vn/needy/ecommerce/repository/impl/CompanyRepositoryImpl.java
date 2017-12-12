@@ -40,7 +40,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 				+ "from company c "
 				+ "inner join company_staff cs on c.id = cs.company_id "
 				+ "where cs.user_id = ? and c.state <> ?",
-				new Object[] {userId, CompanyState.CLOSED.getState()});
+				userId, CompanyState.CLOSED.getState());
 		if (rs.first()) {
 			Company company = new Company();
 			company.setId(rs.getLong("id"));
@@ -68,7 +68,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 						"from company_staff cs2 " +
 						"inner join company c on c.id = cs2.company_id" +
 						" where cs2.user_id = ? and c.state <> ?",
-				new Object[] {userId, CompanyState.CLOSED.getState()});
+				userId, CompanyState.CLOSED.getState());
 		if (rs.first()) {
 			Map map = new HashMap();
 			Company company = new Company();
@@ -90,21 +90,6 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 			map.put("company", company);
 			map.put("staffCount", rs.getInt("count_staff"));
 
-			List<FeeTransport> feeTransports = new ArrayList<>();
-
-			SqlRowSet rsFeeTransport = jdbc.queryForRowSet("select ft.* from fee_transport ft where ft.company_id = ?", new Object[]{company.getId()});
-			while (rsFeeTransport.next()) {
-				FeeTransport ft = new FeeTransport();
-				ft.setFeeType(rsFeeTransport.getShort("fee_type"));
-				ft.setFrom(rsFeeTransport.getFloat("from"));
-				ft.setTo(rsFeeTransport.getFloat("to"));
-				ft.setFee(rsFeeTransport.getFloat("fee"));
-				ft.setLastUpdatedTime(rsFeeTransport.getDate("last_updated_time"));
-				ft.setLastUpdatedBy(rsFeeTransport.getLong("last_updated_by"));
-				feeTransports.add(ft);
-			}
-			System.out.println("--------------------------------" + company.getId());
-			map.put("feeTransport", feeTransports);
 			return map;
 		}
 		return null;
@@ -122,12 +107,14 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 	}
 
 	@Override
-	public boolean updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest) {
+	public boolean updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest) {
 		return jdbc.update("update company set name = ?, address = ?, description = ?, " +
 						"site_url = ?, email = ?, lat = ?, lng = ?, " +
 						"founded_date = ?, opening_time = ?, closing_time = ? " +
-						"where id = ?",
-				new Object[]{infoRequest.getName(),
+						"where id = ? and id = (select company_id " +
+								"from company_staff cs " +
+								"where user_id = ? and company_id = ? limit 1)",
+						infoRequest.getName(),
 						infoRequest.getAddress(),
 						infoRequest.getDescription(),
 						infoRequest.getSiteURL(),
@@ -136,6 +123,8 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 						infoRequest.getLng(),
 						infoRequest.getFoundedDate(),
 						infoRequest.getOpeningTime(),
-						infoRequest.getClosingTime(), id}) == 1;
+						infoRequest.getClosingTime(),
+						/** optimize update access with where primary_key = xxx */
+						companyId, userId, companyId) == 1;
 	}
 }
