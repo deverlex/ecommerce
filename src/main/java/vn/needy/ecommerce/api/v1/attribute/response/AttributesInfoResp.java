@@ -1,24 +1,26 @@
 package vn.needy.ecommerce.api.v1.attribute.response;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.model.wrapper.AttributeValueWrapper;
 import vn.needy.ecommerce.model.wrapper.AttributeWrapper;
 
 import java.util.List;
+import java.util.Map;
 
-public class ListAttrsResponse extends BaseResponse {
+public class AttributesInfoResp extends BaseResponse {
     private static final long serialVersionUID = 13242799836L;
 
-    private List<AttributeWrapper> attributes;
+    private List<AttributeValueWrapper> attributes;
 
-    public ListAttrsResponse() {
+    public AttributesInfoResp() {
         super();
     }
 
-    public List<AttributeWrapper> getAttributes() {
+    public List<AttributeValueWrapper> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<AttributeWrapper> attributes) {
+    public void setAttributes(List<AttributeValueWrapper> attributes) {
         this.attributes = attributes;
     }
 }

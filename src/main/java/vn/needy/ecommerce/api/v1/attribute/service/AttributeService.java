@@ -1,8 +1,8 @@
 package vn.needy.ecommerce.api.v1.attribute.service;
 
-import vn.needy.ecommerce.api.v1.attribute.response.ListAttrsResponse;
+import vn.needy.ecommerce.api.base.BaseResponse;
 
 public interface AttributeService {
 
-    ListAttrsResponse getListAttrsOfCategory(String category);
+    BaseResponse getListAttributeOfCategory(String category);
 }

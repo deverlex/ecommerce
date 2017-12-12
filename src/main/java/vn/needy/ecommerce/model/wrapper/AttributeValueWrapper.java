@@ -1,25 +1,20 @@
 package vn.needy.ecommerce.model.wrapper;
 
-import vn.needy.ecommerce.domain.mysql.Attribute;
-
 import java.io.Serializable;
+import java.util.List;
 
-public class AttributeWrapper implements Serializable {
-
-    private static final long serialVersionUID = 1532998899646L;
+public class AttributeValueWrapper implements Serializable {
 
     private String name;
     private String title;
     private int dataType;
+    private List<Object> values;
 
-    public AttributeWrapper() {
-        super();
-    }
-
-    public AttributeWrapper(Attribute attribute) {
+    public AttributeValueWrapper(AttributeWrapper attribute, List<Object> values) {
         this.name = attribute.getName();
-        this.title = "Title translate";
+        this.title = attribute.getTitle();
         this.dataType = attribute.getDataType();
+        this.values = values;
     }
 
     public String getName() {
@@ -44,5 +39,13 @@ public class AttributeWrapper implements Serializable {
 
     public void setDataType(int dataType) {
         this.dataType = dataType;
+    }
+
+    public List<Object> getValues() {
+        return values;
+    }
+
+    public void setValues(List<Object> values) {
+        this.values = values;
     }
 }

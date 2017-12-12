@@ -8,7 +8,7 @@ jdbc:
 
 # Configuration of Redis Database
 redis:
-  host: localhost
+  host: 192.168.0.103
   port: 6379
   timeout: 60000
   pool: 

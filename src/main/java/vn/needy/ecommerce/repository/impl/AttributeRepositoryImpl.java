@@ -22,14 +22,14 @@ public class AttributeRepositoryImpl implements AttributeRepository {
                 "from category_attribute cat " +
                 "inner join attribute attr on attr.name = cat.attribute_name " +
                 "where cat.category_name = ?", new Object[] {category});
-        List<Attribute> attribues = new LinkedList<>();
+        List<Attribute> attributes = new LinkedList<>();
         while (rs.next()) {
             Attribute attribute = new Attribute(
                     rs.getString("name"),
                     rs.getInt("data_type"));
-            attribues.add(attribute);
+            attributes.add(attribute);
         }
 
-        return attribues;
+        return attributes;
     }
 }
