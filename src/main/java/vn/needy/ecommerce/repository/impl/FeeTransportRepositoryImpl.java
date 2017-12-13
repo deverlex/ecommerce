@@ -25,6 +25,7 @@ public class FeeTransportRepositoryImpl implements FeeTransportRepository {
                 "where company_id = ?", companyId);
         while (rs.next()) {
             FeeTransport ft = new FeeTransport();
+            ft.setId(rs.getLong("id"));
             ft.setFeeType(rs.getShort("fee_type"));
             ft.setFrom(rs.getFloat("from"));
             ft.setTo(rs.getFloat("to"));

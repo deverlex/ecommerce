@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class FeeTransportWrapper implements Serializable {
 
+    private long id;
     private short feeType;
     private float from;
     private float to;
@@ -18,6 +19,7 @@ public class FeeTransportWrapper implements Serializable {
     }
 
     public FeeTransportWrapper(FeeTransport feeTransport) {
+        id = feeTransport.getId();
         feeType = feeTransport.getFeeType();
         from = feeTransport.getFrom();
         to = feeTransport.getTo();
@@ -54,5 +56,13 @@ public class FeeTransportWrapper implements Serializable {
 
     public void setFee(float fee) {
         this.fee = fee;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
