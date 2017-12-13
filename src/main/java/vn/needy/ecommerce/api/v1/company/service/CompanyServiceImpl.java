@@ -23,7 +23,6 @@ import vn.needy.ecommerce.api.v1.company.response.CompanyResp;
 import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 import vn.needy.ecommerce.repository.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +59,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public BaseResponse findOurCompany(long userId) {
-        Company company = companiesRepository.findByUserId(userId);
+        Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
             return new CompanyResp(new CompanyWrapper(company));
         }
@@ -70,7 +69,7 @@ public class CompanyServiceImpl implements CompanyService {
     // This function is not used.
     @Override
     public BaseResponse findCompanyInformation(long userId) {
-        Company company = companiesRepository.findByUserId(userId);
+        Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
@@ -109,7 +108,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional(propagation = Propagation.REQUIRED)
     public BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
         CompanyResp companyResp = new CompanyResp();
-        Company findCompany = companiesRepository.findByUserId(userId);
+        Company findCompany = companiesRepository.findOurByUserId(userId);
 
         if (findCompany != null) {
             BaseResponse response = new BaseResponse(BaseResponse.ERROR,
@@ -169,7 +168,7 @@ public class CompanyServiceImpl implements CompanyService {
 
         userRoleRepository.registerUserListRole(userId, Role.List.CompanyOwner, userId);
 
-        Company company = companiesRepository.findByUserId(userId);
+        Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);

@@ -55,11 +55,11 @@ public class StoreRepositoryImpl implements StoreRepository {
 	}
 
 	@Override
-	public Store getOurStore(long userId) {
+	public Store getOurByUserId(long userId) {
 		SqlRowSet rs = jdbc.queryForRowSet("select s.* from user u " + 
 				"inner join company_staff cs on cs.user_id = u.id " +
 				"inner join store s on s.id = cs.store_id " +
-				"where u.id = ?", new Object[] {userId});
+				"where u.id = ?", userId);
 		if (rs.first()) {
 			Store store = new Store();
 			store.setId(rs.getLong("id"));
@@ -71,8 +71,8 @@ public class StoreRepositoryImpl implements StoreRepository {
 			store.setAddress("address");
 			store.setLat(rs.getFloat("lat"));
 			store.setLng(rs.getFloat("lng"));
-			store.setOpeningTime(rs.getDate("opening_time"));
-			store.setClosingTime(rs.getDate("closing_time"));
+			store.setOpeningTime(rs.getTimestamp("opening_time"));
+			store.setClosingTime(rs.getTimestamp("closing_time"));
 			store.setCreatedTime(rs.getDate("created_time"));
 			store.setLastUpdatedTime(rs.getDate("last_updated_time"));
 			store.setLastUpdatedBy(rs.getLong("last_updated_by"));

@@ -94,6 +94,13 @@ public class UsersRestService {
 		return ResponseEntity.ok(response);
 	}
 
+	@RequestMapping(value = "${needy.route.v1.users.business_information}", method = RequestMethod.GET)
+	public ResponseEntity<BaseResponse> getBusinessesInformation(HttpServletRequest request) {
+		long userId = idUtils.getIdentification(request);
+		BaseResponse response = userService.findBusinessesInformation(userId);
+		return ResponseEntity.ok(response);
+	}
+
 	@RequestMapping(value = {""})
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> demo(HttpServletRequest request) {

@@ -1,7 +1,6 @@
 package vn.needy.ecommerce.api.v1.user.service;
 
 import java.util.LinkedList;
-import java.util.Map;
 
 import com.google.firebase.tasks.OnFailureListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +24,26 @@ import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.user.request.LoginReq;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
+import vn.needy.ecommerce.api.v1.user.response.BusinessInfoResp;
 import vn.needy.ecommerce.api.v1.user.response.LoginResp;
 import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
-import vn.needy.ecommerce.api.v1.user.response.BusinessIdResponse;
 import vn.needy.ecommerce.api.v1.user.response.UserInfoResponse;
 import vn.needy.ecommerce.common.utils.TextUtils;
 import vn.needy.ecommerce.common.utils.TimeProvider;
+import vn.needy.ecommerce.domain.mysql.Company;
+import vn.needy.ecommerce.domain.mysql.Store;
 import vn.needy.ecommerce.domain.mysql.User;
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.model.factory.NeedyUserDetailsFactory;
 import vn.needy.ecommerce.model.security.NeedyUserDetails;
+import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
+import vn.needy.ecommerce.model.wrapper.StoreWrapper;
 import vn.needy.ecommerce.model.wrapper.UserWrapper;
 import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
+import vn.needy.ecommerce.repository.CompanyRepository;
 import vn.needy.ecommerce.repository.CompanyStaffRepository;
+import vn.needy.ecommerce.repository.StoreRepository;
 import vn.needy.ecommerce.repository.UserRepository;
 import vn.needy.ecommerce.security.TokenUtils;
 
@@ -58,7 +63,13 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CompanyStaffRepository companyStaffRepo;
-	
+
+	@Autowired
+	private StoreRepository storeRepo;
+
+	@Autowired
+	private CompanyRepository companyRepo;
+
 	@Autowired
 	private TokenUtils tokenUtils;
 
@@ -233,13 +244,15 @@ public class UserServiceImpl implements UserService {
     }
 
 	@Override
-	public BaseResponse findBusinessId(long userId) {
-		Map<String, Long> result = companyStaffRepo.findInfoIdByUserId(userId);
-		if (result != null) {
-			return new BusinessIdResponse(result.get("company_id"), result.get("store_id"));
-		}
-		return new BaseResponse(BaseResponse.ERROR,
-				ResponseCode.NO_CONTENT, "Do not have a business establishment");
+	public BaseResponse findBusinessesInformation(long userId) {
+		Store store = storeRepo.getOurByUserId(userId);
+		Company company = companyRepo.findOurByUserId(userId);
+
+		BusinessInfoResp resp = new BusinessInfoResp(
+				new CompanyWrapper(company),
+				new StoreWrapper(store)
+		);
+		return resp;
 	}
 
 }

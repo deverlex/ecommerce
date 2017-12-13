@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface CompanyRepository {
 	
-	Company findByUserId(long userId);
+	Company findOurByUserId(long userId);
 
 	Map findInformationByUserId(long userId);
 
