@@ -245,8 +245,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public BaseResponse findBusinessesInformation(long userId) {
-		Store store = storeRepo.getOurByUserId(userId);
 		Company company = companyRepo.findOurByUserId(userId);
+		Store store = storeRepo.getOurByUserId(userId);
+		// check use need in an business (company & store)
+		if (company == null || store == null) {
+			return new BaseResponse(BaseResponse.ERROR,
+					ResponseCode.NO_CONTENT, "You have not a business");
+		}
 
 		BusinessInfoResp resp = new BusinessInfoResp(
 				new CompanyWrapper(company),
