@@ -61,9 +61,9 @@ public class CompanyServiceImpl implements CompanyService {
     public BaseResponse findOurCompany(long userId) {
         Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
-            return new CompanyResp(new CompanyWrapper(company));
+            return new BaseResponse<CompanyResp>(true, "").setData(new CompanyResp(new CompanyWrapper(company)));
         }
-        return new BaseResponse(BaseResponse.ERROR, ResponseCode.NO_CONTENT);
+        return new BaseResponse(false, "Not found");
     }
 
     // This function is not used.
@@ -74,9 +74,9 @@ public class CompanyServiceImpl implements CompanyService {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new CompanyResp(companyWrapper);
+            return new BaseResponse<CompanyResp>(true, "").setData(new CompanyResp(companyWrapper));
         }
-        return new CompanyResp();
+        return new BaseResponse(false, "Not found");
     }
 
     @Override
@@ -97,10 +97,10 @@ public class CompanyServiceImpl implements CompanyService {
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
 
-            return new CompanyInfoResp(companyWrapper, staffCount, feeTransportWrappers);
+            return new BaseResponse<CompanyInfoResp>(true, "")
+                    .setData(new CompanyInfoResp(companyWrapper, staffCount, feeTransportWrappers));
         } else {
-            // Need use error code for client
-            return new BaseResponse(BaseResponse.ERROR, ResponseCode.NO_CONTENT);
+            return new BaseResponse(false, "Not found");
         }
     }
 
@@ -111,9 +111,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company findCompany = companiesRepository.findOurByUserId(userId);
 
         if (findCompany != null) {
-            BaseResponse response = new BaseResponse(BaseResponse.ERROR,
-                    ResponseCode.NOT_IMPLEMENTED, "You can not register 2 company both active.");
-            return response;
+            return new BaseResponse(false, "You can not register 2 company both active.");
         }
 
         // insert into Companies tables
@@ -173,20 +171,20 @@ public class CompanyServiceImpl implements CompanyService {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new CompanyResp(companyWrapper);
+            return new BaseResponse<CompanyResp>(true, "")
+                    .setData(new CompanyResp(companyWrapper));
         }
 
-        return new BaseResponse(BaseResponse.ERROR,
-                ResponseCode.NOT_IMPLEMENTED, "Create company is failed.");
+        return new BaseResponse(false, "Create company is failed.");
     }
 
     @Override
     public BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest) {
         boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
         if (isUpdate) {
-            return new BaseResponse();
+            return new BaseResponse(true, "Done");
         } else {
-            return new BaseResponse(BaseResponse.ERROR, ResponseCode.NOT_IMPLEMENTED);
+            return new BaseResponse(false, "Failed");
         }
     }
 

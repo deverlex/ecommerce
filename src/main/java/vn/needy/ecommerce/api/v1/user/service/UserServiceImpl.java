@@ -52,184 +52,167 @@ import javax.servlet.http.HttpServletRequest;
 @Service("usersService")
 public class UserServiceImpl implements UserService {
 
-	@Value("${needy.token.prefix}")
-	private String tokenPrefix;
+    @Value("${needy.token.prefix}")
+    private String tokenPrefix;
 
-	@Value("${needy.token.header}")
-	private String tokenHeader;
-	
-	@Autowired
-	private UserRepository usersRepo;
+    @Value("${needy.token.header}")
+    private String tokenHeader;
 
-	@Autowired
-	private CompanyStaffRepository companyStaffRepo;
+    @Autowired
+    private UserRepository usersRepo;
 
-	@Autowired
-	private StoreRepository storeRepo;
+    @Autowired
+    private CompanyStaffRepository companyStaffRepo;
 
-	@Autowired
-	private CompanyRepository companyRepo;
+    @Autowired
+    private StoreRepository storeRepo;
 
-	@Autowired
-	private TokenUtils tokenUtils;
+    @Autowired
+    private CompanyRepository companyRepo;
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
+    @Autowired
+    private TokenUtils tokenUtils;
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-	@Autowired
-	private TimeProvider timeProvider;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
+    @Autowired
+    private TimeProvider timeProvider;
 
-	@Override
-	public BaseResponse login(LoginReq request, Device device) {
-		// Perform the security
-		final Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(
-						request.getUsername(),
-						request.getPassword())
-				);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		// Reload password post-security so we can generate token
-		final NeedyUserDetails needyUserDetails = (NeedyUserDetails) userDetailsService.loadUserByUsername(request.getUsername());
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-		// If user is locked, do not return an token
-		if (needyUserDetails.getState() == UserState.LOCKED.getState()) {
-			String message = "Your account is locked, we will unlock on "
-					+ timeProvider.formatDate(needyUserDetails.getUnlockTime());
-			return new BaseResponse(BaseResponse.ERROR,
-					ResponseCode.NOT_IMPLEMENTED, message);
-		}
-		final String token = tokenPrefix  + " " + tokenUtils.generateToken(needyUserDetails, device);
-		// get user info return to client
-		User user = usersRepo.findUserById(needyUserDetails.getId());
-		// wrapper user before return to client
-		return new LoginResp(new UserWrapper(user), token);
-	}
+    @Override
+    public BaseResponse login(LoginReq request, Device device) {
+        // Perform the security
+        final Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword())
+                );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // Reload password post-security so we can generate token
+        final NeedyUserDetails needyUserDetails = (NeedyUserDetails) userDetailsService.loadUserByUsername(request.getUsername());
 
-	@Override
-	public BaseResponse refresh(HttpServletRequest request) {
-		String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
+        // If user is locked, do not return an token
+        if (needyUserDetails.getState() == UserState.LOCKED.getState()) {
+            String message = "Your account is locked, we will unlock on "
+                    + timeProvider.formatDate(needyUserDetails.getUnlockTime());
+            return new BaseResponse<>(false, message);
+        }
+        final String token = tokenPrefix + " " + tokenUtils.generateToken(needyUserDetails, device);
+        // get user info return to client
+        User user = usersRepo.findUserById(needyUserDetails.getId());
+        // wrapper user before return to client
+        return new BaseResponse<LoginResp>(true, "")
+                .setData(new LoginResp(new UserWrapper(user), token));
+    }
 
-		String username = this.tokenUtils.getUsernameFromToken(token);
-		NeedyUserDetails needyUserDetails = (NeedyUserDetails) this.userDetailsService.loadUserByUsername(username);
-		if (this.tokenUtils.canTokenBeRefreshed(token, needyUserDetails.getLastResetPassword())) {
-			String refreshedToken = tokenPrefix  + " " + this.tokenUtils.refreshToken(token);
+    @Override
+    public BaseResponse refresh(HttpServletRequest request) {
+        String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
 
-			// Add refresh token to response
-			//response.addHeader(tokenHeader,refreshedToken);
-			return new TokenResponse(refreshedToken);
-		}
-		return new BaseResponse(BaseResponse.ERROR,
-				ResponseCode.UNAUTHORIZED, "UNAUTHORIZED");
-	}
+        String username = this.tokenUtils.getUsernameFromToken(token);
+        NeedyUserDetails needyUserDetails = (NeedyUserDetails) this.userDetailsService.loadUserByUsername(username);
+        if (this.tokenUtils.canTokenBeRefreshed(token, needyUserDetails.getLastResetPassword())) {
+            String refreshedToken = tokenPrefix + " " + this.tokenUtils.refreshToken(token);
 
-	@Override
-	@Transactional
-	public void registerUser(DeferredResult result, RegisterUserReq registerInfo, Device device) {
-		FirebaseAuth.getInstance().verifyIdToken(registerInfo.getFirebaseToken())
-			.addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
-				@Override
-				public void onSuccess(FirebaseToken decodedToken) {
-					// Verify token when use phone authentication
-					if (!registerInfo.getFirebaseUid().equals(decodedToken.getUid())) {
-						BaseResponse response = new BaseResponse(BaseResponse.ERROR,
-								ResponseCode.UNAUTHORIZED, "Phone number is not valid");
-						result.setResult(response);
-					} else {
-						String userExist = usersRepo.findUsernameExist(registerInfo.getUsername());
-						if (!TextUtils.isEmpty(userExist)) {
-							BaseResponse response = new BaseResponse(BaseResponse.ERROR,
-									ResponseCode.NOT_IMPLEMENTED, "This phone number has been registered");
-							String message = "This phone number has been registered";
-							result.setResult(response);
-						} else {
-							registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
-							usersRepo.registerUser(registerInfo);
-							User user = new User();
-							user.setUsername(registerInfo.getUsername());
-							String token = tokenPrefix + " " + tokenUtils.generateToken(
-									NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
-							result.setResult(new TokenResponse(token));
-						}
-					}
-				}
-			}).addOnFailureListener(new OnFailureListener() {
-				@Override
-				public void onFailure(Exception e) {
-					BaseResponse response = new BaseResponse(BaseResponse.ERROR,
-							ResponseCode.NOT_IMPLEMENTED, "Sorry, server has error");
-				}
-			});
-	}
+            // Add refresh token to response
+            return new BaseResponse<TokenResponse>(true, "")
+                    .setData(new TokenResponse(refreshedToken));
+        }
+        return new BaseResponse<>(false, "Unauthorized");
+    }
 
-	@Override
-	public BaseResponse findUserExist(String username) {
-		String userExist = usersRepo.findUsernameExist(username);
-		BaseResponse response = new BaseResponse();
-		if (!TextUtils.isEmpty(userExist)) {
-			response.setMessage("This phone number/account is registered");
-		} else {
-			response.setStatus(BaseResponse.ERROR);
-			response.setCode(ResponseCode.NO_CONTENT.getCode());
-			response.setMessage("Empty");
-		}
+    @Override
+    @Transactional
+    public void registerUser(DeferredResult result, RegisterUserReq registerInfo, Device device) {
+        FirebaseAuth.getInstance().verifyIdToken(registerInfo.getFirebaseToken())
+                .addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
+                    @Override
+                    public void onSuccess(FirebaseToken decodedToken) {
+                        // Verify token when use phone authentication
+                        if (!registerInfo.getFirebaseUid().equals(decodedToken.getUid())) {
+                            result.setResult(new BaseResponse(false, "Phone number is not valid"));
 
-		return response;
-	}
+                        } else {
+                            String userExist = usersRepo.findUsernameExist(registerInfo.getUsername());
+                            if (!TextUtils.isEmpty(userExist)) {
+                                result.setResult(new BaseResponse(false, "This phone number has been registered"));
+                            } else {
+                                registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
+                                usersRepo.registerUser(registerInfo);
+                                User user = new User();
+                                user.setUsername(registerInfo.getUsername());
+                                String token = tokenPrefix + " " + tokenUtils.generateToken(
+                                        NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
+                                result.setResult(
+                                        new BaseResponse<>(true, "").setData(new TokenResponse(token))
+                                );
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                result.setResult(new BaseResponse<>(false, "Sorry, server has error"));
+            }
+        });
+    }
 
-	@Override
-	@Transactional
-	public void resetPassword(DeferredResult result,String username, ResetPasswordRequest resetPasswordRequest, Device device) {
-		User user = usersRepo.findUserByUsernameForResetPassword(username);
-		if (user == null) {
-			BaseResponse response = new BaseResponse(BaseResponse.ERROR,
-					ResponseCode.NO_CONTENT, "Phone number is not valid");
-			result.setResult(response);
-		}
+    @Override
+    public BaseResponse findUserExist(String username) {
+        String userExist = usersRepo.findUsernameExist(username);
+        if (!TextUtils.isEmpty(userExist)) {
+            return new BaseResponse<>(true, "This phone number/account is registered");
+        }
+        return new BaseResponse<>(false, "Not found");
+    }
 
-		FirebaseAuth.getInstance().verifyIdToken(resetPasswordRequest.getFirebaseToken())
-				.addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
-					@Override
-					public void onSuccess(FirebaseToken decodedToken) {
-						// Verify token when use phone authentication
-						if (user.getFirebaseUid().equals(decodedToken.getUid())) {
-							String encodePassword = passwordEncoder.encode(resetPasswordRequest.getPassword());
-							usersRepo.updatePasswordByUserId(user.getId(), encodePassword);
-							user.setUsername(username);
-							String token = tokenPrefix + " "
-									+ tokenUtils.generateToken(NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
+    @Override
+    @Transactional
+    public void resetPassword(DeferredResult result, String username, ResetPasswordRequest resetPasswordRequest, Device device) {
+        User user = usersRepo.findUserByUsernameForResetPassword(username);
+        if (user == null) {
+            result.setResult(new BaseResponse<>(false, "Phone number is not valid"));
+        }
 
+        FirebaseAuth.getInstance().verifyIdToken(resetPasswordRequest.getFirebaseToken())
+                .addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
+                    @Override
+                    public void onSuccess(FirebaseToken decodedToken) {
+                        // Verify token when use phone authentication
+                        if (user.getFirebaseUid().equals(decodedToken.getUid())) {
+                            String encodePassword = passwordEncoder.encode(resetPasswordRequest.getPassword());
+                            usersRepo.updatePasswordByUserId(user.getId(), encodePassword);
+                            user.setUsername(username);
+                            String token = tokenPrefix + " "
+                                    + tokenUtils.generateToken(NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
 
-							result.setResult(new TokenResponse(token));
-						} else {
-							BaseResponse response = new BaseResponse(BaseResponse.ERROR,
-									ResponseCode.UNAUTHORIZED, "Phone number is not valid");
-							result.setResult(response);
-						}
-					}
-				}).addOnFailureListener(new OnFailureListener() {
-			@Override
-			public void onFailure(Exception e) {
-				BaseResponse response = new BaseResponse(BaseResponse.ERROR,
-						ResponseCode.NOT_IMPLEMENTED, "Sorry, server has error");
-			}
-		});
-	}
+                            result.setResult(new BaseResponse<>(true, "").setData(new TokenResponse(token))
+                            );
+                        } else {
+                            result.setResult(new BaseResponse<>(false, "Phone number is not valid"));
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                result.setResult(new BaseResponse<>(false, "Sorry, server has error"));
+            }
+        });
+    }
 
     @Override
     public BaseResponse getUserInformation(long id) {
         User user = usersRepo.findUserById(id);
         if (user != null) {
-            UserInfoResponse userInfoResponse = new UserInfoResponse();
-            userInfoResponse.setUser(new UserWrapper(user));
-            return userInfoResponse;
+            return new BaseResponse<UserInfoResponse>(true, "").setData(new UserInfoResponse(new UserWrapper(user)));
         } else {
-            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
+            return new BaseResponse(false, "Not found");
         }
     }
 
@@ -237,27 +220,26 @@ public class UserServiceImpl implements UserService {
     public BaseResponse updateUserInformation(long id, UpdateUserInfoRequest request) {
         boolean isUpdate = usersRepo.updateUserInformation(id, request);
         if (isUpdate) {
-            return new BaseResponse();
+            return new BaseResponse(true, "Done");
         } else {
-            return new BaseResponse(BaseResponse.ERROR, ResponseCode.ERROR);
+            return new BaseResponse(false, "Failed");
         }
     }
 
-	@Override
-	public BaseResponse findBusinessesInformation(long userId) {
-		Company company = companyRepo.findOurByUserId(userId);
-		Store store = storeRepo.getOurByUserId(userId);
-		// check use need in an business (company & store)
-		if (company == null || store == null) {
-			return new BaseResponse(BaseResponse.ERROR,
-					ResponseCode.NO_CONTENT, "You have not a business");
-		}
+    @Override
+    public BaseResponse findBusinessesInformation(long userId) {
+        Company company = companyRepo.findOurByUserId(userId);
+        Store store = storeRepo.getOurByUserId(userId);
+        // check use need in an business (company & store)
+        if (company == null || store == null) {
+            return new BaseResponse(false, "You have not a business");
+        }
 
-		BusinessInfoResp resp = new BusinessInfoResp(
-				new CompanyWrapper(company),
-				new StoreWrapper(store)
-		);
-		return resp;
-	}
+        return new BaseResponse<>(true, "")
+                .setData(new BusinessInfoResp(
+                        new CompanyWrapper(company),
+                        new StoreWrapper(store)
+                ));
+    }
 
 }

@@ -1,8 +1,8 @@
 package vn.needy.ecommerce.api.v1.order.response;
 
-import vn.needy.ecommerce.api.base.BaseResponse;
+import java.io.Serializable;
 
-public class OrderResponse extends BaseResponse {
+public class OrderResponse implements Serializable {
     private static final long serialVersionUID = 130272848L;
 
 }

@@ -44,9 +44,7 @@ public class AttributeServiceImpl implements AttributeService {
             ));
         }
 
-        AttributesInfoResp response = new AttributesInfoResp();
-        response.setAttributes(contentResp);
-        return response;
+        return new BaseResponse<AttributesInfoResp>(true, "").setData(new AttributesInfoResp(contentResp));
     }
 
     private Map<String, List<Object>> attributeValuesToMap(List<AttributeValue> list) {

@@ -1,9 +1,10 @@
 package vn.needy.ecommerce.api.v1.company.response;
 
-import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 
-public class CompanyResp extends BaseResponse {
+import java.io.Serializable;
+
+public class CompanyResp implements Serializable {
 
 	private static final long serialVersionUID = 130272848L;
 	

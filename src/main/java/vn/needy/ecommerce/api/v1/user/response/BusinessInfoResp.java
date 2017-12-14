@@ -1,11 +1,11 @@
 package vn.needy.ecommerce.api.v1.user.response;
 
-import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 import vn.needy.ecommerce.model.wrapper.StoreWrapper;
 
-public class BusinessInfoResp extends BaseResponse {
+import java.io.Serializable;
+
+public class BusinessInfoResp implements Serializable {
 
     private CompanyWrapper company;
     private StoreWrapper store;
