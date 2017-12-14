@@ -6,8 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.api.base.ResponseCode;
-import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
+import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoReq;
 import vn.needy.ecommerce.api.v1.company.response.CompanyInfoResp;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.domain.mysql.*;
@@ -18,7 +17,7 @@ import vn.needy.ecommerce.model.enums.StoreStatus;
 import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.model.enums.PayBehavior;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
-import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
+import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyReq;
 import vn.needy.ecommerce.api.v1.company.response.CompanyResp;
 import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 import vn.needy.ecommerce.repository.*;
@@ -106,7 +105,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
+    public BaseResponse registerCompany(long userId, RegisterCompanyReq registerCompanyReq) {
         CompanyResp companyResp = new CompanyResp();
         Company findCompany = companiesRepository.findOurByUserId(userId);
 
@@ -117,8 +116,8 @@ public class CompanyServiceImpl implements CompanyService {
         // insert into Companies tables
         Company registerCompany = new Company();
         registerCompany.setLastUpdatedBy(userId);
-        registerCompany.setName(registerCompanyRequest.getCompanyName());
-        registerCompany.setAddress(registerCompanyRequest.getOfficeAddress());
+        registerCompany.setName(registerCompanyReq.getCompanyName());
+        registerCompany.setAddress(registerCompanyReq.getOfficeAddress());
         registerCompany.setLevel(0);
         registerCompany.setState(CompanyState.ACTIVE.getState());
         long companyId = companiesRepository.registerCompany(registerCompany);
@@ -144,12 +143,12 @@ public class CompanyServiceImpl implements CompanyService {
         registerStore.setCompanyId(companyId);
         registerStore.setState(StoreState.INACTIVE.getState());
         registerStore.setStatus(StoreStatus.CLOSED_TIME.getStatus());
-        registerStore.setName(registerCompanyRequest.getStoreName());
-        registerStore.setAddress(registerCompanyRequest.getStoreAddress());
+        registerStore.setName(registerCompanyReq.getStoreName());
+        registerStore.setAddress(registerCompanyReq.getStoreAddress());
         registerStore.setOpeningTime(timeProvider.parseTime("08:00:00"));
         registerStore.setClosingTime(timeProvider.parseTime("20:00:00"));
-        registerStore.setLat(registerCompanyRequest.getLat());
-        registerStore.setLng(registerCompanyRequest.getLng());
+        registerStore.setLat(registerCompanyReq.getLat());
+        registerStore.setLng(registerCompanyReq.getLng());
         registerStore.setLastUpdatedBy(userId);
         long storeId = storesRepository.registerStore(registerStore);
 
@@ -159,7 +158,7 @@ public class CompanyServiceImpl implements CompanyService {
         staff.setLastUpdatedBy(userId);
         staff.setCompanyId(companyId);
         staff.setStoreId(storeId);
-        staff.setFcmToken(registerCompanyRequest.getFcmToken());
+        staff.setFcmToken(registerCompanyReq.getFcmToken());
         staff.setState(StaffState.ACTIVED.getState());
         staff.setStatus(StaffStatus.READY.getStatus());
         companyStaffRepository.insertCompanyStaff(staff);
@@ -179,7 +178,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest) {
+    public BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
         boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
         if (isUpdate) {
             return new BaseResponse(true, "Done");

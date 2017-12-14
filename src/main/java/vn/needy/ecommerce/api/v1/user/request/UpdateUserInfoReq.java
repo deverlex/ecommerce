@@ -3,7 +3,7 @@ package vn.needy.ecommerce.api.v1.user.request;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UpdateUserInfoRequest implements Serializable {
+public class UpdateUserInfoReq implements Serializable {
 
     private static final long serialVersionUID = 14325224324525L;
 
@@ -15,7 +15,7 @@ public class UpdateUserInfoRequest implements Serializable {
     private float lat;
     private float lng;
 
-    public UpdateUserInfoRequest() {
+    public UpdateUserInfoReq() {
         super();
     }
 

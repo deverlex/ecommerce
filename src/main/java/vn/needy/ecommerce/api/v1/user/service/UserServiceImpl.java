@@ -20,10 +20,9 @@ import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.tasks.OnSuccessListener;
 
 import org.springframework.web.context.request.async.DeferredResult;
-import vn.needy.ecommerce.api.base.ResponseCode;
 import vn.needy.ecommerce.api.v1.user.request.LoginReq;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
-import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
+import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoReq;
 import vn.needy.ecommerce.api.v1.user.response.BusinessInfoResp;
 import vn.needy.ecommerce.api.v1.user.response.LoginResp;
 import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
@@ -40,7 +39,7 @@ import vn.needy.ecommerce.model.security.NeedyUserDetails;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 import vn.needy.ecommerce.model.wrapper.StoreWrapper;
 import vn.needy.ecommerce.model.wrapper.UserWrapper;
-import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
+import vn.needy.ecommerce.api.v1.user.request.ResetPasswordReq;
 import vn.needy.ecommerce.repository.CompanyRepository;
 import vn.needy.ecommerce.repository.CompanyStaffRepository;
 import vn.needy.ecommerce.repository.StoreRepository;
@@ -174,19 +173,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void resetPassword(DeferredResult result, String username, ResetPasswordRequest resetPasswordRequest, Device device) {
+    public void resetPassword(DeferredResult result, String username, ResetPasswordReq resetPasswordReq, Device device) {
         User user = usersRepo.findUserByUsernameForResetPassword(username);
         if (user == null) {
             result.setResult(new BaseResponse<>(false, "Phone number is not valid"));
         }
 
-        FirebaseAuth.getInstance().verifyIdToken(resetPasswordRequest.getFirebaseToken())
+        FirebaseAuth.getInstance().verifyIdToken(resetPasswordReq.getFirebaseToken())
                 .addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
                     @Override
                     public void onSuccess(FirebaseToken decodedToken) {
                         // Verify token when use phone authentication
                         if (user.getFirebaseUid().equals(decodedToken.getUid())) {
-                            String encodePassword = passwordEncoder.encode(resetPasswordRequest.getPassword());
+                            String encodePassword = passwordEncoder.encode(resetPasswordReq.getPassword());
                             usersRepo.updatePasswordByUserId(user.getId(), encodePassword);
                             user.setUsername(username);
                             String token = tokenPrefix + " "
@@ -217,7 +216,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BaseResponse updateUserInformation(long id, UpdateUserInfoRequest request) {
+    public BaseResponse updateUserInformation(long id, UpdateUserInfoReq request) {
         boolean isUpdate = usersRepo.updateUserInformation(id, request);
         if (isUpdate) {
             return new BaseResponse(true, "Done");

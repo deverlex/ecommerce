@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.api.v1.product.request.AddProductRequest;
+import vn.needy.ecommerce.api.v1.product.request.AddProductReq;
 import vn.needy.ecommerce.common.service.StorageService;
 
 @RestController
@@ -35,12 +35,12 @@ public class ProductRestService {
 	public ResponseEntity<?> addProductPriceNowOfCompany(
 			@RequestParam(value = "company_id", required = true) String companyId,
 			@RequestParam(value = "store_id", required = true) String storeId,
-			@RequestBody AddProductRequest addProductRequest) {
+			@RequestBody AddProductReq addProductReq) {
 		System.out.println(Calendar.getInstance().getTimeInMillis());
 		long cId = CipherID.decrypt(companyId);
 		long sId = CipherID.decrypt(storeId);
 		System.out.println(Calendar.getInstance().getTimeInMillis());
-		System.out.println(addProductRequest.getCategory());
+		System.out.println(addProductReq.getCategory());
 		return null;
 	}
 	

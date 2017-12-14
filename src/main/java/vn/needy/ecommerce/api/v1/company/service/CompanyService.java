@@ -1,8 +1,8 @@
 package vn.needy.ecommerce.api.v1.company.service;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
-import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
+import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyReq;
+import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoReq;
 
 public interface CompanyService {
 
@@ -12,7 +12,7 @@ public interface CompanyService {
 
 	BaseResponse findInformation(long userId);
 
-	BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest);
+	BaseResponse registerCompany(long userId, RegisterCompanyReq registerCompanyReq);
 
-	BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest);
+	BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest);
 }

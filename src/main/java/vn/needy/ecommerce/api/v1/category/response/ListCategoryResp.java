@@ -5,17 +5,17 @@ import java.util.List;
 
 import vn.needy.ecommerce.model.wrapper.CategoryWrapper;
 
-public class ListCategoryResponse implements Serializable {
+public class ListCategoryResp implements Serializable {
 
 	private static final long serialVersionUID = 13242722279L;
 	
 	private List<CategoryWrapper> categories;
 	
-	public ListCategoryResponse() {
+	public ListCategoryResp() {
 		super();
 	}
 
-	public ListCategoryResponse(List<CategoryWrapper> categories) {
+	public ListCategoryResp(List<CategoryWrapper> categories) {
 		this.categories = categories;
 	}
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.wrapper.CategoryWrapper;
-import vn.needy.ecommerce.api.v1.category.response.ListCategoryResponse;
+import vn.needy.ecommerce.api.v1.category.response.ListCategoryResp;
 import vn.needy.ecommerce.repository.CategoryRepository;
 
 @Service("categoriesService")
@@ -24,8 +24,8 @@ public class CategoryServiceImpl implements CategoryService {
 		for(String cat : categories) {
 			categoriesJson.add(new CategoryWrapper(cat));
 		}
-		return new BaseResponse<ListCategoryResponse>(true, "")
-				.setData(new ListCategoryResponse(categoriesJson));
+		return new BaseResponse<ListCategoryResp>(true, "")
+				.setData(new ListCategoryResp(categoriesJson));
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
 		for(String cat : categories) {
 			categoriesJson.add(new CategoryWrapper(cat));
 		}
-		return new BaseResponse<ListCategoryResponse>(true, "")
-				.setData(new ListCategoryResponse(categoriesJson));
+		return new BaseResponse<ListCategoryResp>(true, "")
+				.setData(new ListCategoryResp(categoriesJson));
 	}
 
 }

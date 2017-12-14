@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 import vn.needy.ecommerce.api.v1.user.request.LoginReq;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
-import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
+import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoReq;
 import vn.needy.ecommerce.api.v1.user.response.TokenResponse;
 import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.api.v1.user.request.ResetPasswordRequest;
+import vn.needy.ecommerce.api.v1.user.request.ResetPasswordReq;
 import vn.needy.ecommerce.security.IdentificationUtils;
 import vn.needy.ecommerce.api.v1.user.service.UserService;
 
@@ -54,9 +54,9 @@ public class UsersRestService {
 	// User can reset password when they forget
 	@RequestMapping(value = "${needy.route.v1.users.reset_account}", method = RequestMethod.POST)
 	public DeferredResult<TokenResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
-													   @RequestBody ResetPasswordRequest resetPasswordRequest, Device device) {
+                                                       @RequestBody ResetPasswordReq resetPasswordReq, Device device) {
 		DeferredResult<TokenResponse> result = new DeferredResult<>();
-		userService.resetPassword(result, username, resetPasswordRequest, device);
+		userService.resetPassword(result, username, resetPasswordReq, device);
 		return result;
 	}
 
@@ -88,7 +88,7 @@ public class UsersRestService {
 	@RequestMapping(value = "${needy.route.v1.users.update_information_details}", method = RequestMethod.PUT)
 	public ResponseEntity<BaseResponse> updateUserInformation(
 			HttpServletRequest request,
-			@RequestBody UpdateUserInfoRequest updateRequest) {
+			@RequestBody UpdateUserInfoReq updateRequest) {
 		long userId = idUtils.getIdentification(request);
 		BaseResponse response = userService.updateUserInformation(userId, updateRequest);
 		return ResponseEntity.ok(response);
