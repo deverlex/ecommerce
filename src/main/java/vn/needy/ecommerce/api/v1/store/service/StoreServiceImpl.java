@@ -3,7 +3,7 @@ package vn.needy.ecommerce.api.v1.store.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.base.ResponseWrapper;
 import vn.needy.ecommerce.api.v1.store.request.UpdateStoreInfoReq;
 import vn.needy.ecommerce.repository.StoreRepository;
 
@@ -14,19 +14,19 @@ public class StoreServiceImpl implements StoreService {
 	StoreRepository storeRepository;
 
 	@Override
-	public BaseResponse getOurStore(long userId, long companyId) {
+	public ResponseWrapper getOurStore(long userId, long companyId) {
 
 		return null;
 	}
 
 	@Override
-	public BaseResponse getStoreInformation(long userId) {
+	public ResponseWrapper getStoreInformation(long userId) {
 
 		return null;
 	}
 
 	@Override
-	public BaseResponse updateStoreInformation(long storeId, UpdateStoreInfoReq storeInfoReq) {
+	public ResponseWrapper updateStoreInformation(long storeId, UpdateStoreInfoReq storeInfoReq) {
 		return null;
 	}
 

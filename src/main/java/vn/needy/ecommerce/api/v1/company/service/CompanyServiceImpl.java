@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import vn.needy.ecommerce.api.base.BaseCode;
-import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.base.ResponseWrapper;
 import vn.needy.ecommerce.api.base.BaseStatus;
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoReq;
 import vn.needy.ecommerce.api.v1.company.response.CompanyInfoResp;
@@ -59,29 +59,29 @@ public class CompanyServiceImpl implements CompanyService {
     FeeTransportRepository feeTransportRepo;
 
     @Override
-    public BaseResponse findOurCompany(long userId) {
+    public ResponseWrapper findOurCompany(long userId) {
         Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
-            return new BaseResponse<CompanyResp>(BaseStatus.OK, BaseCode.OK, "").setData(new CompanyResp(new CompanyWrapper(company)));
+            return new ResponseWrapper<CompanyResp>(BaseStatus.OK, BaseCode.OK, "").setData(new CompanyResp(new CompanyWrapper(company)));
         }
-        return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
+        return new ResponseWrapper(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
     }
 
     // This function is not used.
     @Override
-    public BaseResponse findCompanyInformation(long userId) {
+    public ResponseWrapper findCompanyInformation(long userId) {
         Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new BaseResponse<CompanyResp>(BaseStatus.OK, BaseCode.OK, "").setData(new CompanyResp(companyWrapper));
+            return new ResponseWrapper<CompanyResp>(BaseStatus.OK, BaseCode.OK, "").setData(new CompanyResp(companyWrapper));
         }
-        return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
+        return new ResponseWrapper(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
     }
 
     @Override
-    public BaseResponse findInformation(long userId) {
+    public ResponseWrapper findInformation(long userId) {
         Map companyInfo = companiesRepository.findInformationByUserId(userId);
         if (companyInfo != null) {
             Company company = (Company) companyInfo.get("company");
@@ -98,21 +98,21 @@ public class CompanyServiceImpl implements CompanyService {
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
 
-            return new BaseResponse<CompanyInfoResp>(BaseStatus.OK, BaseCode.OK, "")
+            return new ResponseWrapper<CompanyInfoResp>(BaseStatus.OK, BaseCode.OK, "")
                     .setData(new CompanyInfoResp(companyWrapper, staffCount, feeTransportWrappers));
         } else {
-            return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
+            return new ResponseWrapper(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
         }
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public BaseResponse registerCompany(long userId, RegisterCompanyReq registerCompanyReq) {
+    public ResponseWrapper registerCompany(long userId, RegisterCompanyReq registerCompanyReq) {
         CompanyResp companyResp = new CompanyResp();
         Company findCompany = companiesRepository.findOurByUserId(userId);
 
         if (findCompany != null) {
-            return new BaseResponse(BaseStatus.ERROR, BaseCode.CONFLICT, "You can not register 2 company both active.");
+            return new ResponseWrapper(BaseStatus.ERROR, BaseCode.CONFLICT, "You can not register 2 company both active.");
         }
 
         // insert into Companies tables
@@ -172,20 +172,20 @@ public class CompanyServiceImpl implements CompanyService {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new BaseResponse<CompanyResp>(BaseStatus.OK, BaseCode.OK, "")
+            return new ResponseWrapper<CompanyResp>(BaseStatus.OK, BaseCode.OK, "")
                     .setData(new CompanyResp(companyWrapper));
         }
 
-        return new BaseResponse(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Create company is failed.");
+        return new ResponseWrapper(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Create company is failed.");
     }
 
     @Override
-    public BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
+    public ResponseWrapper updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
         boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
         if (isUpdate) {
-            return new BaseResponse(BaseStatus.OK, BaseCode.OK, "Done");
+            return new ResponseWrapper(BaseStatus.OK, BaseCode.OK, "Done");
         } else {
-            return new BaseResponse(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Failed");
+            return new ResponseWrapper(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Failed");
         }
     }
 

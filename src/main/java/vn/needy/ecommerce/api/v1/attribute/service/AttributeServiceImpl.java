@@ -3,7 +3,7 @@ package vn.needy.ecommerce.api.v1.attribute.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.needy.ecommerce.api.base.BaseCode;
-import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.base.ResponseWrapper;
 import vn.needy.ecommerce.api.base.BaseStatus;
 import vn.needy.ecommerce.domain.mongo.AttributeValue;
 import vn.needy.ecommerce.model.wrapper.AttributeValueWrapper;
@@ -28,7 +28,7 @@ public class AttributeServiceImpl implements AttributeService {
     AttributeValueRepository attributeValueRepo;
 
     @Override
-    public BaseResponse getListAttributeOfCategory(String category) {
+    public ResponseWrapper getListAttributeOfCategory(String category) {
         List<Attribute> attributes = attributesRepo.getListAttributeCategory(category);
 
         List<AttributeValue> attributeValues = attributeValueRepo
@@ -46,7 +46,7 @@ public class AttributeServiceImpl implements AttributeService {
             ));
         }
 
-        return new BaseResponse<AttributesInfoResp>(BaseStatus.OK, BaseCode.OK, "")
+        return new ResponseWrapper<AttributesInfoResp>(BaseStatus.OK, BaseCode.OK, "")
                 .setData(new AttributesInfoResp(contentResp));
     }
 

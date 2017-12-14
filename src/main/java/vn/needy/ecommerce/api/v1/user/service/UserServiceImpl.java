@@ -34,7 +34,7 @@ import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.domain.mysql.Company;
 import vn.needy.ecommerce.domain.mysql.Store;
 import vn.needy.ecommerce.domain.mysql.User;
-import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.base.ResponseWrapper;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.model.factory.NeedyUserDetailsFactory;
 import vn.needy.ecommerce.model.security.NeedyUserDetails;
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public BaseResponse login(LoginReq request, Device device) {
+    public ResponseWrapper login(LoginReq request, Device device) {
         // Perform the security
         final Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
@@ -102,18 +102,18 @@ public class UserServiceImpl implements UserService {
         if (needyUserDetails.getState() == UserState.LOCKED.getState()) {
             String message = "Your account is locked, we will unlock on "
                     + timeProvider.formatDate(needyUserDetails.getUnlockTime());
-            return new BaseResponse<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, message);
+            return new ResponseWrapper<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, message);
         }
         final String token = tokenPrefix + " " + tokenUtils.generateToken(needyUserDetails, device);
         // get user info return to client
         User user = usersRepo.findUserById(needyUserDetails.getId());
         // wrapper user before return to client
-        return new BaseResponse<LoginResp>(BaseStatus.OK, BaseCode.OK, "")
+        return new ResponseWrapper<LoginResp>(BaseStatus.OK, BaseCode.OK, "")
                 .setData(new LoginResp(new UserWrapper(user), token));
     }
 
     @Override
-    public BaseResponse refresh(HttpServletRequest request) {
+    public ResponseWrapper refresh(HttpServletRequest request) {
         String token = request.getHeader(this.tokenHeader).replace(tokenPrefix + " ", "");
 
         String username = this.tokenUtils.getUsernameFromToken(token);
@@ -122,10 +122,10 @@ public class UserServiceImpl implements UserService {
             String refreshedToken = tokenPrefix + " " + this.tokenUtils.refreshToken(token);
 
             // Add refresh token to response
-            return new BaseResponse<TokenResponse>(BaseStatus.OK, BaseCode.OK, "")
+            return new ResponseWrapper<TokenResponse>(BaseStatus.OK, BaseCode.OK, "")
                     .setData(new TokenResponse(refreshedToken));
         }
-        return new BaseResponse<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Unauthorized");
+        return new ResponseWrapper<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Unauthorized");
     }
 
     @Override
@@ -137,12 +137,12 @@ public class UserServiceImpl implements UserService {
                     public void onSuccess(FirebaseToken decodedToken) {
                         // Verify token when use phone authentication
                         if (!registerInfo.getFirebaseUid().equals(decodedToken.getUid())) {
-                            result.setResult(new BaseResponse(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Phone number is not valid"));
+                            result.setResult(new ResponseWrapper(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Phone number is not valid"));
 
                         } else {
                             String userExist = usersRepo.findUsernameExist(registerInfo.getUsername());
                             if (!TextUtils.isEmpty(userExist)) {
-                                result.setResult(new BaseResponse(BaseStatus.OK, BaseCode.CONFLICT, "This phone number has been registered"));
+                                result.setResult(new ResponseWrapper(BaseStatus.OK, BaseCode.CONFLICT, "This phone number has been registered"));
                             } else {
                                 registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
                                 usersRepo.registerUser(registerInfo);
@@ -151,7 +151,7 @@ public class UserServiceImpl implements UserService {
                                 String token = tokenPrefix + " " + tokenUtils.generateToken(
                                         NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
                                 result.setResult(
-                                        new BaseResponse<>(BaseStatus.OK, BaseCode.OK, "").setData(new TokenResponse(token))
+                                        new ResponseWrapper<>(BaseStatus.OK, BaseCode.OK, "").setData(new TokenResponse(token))
                                 );
                             }
                         }
@@ -159,18 +159,18 @@ public class UserServiceImpl implements UserService {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
-                result.setResult(new BaseResponse<>(BaseStatus.ERROR, BaseCode.SERVER_ERROR, "Sorry, server has error"));
+                result.setResult(new ResponseWrapper<>(BaseStatus.ERROR, BaseCode.SERVER_ERROR, "Sorry, server has error"));
             }
         });
     }
 
     @Override
-    public BaseResponse findUserExist(String username) {
+    public ResponseWrapper findUserExist(String username) {
         String userExist = usersRepo.findUsernameExist(username);
         if (!TextUtils.isEmpty(userExist)) {
-            return new BaseResponse<>(BaseStatus.OK, BaseCode.OK, "This phone number/account is registered");
+            return new ResponseWrapper<>(BaseStatus.OK, BaseCode.OK, "This phone number/account is registered");
         }
-        return new BaseResponse<>(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
+        return new ResponseWrapper<>(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
     }
 
     @Override
@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
     public void resetPassword(DeferredResult result, String username, ResetPasswordReq resetPasswordReq, Device device) {
         User user = usersRepo.findUserByUsernameForResetPassword(username);
         if (user == null) {
-            result.setResult(new BaseResponse<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Phone number is not valid"));
+            result.setResult(new ResponseWrapper<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Phone number is not valid"));
         }
 
         FirebaseAuth.getInstance().verifyIdToken(resetPasswordReq.getFirebaseToken())
@@ -193,51 +193,51 @@ public class UserServiceImpl implements UserService {
                             String token = tokenPrefix + " "
                                     + tokenUtils.generateToken(NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
 
-                            result.setResult(new BaseResponse<>(BaseStatus.OK, BaseCode.OK, "").setData(new TokenResponse(token))
+                            result.setResult(new ResponseWrapper<>(BaseStatus.OK, BaseCode.OK, "").setData(new TokenResponse(token))
                             );
                         } else {
-                            result.setResult(new BaseResponse<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Phone number is not valid"));
+                            result.setResult(new ResponseWrapper<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Phone number is not valid"));
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
-                result.setResult(new BaseResponse<>(BaseStatus.ERROR, BaseCode.SERVER_ERROR, "Sorry, server has error"));
+                result.setResult(new ResponseWrapper<>(BaseStatus.ERROR, BaseCode.SERVER_ERROR, "Sorry, server has error"));
             }
         });
     }
 
     @Override
-    public BaseResponse getUserInformation(long id) {
+    public ResponseWrapper getUserInformation(long id) {
         User user = usersRepo.findUserById(id);
         if (user != null) {
-            return new BaseResponse<UserInfoResponse>(BaseStatus.OK, BaseCode.OK, "")
+            return new ResponseWrapper<UserInfoResponse>(BaseStatus.OK, BaseCode.OK, "")
                     .setData(new UserInfoResponse(new UserWrapper(user)));
         } else {
-            return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
+            return new ResponseWrapper(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
         }
     }
 
     @Override
-    public BaseResponse updateUserInformation(long id, UpdateUserInfoReq request) {
+    public ResponseWrapper updateUserInformation(long id, UpdateUserInfoReq request) {
         boolean isUpdate = usersRepo.updateUserInformation(id, request);
         if (isUpdate) {
-            return new BaseResponse(BaseStatus.OK, BaseCode.OK, "Done");
+            return new ResponseWrapper(BaseStatus.OK, BaseCode.OK, "Done");
         } else {
-            return new BaseResponse(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Failed");
+            return new ResponseWrapper(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Failed");
         }
     }
 
     @Override
-    public BaseResponse findBusinessesInformation(long userId) {
+    public ResponseWrapper findBusinessesInformation(long userId) {
         Company company = companyRepo.findOurByUserId(userId);
         Store store = storeRepo.getOurByUserId(userId);
         // check use need in an business (company & store)
         if (company == null || store == null) {
-            return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "You have not a business");
+            return new ResponseWrapper(BaseStatus.ERROR, BaseCode.NOT_FOUND, "You have not a business");
         }
 
-        return new BaseResponse<>(BaseStatus.OK, BaseCode.OK, "")
+        return new ResponseWrapper<>(BaseStatus.OK, BaseCode.OK, "")
                 .setData(new BusinessInfoResp(
                         new CompanyWrapper(company),
                         new StoreWrapper(store)

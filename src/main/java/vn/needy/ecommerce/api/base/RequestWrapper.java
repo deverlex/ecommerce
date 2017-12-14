@@ -2,7 +2,7 @@ package vn.needy.ecommerce.api.base;
 
 import vn.needy.ecommerce.model.BaseModel;
 
-public final class BaseRequest<T> extends BaseModel {
+public final class RequestWrapper<T> extends BaseModel {
 
     private T data;
 

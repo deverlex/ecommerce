@@ -4,7 +4,7 @@ import vn.needy.ecommerce.model.BaseModel;
 
 import java.util.List;
 
-public final class BaseResponse<T> extends BaseModel {
+public final class ResponseWrapper<T> extends BaseModel {
 
 	private static final long serialVersionUID = 1487362522L;
 
@@ -14,14 +14,14 @@ public final class BaseResponse<T> extends BaseModel {
 	private String message;
 	private List<String> links;
 
-	public BaseResponse() {
+	public ResponseWrapper() {
 		super();
 		this.status = BaseStatus.ERROR.getStatus();
 		this.code = BaseCode.BAD_REQUEST.getCode();
 		this.message = "";
 	}
 
-	public BaseResponse(BaseStatus status, BaseCode code, String message) {
+	public ResponseWrapper(BaseStatus status, BaseCode code, String message) {
 		this.status = status.getStatus();
 		this.code = code.getCode();
 		this.message = message;
@@ -31,7 +31,7 @@ public final class BaseResponse<T> extends BaseModel {
 		return status;
 	}
 
-	public BaseResponse<T> setStatus(BaseStatus status) {
+	public ResponseWrapper<T> setStatus(BaseStatus status) {
 		this.status = status.getStatus();
 		return this;
 	}
@@ -40,7 +40,7 @@ public final class BaseResponse<T> extends BaseModel {
 		return code;
 	}
 
-	public BaseResponse<T> setCode(BaseCode code) {
+	public ResponseWrapper<T> setCode(BaseCode code) {
 		this.code = code.getCode();
 		return this;
 	}
@@ -49,7 +49,7 @@ public final class BaseResponse<T> extends BaseModel {
 		return message;
 	}
 
-	public BaseResponse<T> setMessage(String message) {
+	public ResponseWrapper<T> setMessage(String message) {
 		this.message = message;
 		return this;
 	}
@@ -58,7 +58,7 @@ public final class BaseResponse<T> extends BaseModel {
 		return data;
 	}
 
-	public BaseResponse<T> setData(T data) {
+	public ResponseWrapper<T> setData(T data) {
 		this.data = data;
 		return this;
 	}
@@ -67,7 +67,7 @@ public final class BaseResponse<T> extends BaseModel {
 		return links;
 	}
 
-	public BaseResponse<T> setLinks(List<String> links) {
+	public ResponseWrapper<T> setLinks(List<String> links) {
 		this.links = links;
 		return this;
 	}

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import vn.needy.ecommerce.domain.mysql.Product;
 import vn.needy.ecommerce.domain.mongo.ProductDetail;
-import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.base.ResponseWrapper;
 import vn.needy.ecommerce.api.v1.product.request.AddProductReq;
 import vn.needy.ecommerce.repository.ProductRepository;
 
@@ -16,7 +16,7 @@ public class ProductServiceImpl implements ProductService {
 	ProductRepository productRepository;
 	
 	@Override
-	public BaseResponse addProduct(long userId, long companyId, AddProductReq addProductReq) {
+	public ResponseWrapper addProduct(long userId, long companyId, AddProductReq addProductReq) {
 		/// Product se kiem duyet boi quan tri vien
 		Product product = new Product();
 		product.setCategory(addProductReq.getCategory());
