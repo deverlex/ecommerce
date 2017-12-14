@@ -1,17 +1,17 @@
 package vn.needy.ecommerce.api.base;
 
-public enum  ResponseCode {
+public enum BaseCode {
 
     OK(200),
-    ERROR(400),
-    NO_CONTENT(204),
+    NOT_FOUND(404),
     UNAUTHORIZED(401),
-    NOT_IMPLEMENTED(501);
-
+    BAD_REQUEST(400),
+    CONFLICT(409),
+    SERVER_ERROR(500);
 
     private int code;
 
-    private ResponseCode(final int code) {
+    BaseCode(final int code) {
         this.code = code;
     }
 

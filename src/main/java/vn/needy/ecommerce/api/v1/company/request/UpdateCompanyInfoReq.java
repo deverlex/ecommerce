@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UpdateCompanyInfoRequest implements Serializable {
+public class UpdateCompanyInfoReq implements Serializable {
     private String name;
     private String address;
     private String description;
@@ -20,7 +20,7 @@ public class UpdateCompanyInfoRequest implements Serializable {
     private float lat;
     private float lng;
 
-    public UpdateCompanyInfoRequest() {
+    public UpdateCompanyInfoReq() {
         super();
     }
 

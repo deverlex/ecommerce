@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
-import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
+import vn.needy.ecommerce.api.base.RequestWrapper;
+import vn.needy.ecommerce.api.base.ResponseWrapper;
+import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyReq;
+import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoReq;
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.security.IdentificationUtils;
 import vn.needy.ecommerce.api.v1.company.service.CompanyService;
@@ -23,33 +24,33 @@ public class CompanyRestService {
 	private CompanyService companyService;
 
 	@RequestMapping(value = "${needy.route.v1.companies.find_our_company}", method = RequestMethod.GET)
-	public ResponseEntity<BaseResponse> findOurCompany(HttpServletRequest request) {
+	public ResponseEntity<ResponseWrapper> findOurCompany(HttpServletRequest request) {
 		long userId = idUtils.getIdentification(request);
 		// get and return company
 		return ResponseEntity.ok(companyService.findOurCompany(userId));
 	}
 	
 	@RequestMapping(value= "${needy.route.v1.companies.information_details}", method = RequestMethod.GET)
-	public ResponseEntity<BaseResponse> findCompanyInformation(HttpServletRequest request) {
+	public ResponseEntity<ResponseWrapper> findCompanyInformation(HttpServletRequest request) {
 		Long userId = idUtils.getIdentification(request);
-		BaseResponse response = companyService.findInformation(userId);
+		ResponseWrapper response = companyService.findInformation(userId);
 		return ResponseEntity.ok(response);
 	}
 	
 	@RequestMapping(value= "${needy.route.v1.companies.registers}", method = RequestMethod.POST)
-	public ResponseEntity<BaseResponse> registerCompany(HttpServletRequest request,
-			@RequestBody RegisterCompanyRequest registerCompanyRequest) {
+	public ResponseEntity<ResponseWrapper> registerCompany(HttpServletRequest request,
+														   @RequestBody RequestWrapper<RegisterCompanyReq> registerCompanyReq) {
 		Long userId = idUtils.getIdentification(request);
-		BaseResponse response = companyService.registerCompany(userId, registerCompanyRequest);
+		ResponseWrapper response = companyService.registerCompany(userId, registerCompanyReq.getData());
 		return ResponseEntity.ok(response);
 	}
 
 	@RequestMapping(value = "${needy.route.v1.companies.update_information_details}", method = RequestMethod.PUT)
-	public ResponseEntity<BaseResponse> updateCompanyInformation(HttpServletRequest request, @PathVariable(value = "company_id") String compantId,
-																 @RequestBody UpdateCompanyInfoRequest infoRequest) {
+	public ResponseEntity<ResponseWrapper> updateCompanyInformation(HttpServletRequest request, @PathVariable(value = "company_id") String compantId,
+                                                                    @RequestBody RequestWrapper<UpdateCompanyInfoReq> infoRequest) {
 		long companyId = CipherID.decrypt(compantId);
 		long userId = idUtils.getIdentification(request);
-		BaseResponse response = companyService.updateCompanyInformation(companyId, userId, infoRequest);
+		ResponseWrapper response = companyService.updateCompanyInformation(companyId, userId, infoRequest.getData());
 		return ResponseEntity.ok(response);
 	}
 }

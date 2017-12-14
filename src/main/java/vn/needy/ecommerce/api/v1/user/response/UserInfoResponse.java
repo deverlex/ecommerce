@@ -1,9 +1,10 @@
 package vn.needy.ecommerce.api.v1.user.response;
 
-import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.wrapper.UserWrapper;
 
-public class UserInfoResponse extends BaseResponse {
+import java.io.Serializable;
+
+public class UserInfoResponse implements Serializable {
 	
 	private static final long serialVersionUID = 1989372663L;
 	
@@ -12,6 +13,10 @@ public class UserInfoResponse extends BaseResponse {
     public UserInfoResponse() {
     	super();
     }
+
+	public UserInfoResponse(UserWrapper wrapper) {
+		this.user = wrapper;
+	}
 
 	public UserWrapper getUser() {
 		return user;

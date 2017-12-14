@@ -68,6 +68,8 @@ needy:
         information_details: v1/users/informations/details
         #PUT update info account
         update_information_details: v1/users/informations/details
+        #GET   - get business information
+        business_information: v1/users/businesses/informations
 
       companies:
         #GET check company where user is working

@@ -1,8 +1,6 @@
 package vn.needy.ecommerce.repository.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -13,9 +11,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
+import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoReq;
 import vn.needy.ecommerce.domain.mysql.Company;
-import vn.needy.ecommerce.domain.mysql.FeeTransport;
 import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.repository.CompanyRepository;
 
@@ -35,7 +32,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 	
 	@Override
-	public Company findByUserId(long userId) {
+	public Company findOurByUserId(long userId) {
 		SqlRowSet rs = jdbc.queryForRowSet("select c.* "
 				+ "from company c "
 				+ "inner join company_staff cs on c.id = cs.company_id "
@@ -107,7 +104,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 	}
 
 	@Override
-	public boolean updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest) {
+	public boolean updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
 		return jdbc.update("update company set name = ?, address = ?, description = ?, " +
 						"site_url = ?, email = ?, lat = ?, lng = ?, " +
 						"founded_date = ?, opening_time = ?, closing_time = ? " +

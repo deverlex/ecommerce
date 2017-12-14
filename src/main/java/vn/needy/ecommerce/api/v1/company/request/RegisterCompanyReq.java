@@ -2,7 +2,7 @@ package vn.needy.ecommerce.api.v1.company.request;
 
 import java.io.Serializable;
 
-public class RegisterCompanyRequest implements Serializable {
+public class RegisterCompanyReq implements Serializable {
 
 	private static final long serialVersionUID = 1453535344L;
 	
@@ -16,7 +16,7 @@ public class RegisterCompanyRequest implements Serializable {
 	private float lat;
 	private float lng;
 	
-	public RegisterCompanyRequest() {
+	public RegisterCompanyReq() {
 		super();
 	}
 

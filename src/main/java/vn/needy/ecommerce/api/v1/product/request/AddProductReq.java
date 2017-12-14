@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class AddProductRequest implements Serializable {
+public class AddProductReq implements Serializable {
 
 	private static final long serialVersionUID = 12491023L;
 	
@@ -18,7 +18,7 @@ public class AddProductRequest implements Serializable {
 	private float feeTransport;
 	private List<String> hashtag;
 
-	public AddProductRequest() {
+	public AddProductReq() {
 		super();
 	}
 

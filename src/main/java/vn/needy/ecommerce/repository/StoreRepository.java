@@ -10,7 +10,7 @@ public interface StoreRepository {
 
 	long registerStore(Store store);
 	
-	Store getOurStore(long userId);
+	Store getOurByUserId(long userId);
 
 	Map getStoreInformation(long storeId);
 

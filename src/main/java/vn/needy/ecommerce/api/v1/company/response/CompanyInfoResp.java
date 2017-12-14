@@ -1,12 +1,12 @@
 package vn.needy.ecommerce.api.v1.company.response;
 
-import vn.needy.ecommerce.api.base.BaseResponse;
 import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CompanyInfoResp extends BaseResponse {
+public class CompanyInfoResp implements Serializable {
 
     private CompanyWrapper company;
     private int totalStaff;

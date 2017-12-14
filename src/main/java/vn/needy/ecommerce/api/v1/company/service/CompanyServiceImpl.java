@@ -5,9 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.api.base.ResponseCode;
-import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
+import vn.needy.ecommerce.api.base.BaseCode;
+import vn.needy.ecommerce.api.base.ResponseWrapper;
+import vn.needy.ecommerce.api.base.BaseStatus;
+import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoReq;
 import vn.needy.ecommerce.api.v1.company.response.CompanyInfoResp;
 import vn.needy.ecommerce.common.utils.TimeProvider;
 import vn.needy.ecommerce.domain.mysql.*;
@@ -18,12 +19,11 @@ import vn.needy.ecommerce.model.enums.StoreStatus;
 import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.model.enums.PayBehavior;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
-import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyRequest;
+import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyReq;
 import vn.needy.ecommerce.api.v1.company.response.CompanyResp;
 import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 import vn.needy.ecommerce.repository.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -59,29 +59,29 @@ public class CompanyServiceImpl implements CompanyService {
     FeeTransportRepository feeTransportRepo;
 
     @Override
-    public BaseResponse findOurCompany(long userId) {
-        Company company = companiesRepository.findByUserId(userId);
+    public ResponseWrapper findOurCompany(long userId) {
+        Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
-            return new CompanyResp(new CompanyWrapper(company));
+            return new ResponseWrapper<CompanyResp>(BaseStatus.OK, BaseCode.OK, "").setData(new CompanyResp(new CompanyWrapper(company)));
         }
-        return new BaseResponse(BaseResponse.ERROR, ResponseCode.NO_CONTENT);
+        return new ResponseWrapper(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
     }
 
     // This function is not used.
     @Override
-    public BaseResponse findCompanyInformation(long userId) {
-        Company company = companiesRepository.findByUserId(userId);
+    public ResponseWrapper findCompanyInformation(long userId) {
+        Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new CompanyResp(companyWrapper);
+            return new ResponseWrapper<CompanyResp>(BaseStatus.OK, BaseCode.OK, "").setData(new CompanyResp(companyWrapper));
         }
-        return new CompanyResp();
+        return new ResponseWrapper(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
     }
 
     @Override
-    public BaseResponse findInformation(long userId) {
+    public ResponseWrapper findInformation(long userId) {
         Map companyInfo = companiesRepository.findInformationByUserId(userId);
         if (companyInfo != null) {
             Company company = (Company) companyInfo.get("company");
@@ -98,30 +98,28 @@ public class CompanyServiceImpl implements CompanyService {
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
 
-            return new CompanyInfoResp(companyWrapper, staffCount, feeTransportWrappers);
+            return new ResponseWrapper<CompanyInfoResp>(BaseStatus.OK, BaseCode.OK, "")
+                    .setData(new CompanyInfoResp(companyWrapper, staffCount, feeTransportWrappers));
         } else {
-            // Need use error code for client
-            return new BaseResponse(BaseResponse.ERROR, ResponseCode.NO_CONTENT);
+            return new ResponseWrapper(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
         }
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public BaseResponse registerCompany(long userId, RegisterCompanyRequest registerCompanyRequest) {
+    public ResponseWrapper registerCompany(long userId, RegisterCompanyReq registerCompanyReq) {
         CompanyResp companyResp = new CompanyResp();
-        Company findCompany = companiesRepository.findByUserId(userId);
+        Company findCompany = companiesRepository.findOurByUserId(userId);
 
         if (findCompany != null) {
-            BaseResponse response = new BaseResponse(BaseResponse.ERROR,
-                    ResponseCode.NOT_IMPLEMENTED, "You can not register 2 company both active.");
-            return response;
+            return new ResponseWrapper(BaseStatus.ERROR, BaseCode.CONFLICT, "You can not register 2 company both active.");
         }
 
         // insert into Companies tables
         Company registerCompany = new Company();
         registerCompany.setLastUpdatedBy(userId);
-        registerCompany.setName(registerCompanyRequest.getCompanyName());
-        registerCompany.setAddress(registerCompanyRequest.getOfficeAddress());
+        registerCompany.setName(registerCompanyReq.getCompanyName());
+        registerCompany.setAddress(registerCompanyReq.getOfficeAddress());
         registerCompany.setLevel(0);
         registerCompany.setState(CompanyState.ACTIVE.getState());
         long companyId = companiesRepository.registerCompany(registerCompany);
@@ -147,12 +145,12 @@ public class CompanyServiceImpl implements CompanyService {
         registerStore.setCompanyId(companyId);
         registerStore.setState(StoreState.INACTIVE.getState());
         registerStore.setStatus(StoreStatus.CLOSED_TIME.getStatus());
-        registerStore.setName(registerCompanyRequest.getStoreName());
-        registerStore.setAddress(registerCompanyRequest.getStoreAddress());
+        registerStore.setName(registerCompanyReq.getStoreName());
+        registerStore.setAddress(registerCompanyReq.getStoreAddress());
         registerStore.setOpeningTime(timeProvider.parseTime("08:00:00"));
         registerStore.setClosingTime(timeProvider.parseTime("20:00:00"));
-        registerStore.setLat(registerCompanyRequest.getLat());
-        registerStore.setLng(registerCompanyRequest.getLng());
+        registerStore.setLat(registerCompanyReq.getLat());
+        registerStore.setLng(registerCompanyReq.getLng());
         registerStore.setLastUpdatedBy(userId);
         long storeId = storesRepository.registerStore(registerStore);
 
@@ -162,32 +160,32 @@ public class CompanyServiceImpl implements CompanyService {
         staff.setLastUpdatedBy(userId);
         staff.setCompanyId(companyId);
         staff.setStoreId(storeId);
-        staff.setFcmToken(registerCompanyRequest.getFcmToken());
+        staff.setFcmToken(registerCompanyReq.getFcmToken());
         staff.setState(StaffState.ACTIVED.getState());
         staff.setStatus(StaffStatus.READY.getStatus());
         companyStaffRepository.insertCompanyStaff(staff);
 
         userRoleRepository.registerUserListRole(userId, Role.List.CompanyOwner, userId);
 
-        Company company = companiesRepository.findByUserId(userId);
+        Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new CompanyResp(companyWrapper);
+            return new ResponseWrapper<CompanyResp>(BaseStatus.OK, BaseCode.OK, "")
+                    .setData(new CompanyResp(companyWrapper));
         }
 
-        return new BaseResponse(BaseResponse.ERROR,
-                ResponseCode.NOT_IMPLEMENTED, "Create company is failed.");
+        return new ResponseWrapper(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Create company is failed.");
     }
 
     @Override
-    public BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoRequest infoRequest) {
+    public ResponseWrapper updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
         boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
         if (isUpdate) {
-            return new BaseResponse();
+            return new ResponseWrapper(BaseStatus.OK, BaseCode.OK, "Done");
         } else {
-            return new BaseResponse(BaseResponse.ERROR, ResponseCode.NOT_IMPLEMENTED);
+            return new ResponseWrapper(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Failed");
         }
     }
 

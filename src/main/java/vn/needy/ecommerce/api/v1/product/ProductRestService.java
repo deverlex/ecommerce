@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import vn.needy.ecommerce.common.utils.CipherID;
-import vn.needy.ecommerce.api.base.BaseResponse;
-import vn.needy.ecommerce.api.v1.product.request.AddProductRequest;
+import vn.needy.ecommerce.api.base.ResponseWrapper;
+import vn.needy.ecommerce.api.v1.product.request.AddProductReq;
 import vn.needy.ecommerce.common.service.StorageService;
 
 @RestController
@@ -35,12 +35,12 @@ public class ProductRestService {
 	public ResponseEntity<?> addProductPriceNowOfCompany(
 			@RequestParam(value = "company_id", required = true) String companyId,
 			@RequestParam(value = "store_id", required = true) String storeId,
-			@RequestBody AddProductRequest addProductRequest) {
+			@RequestBody AddProductReq addProductReq) {
 		System.out.println(Calendar.getInstance().getTimeInMillis());
 		long cId = CipherID.decrypt(companyId);
 		long sId = CipherID.decrypt(storeId);
 		System.out.println(Calendar.getInstance().getTimeInMillis());
-		System.out.println(addProductRequest.getCategory());
+		System.out.println(addProductReq.getCategory());
 		return null;
 	}
 	
@@ -52,7 +52,7 @@ public class ProductRestService {
 		System.out.println(image.getOriginalFilename());
 		
 		System.out.println(storageService.storeImage(image));
-		return ResponseEntity.ok(new BaseResponse());
+		return ResponseEntity.ok(new ResponseWrapper());
 	}
 	
 	// productId is id of productCompany
@@ -62,6 +62,6 @@ public class ProductRestService {
 			@RequestParam(value = "multiparty") MultipartFile image) {
 		System.out.println("product_id? " + productId);
 		
-		return ResponseEntity.ok(new BaseResponse());
+		return ResponseEntity.ok(new ResponseWrapper());
 	}
 }
