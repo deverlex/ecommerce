@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import vn.needy.ecommerce.api.base.RequestWrapper;
 import vn.needy.ecommerce.api.base.ResponseWrapper;
 import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyReq;
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoReq;
@@ -38,18 +39,18 @@ public class CompanyRestService {
 	
 	@RequestMapping(value= "${needy.route.v1.companies.registers}", method = RequestMethod.POST)
 	public ResponseEntity<ResponseWrapper> registerCompany(HttpServletRequest request,
-                                                           @RequestBody RegisterCompanyReq registerCompanyReq) {
+														   @RequestBody RequestWrapper<RegisterCompanyReq> registerCompanyReq) {
 		Long userId = idUtils.getIdentification(request);
-		ResponseWrapper response = companyService.registerCompany(userId, registerCompanyReq);
+		ResponseWrapper response = companyService.registerCompany(userId, registerCompanyReq.getData());
 		return ResponseEntity.ok(response);
 	}
 
 	@RequestMapping(value = "${needy.route.v1.companies.update_information_details}", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseWrapper> updateCompanyInformation(HttpServletRequest request, @PathVariable(value = "company_id") String compantId,
-                                                                    @RequestBody UpdateCompanyInfoReq infoRequest) {
+                                                                    @RequestBody RequestWrapper<UpdateCompanyInfoReq> infoRequest) {
 		long companyId = CipherID.decrypt(compantId);
 		long userId = idUtils.getIdentification(request);
-		ResponseWrapper response = companyService.updateCompanyInformation(companyId, userId, infoRequest);
+		ResponseWrapper response = companyService.updateCompanyInformation(companyId, userId, infoRequest.getData());
 		return ResponseEntity.ok(response);
 	}
 }

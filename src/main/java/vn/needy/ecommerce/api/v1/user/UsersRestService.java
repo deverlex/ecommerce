@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.context.request.async.DeferredResult;
+import vn.needy.ecommerce.api.base.RequestWrapper;
 import vn.needy.ecommerce.api.v1.user.request.LoginReq;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoReq;
@@ -40,8 +41,8 @@ public class UsersRestService {
 
 	@RequestMapping(value = "${needy.route.v1.users.login}", method = RequestMethod.POST)
 	public ResponseEntity<ResponseWrapper> login(
-			@RequestBody LoginReq request, Device device) {
-		ResponseWrapper response = userService.login(request, device);
+			@RequestBody RequestWrapper<LoginReq> request, Device device) {
+		ResponseWrapper response = userService.login(request.getData(), device);
 		return ResponseEntity.ok(response);
 	}
 
@@ -54,18 +55,18 @@ public class UsersRestService {
 	// User can reset password when they forget
 	@RequestMapping(value = "${needy.route.v1.users.reset_account}", method = RequestMethod.POST)
 	public DeferredResult<TokenResponse> resetPassword(@RequestParam(value = "username", required = true) String username,
-                                                       @RequestBody ResetPasswordReq resetPasswordReq, Device device) {
+                                                       @RequestBody RequestWrapper<ResetPasswordReq> resetPasswordReq, Device device) {
 		DeferredResult<TokenResponse> result = new DeferredResult<>();
-		userService.resetPassword(result, username, resetPasswordReq, device);
+		userService.resetPassword(result, username, resetPasswordReq.getData(), device);
 		return result;
 	}
 
 	// Use register new account
 	@RequestMapping(value = "${needy.route.v1.users.registers}", method = RequestMethod.POST)
-	public DeferredResult<TokenResponse> registerUser(@RequestBody RegisterUserReq registerUserReq, Device device) {
+	public DeferredResult<TokenResponse> registerUser(@RequestBody RequestWrapper<RegisterUserReq> registerUserReq, Device device) {
 		DeferredResult<TokenResponse> result = new DeferredResult<>();
 
-		userService.registerUser(result, registerUserReq, device);
+		userService.registerUser(result, registerUserReq.getData(), device);
 		return result;
 	}
 	
@@ -88,9 +89,9 @@ public class UsersRestService {
 	@RequestMapping(value = "${needy.route.v1.users.update_information_details}", method = RequestMethod.PUT)
 	public ResponseEntity<ResponseWrapper> updateUserInformation(
 			HttpServletRequest request,
-			@RequestBody UpdateUserInfoReq updateRequest) {
+			@RequestBody RequestWrapper<UpdateUserInfoReq> updateRequest) {
 		long userId = idUtils.getIdentification(request);
-		ResponseWrapper response = userService.updateUserInformation(userId, updateRequest);
+		ResponseWrapper response = userService.updateUserInformation(userId, updateRequest.getData());
 		return ResponseEntity.ok(response);
 	}
 
