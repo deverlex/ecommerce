@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import vn.needy.ecommerce.api.base.BaseCode;
 import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.base.BaseStatus;
 import vn.needy.ecommerce.model.wrapper.CategoryWrapper;
 import vn.needy.ecommerce.api.v1.category.response.ListCategoryResp;
 import vn.needy.ecommerce.repository.CategoryRepository;
@@ -24,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
 		for(String cat : categories) {
 			categoriesJson.add(new CategoryWrapper(cat));
 		}
-		return new BaseResponse<ListCategoryResp>(true, "")
+		return new BaseResponse<ListCategoryResp>(BaseStatus.OK, BaseCode.OK, "")
 				.setData(new ListCategoryResp(categoriesJson));
 	}
 
@@ -35,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
 		for(String cat : categories) {
 			categoriesJson.add(new CategoryWrapper(cat));
 		}
-		return new BaseResponse<ListCategoryResp>(true, "")
+		return new BaseResponse<ListCategoryResp>(BaseStatus.OK, BaseCode.OK, "")
 				.setData(new ListCategoryResp(categoriesJson));
 	}
 

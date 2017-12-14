@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.tasks.OnSuccessListener;
 
 import org.springframework.web.context.request.async.DeferredResult;
+import vn.needy.ecommerce.api.base.BaseCode;
+import vn.needy.ecommerce.api.base.BaseStatus;
 import vn.needy.ecommerce.api.v1.user.request.LoginReq;
 import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
 import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoReq;
@@ -100,13 +102,13 @@ public class UserServiceImpl implements UserService {
         if (needyUserDetails.getState() == UserState.LOCKED.getState()) {
             String message = "Your account is locked, we will unlock on "
                     + timeProvider.formatDate(needyUserDetails.getUnlockTime());
-            return new BaseResponse<>(false, message);
+            return new BaseResponse<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, message);
         }
         final String token = tokenPrefix + " " + tokenUtils.generateToken(needyUserDetails, device);
         // get user info return to client
         User user = usersRepo.findUserById(needyUserDetails.getId());
         // wrapper user before return to client
-        return new BaseResponse<LoginResp>(true, "")
+        return new BaseResponse<LoginResp>(BaseStatus.OK, BaseCode.OK, "")
                 .setData(new LoginResp(new UserWrapper(user), token));
     }
 
@@ -120,10 +122,10 @@ public class UserServiceImpl implements UserService {
             String refreshedToken = tokenPrefix + " " + this.tokenUtils.refreshToken(token);
 
             // Add refresh token to response
-            return new BaseResponse<TokenResponse>(true, "")
+            return new BaseResponse<TokenResponse>(BaseStatus.OK, BaseCode.OK, "")
                     .setData(new TokenResponse(refreshedToken));
         }
-        return new BaseResponse<>(false, "Unauthorized");
+        return new BaseResponse<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Unauthorized");
     }
 
     @Override
@@ -135,12 +137,12 @@ public class UserServiceImpl implements UserService {
                     public void onSuccess(FirebaseToken decodedToken) {
                         // Verify token when use phone authentication
                         if (!registerInfo.getFirebaseUid().equals(decodedToken.getUid())) {
-                            result.setResult(new BaseResponse(false, "Phone number is not valid"));
+                            result.setResult(new BaseResponse(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Phone number is not valid"));
 
                         } else {
                             String userExist = usersRepo.findUsernameExist(registerInfo.getUsername());
                             if (!TextUtils.isEmpty(userExist)) {
-                                result.setResult(new BaseResponse(false, "This phone number has been registered"));
+                                result.setResult(new BaseResponse(BaseStatus.OK, BaseCode.CONFLICT, "This phone number has been registered"));
                             } else {
                                 registerInfo.setPassword(passwordEncoder.encode(registerInfo.getPassword()));
                                 usersRepo.registerUser(registerInfo);
@@ -149,7 +151,7 @@ public class UserServiceImpl implements UserService {
                                 String token = tokenPrefix + " " + tokenUtils.generateToken(
                                         NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
                                 result.setResult(
-                                        new BaseResponse<>(true, "").setData(new TokenResponse(token))
+                                        new BaseResponse<>(BaseStatus.OK, BaseCode.OK, "").setData(new TokenResponse(token))
                                 );
                             }
                         }
@@ -157,7 +159,7 @@ public class UserServiceImpl implements UserService {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
-                result.setResult(new BaseResponse<>(false, "Sorry, server has error"));
+                result.setResult(new BaseResponse<>(BaseStatus.ERROR, BaseCode.SERVER_ERROR, "Sorry, server has error"));
             }
         });
     }
@@ -166,9 +168,9 @@ public class UserServiceImpl implements UserService {
     public BaseResponse findUserExist(String username) {
         String userExist = usersRepo.findUsernameExist(username);
         if (!TextUtils.isEmpty(userExist)) {
-            return new BaseResponse<>(true, "This phone number/account is registered");
+            return new BaseResponse<>(BaseStatus.OK, BaseCode.OK, "This phone number/account is registered");
         }
-        return new BaseResponse<>(false, "Not found");
+        return new BaseResponse<>(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
     }
 
     @Override
@@ -176,7 +178,7 @@ public class UserServiceImpl implements UserService {
     public void resetPassword(DeferredResult result, String username, ResetPasswordReq resetPasswordReq, Device device) {
         User user = usersRepo.findUserByUsernameForResetPassword(username);
         if (user == null) {
-            result.setResult(new BaseResponse<>(false, "Phone number is not valid"));
+            result.setResult(new BaseResponse<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Phone number is not valid"));
         }
 
         FirebaseAuth.getInstance().verifyIdToken(resetPasswordReq.getFirebaseToken())
@@ -191,16 +193,16 @@ public class UserServiceImpl implements UserService {
                             String token = tokenPrefix + " "
                                     + tokenUtils.generateToken(NeedyUserDetailsFactory.create(user, new LinkedList<>()), device);
 
-                            result.setResult(new BaseResponse<>(true, "").setData(new TokenResponse(token))
+                            result.setResult(new BaseResponse<>(BaseStatus.OK, BaseCode.OK, "").setData(new TokenResponse(token))
                             );
                         } else {
-                            result.setResult(new BaseResponse<>(false, "Phone number is not valid"));
+                            result.setResult(new BaseResponse<>(BaseStatus.ERROR, BaseCode.UNAUTHORIZED, "Phone number is not valid"));
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
-                result.setResult(new BaseResponse<>(false, "Sorry, server has error"));
+                result.setResult(new BaseResponse<>(BaseStatus.ERROR, BaseCode.SERVER_ERROR, "Sorry, server has error"));
             }
         });
     }
@@ -209,9 +211,10 @@ public class UserServiceImpl implements UserService {
     public BaseResponse getUserInformation(long id) {
         User user = usersRepo.findUserById(id);
         if (user != null) {
-            return new BaseResponse<UserInfoResponse>(true, "").setData(new UserInfoResponse(new UserWrapper(user)));
+            return new BaseResponse<UserInfoResponse>(BaseStatus.OK, BaseCode.OK, "")
+                    .setData(new UserInfoResponse(new UserWrapper(user)));
         } else {
-            return new BaseResponse(false, "Not found");
+            return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
         }
     }
 
@@ -219,9 +222,9 @@ public class UserServiceImpl implements UserService {
     public BaseResponse updateUserInformation(long id, UpdateUserInfoReq request) {
         boolean isUpdate = usersRepo.updateUserInformation(id, request);
         if (isUpdate) {
-            return new BaseResponse(true, "Done");
+            return new BaseResponse(BaseStatus.OK, BaseCode.OK, "Done");
         } else {
-            return new BaseResponse(false, "Failed");
+            return new BaseResponse(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Failed");
         }
     }
 
@@ -231,10 +234,10 @@ public class UserServiceImpl implements UserService {
         Store store = storeRepo.getOurByUserId(userId);
         // check use need in an business (company & store)
         if (company == null || store == null) {
-            return new BaseResponse(false, "You have not a business");
+            return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "You have not a business");
         }
 
-        return new BaseResponse<>(true, "")
+        return new BaseResponse<>(BaseStatus.OK, BaseCode.OK, "")
                 .setData(new BusinessInfoResp(
                         new CompanyWrapper(company),
                         new StoreWrapper(store)

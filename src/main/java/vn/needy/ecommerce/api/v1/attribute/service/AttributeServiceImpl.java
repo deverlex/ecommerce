@@ -2,7 +2,9 @@ package vn.needy.ecommerce.api.v1.attribute.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vn.needy.ecommerce.api.base.BaseCode;
 import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.base.BaseStatus;
 import vn.needy.ecommerce.domain.mongo.AttributeValue;
 import vn.needy.ecommerce.model.wrapper.AttributeValueWrapper;
 import vn.needy.ecommerce.model.wrapper.AttributeWrapper;
@@ -44,7 +46,8 @@ public class AttributeServiceImpl implements AttributeService {
             ));
         }
 
-        return new BaseResponse<AttributesInfoResp>(true, "").setData(new AttributesInfoResp(contentResp));
+        return new BaseResponse<AttributesInfoResp>(BaseStatus.OK, BaseCode.OK, "")
+                .setData(new AttributesInfoResp(contentResp));
     }
 
     private Map<String, List<Object>> attributeValuesToMap(List<AttributeValue> list) {

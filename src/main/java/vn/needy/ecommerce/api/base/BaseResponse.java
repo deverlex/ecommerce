@@ -4,32 +4,44 @@ import vn.needy.ecommerce.model.BaseModel;
 
 import java.util.List;
 
-public class BaseResponse<T> extends BaseModel {
+public final class BaseResponse<T> extends BaseModel {
 
 	private static final long serialVersionUID = 1487362522L;
 
-	protected boolean success;
-	protected T data;
-	protected String message;
-	protected List<String> links;
+	private String status;
+	private int code;
+	private T data;
+	private String message;
+	private List<String> links;
 
 	public BaseResponse() {
 		super();
-		this.success = false;
+		this.status = BaseStatus.ERROR.getStatus();
+		this.code = BaseCode.BAD_REQUEST.getCode();
 		this.message = "";
 	}
 
-	public BaseResponse(boolean success, String message) {
-		this.success = success;
+	public BaseResponse(BaseStatus status, BaseCode code, String message) {
+		this.status = status.getStatus();
+		this.code = code.getCode();
 		this.message = message;
 	}
 
-	public boolean isSuccess() {
-		return success;
+	public String getStatus() {
+		return status;
 	}
 
-	public BaseResponse<T> setSuccess(boolean success) {
-		this.success = success;
+	public BaseResponse<T> setStatus(BaseStatus status) {
+		this.status = status.getStatus();
+		return this;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public BaseResponse<T> setCode(BaseCode code) {
+		this.code = code.getCode();
 		return this;
 	}
 

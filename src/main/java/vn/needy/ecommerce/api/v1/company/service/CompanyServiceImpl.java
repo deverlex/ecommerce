@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import vn.needy.ecommerce.api.base.BaseCode;
 import vn.needy.ecommerce.api.base.BaseResponse;
+import vn.needy.ecommerce.api.base.BaseStatus;
 import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoReq;
 import vn.needy.ecommerce.api.v1.company.response.CompanyInfoResp;
 import vn.needy.ecommerce.common.utils.TimeProvider;
@@ -60,9 +62,9 @@ public class CompanyServiceImpl implements CompanyService {
     public BaseResponse findOurCompany(long userId) {
         Company company = companiesRepository.findOurByUserId(userId);
         if (company != null) {
-            return new BaseResponse<CompanyResp>(true, "").setData(new CompanyResp(new CompanyWrapper(company)));
+            return new BaseResponse<CompanyResp>(BaseStatus.OK, BaseCode.OK, "").setData(new CompanyResp(new CompanyWrapper(company)));
         }
-        return new BaseResponse(false, "Not found");
+        return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
     }
 
     // This function is not used.
@@ -73,9 +75,9 @@ public class CompanyServiceImpl implements CompanyService {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new BaseResponse<CompanyResp>(true, "").setData(new CompanyResp(companyWrapper));
+            return new BaseResponse<CompanyResp>(BaseStatus.OK, BaseCode.OK, "").setData(new CompanyResp(companyWrapper));
         }
-        return new BaseResponse(false, "Not found");
+        return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
     }
 
     @Override
@@ -96,10 +98,10 @@ public class CompanyServiceImpl implements CompanyService {
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
 
-            return new BaseResponse<CompanyInfoResp>(true, "")
+            return new BaseResponse<CompanyInfoResp>(BaseStatus.OK, BaseCode.OK, "")
                     .setData(new CompanyInfoResp(companyWrapper, staffCount, feeTransportWrappers));
         } else {
-            return new BaseResponse(false, "Not found");
+            return new BaseResponse(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
         }
     }
 
@@ -110,7 +112,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company findCompany = companiesRepository.findOurByUserId(userId);
 
         if (findCompany != null) {
-            return new BaseResponse(false, "You can not register 2 company both active.");
+            return new BaseResponse(BaseStatus.ERROR, BaseCode.CONFLICT, "You can not register 2 company both active.");
         }
 
         // insert into Companies tables
@@ -170,20 +172,20 @@ public class CompanyServiceImpl implements CompanyService {
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
-            return new BaseResponse<CompanyResp>(true, "")
+            return new BaseResponse<CompanyResp>(BaseStatus.OK, BaseCode.OK, "")
                     .setData(new CompanyResp(companyWrapper));
         }
 
-        return new BaseResponse(false, "Create company is failed.");
+        return new BaseResponse(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Create company is failed.");
     }
 
     @Override
     public BaseResponse updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
         boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
         if (isUpdate) {
-            return new BaseResponse(true, "Done");
+            return new BaseResponse(BaseStatus.OK, BaseCode.OK, "Done");
         } else {
-            return new BaseResponse(false, "Failed");
+            return new BaseResponse(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Failed");
         }
     }
 
