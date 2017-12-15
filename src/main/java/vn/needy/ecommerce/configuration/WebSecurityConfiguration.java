@@ -69,9 +69,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // Login
                 .antMatchers(HttpMethod.POST, "/v1/authentications").permitAll()
                 // Reset password
-                .antMatchers(HttpMethod.POST, "/v1/users/reset").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/users/resets").permitAll()
                 // Find an user exist
-                .antMatchers(HttpMethod.GET, "/v1/users/find").permitAll()
+                .antMatchers(HttpMethod.GET, "/v1/users/finds").permitAll()
                 // Register new user
                 .antMatchers(HttpMethod.POST, "/v1/users").permitAll()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
