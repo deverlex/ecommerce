@@ -57,4 +57,12 @@ public class FeeTransportRepositoryImpl implements FeeTransportRepository {
                     userId);
         }
     }
+
+    @Override
+    public void removeFeeTransport(long companyId, List<Long> ids) {
+        for (long id : ids) {
+            jdbc.update("delete from fee_transport where id = ? and company_id = ?",
+                    id, companyId);
+        }
+    }
 }

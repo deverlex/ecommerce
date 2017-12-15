@@ -9,4 +9,5 @@ public interface FeeTransportRepository {
 
     List<FeeTransport> getListByCompanyId(long companyId);
     void updateFeeTransport(long companyId, long userId, List<FeeTransportWrapper> feeTransports);
+    void removeFeeTransport(long companyId, List<Long> ids);
 }

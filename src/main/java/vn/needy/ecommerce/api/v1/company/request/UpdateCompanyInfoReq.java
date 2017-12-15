@@ -22,6 +22,7 @@ public class UpdateCompanyInfoReq implements Serializable {
     private float lat;
     private float lng;
     private List<FeeTransportWrapper> feeTransport;
+    private List<Long> removeFeeTransportId;
 
     public UpdateCompanyInfoReq() {
         super();
@@ -113,5 +114,13 @@ public class UpdateCompanyInfoReq implements Serializable {
 
     public void setFeeTransport(List<FeeTransportWrapper> feeTransport) {
         this.feeTransport = feeTransport;
+    }
+
+    public List<Long> getRemoveFeeTransportId() {
+        return removeFeeTransportId;
+    }
+
+    public void setRemoveFeeTransportId(List<Long> removeFeeTransportId) {
+        this.removeFeeTransportId = removeFeeTransportId;
     }
 }

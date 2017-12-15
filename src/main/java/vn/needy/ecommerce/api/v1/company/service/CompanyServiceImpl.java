@@ -183,6 +183,7 @@ public class CompanyServiceImpl implements CompanyService {
     public ResponseWrapper updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
         boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
         feeTransportRepo.updateFeeTransport(companyId, userId, infoRequest.getFeeTransport());
+        feeTransportRepo.removeFeeTransport(companyId, infoRequest.getRemoveFeeTransportId());
         if (isUpdate) {
             return new ResponseWrapper(BaseStatus.OK, BaseCode.OK, "Done");
         } else {
