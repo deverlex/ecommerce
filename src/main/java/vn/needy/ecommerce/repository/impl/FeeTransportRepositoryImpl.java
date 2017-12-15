@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
+import vn.needy.ecommerce.api.v1.company.request.FeeTransportReq;
 import vn.needy.ecommerce.domain.mysql.FeeTransport;
 import vn.needy.ecommerce.repository.FeeTransportRepository;
 
@@ -35,5 +36,27 @@ public class FeeTransportRepositoryImpl implements FeeTransportRepository {
             feeTransports.add(ft);
         }
         return feeTransports;
+    }
+
+    @Override
+    public boolean updateFeeTransport(long companyId, long userId, List<FeeTransportReq> feeTransports) {
+        boolean isUpdate = true;
+        for (FeeTransportReq ft : feeTransports) {
+            isUpdate = isUpdate & jdbc.update("insert into fee_transport(id, company_id, fee_type, `from`, `to`, fee, last_updated_by) values (?, ?, ?, ?, ?, ?, ?) " +
+                    "on duplicate key update fee_type = ?, `from` = ?, `to` = ?, fee = ?, last_updated_by = ?",
+                    ft.getId(),
+                    companyId,
+                    ft.getFeeType(),
+                    ft.getFrom(),
+                    ft.getTo(),
+                    ft.getFee(),
+                    userId,
+                    ft.getFeeType(),
+                    ft.getFrom(),
+                    ft.getTo(),
+                    ft.getFee(),
+                    userId) == 1;
+        }
+        return isUpdate;
     }
 }

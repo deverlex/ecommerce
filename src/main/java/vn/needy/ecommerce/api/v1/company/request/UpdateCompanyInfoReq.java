@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class UpdateCompanyInfoReq implements Serializable {
     private String name;
@@ -19,6 +20,7 @@ public class UpdateCompanyInfoReq implements Serializable {
     private Date closingTime;
     private float lat;
     private float lng;
+    private List<FeeTransportReq> feeTransport;
 
     public UpdateCompanyInfoReq() {
         super();
@@ -102,5 +104,13 @@ public class UpdateCompanyInfoReq implements Serializable {
 
     public void setLng(float lng) {
         this.lng = lng;
+    }
+
+    public List<FeeTransportReq> getFeeTransport() {
+        return feeTransport;
+    }
+
+    public void setFeeTransport(List<FeeTransportReq> feeTransport) {
+        this.feeTransport = feeTransport;
     }
 }
