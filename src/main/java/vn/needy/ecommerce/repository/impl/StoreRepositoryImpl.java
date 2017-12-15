@@ -83,6 +83,29 @@ public class StoreRepositoryImpl implements StoreRepository {
 
 	@Override
 	public Map getStoreInformation(long storeId) {
+		SqlRowSet rs = jdbc.queryForRowSet("select s.* from store s where id = ?",
+				storeId);
+		if (rs.first()) {
+			Map map = new HashMap();
+			Store store = new Store();
+			store.setId(rs.getLong("id"));
+			store.setCompanyId(rs.getLong("company_id"));
+			store.setState(rs.getInt("state"));
+			store.setStatus(rs.getInt("status"));
+			store.setUnlockTime(rs.getDate("unlock_time"));
+			store.setName(rs.getString("name"));
+			store.setAddress("address");
+			store.setEmail(rs.getString("email"));
+			store.setLat(rs.getFloat("lat"));
+			store.setLng(rs.getFloat("lng"));
+			store.setOpeningTime(rs.getTimestamp("opening_time"));
+			store.setClosingTime(rs.getTimestamp("closing_time"));
+			store.setCreatedTime(rs.getDate("created_time"));
+			store.setLastUpdatedTime(rs.getDate("last_updated_time"));
+			store.setLastUpdatedBy(rs.getLong("last_updated_by"));
+			map.put("store", store);
+			return map;
+		}
 		return null;
 	}
 

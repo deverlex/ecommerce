@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import vn.needy.ecommerce.api.base.ResponseWrapper;
+import vn.needy.ecommerce.api.v1.store.service.StoreService;
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.security.IdentificationUtils;
 
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class StoreRestService {
+
+	@Autowired
+	private StoreService mStoreService;
 
 	@Autowired
 	private IdentificationUtils idUtils;
@@ -29,8 +33,8 @@ public class StoreRestService {
 	public ResponseEntity<ResponseWrapper> getStoreInformations(
 			@PathVariable(value = "store_id") String storeId) {
 		long id = CipherID.decrypt(storeId);
-
-		return null;
+		ResponseWrapper response = mStoreService.getStoreInformation(id);
+		return ResponseEntity.ok(response);
 	}
 
 	@RequestMapping(value = "${needy.route.v1.stores.information_details}", method = RequestMethod.PUT)
