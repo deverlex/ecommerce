@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.api.v1.store.request.UpdateStoreInfoReq;
 import vn.needy.ecommerce.domain.mysql.Store;
+import vn.needy.ecommerce.model.enums.StoreState;
 import vn.needy.ecommerce.repository.StoreRepository;
 
 @Repository("storeResponsitory")
@@ -82,9 +83,12 @@ public class StoreRepositoryImpl implements StoreRepository {
 	}
 
 	@Override
-	public Map getStoreInformation(long storeId) {
-		SqlRowSet rs = jdbc.queryForRowSet("select s.* from store s where id = ?",
-				storeId);
+	public Map getStoreInformation(long userId) {
+		SqlRowSet rs = jdbc.queryForRowSet("select s.*, (select count(*) from company_staff cs1 where cs1.store_id = s.id) as total_staff " +
+						"from company_staff cs2 " +
+						"inner join store s on s.id = cs2.store_id " +
+						"where cs2.user_id = ? and s.state <> ?",
+				userId, StoreState.DELETED);
 		if (rs.first()) {
 			Map map = new HashMap();
 			Store store = new Store();
@@ -105,6 +109,7 @@ public class StoreRepositoryImpl implements StoreRepository {
 			store.setLastUpdatedTime(rs.getDate("last_updated_time"));
 			store.setLastUpdatedBy(rs.getLong("last_updated_by"));
 			map.put("store", store);
+			map.put("totalStaff", rs.getInt("total_staff"));
 			return map;
 		}
 		return null;

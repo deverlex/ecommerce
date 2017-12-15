@@ -4,9 +4,11 @@ import vn.needy.ecommerce.model.wrapper.StoreWrapper;
 
 public class StoreInfoResp {
     private StoreWrapper store;
+    private int totalStaff;
 
-    public StoreInfoResp(StoreWrapper store) {
+    public StoreInfoResp(StoreWrapper store, int totalStaff) {
         this.store = store;
+        this.totalStaff = totalStaff;
     }
 
     public StoreWrapper getStore() {
@@ -15,5 +17,13 @@ public class StoreInfoResp {
 
     public void setStore(StoreWrapper store) {
         this.store = store;
+    }
+
+    public int getTotalStaff() {
+        return totalStaff;
+    }
+
+    public void setTotalStaff(int totalStaff) {
+        this.totalStaff = totalStaff;
     }
 }

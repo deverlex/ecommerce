@@ -30,10 +30,11 @@ public class StoreRestService {
 
 	@RequestMapping(value = "${needy.route.v1.stores.information_details}", method = RequestMethod.GET)
 	//v1/stores/{store_id}/infomations/details
-	public ResponseEntity<ResponseWrapper> getStoreInformations(
+	public ResponseEntity<ResponseWrapper> getStoreInformations(HttpServletRequest request,
 			@PathVariable(value = "store_id") String storeId) {
 		long id = CipherID.decrypt(storeId);
-		ResponseWrapper response = mStoreService.getStoreInformation(id);
+		Long userId = idUtils.getIdentification(request);
+		ResponseWrapper response = mStoreService.getStoreInformation(userId);
 		return ResponseEntity.ok(response);
 	}
 

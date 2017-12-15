@@ -27,13 +27,14 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public ResponseWrapper getStoreInformation(long storeId) {
-		Map map = storeRepository.getStoreInformation(storeId);
+	public ResponseWrapper getStoreInformation(long userId) {
+		Map map = storeRepository.getStoreInformation(userId);
 		Store store = (Store) map.get("store");
+		int totalStaff = (int) map.get("totalStaff");
 		if (store != null) {
 			StoreWrapper storeWrapper = new StoreWrapper(store);
 			ResponseWrapper<StoreInfoResp> response = new ResponseWrapper<>(BaseStatus.OK, BaseCode.OK, "");
-			response.setData(new StoreInfoResp(storeWrapper));
+			response.setData(new StoreInfoResp(storeWrapper, totalStaff));
 			return response;
 		}
 
