@@ -1,6 +1,7 @@
 package vn.needy.ecommerce.api.v1.company.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +21,7 @@ public class UpdateCompanyInfoReq implements Serializable {
     private Date closingTime;
     private float lat;
     private float lng;
-    private List<FeeTransportReq> feeTransport;
+    private List<FeeTransportWrapper> feeTransport;
 
     public UpdateCompanyInfoReq() {
         super();
@@ -106,11 +107,11 @@ public class UpdateCompanyInfoReq implements Serializable {
         this.lng = lng;
     }
 
-    public List<FeeTransportReq> getFeeTransport() {
+    public List<FeeTransportWrapper> getFeeTransport() {
         return feeTransport;
     }
 
-    public void setFeeTransport(List<FeeTransportReq> feeTransport) {
+    public void setFeeTransport(List<FeeTransportWrapper> feeTransport) {
         this.feeTransport = feeTransport;
     }
 }

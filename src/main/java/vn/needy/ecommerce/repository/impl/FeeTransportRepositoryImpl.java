@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
-import vn.needy.ecommerce.api.v1.company.request.FeeTransportReq;
 import vn.needy.ecommerce.domain.mysql.FeeTransport;
+import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 import vn.needy.ecommerce.repository.FeeTransportRepository;
 
 import java.util.ArrayList;
@@ -39,10 +39,9 @@ public class FeeTransportRepositoryImpl implements FeeTransportRepository {
     }
 
     @Override
-    public boolean updateFeeTransport(long companyId, long userId, List<FeeTransportReq> feeTransports) {
-        boolean isUpdate = true;
-        for (FeeTransportReq ft : feeTransports) {
-            isUpdate = isUpdate & jdbc.update("insert into fee_transport(id, company_id, fee_type, `from`, `to`, fee, last_updated_by) values (?, ?, ?, ?, ?, ?, ?) " +
+    public void updateFeeTransport(long companyId, long userId, List<FeeTransportWrapper> feeTransports) {
+        for (FeeTransportWrapper ft : feeTransports) {
+            jdbc.update("insert into fee_transport(id, company_id, fee_type, `from`, `to`, fee, last_updated_by) values (?, ?, ?, ?, ?, ?, ?) " +
                     "on duplicate key update fee_type = ?, `from` = ?, `to` = ?, fee = ?, last_updated_by = ?",
                     ft.getId(),
                     companyId,
@@ -55,8 +54,7 @@ public class FeeTransportRepositoryImpl implements FeeTransportRepository {
                     ft.getFrom(),
                     ft.getTo(),
                     ft.getFee(),
-                    userId) == 1;
+                    userId);
         }
-        return isUpdate;
     }
 }

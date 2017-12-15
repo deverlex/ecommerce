@@ -182,8 +182,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public ResponseWrapper updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
         boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
-        boolean isUpdateFeeTransport = feeTransportRepo.updateFeeTransport(companyId, userId, infoRequest.getFeeTransport());
-        if (isUpdate & isUpdateFeeTransport) {
+        feeTransportRepo.updateFeeTransport(companyId, userId, infoRequest.getFeeTransport());
+        if (isUpdate) {
             return new ResponseWrapper(BaseStatus.OK, BaseCode.OK, "Done");
         } else {
             return new ResponseWrapper(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Failed");
