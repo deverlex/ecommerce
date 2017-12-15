@@ -94,8 +94,9 @@ public class StoreRepositoryImpl implements StoreRepository {
 			store.setStatus(rs.getInt("status"));
 			store.setUnlockTime(rs.getDate("unlock_time"));
 			store.setName(rs.getString("name"));
-			store.setAddress("address");
+			store.setAddress(rs.getString("address"));
 			store.setEmail(rs.getString("email"));
+			store.setDescription(rs.getString("description"));
 			store.setLat(rs.getFloat("lat"));
 			store.setLng(rs.getFloat("lng"));
 			store.setOpeningTime(rs.getTimestamp("opening_time"));

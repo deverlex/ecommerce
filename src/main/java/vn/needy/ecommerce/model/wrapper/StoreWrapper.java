@@ -43,6 +43,8 @@ public class StoreWrapper {
 		address = store.getAddress();
 		lat = store.getLat();
 		lng = store.getLng();
+		email = store.getEmail();
+		description = store.getDescription();
 		openingTime = store.getOpeningTime();
 		closingTime = store.getClosingTime();
 		createdTime = store.getCreatedTime();
