@@ -116,8 +116,22 @@ public class StoreRepositoryImpl implements StoreRepository {
 	}
 
 	@Override
-	public boolean updateStoreInformation(long storeId, UpdateStoreInfoReq req) {
-		return false;
+	public boolean updateStoreInformation(long userId, long storeId, UpdateStoreInfoReq req) {
+		return jdbc.update("update store set name = ?, address = ?, description = ?, " +
+				"email = ?, lat = ?, lng = ?, opening_time = ?, closing_time = ?, last_updated_by = ? " +
+				"where id = ? and id = (select store_id from company_staff cs where user_id = ? and store_id = ? limit 1)",
+				req.getName(),
+				req.getAddress(),
+				req.getDescription(),
+				req.getEmail(),
+				req.getLat(),
+				req.getLng(),
+				req.getOpeningTime(),
+				req.getClosingTime(),
+				userId,
+				storeId,
+				userId,
+				storeId) == 1;
 	}
 
 }

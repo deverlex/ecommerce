@@ -9,5 +9,5 @@ public interface StoreService {
 
 	ResponseWrapper getStoreInformation(long userId);
 
-	ResponseWrapper updateStoreInformation(long storeId, UpdateStoreInfoReq storeInfoReq);
+	ResponseWrapper updateStoreInformation(long userId, long storeId, UpdateStoreInfoReq storeInfoReq);
 }

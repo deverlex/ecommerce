@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import vn.needy.ecommerce.api.base.RequestWrapper;
 import vn.needy.ecommerce.api.base.ResponseWrapper;
+import vn.needy.ecommerce.api.v1.store.request.UpdateStoreInfoReq;
 import vn.needy.ecommerce.api.v1.store.service.StoreService;
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.security.IdentificationUtils;
@@ -41,9 +43,13 @@ public class StoreRestService {
 	@RequestMapping(value = "${needy.route.v1.stores.information_details}", method = RequestMethod.PUT)
 	// v1/stores/{store_id}/infomations/details
 	public ResponseEntity<ResponseWrapper> updateStoreInformations(
-			@PathVariable(value = "store_id") String storeId) {
-		long id = CipherID.decrypt(storeId);
-
-		return null;
+			HttpServletRequest request,
+			@PathVariable(value = "store_id") String storeId,
+			@RequestBody RequestWrapper<UpdateStoreInfoReq> infoReq) {
+		System.out.println(infoReq.getData().getName());
+		long stId = CipherID.decrypt(storeId);
+		long userId = idUtils.getIdentification(request);
+		ResponseWrapper response = mStoreService.updateStoreInformation(userId, stId, infoReq.getData());
+		return ResponseEntity.ok(response);
 	}
 }

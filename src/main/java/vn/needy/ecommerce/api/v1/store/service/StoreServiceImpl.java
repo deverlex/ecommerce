@@ -42,8 +42,13 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public ResponseWrapper updateStoreInformation(long storeId, UpdateStoreInfoReq storeInfoReq) {
-		return null;
+	public ResponseWrapper updateStoreInformation(long userId, long storeId, UpdateStoreInfoReq storeInfoReq) {
+		boolean isUpdate = storeRepository.updateStoreInformation(userId, storeId, storeInfoReq);
+		if (isUpdate) {
+			return new ResponseWrapper(BaseStatus.OK, BaseCode.OK, "Done");
+		} else {
+			return new ResponseWrapper(BaseStatus.ERROR, BaseCode.BAD_REQUEST, "Failed");
+		}
 	}
 
 }
