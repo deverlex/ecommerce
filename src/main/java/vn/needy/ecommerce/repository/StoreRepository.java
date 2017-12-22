@@ -12,8 +12,8 @@ public interface StoreRepository {
 	
 	Store getOurByUserId(long userId);
 
-	Map getStoreInformation(long storeId);
+	Map getStoreInformation(long userId);
 
-	boolean updateStoreInformation(long storeId, UpdateStoreInfoReq req);
+	boolean updateStoreInformation(long userId, long storeId, UpdateStoreInfoReq req);
 
 }

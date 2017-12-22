@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.api.v1.store.request.UpdateStoreInfoReq;
 import vn.needy.ecommerce.domain.mysql.Store;
+import vn.needy.ecommerce.model.enums.StoreState;
 import vn.needy.ecommerce.repository.StoreRepository;
 
 @Repository("storeResponsitory")
@@ -82,13 +83,55 @@ public class StoreRepositoryImpl implements StoreRepository {
 	}
 
 	@Override
-	public Map getStoreInformation(long storeId) {
+	public Map getStoreInformation(long userId) {
+		SqlRowSet rs = jdbc.queryForRowSet("select s.*, (select count(*) from company_staff cs1 where cs1.store_id = s.id) as total_staff " +
+						"from company_staff cs2 " +
+						"inner join store s on s.id = cs2.store_id " +
+						"where cs2.user_id = ? and s.state <> ?",
+				userId, StoreState.DELETED);
+		if (rs.first()) {
+			Map map = new HashMap();
+			Store store = new Store();
+			store.setId(rs.getLong("id"));
+			store.setCompanyId(rs.getLong("company_id"));
+			store.setState(rs.getInt("state"));
+			store.setStatus(rs.getInt("status"));
+			store.setUnlockTime(rs.getDate("unlock_time"));
+			store.setName(rs.getString("name"));
+			store.setAddress(rs.getString("address"));
+			store.setEmail(rs.getString("email"));
+			store.setDescription(rs.getString("description"));
+			store.setLat(rs.getFloat("lat"));
+			store.setLng(rs.getFloat("lng"));
+			store.setOpeningTime(rs.getTimestamp("opening_time"));
+			store.setClosingTime(rs.getTimestamp("closing_time"));
+			store.setCreatedTime(rs.getDate("created_time"));
+			store.setLastUpdatedTime(rs.getDate("last_updated_time"));
+			store.setLastUpdatedBy(rs.getLong("last_updated_by"));
+			map.put("store", store);
+			map.put("totalStaff", rs.getInt("total_staff"));
+			return map;
+		}
 		return null;
 	}
 
 	@Override
-	public boolean updateStoreInformation(long storeId, UpdateStoreInfoReq req) {
-		return false;
+	public boolean updateStoreInformation(long userId, long storeId, UpdateStoreInfoReq req) {
+		return jdbc.update("update store set name = ?, address = ?, description = ?, " +
+				"email = ?, lat = ?, lng = ?, opening_time = ?, closing_time = ?, last_updated_by = ? " +
+				"where id = ? and id = (select store_id from company_staff cs where user_id = ? and store_id = ? limit 1)",
+				req.getName(),
+				req.getAddress(),
+				req.getDescription(),
+				req.getEmail(),
+				req.getLat(),
+				req.getLng(),
+				req.getOpeningTime(),
+				req.getClosingTime(),
+				userId,
+				storeId,
+				userId,
+				storeId) == 1;
 	}
 
 }
