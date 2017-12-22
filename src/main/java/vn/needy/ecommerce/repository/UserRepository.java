@@ -1,8 +1,8 @@
 package vn.needy.ecommerce.repository;
 
-import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
-import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
-import vn.needy.ecommerce.domain.entity.User;
+import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
+import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoReq;
+import vn.needy.ecommerce.domain.mysql.User;
 
 public interface UserRepository {
 	
@@ -16,7 +16,7 @@ public interface UserRepository {
 	String findUsernameExist(String username);
 	
 	// register new user
-	long registerUser(RegisterUserRequest registerUserRequest);
+	long registerUser(RegisterUserReq registerUserReq);
 	
 	// get info of user
 	User findUserById(long id);
@@ -25,5 +25,5 @@ public interface UserRepository {
 	
 	boolean updatePasswordByUserId(long id, String password);
 
-	boolean updateUserInformation(long id, UpdateUserInfoRequest updateUserInfoRequest);
+	boolean updateUserInformation(long id, UpdateUserInfoReq updateUserInfoReq);
 }

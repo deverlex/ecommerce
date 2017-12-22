@@ -63,7 +63,6 @@ public class ApplicationDatabaseConfiguration {
     }    
  
     // Set for MySQL
-    
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource)
     {
@@ -101,7 +100,7 @@ public class ApplicationDatabaseConfiguration {
     // Configuration for MongoDB
     @Bean("mongoClient")
     public MongoClient mongoClient() {
-        return new MongoClient("localhost", 27017);
+        return new MongoClient("192.168.0.103", 27017);
     }
     
     @Bean("mongoDbFactory")

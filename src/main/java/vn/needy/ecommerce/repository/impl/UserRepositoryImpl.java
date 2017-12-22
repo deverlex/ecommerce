@@ -12,9 +12,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.api.v1.user.request.RegisterUserRequest;
-import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoRequest;
-import vn.needy.ecommerce.domain.entity.User;
+import vn.needy.ecommerce.api.v1.user.request.RegisterUserReq;
+import vn.needy.ecommerce.api.v1.user.request.UpdateUserInfoReq;
+import vn.needy.ecommerce.domain.mysql.User;
 import vn.needy.ecommerce.model.enums.UserState;
 import vn.needy.ecommerce.repository.UserRepository;
 
@@ -74,7 +74,7 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public long registerUser(RegisterUserRequest registerInfo) {
+	public long registerUser(RegisterUserReq registerInfo) {
 		Map<String, Object> params = new HashMap<>(4);
 		params.put("username", registerInfo.getUsername());
 		params.put("password", registerInfo.getPassword());
@@ -129,17 +129,17 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public boolean updateUserInformation(long id, UpdateUserInfoRequest updateUserInfoRequest) {
+	public boolean updateUserInformation(long id, UpdateUserInfoReq updateUserInfoReq) {
 		return jdbc.update("update user set full_name = ?, address = ?, birthday = ?, " +
 				"gender = ?, email = ?, lat = ?, lng = ?" +
 				"where id = ?",
-				new Object[]{updateUserInfoRequest.getName(),
-						updateUserInfoRequest.getAddress(),
-						updateUserInfoRequest.getBirthday(),
-						updateUserInfoRequest.getGender(),
-						updateUserInfoRequest.getEmail(),
-						updateUserInfoRequest.getLat(),
-						updateUserInfoRequest.getLng(), id}) == 1;
+				new Object[]{updateUserInfoReq.getName(),
+						updateUserInfoReq.getAddress(),
+						updateUserInfoReq.getBirthday(),
+						updateUserInfoReq.getGender(),
+						updateUserInfoReq.getEmail(),
+						updateUserInfoReq.getLat(),
+						updateUserInfoReq.getLng(), id}) == 1;
 	}
 
 }

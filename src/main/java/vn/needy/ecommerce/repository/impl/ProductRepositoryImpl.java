@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.domain.entity.Product;
+import vn.needy.ecommerce.domain.mysql.Product;
 import vn.needy.ecommerce.domain.mongo.ProductDetail;
 import vn.needy.ecommerce.repository.ProductRepository;
 

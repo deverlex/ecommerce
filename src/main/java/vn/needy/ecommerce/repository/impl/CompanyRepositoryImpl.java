@@ -11,8 +11,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoRequest;
-import vn.needy.ecommerce.domain.entity.Company;
+import vn.needy.ecommerce.api.v1.company.request.UpdateCompanyInfoReq;
+import vn.needy.ecommerce.domain.mysql.Company;
 import vn.needy.ecommerce.model.enums.CompanyState;
 import vn.needy.ecommerce.repository.CompanyRepository;
 
@@ -32,12 +32,12 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     }
 	
 	@Override
-	public Company findCompanyInformationByUserId(long userId) {
+	public Company findOurByUserId(long userId) {
 		SqlRowSet rs = jdbc.queryForRowSet("select c.* "
 				+ "from company c "
 				+ "inner join company_staff cs on c.id = cs.company_id "
 				+ "where cs.user_id = ? and c.state <> ?",
-				new Object[] {userId, CompanyState.CLOSED.getState()});
+				userId, CompanyState.CLOSED.getState());
 		if (rs.first()) {
 			Company company = new Company();
 			company.setId(rs.getLong("id"));
@@ -60,12 +60,12 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 	}
 
 	@Override
-	public Map getInfoByUserId(long userId) {
+	public Map findInformationByUserId(long userId) {
 		SqlRowSet rs = jdbc.queryForRowSet("select c.*, (select count(*) from company_staff cs1 where cs1.company_id = c.id) as count_staff " +
 						"from company_staff cs2 " +
 						"inner join company c on c.id = cs2.company_id" +
 						" where cs2.user_id = ? and c.state <> ?",
-				new Object[] {userId, CompanyState.CLOSED.getState()});
+				userId, CompanyState.CLOSED.getState());
 		if (rs.first()) {
 			Map map = new HashMap();
 			Company company = new Company();
@@ -83,10 +83,10 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 			company.setSiteUrl(rs.getString("site_url"));
 			company.setLat(rs.getFloat("lat"));
 			company.setLng(rs.getFloat("lng"));
-			System.out.println("-------------------------------------------" + rs.getInt("count_staff"));
 
 			map.put("company", company);
 			map.put("staffCount", rs.getInt("count_staff"));
+
 			return map;
 		}
 		return null;
@@ -104,12 +104,14 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 	}
 
 	@Override
-	public boolean updateCompanyInformation(long id, UpdateCompanyInfoRequest infoRequest) {
+	public boolean updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
 		return jdbc.update("update company set name = ?, address = ?, description = ?, " +
 						"site_url = ?, email = ?, lat = ?, lng = ?, " +
 						"founded_date = ?, opening_time = ?, closing_time = ? " +
-						"where id = ?",
-				new Object[]{infoRequest.getName(),
+						"where id = ? and id = (select company_id " +
+								"from company_staff cs " +
+								"where user_id = ? and company_id = ? limit 1)",
+						infoRequest.getName(),
 						infoRequest.getAddress(),
 						infoRequest.getDescription(),
 						infoRequest.getSiteURL(),
@@ -118,6 +120,8 @@ public class CompanyRepositoryImpl implements CompanyRepository {
 						infoRequest.getLng(),
 						infoRequest.getFoundedDate(),
 						infoRequest.getOpeningTime(),
-						infoRequest.getClosingTime(), id}) == 1;
+						infoRequest.getClosingTime(),
+						/** optimize update access with where primary_key = xxx */
+						companyId, userId, companyId) == 1;
 	}
 }

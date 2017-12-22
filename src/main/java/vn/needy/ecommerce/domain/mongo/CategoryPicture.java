@@ -3,7 +3,7 @@ package vn.needy.ecommerce.domain.mongo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import vn.needy.ecommerce.domain.base.BaseFile;
+import vn.needy.ecommerce.domain.BaseFile;
 
 import java.io.Serializable;
 
