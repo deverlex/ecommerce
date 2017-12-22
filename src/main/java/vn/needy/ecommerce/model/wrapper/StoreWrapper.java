@@ -22,9 +22,9 @@ public class StoreWrapper {
 	private String email;
 	private float lat;
 	private float lng;
-	@JsonFormat(pattern = "HH:mm:ss")
+	@JsonFormat(pattern = "HH:mm")
 	private Date openingTime;
-	@JsonFormat(pattern = "HH:mm:ss")
+	@JsonFormat(pattern = "HH:mm")
 	private Date closingTime;
 	private Date createdTime;
 	private Date lastUpdatedTime;
@@ -43,6 +43,8 @@ public class StoreWrapper {
 		address = store.getAddress();
 		lat = store.getLat();
 		lng = store.getLng();
+		email = store.getEmail();
+		description = store.getDescription();
 		openingTime = store.getOpeningTime();
 		closingTime = store.getClosingTime();
 		createdTime = store.getCreatedTime();
