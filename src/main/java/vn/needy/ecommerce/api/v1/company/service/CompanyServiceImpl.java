@@ -21,11 +21,8 @@ import vn.needy.ecommerce.model.enums.PayBehavior;
 import vn.needy.ecommerce.model.wrapper.CompanyWrapper;
 import vn.needy.ecommerce.api.v1.company.request.RegisterCompanyReq;
 import vn.needy.ecommerce.api.v1.company.response.CompanyResp;
-import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 import vn.needy.ecommerce.repository.*;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 @Service("companiesService")
@@ -54,9 +51,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
     UserRoleRepository userRoleRepository;
-
-    @Autowired
-    FeeTransportRepository feeTransportRepo;
 
     @Override
     public ResponseWrapper findOurCompany(long userId) {
@@ -87,19 +81,12 @@ public class CompanyServiceImpl implements CompanyService {
             Company company = (Company) companyInfo.get("company");
             int staffCount = (int) companyInfo.get("staffCount");
 
-            List<FeeTransport> feeTransports = feeTransportRepo.getListByCompanyId(company.getId());
-
-            List<FeeTransportWrapper> feeTransportWrappers = new LinkedList<>();
-            for (FeeTransport ft : feeTransports) {
-                feeTransportWrappers.add(new FeeTransportWrapper(ft));
-            }
-
             boolean isCompanyReputation = companyReputationRepository.isCompanyGuaranteeById(company.getId());
             CompanyWrapper companyWrapper = new CompanyWrapper(company);
             companyWrapper.setReputation(isCompanyReputation);
 
             return new ResponseWrapper<CompanyInfoResp>(BaseStatus.OK, BaseCode.OK, "")
-                    .setData(new CompanyInfoResp(companyWrapper, staffCount, feeTransportWrappers));
+                    .setData(new CompanyInfoResp(companyWrapper, staffCount));
         } else {
             return new ResponseWrapper(BaseStatus.ERROR, BaseCode.NOT_FOUND, "Not found");
         }
@@ -182,8 +169,6 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public ResponseWrapper updateCompanyInformation(long companyId, long userId, UpdateCompanyInfoReq infoRequest) {
         boolean isUpdate = companiesRepository.updateCompanyInformation(companyId, userId, infoRequest);
-        feeTransportRepo.updateFeeTransport(companyId, userId, infoRequest.getFeeTransport());
-        feeTransportRepo.removeFeeTransport(companyId, infoRequest.getRemoveFeeTransportId());
         if (isUpdate) {
             return new ResponseWrapper(BaseStatus.OK, BaseCode.OK, "Done");
         } else {
