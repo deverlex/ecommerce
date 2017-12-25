@@ -18,12 +18,12 @@ public class FeeTransportRepositoryImpl implements FeeTransportRepository {
     JdbcTemplate jdbc;
 
     @Override
-    public List<FeeTransport> getListByCompanyId(long companyId) {
+    public List<FeeTransport> getListByProductId(long productId) {
         List<FeeTransport> feeTransports = new ArrayList<>();
 
         SqlRowSet rs = jdbc.queryForRowSet("select * " +
                 "from fee_transport " +
-                "where company_id = ?", companyId);
+                "where product_id = ?", productId);
         while (rs.next()) {
             FeeTransport ft = new FeeTransport();
             ft.setId(rs.getLong("id"));
@@ -39,12 +39,12 @@ public class FeeTransportRepositoryImpl implements FeeTransportRepository {
     }
 
     @Override
-    public void updateFeeTransport(long companyId, long userId, List<FeeTransportWrapper> feeTransports) {
+    public void updateFeeTransport(long productId, long userId, List<FeeTransportWrapper> feeTransports) {
         for (FeeTransportWrapper ft : feeTransports) {
-            jdbc.update("insert into fee_transport(id, company_id, fee_type, `from`, `to`, fee, last_updated_by) values (?, ?, ?, ?, ?, ?, ?) " +
+            jdbc.update("insert into fee_transport(id, product_id, fee_type, `from`, `to`, fee, last_updated_by) values (?, ?, ?, ?, ?, ?, ?) " +
                     "on duplicate key update fee_type = ?, `from` = ?, `to` = ?, fee = ?, last_updated_by = ?",
                     ft.getId(),
-                    companyId,
+                    productId,
                     ft.getFeeType(),
                     ft.getFrom(),
                     ft.getTo(),
@@ -59,10 +59,10 @@ public class FeeTransportRepositoryImpl implements FeeTransportRepository {
     }
 
     @Override
-    public void removeFeeTransport(long companyId, List<Long> ids) {
+    public void removeFeeTransport(long productId, List<Long> ids) {
         for (long id : ids) {
-            jdbc.update("delete from fee_transport where id = ? and company_id = ?",
-                    id, companyId);
+            jdbc.update("delete from fee_transport where id = ? and product_id = ?",
+                    id, productId);
         }
     }
 }

@@ -10,17 +10,10 @@ public class CompanyInfoResp implements Serializable {
 
     private CompanyWrapper company;
     private int totalStaff;
-    private List<FeeTransportWrapper> feeTransport;
 
     public CompanyInfoResp(CompanyWrapper wrapper, int staffCount) {
         this.company = wrapper;
         this.totalStaff = staffCount;
-    }
-
-    public CompanyInfoResp(CompanyWrapper wrapper, int staffCount, List<FeeTransportWrapper> feeTransports) {
-        this.company = wrapper;
-        this.totalStaff = staffCount;
-        this.feeTransport = feeTransports;
     }
 
     public CompanyWrapper getCompany() {
@@ -37,13 +30,5 @@ public class CompanyInfoResp implements Serializable {
 
     public void setTotalStaff(int totalStaff) {
         this.totalStaff = totalStaff;
-    }
-
-    public List<FeeTransportWrapper> getFeeTransport() {
-        return feeTransport;
-    }
-
-    public void setFeeTransport(List<FeeTransportWrapper> feeTransport) {
-        this.feeTransport = feeTransport;
     }
 }
