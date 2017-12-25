@@ -5,5 +5,5 @@ import vn.needy.ecommerce.domain.mongo.ProductDetail;
 
 public interface ProductRepository {
 	
-	long addProduct(Product product, ProductDetail productDetail);
+	long addProduct(long userId, long storeId, long companyId, Product product, ProductDetail productDetail);
 }

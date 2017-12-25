@@ -12,16 +12,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import vn.needy.ecommerce.api.base.RequestWrapper;
+import vn.needy.ecommerce.api.v1.product.service.ProductService;
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.api.base.ResponseWrapper;
 import vn.needy.ecommerce.api.v1.product.request.AddProductReq;
 import vn.needy.ecommerce.common.service.StorageService;
+import vn.needy.ecommerce.security.IdentificationUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class ProductRestService {
 	
 	@Autowired
 	StorageService storageService;
+
+	@Autowired
+	ProductService mProductService;
+
+	@Autowired
+	private IdentificationUtils idUtils;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllProductOfCompany(
@@ -30,18 +41,19 @@ public class ProductRestService {
 		return null;
 	}
 	
-	
 	@RequestMapping(value = "${needy.route.v1.products.price_now.add_new}")
 	public ResponseEntity<?> addProductPriceNowOfCompany(
+			HttpServletRequest request,
 			@RequestParam(value = "company_id", required = true) String companyId,
 			@RequestParam(value = "store_id", required = true) String storeId,
-			@RequestBody AddProductReq addProductReq) {
-		System.out.println(Calendar.getInstance().getTimeInMillis());
+			@RequestBody RequestWrapper<AddProductReq> addProductReq) {
 		long cId = CipherID.decrypt(companyId);
 		long sId = CipherID.decrypt(storeId);
-		System.out.println(Calendar.getInstance().getTimeInMillis());
-		System.out.println(addProductReq.getCategory());
-		return null;
+		long userId = idUtils.getIdentification(request);
+
+		ResponseWrapper responseWrapper = mProductService.addProduct(userId, sId, cId, addProductReq.getData());
+
+		return ResponseEntity.ok(responseWrapper);
 	}
 	
 	@RequestMapping(value = "${needy.route.v1.products.price_now.images.add_new}", method = RequestMethod.POST)

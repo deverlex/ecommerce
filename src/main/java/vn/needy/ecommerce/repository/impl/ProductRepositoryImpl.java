@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.mysql.Product;
 import vn.needy.ecommerce.domain.mongo.ProductDetail;
+import vn.needy.ecommerce.model.wrapper.ProductWrapper;
 import vn.needy.ecommerce.repository.ProductRepository;
 
 @Repository("productRepository")
@@ -34,11 +35,15 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 	
 	@Override
-	public long addProduct(Product product, ProductDetail productDetail) {
+	public long addProduct(long userId, long storeId, long companyId, Product product, ProductDetail productDetail) {
+
+
 		Map<String, Object> params = new HashMap<>();
 		params.put("category_name", product.getCategory());
 		params.put("company_id", product.getCompanyId());
 		params.put("state", product.getState());
+		params.put("name", product.getName());
+		params.put("price", product.getPrice());
 		params.put("last_updated_by", product.getLastUpdatedBy());
 		Number productId = insert.executeAndReturnKey(params);
 		
