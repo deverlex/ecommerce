@@ -101,6 +101,7 @@ needy:
       products:
         price_now:
           add_new: v1/pn/products #?company_id=&store_id= |POST - add new product
+          get_all_products: v1/pn/products #?company_id |GET - get all products
           images:
             add_new: pn/products/{product_id}/images #?multiparty= |POST - add image for product
             update: pn/products/{product_id}/images #?multiparty= |PUT - update image for product

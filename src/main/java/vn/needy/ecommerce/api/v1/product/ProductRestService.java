@@ -1,7 +1,5 @@
 package vn.needy.ecommerce.api.v1.product;
 
-import java.util.Calendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import vn.needy.ecommerce.api.base.RequestWrapper;
+import vn.needy.ecommerce.api.v1.product.respone.ProductPnInfoResp;
 import vn.needy.ecommerce.api.v1.product.service.ProductService;
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.api.base.ResponseWrapper;
@@ -34,13 +33,19 @@ public class ProductRestService {
 	@Autowired
 	private IdentificationUtils idUtils;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "${needy.route.v1.products.price_now.get_all_products}", method = RequestMethod.GET)
 	public ResponseEntity<?> getAllProductOfCompany(
-			) {
-		
-		return null;
+			HttpServletRequest request,
+			@RequestParam(value = "company_id", required = true) String companyId) {
+
+		long cId = CipherID.decrypt(companyId);
+		long userId = idUtils.getIdentification(request);
+
+		ResponseWrapper responseWrapper = mProductService.getAllProductOfCompany(userId, cId);
+
+		return ResponseEntity.ok(responseWrapper);
 	}
-	
+
 	@RequestMapping(value = "${needy.route.v1.products.price_now.add_new}")
 	public ResponseEntity<?> addProductPriceNowOfCompany(
 			HttpServletRequest request,
