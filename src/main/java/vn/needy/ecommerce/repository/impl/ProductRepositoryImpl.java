@@ -57,14 +57,17 @@ public class ProductRepositoryImpl implements ProductRepository {
 	}
 
 	@Override
-	public List<Product> getAllProductOfCompany(long userId, long companyId) {
+	public List<Product> getProductsOfCompanyByCategory(long userId, long companyId, String category) {
 		// Check user is staff of company
 		SqlRowSet rs = jdbc.queryForRowSet("select product.* from product " +
-				"inner join company_staff on company_staff.company_id = ? " +
-				"where product.company_id = ? and company_staff.user_id = ?",
+						"inner join company_staff on company_staff.company_id = ? " +
+						"where product.company_id = ? and company_staff.user_id = ? " +
+						"and product.category_name in (select link_category.category_name from link_category " +
+						"where link_category.reference_name = ?)",
 				companyId,
 				companyId,
-				userId);
+				userId,
+				category);
 		List<Product> products = new LinkedList<>();
 		while (rs.next()) {
 			Product product = new Product();

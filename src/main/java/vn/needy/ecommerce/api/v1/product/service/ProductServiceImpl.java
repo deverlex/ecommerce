@@ -64,8 +64,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ResponseWrapper getAllProductOfCompany(long userId, long companyId) {
-		List<Product> products = productRepository.getAllProductOfCompany(userId, companyId);
+	public ResponseWrapper getProductsOfCompanyByCategory(long userId, long companyId, String category) {
+		List<Product> products = productRepository.getProductsOfCompanyByCategory(userId, companyId, category);
 		List<ProductWrapper> productWrappers = new LinkedList<>();
 		for (Product p : products) {
 			productWrappers.add(new ProductWrapper(p));

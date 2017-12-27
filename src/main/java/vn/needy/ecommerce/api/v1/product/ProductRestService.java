@@ -23,62 +23,62 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class ProductRestService {
-	
-	@Autowired
-	StorageService storageService;
 
-	@Autowired
-	ProductService mProductService;
+    @Autowired
+    StorageService storageService;
 
-	@Autowired
-	private IdentificationUtils idUtils;
+    @Autowired
+    ProductService mProductService;
 
-	@RequestMapping(value = "${needy.route.v1.products.price_now.get_all_products}", method = RequestMethod.GET)
-	public ResponseEntity<?> getAllProductOfCompany(
-			HttpServletRequest request,
-			@RequestParam(value = "company_id", required = true) String companyId) {
+    @Autowired
+    private IdentificationUtils idUtils;
 
-		long cId = CipherID.decrypt(companyId);
-		long userId = idUtils.getIdentification(request);
+    @RequestMapping(value = "${needy.route.v1.products.price_now.get_products}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllProductOfCompany(
+            HttpServletRequest request,
+            @RequestParam(value = "company_id") String companyId,
+            @RequestParam(value = "category") String category) {
 
-		ResponseWrapper responseWrapper = mProductService.getAllProductOfCompany(userId, cId);
+        long cId = CipherID.decrypt(companyId);
+        long userId = idUtils.getIdentification(request);
 
-		return ResponseEntity.ok(responseWrapper);
-	}
+        ResponseWrapper responseWrapper = mProductService.getProductsOfCompanyByCategory(userId, cId, category);
+        return ResponseEntity.ok(responseWrapper);
+    }
 
-	@RequestMapping(value = "${needy.route.v1.products.price_now.add_new}")
-	public ResponseEntity<?> addProductPriceNowOfCompany(
-			HttpServletRequest request,
-			@RequestParam(value = "company_id", required = true) String companyId,
-			@RequestParam(value = "store_id", required = true) String storeId,
-			@RequestBody RequestWrapper<AddProductReq> addProductReq) {
-		long cId = CipherID.decrypt(companyId);
-		long sId = CipherID.decrypt(storeId);
-		long userId = idUtils.getIdentification(request);
+    @RequestMapping(value = "${needy.route.v1.products.price_now.add_new}")
+    public ResponseEntity<?> addProductPriceNowOfCompany(
+            HttpServletRequest request,
+            @RequestParam(value = "company_id", required = true) String companyId,
+            @RequestParam(value = "store_id", required = true) String storeId,
+            @RequestBody RequestWrapper<AddProductReq> addProductReq) {
+        long cId = CipherID.decrypt(companyId);
+        long sId = CipherID.decrypt(storeId);
+        long userId = idUtils.getIdentification(request);
 
-		ResponseWrapper responseWrapper = mProductService.addProduct(userId, sId, cId, addProductReq.getData());
+        ResponseWrapper responseWrapper = mProductService.addProduct(userId, sId, cId, addProductReq.getData());
 
-		return ResponseEntity.ok(responseWrapper);
-	}
-	
-	@RequestMapping(value = "${needy.route.v1.products.price_now.images.add_new}", method = RequestMethod.POST)
-	public ResponseEntity<?> addImageForProduct(
-			@PathVariable(value = "product_id") String productId,
-			@RequestParam(value = "multiparty") MultipartFile image) {
-		System.out.println("product_id? " + productId);
-		System.out.println(image.getOriginalFilename());
-		
-		System.out.println(storageService.storeImage(image));
-		return ResponseEntity.ok(new ResponseWrapper());
-	}
-	
-	// productId is id of productCompany
-	@RequestMapping(value = "${needy.route.v1.products.price_now.images.update}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateImageForProduct(
-			@PathVariable(value = "product_id") String productId,
-			@RequestParam(value = "multiparty") MultipartFile image) {
-		System.out.println("product_id? " + productId);
-		
-		return ResponseEntity.ok(new ResponseWrapper());
-	}
+        return ResponseEntity.ok(responseWrapper);
+    }
+
+    @RequestMapping(value = "${needy.route.v1.products.price_now.images.add_new}", method = RequestMethod.POST)
+    public ResponseEntity<?> addImageForProduct(
+            @PathVariable(value = "product_id") String productId,
+            @RequestParam(value = "multiparty") MultipartFile image) {
+        System.out.println("product_id? " + productId);
+        System.out.println(image.getOriginalFilename());
+
+        System.out.println(storageService.storeImage(image));
+        return ResponseEntity.ok(new ResponseWrapper());
+    }
+
+    // productId is id of productCompany
+    @RequestMapping(value = "${needy.route.v1.products.price_now.images.update}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateImageForProduct(
+            @PathVariable(value = "product_id") String productId,
+            @RequestParam(value = "multiparty") MultipartFile image) {
+        System.out.println("product_id? " + productId);
+
+        return ResponseEntity.ok(new ResponseWrapper());
+    }
 }

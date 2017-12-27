@@ -9,5 +9,5 @@ public interface ProductRepository {
 	
 	long addProduct(long userId, long storeId, long companyId, Product product, ProductDetail productDetail);
 
-	List<Product> getAllProductOfCompany(long userId, long companyId);
+	List<Product> getProductsOfCompanyByCategory(long userId, long companyId, String category);
 }

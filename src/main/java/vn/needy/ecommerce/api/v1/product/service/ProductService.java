@@ -7,5 +7,5 @@ public interface ProductService {
 	
 	ResponseWrapper addProduct(long userId, long storeId, long companyId, AddProductReq addProductReq);
 
-	ResponseWrapper getAllProductOfCompany(long userId, long companyId);
+	ResponseWrapper getProductsOfCompanyByCategory(long userId, long companyId, String category);
 }
