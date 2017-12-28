@@ -1,12 +1,13 @@
 package vn.needy.ecommerce.api.v1.product.request;
 
+import vn.needy.ecommerce.api.v1.product.ProductRestService;
 import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class AddProductReq implements Serializable {
+public class AddProductPnReq implements Serializable {
 
 	private static final long serialVersionUID = 12491023L;
 	
@@ -19,8 +20,9 @@ public class AddProductReq implements Serializable {
 	private Map<String, String> attributes;
 	private List<FeeTransportWrapper> feeTransport;
 	private List<String> hashtag;
+	private List<String> images;
 
-	public AddProductReq() {
+	public AddProductPnReq() {
 		super();
 	}
 
@@ -94,5 +96,13 @@ public class AddProductReq implements Serializable {
 
 	public void setFeeTransport(List<FeeTransportWrapper> feeTransport) {
 		this.feeTransport = feeTransport;
+	}
+
+	public List<String> getImages() {
+		return images;
+	}
+
+	public void setImages(List<String> images) {
+		this.images = images;
 	}
 }

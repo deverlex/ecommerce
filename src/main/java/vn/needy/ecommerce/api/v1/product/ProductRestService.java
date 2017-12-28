@@ -1,5 +1,7 @@
 package vn.needy.ecommerce.api.v1.product;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,16 +12,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import vn.needy.ecommerce.api.base.BaseCode;
+import vn.needy.ecommerce.api.base.BaseStatus;
 import vn.needy.ecommerce.api.base.RequestWrapper;
-import vn.needy.ecommerce.api.v1.product.respone.ProductPnInfoResp;
+import vn.needy.ecommerce.api.v1.product.request.AddProductPlReq;
 import vn.needy.ecommerce.api.v1.product.service.ProductService;
 import vn.needy.ecommerce.common.utils.CipherID;
 import vn.needy.ecommerce.api.base.ResponseWrapper;
-import vn.needy.ecommerce.api.v1.product.request.AddProductReq;
+import vn.needy.ecommerce.api.v1.product.request.AddProductPnReq;
 import vn.needy.ecommerce.common.service.StorageService;
 import vn.needy.ecommerce.security.IdentificationUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 public class ProductRestService {
@@ -49,16 +54,36 @@ public class ProductRestService {
     @RequestMapping(value = "${needy.route.v1.products.price_now.add_new}")
     public ResponseEntity<?> addProductPriceNowOfCompany(
             HttpServletRequest request,
-            @RequestParam(value = "company_id", required = true) String companyId,
-            @RequestParam(value = "store_id", required = true) String storeId,
-            @RequestBody RequestWrapper<AddProductReq> addProductReq) {
+            @RequestParam(value = "product_type") String productType,
+            @RequestParam(value = "company_id") String companyId,
+            @RequestParam(value = "store_id") String storeId,
+            @RequestBody RequestWrapper<JsonNode> addProductReq) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
         long cId = CipherID.decrypt(companyId);
         long sId = CipherID.decrypt(storeId);
         long userId = idUtils.getIdentification(request);
 
-        ResponseWrapper responseWrapper = mProductService.addProduct(userId, sId, cId, addProductReq.getData());
+        if (productType.equals("price_now")) {
+            try {
+                AddProductPnReq addProductPnReq = objectMapper.readValue(addProductReq.getData().toString(), AddProductPnReq.class);
+                ResponseWrapper responseWrapper = mProductService.addProductPn(userId, sId, cId, addProductPnReq);
+                return ResponseEntity.ok(responseWrapper);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (productType.equals("price_later")) {
+            try {
+                AddProductPlReq addProductPlReq = objectMapper.readValue(addProductReq.getData().toString(), AddProductPlReq.class);
+                ResponseWrapper responseWrapper = mProductService.addProductPl(userId, sId, cId, addProductPlReq);
+                return ResponseEntity.ok(responseWrapper);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
 
-        return ResponseEntity.ok(responseWrapper);
+        return ResponseEntity.ok(new ResponseWrapper<>(BaseStatus.ERROR, BaseCode.BAD_REQUEST, null));
     }
 
     @RequestMapping(value = "${needy.route.v1.products.price_now.images.add_new}", method = RequestMethod.POST)

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 
 import vn.needy.ecommerce.domain.mysql.Product;
 import vn.needy.ecommerce.domain.mongo.ProductDetail;
-import vn.needy.ecommerce.model.wrapper.ProductWrapper;
 import vn.needy.ecommerce.repository.ProductRepository;
 
 @Repository("productRepository")
@@ -38,7 +37,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 	
 	@Override
-	public long addProduct(long userId, long storeId, long companyId, Product product, ProductDetail productDetail) {
+	public long addProductPn(long userId, long storeId, long companyId, Product product, ProductDetail productDetail) {
 
 
 		Map<String, Object> params = new HashMap<>();
@@ -51,6 +50,22 @@ public class ProductRepositoryImpl implements ProductRepository {
 		Number productId = insert.executeAndReturnKey(params);
 		
 		// Insert product into mongodb
+		productDetail.setProductId(productId.longValue());
+		mongo.insert(productDetail);
+		return productId.longValue();
+	}
+
+	@Override
+	public long addProductPl(long userId, long storeId, long companyId, Product product, ProductDetail productDetail) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("category_name", product.getCategory());
+		params.put("company_id", product.getCompanyId());
+		params.put("state", product.getState());
+		params.put("name", product.getName());
+		params.put("last_updated_by", product.getLastUpdatedBy());
+		Number productId = insert.executeAndReturnKey(params);
+
+//		 Insert product into mongodb
 		productDetail.setProductId(productId.longValue());
 		mongo.insert(productDetail);
 		return productId.longValue();

@@ -40,21 +40,23 @@ public class FeeTransportRepositoryImpl implements FeeTransportRepository {
 
     @Override
     public void updateFeeTransport(long productId, long userId, List<FeeTransportWrapper> feeTransports) {
-        for (FeeTransportWrapper ft : feeTransports) {
-            jdbc.update("insert into fee_transport(id, product_id, fee_type, `from`, `to`, fee, last_updated_by) values (?, ?, ?, ?, ?, ?, ?) " +
-                    "on duplicate key update fee_type = ?, `from` = ?, `to` = ?, fee = ?, last_updated_by = ?",
-                    ft.getId(),
-                    productId,
-                    ft.getFeeType(),
-                    ft.getFrom(),
-                    ft.getTo(),
-                    ft.getFee(),
-                    userId,
-                    ft.getFeeType(),
-                    ft.getFrom(),
-                    ft.getTo(),
-                    ft.getFee(),
-                    userId);
+        if (feeTransports != null) {
+            for (FeeTransportWrapper ft : feeTransports) {
+                jdbc.update("insert into fee_transport(id, product_id, fee_type, `from`, `to`, fee, last_updated_by) values (?, ?, ?, ?, ?, ?, ?) " +
+                                "on duplicate key update fee_type = ?, `from` = ?, `to` = ?, fee = ?, last_updated_by = ?",
+                        ft.getId(),
+                        productId,
+                        ft.getFeeType(),
+                        ft.getFrom(),
+                        ft.getTo(),
+                        ft.getFee(),
+                        userId,
+                        ft.getFeeType(),
+                        ft.getFrom(),
+                        ft.getTo(),
+                        ft.getFee(),
+                        userId);
+            }
         }
     }
 
