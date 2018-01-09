@@ -11,7 +11,7 @@ public class FeeTransport extends BaseDomain {
 	public static final String TABLE = "fee_transport";
 	
 	private long id;
-	private long companyId;
+	private long storeId;
 	private short feeType;
 	private float from;
 	private float to;
@@ -31,12 +31,12 @@ public class FeeTransport extends BaseDomain {
 		this.id = id;
 	}
 
-	public long getCompanyId() {
-		return companyId;
+	public long getStoreId() {
+		return storeId;
 	}
 
-	public void setCompanyId(long companyId) {
-		this.companyId = companyId;
+	public void setStoreId(long storeId) {
+		this.storeId = storeId;
 	}
 
 	public short getFeeType() {

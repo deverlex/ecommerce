@@ -1,10 +1,13 @@
 package vn.needy.ecommerce.api.v1.product.request;
 
+import vn.needy.ecommerce.api.v1.product.ProductRestService;
+import vn.needy.ecommerce.model.wrapper.FeeTransportWrapper;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class AddProductReq implements Serializable {
+public class AddProductPnReq implements Serializable {
 
 	private static final long serialVersionUID = 12491023L;
 	
@@ -15,10 +18,11 @@ public class AddProductReq implements Serializable {
 	private String promotion;
 	private String description;
 	private Map<String, String> attributes;
-	private float feeTransport;
+	private List<FeeTransportWrapper> feeTransport;
 	private List<String> hashtag;
+	private List<String> images;
 
-	public AddProductReq() {
+	public AddProductPnReq() {
 		super();
 	}
 
@@ -78,14 +82,6 @@ public class AddProductReq implements Serializable {
 		this.attributes = attributes;
 	}
 
-	public float getFeeTransport() {
-		return feeTransport;
-	}
-
-	public void setFeeTransport(float feeTransport) {
-		this.feeTransport = feeTransport;
-	}
-
 	public List<String> getHashtag() {
 		return hashtag;
 	}
@@ -93,5 +89,20 @@ public class AddProductReq implements Serializable {
 	public void setHashtag(List<String> hashtag) {
 		this.hashtag = hashtag;
 	}
-	
+
+	public List<FeeTransportWrapper> getFeeTransport() {
+		return feeTransport;
+	}
+
+	public void setFeeTransport(List<FeeTransportWrapper> feeTransport) {
+		this.feeTransport = feeTransport;
+	}
+
+	public List<String> getImages() {
+		return images;
+	}
+
+	public void setImages(List<String> images) {
+		this.images = images;
+	}
 }

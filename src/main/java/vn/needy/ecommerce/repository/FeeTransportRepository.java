@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FeeTransportRepository {
 
-    List<FeeTransport> getListByCompanyId(long companyId);
-    void updateFeeTransport(long companyId, long userId, List<FeeTransportWrapper> feeTransports);
-    void removeFeeTransport(long companyId, List<Long> ids);
+    List<FeeTransport> getListByProductId(long productId);
+    void updateFeeTransport(long productId, long userId, List<FeeTransportWrapper> feeTransports);
+    void removeFeeTransport(long productId, List<Long> ids);
 }
